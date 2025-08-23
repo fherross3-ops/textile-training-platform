@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores Clave - Procesos Húmedos Textiles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #1a2530;
+            --secondary: #2980b9;
+            --light: #2c3e50;
+            --dark: #ecf0f1;
+            --text-light: #333;
+            --text-dark: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 100%;
+            width: 100%;
+        }
+
+        /* Panel lateral */
+        .sidebar {
+            width: 100%;
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 15px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            position: absolute;
+            top: 60px;
+            left: 0;
+        }
+
+        .sidebar.active {
+            max-height: calc(100vh - 60px);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-left: 10px;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .process-list {
+            list-style: none;
+        }
+
+        .process-list li {
+            margin-bottom: 8px;
+        }
+
+        .process-list a {
+            display: block;
+            padding: 10px 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .process-list a:hover, 
+        .process-list a.active {
+            background-color: var(--secondary);
+        }
+
+        .process-list i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: var(--light);
+            padding: 15px 20px;
+            box-shadow: var(--shadow);
+            z-index: 999;
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h2 {
+            font-size: 1.3rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .process-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .dark-mode .process-card {
+            background-color: var(--primary);
+        }
+
+        .process-header {
+            padding: 15px;
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .process-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .process-body {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .dark-mode .info-section h3 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .indicator-item {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .indicator-item {
+            background-color: #2c3e50;
+        }
+
+        .indicator-item h4 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .values-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .values-table th, 
+        .values-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dark-mode .values-table th, 
+        .dark-mode .values-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .values-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .dark-mode .values-table th {
+            background-color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .dark-mode .example-box {
+            background-color: #2c3e50;
+        }
+
+        .solution-box {
+            background-color: #f0f9eb;
+            padding: 15px;
+            border-left: 4px solid var(--success);
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .dark-mode .solution-box {
+            background-color: #2c3e50;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 8px;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 6px;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+
+        .process-step i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* Media Queries para dispositivos más grandes */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            
+            .sidebar {
+                width: 280px;
+                max-height: 100vh;
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .header {
+                display: none;
+            }
+            
+            .header-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .indicators-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .process-step {
+                min-width: 120px;
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .process-step i {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                width: calc(100% - 280px);
+                padding: 25px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .indicators-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .process-flow {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .process-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .info-section h3 {
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Botón de menú móvil -->
+        <div class="header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2>Indicadores Clave de Procesos Húmedos</h2>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <!-- Panel lateral -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-tint fa-2x"></i>
+                <h1>Procesos Húmedos</h1>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar proceso...">
+            </div>
+            
+            <ul class="process-list" id="processList">
+                <li><a href="#" class="active" data-process="urdido-madejas"><i class="fas fa-scroll"></i> Urdido en Madejas</a></li>
+                <li><a href="#" data-process="tenido-madejas"><i class="fas fa-palette"></i> Teñido en Cuerda por Madejas</a></li>
+                <li><a href="#" data-process="reurdido"><i class="fas fa-exchange-alt"></i> Reurdido Cintas</a></li>
+                <li><a href="#" data-process="engomado"><i class="fas fa-paint-roller"></i> Engomado</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Diagrama de flujo del proceso -->
+            <div class="process-flow">
+                <div class="process-step">
+                    <i class="fas fa-scroll"></i>
+                    <div>Urdido en Madejas</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-palette"></i>
+                    <div>Teñido en Cuerda</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>Reurdido Cintas</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-paint-roller"></i>
+                    <div>Engomado</div>
+                </div>
+            </div>
+            
+            <div id="processContent">
+                <!-- Contenido dinámico se cargará aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos completos para todos los procesos húmedos
+        const processesData = {
+            "urdido-madejas": {
+                title: "Urdido en Madejas",
+                description: "Proceso de preparación de hilos para teñido, donde se forman madejas de longitud uniforme para facilitar el proceso de teñido en cuerda.",
+                indicators: [
+                    {
+                        name: "Uniformidad de madejas (CV%)",
+                        formula: "(Desviación estándar del peso / Peso promedio) × 100",
+                        target: "< 3%",
+                        frequency: "Cada lote"
+                    },
+                    {
+                        name: "Longitud de madeja (m)",
+                        formula: "Longitud medida en contador",
+                        target: "Según especificación ± 2%",
+                        frequency: "Cada 10 madejas"
+                    },
+                    {
+                        name: "Eficiencia de urdido (%)",
+                        formula: "(Madejas producidas / Tiempo programado) × 100",
+                        target: "> 85%",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Roturas por hora",
+                        formula: "Número de roturas durante el urdido",
+                        target: "< 2 por hora",
+                        frequency: "Continuo"
+                    }
+                ],
+                problems: [
+                    "Variación en la longitud de las madejas",
+                    "Roturas frecuentes de hilo",
+                    "Enredos en la formación de madejas",
+                    "Peso inconsistente entre madejas"
+                ],
+                solutions: [
+                    "Calibración regular de sistemas de medición",
+                    "Ajuste de tensiones и velocidades",
+                    "Mejorar calidad de hilos de entrada",
+                    "Verificar estado de elementos mecánicos"
+                ]
+            },
+            "tenido-madejas": {
+                title: "Teñido en Cuerda por Madejas",
+                description: "Proceso de teñido donde las madejas se tiñen en forma de cuerda, asegurando una penetración uniforme del color en todas las fibras.",
+                indicators: [
+                    {
+                        name: "Uniformidad de color (ΔE)",
+                        formula: "Diferencia de color medida con espectrofotómetro",
+                        target: "< 1.0 CIELAB",
+                        frequency: "Cada baño"
+                    },
+                    {
+                        name: "Solidez del color (escala grises)",
+                        formula: "Evaluación según norma AATCC/ISO",
+                        target: "> 4/5",
+                        frequency: "Cada lote"
+                    },
+                    {
+                        name: "Consumo de agua (L/kg)",
+                        formula: "Total agua utilizada / Peso de material teñido",
+                        target: "< 15 L/kg",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Consumo de energía (kWh/kg)",
+                        formula: "Energía consumida / Peso de material teñido",
+                        target: "< 0.8 kWh/kg",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Reprocesos (%)",
+                        formula: "(Peso reprocesado / Peso total) × 100",
+                        target: "< 2%",
+                        frequency: "Por lote"
+                    }
+                ],
+                problems: [
+                    "Diferencias de color entre lotes",
+                    "Baja solidez del color",
+                    "Manchas o áreas sin teñir",
+                    "Consumo excesivo de agua o energía"
+                ],
+                solutions: [
+                    "Control preciso de parámetros de teñido (T°, tiempo, pH)",
+                    "Calibración regular de equipos de medición",
+                    "Optimización de recetas de color",
+                    "Mantenimiento preventivo de máquinas de teñido"
+                ]
+            },
+            "reurdido": {
+                title: "Reurdido de Cintas de Tachos a Plegadores",
+                description: "Proceso de transformación de las madejas teñidas en cintas uniformes para su posterior engomado, manteniendo la paralelización de los hilos.",
+                indicators: [
+                    {
+                        name: "Uniformidad de cinta (CV%)",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 2.5%",
+                        frequency: "Cada 500 m"
+                    },
+                    {
+                        name: "Peso por unidad de longitud (g/m)",
+                        formula: "Peso de cinta / Longitud",
+                        target: "Según especificación ± 1.5%",
+                        frequency: "Cada 200 m"
+                    },
+                    {
+                        name: "Roturas por hora",
+                        formula: "Número de roturas durante el reurdido",
+                        target: "< 1 por hora",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Eficiencia de proceso (%)",
+                        formula: "(Cinta producida / Tiempo programado) × 100",
+                        target: "> 88%",
+                        frequency: "Por turno"
+                    }
+                ],
+                problems: [
+                    "Variaciones en el peso de la cinta",
+                    "Roturas frecuentes durante el proceso",
+                    "Enredos en la formación de cintas",
+                    "Marcas o estiramientos en el hilo"
+                ],
+                solutions: [
+                    "Ajuste de tensiones y velocidades",
+                    "Control de humedad y temperatura ambiental",
+                    "Verificación de estado de elementos mecánicos",
+                    "Capacitación de operarios en manejo de madejas teñidas"
+                ]
+            },
+            "engomado": {
+                title: "Engomado de Plegadores a Cadenas de Telar",
+                description: "Proceso de aplicación de una capa de apresto (goma) a los hilos de urdimbre para aumentar su resistencia y reducir roturas durante el tejido.",
+                indicators: [
+                    {
+                        name: "Porcentaje de engomado (%)",
+                        formula: "[(Peso engomado - Peso sin engomar) / Peso sin engomar] × 100",
+                        target: "8-12% según tipo de hilo",
+                        frequency: "Cada lote"
+                    },
+                    {
+                        name: "Uniformidad de aplicación (CV%)",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 5%",
+                        frequency: "Cada 1000 m"
+                    },
+                    {
+                        name: "Humedad residual (%)",
+                        formula: "(Peso húmedo - Peso seco) / Peso seco × 100",
+                        target: "2-4%",
+                        frequency: "Cada lote"
+                    },
+                    {
+                        name: "Adherencia de apresto",
+                        formula: "Evaluación mediante prueba de fricción",
+                        target: "> 90% de retención",
+                        frequency: "Cada lote"
+                    },
+                    {
+                        name: "Roturas en telar por engomado",
+                        formula: "Roturas atribuidas a problemas de engomado",
+                        target: "< 0.5 por hora",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Aplicación irregular del apresto",
+                    "Exceso o defecto de porcentaje de engomado",
+                    "Adherencia insuficiente del apresto",
+                    "Humedad residual fuera de especificación"
+                ],
+                solutions: [
+                    "Control de viscosidad y temperatura del baño de apresto",
+                    "Calibración de rodillos de aplicación",
+                    "Ajuste de velocidad y tensión",
+                    "Optimización de parámetros de secado"
+                ]
+            }
+        };
+
+        // Configuración inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar el primer proceso por defecto
+            loadProcessContent('urdido-madejas');
+            
+            // Cambio de tema
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+
+            // Toggle del menú en móviles
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                
+                if (sidebar.classList.contains('active')) {
+                    menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Cerrar menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target) &&
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Navegación entre procesos
+            const processLinks = document.querySelectorAll('.process-list a');
+            processLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Quitar clase active de todos los links
+                    processLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Añadir clase active al link clickeado
+                    this.classList.add('active');
+                    
+                    // Cerrar menú en móviles después de seleccionar
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                    
+                    // Cargar contenido del proceso
+                    const processId = this.getAttribute('data-process');
+                    loadProcessContent(processId);
+                    
+                    // Scroll hacia arriba
+                    window.scrollTo(0, 0);
+                });
+            });
+
+            // Búsqueda de procesos
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+                const processes = document.querySelectorAll('.process-list li');
+                
+                processes.forEach(process => {
+                    const processText = process.textContent.toLowerCase();
+                    if (processText.includes(searchText)) {
+                        process.style.display = 'block';
+                    } else {
+                        process.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Cargar contenido del proceso
+        function loadProcessContent(processId) {
+            const process = processesData[processId];
+            if (!process) return;
+            
+            const contentContainer = document.getElementById('processContent');
+            
+            // Generar HTML para los indicadores
+            let indicatorsHTML = '';
+            if (process.indicators) {
+                indicatorsHTML = `
+                    <div class="indicators-grid">
+                        ${process.indicators.map(indicator => `
+                            <div class="indicator-item">
+                                <h4>${indicator.name}</h4>
+                                <p><strong>Fórmula:</strong> ${indicator.formula}</p>
+                                <p><strong>Valor objetivo:</strong> ${indicator.target}</p>
+                                <p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Generar HTML para problemas y soluciones
+            let problemsHTML = '';
+            if (process.problems) {
+                problemsHTML = `
+                    <p><strong>Problemas comunes:</strong></p>
+                    <ul>
+                        ${process.problems.map(problem => `<li>${problem}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            let solutionsHTML = '';
+            if (process.solutions) {
+                solutionsHTML = `
+                    <p><strong>Acciones correctivas:</strong></p>
+                    <ul>
+                        ${process.solutions.map(solution => `<li>${solution}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Construir el contenido completo
+            contentContainer.innerHTML = `
+                <div class="process-card">
+                    <div class="process-header">
+                        <h2>${process.title}</h2>
+                    </div>
+                    <div class="process-body">
+                        <div class="info-section">
+                            <h3>Descripción del proceso</h3>
+                            <p>${process.description}</p>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Indicadores clave</h3>
+                            ${indicatorsHTML}
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Problemas y soluciones</h3>
+                            <div class="solution-box">
+                                ${problemsHTML}
+                                ${solutionsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

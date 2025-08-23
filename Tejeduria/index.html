@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores Clave - Tejeduría Textil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #1a2530;
+            --secondary: #2980b9;
+            --light: #2c3e50;
+            --dark: #ecf0f1;
+            --text-light: #333;
+            --text-dark: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-size: 16px; /* Tamaño base aumentado para móviles */
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Panel lateral - Visible por defecto en PC, oculto en móviles */
+        .sidebar {
+            width: 280px;
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 1000;
+            /* Para PC será visible por defecto */
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px; /* Aumentado para mejor touch */
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-list li {
+            margin-bottom: 10px;
+        }
+
+        .category-list a {
+            display: block;
+            padding: 14px 15px; /* Aumentado para mejor touch */
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .category-list a:hover, 
+        .category-list a.active {
+            background-color: var(--secondary);
+        }
+
+        .category-list i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px; /* Reducido para móviles */
+            overflow-y: auto;
+            width: calc(100% - 280px); /* Ajustar ancho considerando la barra lateral */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; /* Reducido para móviles */
+            padding: 10px 0;
+        }
+
+        .menu-toggle {
+            display: none; /* Oculto por defecto, solo visible en móviles */
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px; /* Añadido para mejor touch */
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px; /* Reducido para móviles */
+            overflow: hidden;
+        }
+
+        .dark-mode .category-card {
+            background-color: var(--primary);
+        }
+
+        .category-header {
+            padding: 16px 20px; /* Ajustado para móviles */
+            background-color: var(--secondary);
+            color: white;
+            font-size: 1.1rem; /* Ajustado para móviles */
+        }
+
+        .category-body {
+            padding: 16px; /* Reducido para móviles */
+        }
+
+        .info-section {
+            margin-bottom: 20px; /* Reducido para móviles */
+        }
+
+        .info-section h3 {
+            margin-bottom: 12px; /* Reducido para móviles */
+            padding-bottom: 8px; /* Reducido para móviles */
+            border-bottom: 1px solid #eee;
+            color: var(--secondary);
+            font-size: 1.1rem; /* Ajustado para móviles */
+        }
+
+        .dark-mode .info-section h3 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px; /* Reducido para móviles */
+            margin: 16px 0; /* Reducido para móviles */
+        }
+
+        .indicator-item {
+            background-color: #f8f9fa;
+            padding: 14px; /* Reducido para móviles */
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.95rem; /* Ajustado para móviles */
+        }
+
+        .dark-mode .indicator-item {
+            background-color: #2c3e50;
+        }
+
+        .indicator-item h4 {
+            margin-bottom: 8px; /* Reducido para móviles */
+            color: var(--secondary);
+            font-size: 1rem; /* Ajustado para móviles */
+        }
+
+        .values-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0; /* Reducido para móviles */
+            font-size: 0.9rem; /* Ajustado para móviles */
+        }
+
+        .values-table th, 
+        .values-table td {
+            padding: 10px 12px; /* Reducido para móviles */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dark-mode .values-table th, 
+        .dark-mode .values-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .values-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .dark-mode .values-table th {
+            background-color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #e8f4fc;
+            padding: 14px; /* Reducido para móviles */
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            margin: 12px 0; /* Reducido para móviles */
+            font-size: 0.95rem; /* Ajustado para móviles */
+        }
+
+        .dark-mode .example-box {
+            background-color: #2c3e50;
+        }
+
+        .solution-box {
+            background-color: #f0f9eb;
+            padding: 14px; /* Reducido para móviles */
+            border-left: 4px solid var(--success);
+            border-radius: 4px;
+            margin: 12px 0; /* Reducido para móviles */
+            font-size: 0.95rem; /* Ajustado para móviles */
+        }
+
+        .dark-mode .solution-box {
+            background-color: #2c3e50;
+        }
+
+        .chart-container {
+            height: 250px; /* Reducido para móviles */
+            margin: 16px 0; /* Reducido para móviles */
+        }
+
+        .kpi-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ajustado para móviles */
+            gap: 12px; /* Reducido para móviles */
+            margin: 16px 0; /* Reducido para móviles */
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, var(--secondary), #2c3e50);
+            color: white;
+            padding: 12px; /* Reducido para móviles */
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .kpi-card h3 {
+            font-size: 1.5rem; /* Reducido para móviles */
+            margin: 8px 0; /* Reducido para móviles */
+        }
+
+        .kpi-card p {
+            margin: 0;
+            font-size: 0.9rem; /* Ajustado para móviles */
+        }
+
+        .process-flow {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0; /* Reducido para móviles */
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .process-step {
+            text-align: center;
+            min-width: 100px; /* Reducido para móviles */
+            padding: 12px; /* Reducido para móviles */
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 6px;
+            margin: 0 5px;
+            flex-shrink: 0;
+        }
+
+        .process-step i {
+            font-size: 1.5rem; /* Reducido para móviles */
+            margin-bottom: 8px; /* Reducido para móviles */
+        }
+
+        .process-step div {
+            font-size: 0.9rem; /* Ajustado para móviles */
+        }
+
+        /* Navegación por pestañas para móviles */
+        .mobile-tabs {
+            display: none;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .dark-mode .mobile-tabs {
+            background-color: var(--primary);
+        }
+
+        .mobile-tab {
+            display: inline-block;
+            padding: 12px 16px;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+        }
+
+        .dark-mode .mobile-tab {
+            color: var(--text-light);
+        }
+
+        .mobile-tab.active {
+            border-bottom-color: var(--secondary);
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .mobile-tab i {
+            margin-right: 8px;
+        }
+
+        /* Overlay para cuando el menú está abierto */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Media queries para responsividad */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                width: calc(100% - 240px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 280px;
+                position: fixed;
+                height: 100%;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .indicators-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-flow {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .process-step {
+                margin: 5px;
+                min-width: 90px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .mobile-tabs {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .category-header {
+                padding: 14px 16px;
+            }
+
+            .category-body {
+                padding: 14px;
+            }
+
+            .header h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                font-size: 15px;
+            }
+
+            .kpi-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-step {
+                min-width: 80px;
+                padding: 10px;
+            }
+
+            .process-step i {
+                font-size: 1.3rem;
+            }
+
+            .indicator-item {
+                padding: 12px;
+            }
+
+            .header h2 {
+                font-size: 1.2rem;
+                margin-right: 10px;
+            }
+
+            .mobile-tab {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+
+            .mobile-tab i {
+                margin-right: 5px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .kpi-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step {
+                min-width: 70px;
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+
+            .process-step i {
+                font-size: 1.1rem;
+            }
+
+            .mobile-tab {
+                padding: 8px 10px;
+                font-size: 0.85rem;
+            }
+
+            .mobile-tab i {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Overlay para cerrar menú (solo móviles) -->
+        <div class="overlay" id="overlay"></div>
+        
+        <!-- Panel lateral - Visible en PC, oculto en móviles -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-industry fa-2x"></i>
+                <h1>Tejeduría Textil</h1>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar indicador...">
+            </div>
+            
+            <ul class="category-list" id="categoryList">
+                <li><a href="#" class="active" data-category="paros"><i class="fas fa-stop-circle"></i> Paros de Producción</a></li>
+                <li><a href="#" data-category="produccion"><i class="fas fa-tachometer-alt"></i> Producción</a></li>
+                <li><a href="#" data-category="tiempos"><i class="fas fa-clock"></i> Tiempos</a></li>
+                <li><a href="#" data-category="calidad"><i class="fas fa-award"></i> Calidad</a></li>
+                <li><a href="#" data-category="servicios"><i class="fas fa-tools"></i> Servicios</a></li>
+                <li><a href="#" data-category="recursos"><i class="fas fa-users"></i> Recursos</a></li>
+                <li><a href="#" data-category="perdidas"><i class="fas fa-money-bill-wave"></i> Pérdidas</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <div class="header">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2>Indicadores Clave de Tejeduría</h2>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+
+            <!-- Navegación por pestañas para móviles -->
+            <div class="mobile-tabs" id="mobileTabs">
+                <a href="#" class="mobile-tab active" data-category="paros"><i class="fas fa-stop-circle"></i> Paros</a>
+                <a href="#" class="mobile-tab" data-category="produccion"><i class="fas fa-tachometer-alt"></i> Producción</a>
+                <a href="#" class="mobile-tab" data-category="tiempos"><i class="fas fa-clock"></i> Tiempos</a>
+                <a href="#" class="mobile-tab" data-category="calidad"><i class="fas fa-award"></i> Calidad</a>
+                <a href="#" class="mobile-tab" data-category="servicios"><i class="fas fa-tools"></i> Servicios</a>
+                <a href="#" class="mobile-tab" data-category="recursos"><i class="fas fa-users"></i> Recursos</a>
+                <a href="#" class="mobile-tab" data-category="perdidas"><i class="fas fa-money-bill-wave"></i> Pérdidas</a>
+            </div>
+
+            <!-- Diagrama de flujo del proceso -->
+            <div class="process-flow">
+                <div class="process-step">
+                    <i class="fas fa-stop-circle"></i>
+                    <div>Paros</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <div>Producción</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-clock"></i>
+                    <div>Tiempos</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-award"></i>
+                    <div>Calidad</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div>Pérdidas</div>
+                </div>
+            </div>
+
+            <!-- Resumen de KPIs -->
+            <div class="kpi-summary">
+                <div class="kpi-card">
+                    <p>Eficiencia</p>
+                    <h3>87.5%</h3>
+                </div>
+                <div class="kpi-card">
+                    <p>Paros por hora</p>
+                    <h3>2.3</h3>
+                </div>
+                <div class="kpi-card">
+                    <p>Calidad</p>
+                    <h3>94.2%</h3>
+                </div>
+                <div class="kpi-card">
+                    <p>Producción (m/turno)</p>
+                    <h3>1256</h3>
+                </div>
+            </div>
+            
+            <div id="categoryContent">
+                <!-- Contenido dinámico se cargará aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Detectar si es un dispositivo móvil
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+
+        // Datos completos para todas las categorías
+        const categoriesData = {
+            "paros": {
+                title: "Paros de Producción",
+                description: "Indicadores relacionados con las interrupciones en el proceso de tejeduría.",
+                indicators: [
+                    {
+                        name: "Paros de trama (por 100.000 pasadas)",
+                        formula: "(Nº paros trama / Total pasadas) × 100.000",
+                        target: "< 15",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Paros de urdimbre (por 100.000 pasadas)",
+                        formula: "(Nº paros urdimbre / Total pasadas) × 100.000",
+                        target: "< 10",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Otros paros (por 100.000 pasadas)",
+                        formula: "(Nº otros paros / Total pasadas) × 100.000",
+                        target: "< 5",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Causas de telares parados (%)",
+                        formula: "(Tiempo parada por causa / Tiempo total paradas) × 100",
+                        target: "Analizar causas principales",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Alta frecuencia de paros de trama",
+                    "Problemas recurrentes en urdimbre",
+                    "Fallas mecánicas frecuentes",
+                    "Problemas de calidad en hilos"
+                ],
+                solutions: [
+                    "Mejorar calidad de hilos de trama",
+                    "Optimizar ajustes de lanzaderas",
+                    "Implementar mantenimiento preventivo",
+                    "Capacitar operarios en solución rápida de problemas"
+                ]
+            },
+            "produccion": {
+                title: "Producción del Telar",
+                description: "Indicadores relacionados con la productividad y eficiencia de los telares.",
+                indicators: [
+                    {
+                        name: "Metros producidos por telar",
+                        formula: "Total metros producidos / Nº telares",
+                        target: "Según especificación del artículo",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Velocidad efectiva (RPM)",
+                        formula: "Total revoluciones / Tiempo operativo",
+                        target: "> 85% de velocidad máxima",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Eficiencia global (OEE)",
+                        formula: "Disponibilidad × Rendimiento × Calidad",
+                        target: "> 85%",
+                        frequency: "Diario"
+                    },
+                    {
+                        name: "Tasa de utilización (%)",
+                        formula: "(Tiempo operativo / Tiempo total) × 100",
+                        target: "> 90%",
+                        frequency: "Por turno"
+                    }
+                ],
+                problems: [
+                    "Baja velocidad efectiva de telares",
+                    "Tiempos muertos excesivos",
+                    "Cambios frecuentes de artículo",
+                    "Problemas de programación de producción"
+                ],
+                solutions: [
+                    "Optimizar programación de producción",
+                    "Reducir tiempos de cambio de artículo",
+                    "Mejorar flujo de materiales",
+                    "Implementar mantenimiento productivo total (TPM)"
+                ]
+            },
+            "tiempos": {
+                title: "Tiempos de Intervención",
+                description: "Indicadores relacionados con los tiempos requeridos para diferentes intervenciones en los telares.",
+                indicators: [
+                    {
+                        name: "Tiempo cambio de plegador (min)",
+                        formula: "Tiempo total cambios / Nº cambios",
+                        target: "< 5 min",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Tiempo anudar (min/intervención)",
+                        formula: "Tiempo total anudar / Nº intervenciones",
+                        target: "< 3 min",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Tiempo correr nudos (min/intervención)",
+                        formula: "Tiempo total correr nudos / Nº intervenciones",
+                        target: "< 2 min",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Tiempo cortar rollo (min)",
+                        formula: "Tiempo total cortes / Nº rollos",
+                        target: "< 8 min",
+                        frequency: "Semanal"
+                    }
+                ],
+                problems: [
+                    "Tiempos excesivos en intervenciones",
+                    "Falta de estandarización de métodos",
+                    "Herramientas inadecuadas",
+                    "Falta de capacitación de operarios"
+                ],
+                solutions: [
+                    "Establecer procedimientos estandarizados",
+                    "Proveer herramientas adecuadas",
+                    "Capacitar en técnicas eficientes",
+                    "Implementar análisis de métodos y tiempos"
+                ]
+            },
+            "calidad": {
+                title: "Calidad de la Tela",
+                description: "Indicadores relacionados con la calidad del producto terminado.",
+                indicators: [
+                    {
+                        name: "Defectos por metro cuadrado",
+                        formula: "Nº defectos detectados / Metros cuadrados producidos",
+                        target: "< 0.1",
+                        frequency: "Por rollo"
+                    },
+                    {
+                        name: "Rechazos de bobinas de trama (%)",
+                        formula: "(Bobinas rechazadas / Bobinas utilizadas) × 100",
+                        target: "< 1%",
+                        frequency: "Diario"
+                    },
+                    {
+                        name: "Defectos de urdimbre (por metro)",
+                        formula: "Nº defectos urdimbre / Metros producidos",
+                        target: "< 0.05",
+                        frequency: "Por rollo"
+                    },
+                    {
+                        name: "Índice de calidad general (%)",
+                        formula: "(Metros conformes / Metros totales) × 100",
+                        target: "> 95%",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Alta tasa de defectos en tela",
+                    "Problemas recurrentes de calidad",
+                    "Falta de estandarización en inspección",
+                    "Problemas con materia prima"
+                ],
+                solutions: [
+                    "Reforzar control de calidad en proceso",
+                    "Establecer estándares claros de calidad",
+                    "Mejorar proveedores de materia prima",
+                    "Implementar Poka-Yoke (a prueba de errores)"
+                ]
+            },
+            "servicios": {
+                title: "Paros de Servicios",
+                description: "Indicadores relacionados con los servicios auxiliares que afectan la producción.",
+                indicators: [
+                    {
+                        name: "Paros por energía eléctrica (min/mes)",
+                        formula: "Tiempo total paradas por energía / Nº telares",
+                        target: "< 10 min/mes",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Paros por aire comprimido (min/mes)",
+                        formula: "Tiempo total paradas por aire / Nº telares",
+                        target: "< 5 min/mes",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Disponibilidad de servicios (%)",
+                        formula: "(Tiempo total - Tiempo paradas servicios) / Tiempo total × 100",
+                        target: "> 99.5%",
+                        frequency: "Mensual"
+                    }
+                ],
+                problems: [
+                    "Interrupciones frecuentes en servicios",
+                    "Falta de mantenimiento preventivo en equipos",
+                    "Capacidad insuficiente de servicios",
+                    "Falta de sistemas de respaldo"
+                ],
+                solutions: [
+                    "Implementar mantenimiento preventivo en equipos",
+                    "Adecuar capacidad de servicios a demanda",
+                    "Instalar sistemas de respaldo (UPS, compresores adicionales)",
+                    "Establecer contratos de servicio con proveedores"
+                ]
+            },
+            "recursos": {
+                title: "Recursos and Operarios",
+                description: "Indicadores relacionados con la gestión de recursos humanos y carga de trabajo.",
+                indicators: [
+                    {
+                        name: "Producción por turno (metros)",
+                        formula: "Total metros producidos / Nº turnos",
+                        target: "Según planificación",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Telares por operario",
+                        formula: "Nº telares / Nº operarios",
+                        target: "Según tipo de telar y artículo",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Carga de trabajo (%)",
+                        formula: "(Tiempo ocupado / Tiempo disponible) × 100",
+                        target: "85-90%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Horas extras (%)",
+                        formula: "(Horas extras / Horas normales) × 100",
+                        target: "< 5%",
+                        frequency: "Semanal"
+                    }
+                ],
+                problems: [
+                    "Desbalance en carga de trabajo",
+                    "Falta de capacitación de operarios",
+                    "Alta rotación de personal",
+                    "Ausentismo laboral"
+                ],
+                solutions: [
+                    "Balancear carga de trabajo",
+                    "Implementar programa de capacitación",
+                    "Mejorar condiciones de trabajo",
+                    "Establecer sistema de incentivos"
+                ]
+            },
+            "perdidas": {
+                title: "Pérdidas y Desperdicios",
+                description: "Indicadores relacionados con las pérdidas económicas y desperdicios en el proceso.",
+                indicators: [
+                    {
+                        name: "Desperdicios (kg/mes)",
+                        formula: "Peso total de desperdicios",
+                        target: "< 1.5% de producción",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Mermas (%)",
+                        formula: "(Peso entrada - Peso salida) / Peso entrada × 100",
+                        target: "< 2%",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Costo de paros (€/mes)",
+                        formula: "Suma costos directos e indirectos de paros",
+                        target: "Minimizar según presupuesto",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Retrabajos (%)",
+                        formula: "(Tiempo retrabajos / Tiempo total) × 100",
+                        target: "< 1%",
+                        frequency: "Semanal"
+                    }
+                ],
+                problems: [
+                    "Alto nivel de desperdicios",
+                    "Mermas excesivas",
+                    "Costos elevados de paros",
+                    "Retrabajos frecuentes"
+                ],
+                solutions: [
+                    "Implementar programa de reducción de desperdicios",
+                    "Optimizar procesos para reducir mermas",
+                    "Analizar y atacar causas principales de paros",
+                    "Mejorar calidad para reducir retrabajos"
+                ]
+            }
+        };
+
+        // Configuración inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Detectar si es dispositivo móvil
+            const isMobile = isMobileDevice();
+            
+            // Si es móvil, ocultar la barra lateral
+            if (isMobile) {
+                document.getElementById('sidebar').style.transform = 'translateX(-100%)';
+            } else {
+                document.getElementById('sidebar').style.transform = 'translateX(0)';
+            }
+            
+            // Cargar la primera categoría por defecto
+            loadCategoryContent('paros');
+            
+            // Cambio de tema
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+
+            // Toggle del menú lateral (solo para móviles)
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+            });
+            
+            overlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            // Navegación entre categorías (menú lateral)
+            const categoryLinks = document.querySelectorAll('.category-list a');
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Quitar clase active de todos los links
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Añadir clase active al link clickeado
+                    this.classList.add('active');
+                    
+                    // Cerrar menú en móviles
+                    if (isMobile) {
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }
+                    
+                    // Cargar contenido de la categoría
+                    const categoryId = this.getAttribute('data-category');
+                    loadCategoryContent(categoryId);
+                    
+                    // Actualizar pestañas móviles
+                    updateMobileTabs(categoryId);
+                });
+            });
+            
+            // Navegación entre categorías (pestañas móviles)
+            const mobileTabs = document.querySelectorAll('.mobile-tab');
+            mobileTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Quitar clase active de todos los tabs
+                    mobileTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Añadir clase active al tab clickeado
+                    this.classList.add('active');
+                    
+                    // Cargar contenido de la categoría
+                    const categoryId = this.getAttribute('data-category');
+                    loadCategoryContent(categoryId);
+                    
+                    // Actualizar menú lateral
+                    updateSidebarMenu(categoryId);
+                });
+            });
+
+            // Búsqueda de categorías
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+                const categories = document.querySelectorAll('.category-list li');
+                
+                categories.forEach(category => {
+                    const categoryText = category.textContent.toLowerCase();
+                    if (categoryText.includes(searchText)) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Actualizar pestañas móviles
+        function updateMobileTabs(activeCategory) {
+            const mobileTabs = document.querySelectorAll('.mobile-tab');
+            mobileTabs.forEach(tab => {
+                if (tab.getAttribute('data-category') === activeCategory) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+        
+        // Actualizar menú lateral
+        function updateSidebarMenu(activeCategory) {
+            const categoryLinks = document.querySelectorAll('.category-list a');
+            categoryLinks.forEach(link => {
+                if (link.getAttribute('data-category') === activeCategory) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Cargar contenido de la categoría
+        function loadCategoryContent(categoryId) {
+            const category = categoriesData[categoryId];
+            if (!category) return;
+            
+            const contentContainer = document.getElementById('categoryContent');
+            
+            // Generar HTML para los indicadores
+            let indicatorsHTML = '';
+            if (category.indicators) {
+                indicatorsHTML = `
+                    <div class="indicators-grid">
+                        ${category.indicators.map(indicator => `
+                            <div class="indicator-item">
+                                <h4>${indicator.name}</h4>
+                                <p><strong>Fórmula:</strong> ${indicator.formula}</p>
+                                <p><strong>Valor objetivo:</strong> ${indicator.target}</p>
+                                <p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Generar HTML para problemas and soluciones
+            let problemsHTML = '';
+            if (category.problems) {
+                problemsHTML = `
+                    <p><strong>Problemas comunes:</strong></p>
+                    <ul>
+                        ${category.problems.map(problem => `<li>${problem}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            let solutionsHTML = '';
+            if (category.solutions) {
+                solutionsHTML = `
+                    <p><strong>Acciones correctivas:</strong></p>
+                    <ul>
+                        ${category.solutions.map(solution => `<li>${solution}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Construir el contenido completo
+            contentContainer.innerHTML = `
+                <div class="category-card">
+                    <div class="category-header">
+                        <h2>${category.title}</h2>
+                    </div>
+                    <div class="category-body">
+                        <div class="info-section">
+                            <h3>Descripción</h3>
+                            <p>${category.description}</p>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Indicadores clave</h3>
+                            ${indicatorsHTML}
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Problemas y soluciones</h3>
+                            <div class="solution-box">
+                                ${problemsHTML}
+                                ${solutionsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

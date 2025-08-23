@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores de Servicios de Energía</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #1a2530;
+            --secondary: #2980b9;
+            --light: #2c3e50;
+            --dark: #ecf0f1;
+            --text-light: #333;
+            --text-dark: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 100%;
+            width: 100%;
+        }
+
+        /* Panel lateral */
+        .sidebar {
+            width: 100%;
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 15px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            position: absolute;
+            top: 60px;
+            left: 0;
+        }
+
+        .sidebar.active {
+            max-height: calc(100vh - 60px);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-left: 10px;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .process-list {
+            list-style: none;
+        }
+
+        .process-list li {
+            margin-bottom: 8px;
+        }
+
+        .process-list a {
+            display: block;
+            padding: 10px 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .process-list a:hover, 
+        .process-list a.active {
+            background-color: var(--secondary);
+        }
+
+        .process-list i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: var(--light);
+            padding: 15px 20px;
+            box-shadow: var(--shadow);
+            z-index: 999;
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h2 {
+            font-size: 1.3rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .process-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .dark-mode .process-card {
+            background-color: var(--primary);
+        }
+
+        .process-header {
+            padding: 15px;
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .process-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .process-body {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .dark-mode .info-section h3 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .indicator-item {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .indicator-item {
+            background-color: #2c3e50;
+        }
+
+        .indicator-item h4 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .values-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 500px;
+        }
+
+        .values-table th, 
+        .values-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .values-table th, 
+        .dark-mode .values-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .values-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .dark-mode .values-table th {
+            background-color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #e8f4fc;
+            padding: 12px;
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .example-box {
+            background-color: #2c3e50;
+        }
+
+        .solution-box {
+            background-color: #f0f9eb;
+            padding: 12px;
+            border-left: 4px solid var(--success);
+            border-radius: 4px;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .solution-box {
+            background-color: #2c3e50;
+        }
+
+        .chart-container {
+            height: 250px;
+            margin: 15px 0;
+            min-height: 250px;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 8px;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 6px;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+
+        .process-step i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .quality-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .quality-table th, 
+        .quality-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .quality-table th, 
+        .dark-mode .quality-table td {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quality-table th {
+            background-color: var(--secondary);
+            color: white;
+            white-space: nowrap;
+        }
+
+        .dark-mode .quality-table th {
+            background-color: var(--primary);
+        }
+
+        .quality-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .dark-mode .quality-table tr:nth-child(even) {
+            background-color: #2c3e50;
+        }
+
+        /* Media Queries para dispositivos más grandes */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            
+            .sidebar {
+                width: 280px;
+                max-height: 100vh;
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .header {
+                display: none;
+            }
+            
+            .header-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .indicators-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .process-step {
+                min-width: 120px;
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .process-step i {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                width: calc(100% - 280px);
+                padding: 25px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .indicators-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .process-flow {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .process-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .info-section h3 {
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .header {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Botón de menú móvil -->
+        <div class="header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2>Indicadores de Producción y Calidad - Servicios de Energía</h2>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <!-- Panel lateral -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-bolt fa-2x"></i>
+                <h1>Servicios de Energía</h1>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar servicio...">
+            </div>
+            
+            <ul class="process-list" id="processList">
+                <li><a href="#" class="active" data-process="general"><i class="fas fa-tachometer-alt"></i> Resumen General</a></li>
+                <li><a href="#" data-process="agua"><i class="fas fa-tint"></i> Sistema de Agua</a></li>
+                <li><a href="#" data-process="vapor"><i class="fas fa-water"></i> Calderas y Vapor</a></li>
+                <li><a href="#" data-process="aire"><i class="fas fa-wind"></i> Aire Comprimido</a></li>
+                <li><a href="#" data-process="clima"><i class="fas fa-temperature-low"></i> Climatización</a></li>
+                <li><a href="#" data-process="analisis"><i class="fas fa-chart-pie"></i> Análisis de Paros</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Diagrama de flujo del proceso -->
+            <div class="process-flow">
+                <div class="process-step">
+                    <i class="fas fa-fire"></i>
+                    <div>Generación</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-cogs"></i>
+                    <div>Distribución</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-sliders-h"></i>
+                    <div>Regulación</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-industry"></i>
+                    <div>Suministro</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-chart-line"></i>
+                    <div>Monitoreo</div>
+                </div>
+            </div>
+            
+            <div id="processContent">
+                <!-- Contenido dinámico se cargará aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos completos para todos los servicios de energía
+        const processesData = {
+            "general": {
+                title: "Resumen General de Servicios de Energía",
+                description: "Visión integral del desempeño de todos los servicios de energía y utilidades de la planta.",
+                indicators: [
+                    {
+                        name: "Disponibilidad General",
+                        formula: "(Tiempo Total - Tiempo Paro) / Tiempo Total × 100",
+                        target: "> 99.5%",
+                        frequency: "Diaria/Semanal"
+                    },
+                    {
+                        name: "Eficiencia Energética Global",
+                        formula: "(Energía Útil Producida / Energía Total Consumida) × 100",
+                        target: "Mejora Continua (+2% anual)",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Costo por Unidad Producida",
+                        formula: "Costo Total del Servicio / Unidades Producidas (m³, Ton, m³)",
+                        target: "Reducción vs Presupuesto (-5% anual)",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Confiabilidad (MTBF)",
+                        formula: "Tiempo Total de Operación / Número de Paros",
+                        target: "Maximizar (+10% anual)",
+                        frequency: "Mensual"
+                    }
+                ],
+                charts: [
+                    {
+                        type: "doughnut",
+                        title: "Distribución de Consumo Energético",
+                        data: {
+                            labels: ['Electricidad', 'Gas Natural', 'Agua', 'Combustible', 'Otros'],
+                            datasets: [{
+                                data: [45, 25, 15, 10, 5],
+                                backgroundColor: ['#3498db', '#2ecc71', '#9b59b6', '#e74c3c', '#f39c12']
+                            }]
+                        }
+                    },
+                    {
+                        type: "bar",
+                        title: "Eficiencia por Sistema",
+                        data: {
+                            labels: ['Agua', 'Vapor', 'Aire', 'Climatización'],
+                            datasets: [{
+                                label: 'Eficiencia (%)',
+                                data: [92, 85, 78, 88],
+                                backgroundColor: '#3498db'
+                            }]
+                        }
+                    }
+                ],
+                problems: [
+                    "Variabilidad en la demanda de los procesos textiles",
+                    "Envejecimiento de infraestructura crítica",
+                    "Falta de automatización en mediciones",
+                    "Altos costos energéticos"
+                ],
+                solutions: [
+                    "Implementar sistema de gestión energética integral",
+                    "Plan de renovación gradual de equipos",
+                    "Automatizar mediciones con sensores IoT",
+                    "Optimizar contratos de suministro energético"
+                ]
+            },
+            "agua": {
+                title: "Sistema de Agua de Proceso",
+                description: "Control y monitoreo del sistema de tratamiento y distribución de agua para procesos textiles.",
+                indicators: [
+                    {
+                        name: "Calidad de Agua - Dureza",
+                        formula: "Medición en ppm de CaCO₃",
+                        target: "< 50 ppm",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Calidad de Agua - pH",
+                        formula: "Escala de 0 a 14",
+                        target: "6.5 - 7.5",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Eficiencia Tratamiento",
+                        formula: "(Agua tratada / Agua cruda) × 100",
+                        target: "> 95%",
+                        frequency: "Diaria"
+                    },
+                    {
+                        name: "Consumo específico",
+                        formula: "m³ de agua / kg de producto",
+                        target: "< 0.15 m³/kg",
+                        frequency: "Diaria"
+                    }
+                ],
+                qualityParams: [
+                    { parameter: "Dureza", range: "< 50 ppm", measurement: "Entrada a planta", impact: "Manchas, depósitos en telas" },
+                    { parameter: "pH", range: "6.5 - 7.5", measurement: "Puntos de uso", impact: "Efectividad baños químicos" },
+                    { parameter: "Turbiedad", range: "< 5 NTU", measurement: "Salida tratamiento", impact: "Calidad del teñido" },
+                    { parameter: "Sólidos disueltos", range: "< 500 mg/L", measurement: "Puntos críticos", impact: "Consistencia procesos" }
+                ],
+                problems: [
+                    "Variaciones en calidad de agua cruda",
+                    "Consumo de químicos elevado",
+                    "Incrustaciones en tuberías y equipos",
+                    "Fugas en sistema de distribución"
+                ],
+                solutions: [
+                    "Optimizar dosificación de químicos según calidad de entrada",
+                    "Implementar sistema de ósmosis inversa",
+                    "Programar limpiezas preventivas con acidificación",
+                    "Establecer programa de detección y reparación de fugas"
+                ]
+            },
+            "vapor": {
+                title: "Calderas y Sistema de Vapor",
+                description: "Gestión de la generación y distribución de vapor para procesos térmicos textiles.",
+                indicators: [
+                    {
+                        name: "Eficiencia Caldera",
+                        formula: "(Energía vapor / Energía combustible) × 100",
+                        target: "> 85%",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Calidad de Vapor",
+                        formula: "Porcentaje de sequedad",
+                        target: "> 95%",
+                        frequency: "Muestreo diario"
+                    },
+                    {
+                        name: "Pérdidas de vapor",
+                        formula: "Vapor no utilizado / Vapor generado × 100",
+                        target: "< 5%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Consumo combustible",
+                        formula: "m³ o kg combustible / Ton vapor",
+                        target: "Reducción 3% anual",
+                        frequency: "Diaria"
+                    }
+                ],
+                qualityParams: [
+                    { parameter: "Presión", range: "8 - 10 bar", measurement: "Línea principal", impact: "Calidad del calentamiento" },
+                    { parameter: "Sequedad", range: "> 95%", measurement: "Puntos de uso", impact: "Transferencia de calor" },
+                    { parameter: "Contaminantes", range: "< 1 ppm", measurement: "Condensado", impact: "Vida útil de equipos" },
+                    { parameter: "Temperatura", range: "170-180°C", measurement: "Puntos de uso", impact: "Eficiencia procesos térmicos" }
+                ],
+                problems: [
+                    "Pérdidas por trampas de vapor defectuosas",
+                    "Baja eficiencia por ensuciamiento de intercambiadores",
+                    "Fluctuaciones de presión",
+                    "Alto contenido de humedad en vapor"
+                ],
+                solutions: [
+                    "Programa de mantenimiento preventivo de trampas de vapor",
+                    "Limpieza química programada de intercambiadores",
+                    "Optimizar control de presión con válvulas reguladoras",
+                    "Mejorar separación agua-vapor en caldera"
+                ]
+            },
+            "aire": {
+                title: "Sistema de Aire Comprimido",
+                description: "Control del sistema de generación, tratamiento y distribución de aire comprimido.",
+                indicators: [
+                    {
+                        name: "Eficiencia Compresores",
+                        formula: "Aire producido (m³) / Energía consumida (kWh)",
+                        target: "> 0.15 m³/kWh",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Pérdidas por fugas",
+                        formula: "Consumo en vacío / Consumo total × 100",
+                        target: "< 10%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Calidad - Punto de rocío",
+                        formula: "Temperatura de punto de rocío",
+                        target: "< +3°C",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Coste por m³",
+                        formula: "Coste operación / m³ producido",
+                        target: "Reducción 5% anual",
+                        frequency: "Mensual"
+                    }
+                ],
+                qualityParams: [
+                    { parameter: "Punto de rocío", range: "< +3°C", measurement: "Post-secador", impact: "Prevención de corrosión" },
+                    { parameter: "Partículas", range: "< 1 micrón", measurement: "Puntos de uso", impact: "Contaminación de procesos" },
+                    { parameter: "Aceite residual", range: "< 0.01 mg/m³", measurement: "Línea principal", impact: "Calidad producto" },
+                    { parameter: "Presión", range: "7 ± 0.2 bar", measurement: "Puntos críticos", impact: "Funcionamiento equipos" }
+                ],
+                problems: [
+                    "Fugas en sistema de distribución",
+                    "Sobredimensionamiento de compresores",
+                    "Contaminación por aceite o humedad",
+                    "Fluctuaciones de presión"
+                ],
+                solutions: [
+                    "Programa de detección y reparación de fugas",
+                    "Optimizar operación con variadores de frecuencia",
+                    "Mejorar sistema de filtrado y secado",
+                    "Instalar acumuladores de presión estratégicos"
+                ]
+            },
+            "clima": {
+                title: "Sistema de Climatización",
+                description: "Control de condiciones ambientales (temperatura y humedad) para procesos textiles.",
+                indicators: [
+                    {
+                        name: "Consumo específico HVAC",
+                        formula: "kWh / m³ tratado",
+                        target: "< 0.08 kWh/m³",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Conformidad temperatura",
+                        formula: "% tiempo en rango óptimo",
+                        target: "> 98%",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Conformidad humedad",
+                        formula: "% tiempo en rango óptimo",
+                        target: "> 95%",
+                        frequency: "Continuo"
+                    },
+                    {
+                        name: "Eficiencia humidificación",
+                        formula: "Agua evaporada / Agua consumida × 100",
+                        target: "> 90%",
+                        frequency: "Semanal"
+                    }
+                ],
+                qualityParams: [
+                    { parameter: "Temperatura", range: "24°C ± 2°C", measurement: "Salas de producción", impact: "Rotura de hilos, estática" },
+                    { parameter: "Humedad Relativa", range: "55% ± 5%", measurement: "Salas de producción", impact: "Resistencia y elasticidad hilo" },
+                    { parameter: "Pureza aire", range: "Clase ISO 8", measurement: "Zonas críticas", impact: "Contaminación producto" },
+                    { parameter: "Renovaciones aire", range: "8-10 renovaciones/hora", measurement: "Salas cerradas", impact: "Calidad ambiente" }
+                ],
+                problems: [
+                    "Inestabilidad en condiciones críticas",
+                    "Alto consumo energético",
+                    "Diferenciales entre zonas",
+                    "Filtros obstruidos"
+                ],
+                solutions: [
+                    "Implementar control climático por zonas",
+                    "Optimizar estrategias de free-cooling",
+                    "Reequilibrar sistema de distribución",
+                    "Establecer programa de mantenimiento de filtros"
+                ]
+            },
+            "analisis": {
+                title: "Análisis de Paros y Causas",
+                description: "Seguimiento y análisis de interrupciones en los servicios de energía.",
+                indicators: [
+                    {
+                        name: "MTBF (Tiempo Medio Entre Fallas)",
+                        formula: "Tiempo Total Operación / Número de Paros",
+                        target: "Maximizar (+10% anual)",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "MTTR (Tiempo Medio de Reparación)",
+                        formula: "Tiempo Total Paros / Número de Paros",
+                        target: "Minimizar (-15% anual)",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Tasa de Paros",
+                        formula: "Número de paros / Tiempo total × 100",
+                        target: "< 0.5%",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Cumplimiento Mantenimiento",
+                        formula: "Mantenimientos realizados / Programados × 100",
+                        target: "> 95%",
+                        frequency: "Mensual"
+                    }
+                ],
+                downtimeAnalysis: [
+                    { system: "Caldera", downtime: "120 min/mes", causes: "Falta combustible, Limpieza hogares, Fallo bomba", classification: "Externa, Rutina, Interna" },
+                    { system: "Compresores", downtime: "85 min/mes", causes: "Filtros obstruidos, Mant. correctivo, Temp. ambiente", classification: "Insumo, Interna, Externa" },
+                    { system: "Tratamiento agua", downtime: "200 min/mes", causes: "Tratamiento químico, Obstrucción, Fallo ventilador", classification: "Insumo, Proceso, Interna" },
+                    { system: "Climatización", downtime: "150 min/mes", causes: "Filtros sucios, Fallo compresor, Control temperatura", classification: "Mantenimiento, Interna, Control" }
+                ],
+                problems: [
+                    "Falta de análisis root-cause sistemático",
+                    "Documentación incompleta de paros",
+                    "Tiempos de respuesta elevados",
+                    "Falta de partes de repuesto críticas"
+                ],
+                solutions: [
+                    "Implementar metodología de análisis de causa raíz (5 porqués)",
+                    "Digitalizar registro de paros con tablets en campo",
+                    "Establecer stock crítico con análisis ABC",
+                    "Crear procedimientos estandarizados de actuación"
+                ]
+            }
+        };
+
+        // Configuración inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar el primer proceso por defecto
+            loadProcessContent('general');
+            
+            // Cambio de tema
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+
+            // Toggle del menú en móviles
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                
+                if (sidebar.classList.contains('active')) {
+                    menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Cerrar menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target) &&
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Navegación entre procesos
+            const processLinks = document.querySelectorAll('.process-list a');
+            processLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Quitar clase active de todos los links
+                    processLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Añadir clase active al link clickeado
+                    this.classList.add('active');
+                    
+                    // Cerrar menú en móviles después de seleccionar
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                    
+                    // Cargar contenido del proceso
+                    const processId = this.getAttribute('data-process');
+                    loadProcessContent(processId);
+                    
+                    // Scroll hacia arriba
+                    window.scrollTo(0, 0);
+                });
+            });
+
+            // Búsqueda de procesos
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+                const processes = document.querySelectorAll('.process-list li');
+                
+                processes.forEach(process => {
+                    const processText = process.textContent.toLowerCase();
+                    if (processText.includes(searchText)) {
+                        process.style.display = 'block';
+                    } else {
+                        process.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Cargar contenido del proceso
+        function loadProcessContent(processId) {
+            const process = processesData[processId];
+            if (!process) return;
+            
+            const contentContainer = document.getElementById('processContent');
+            
+            // Generar HTML para los indicadores
+            let indicatorsHTML = '';
+            if (process.indicators) {
+                indicatorsHTML = `
+                    <div class="indicators-grid">
+                        ${process.indicators.map(indicator => `
+                            <div class="indicator-item">
+                                <h4>${indicator.name}</h4>
+                                <p><strong>Fórmula:</strong> ${indicator.formula}</p>
+                                <p><strong>Valor objetivo:</strong> ${indicator.target}</p>
+                                <p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Generar HTML para parámetros de calidad
+            let qualityParamsHTML = '';
+            if (process.qualityParams) {
+                qualityParamsHTML = `
+                    <h3>Parámetros de Calidad</h3>
+                    <div class="table-container">
+                        <table class="quality-table">
+                            <thead>
+                                <tr>
+                                    <th>Parámetro</th>
+                                    <th>Rango Óptimo</th>
+                                    <th>Punto de Medición</th>
+                                    <th>Impacto en Proceso Textil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${process.qualityParams.map(param => `
+                                    <tr>
+                                        <td>${param.parameter}</td>
+                                        <td>${param.range}</td>
+                                        <td>${param.measurement}</td>
+                                        <td>${param.impact}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            // Generar HTML para análisis de paros
+            let downtimeHTML = '';
+            if (process.downtimeAnalysis) {
+                downtimeHTML = `
+                    <h3>Análisis de Tiempos de Paro</h3>
+                    <div class="table-container">
+                        <table class="quality-table">
+                            <thead>
+                                <tr>
+                                    <th>Sistema</th>
+                                    <th>Tiempo de Paro</th>
+                                    <th>Principales Causas</th>
+                                    <th>Clasificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${process.downtimeAnalysis.map(item => `
+                                    <tr>
+                                        <td>${item.system}</td>
+                                        <td>${item.downtime}</td>
+                                        <td>${item.causes}</td>
+                                        <td>${item.classification}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><strong>Clave de Clasificación:</strong> Externa, Interna, Insumo, Rutina (Mantenimiento), Proceso, Control</p>
+                `;
+            }
+            
+            // Generar HTML para gráficos
+            let chartsHTML = '';
+            if (process.charts) {
+                chartsHTML = process.charts.map((chart, index) => `
+                    <div class="info-section">
+                        <h3>${chart.title}</h3>
+                        <div class="chart-container">
+                            <canvas id="chart-${processId}-${index}"></canvas>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Generar HTML para problemas y soluciones
+            let problemsHTML = '';
+            if (process.problems) {
+                problemsHTML = `
+                    <p><strong>Problemas comunes:</strong></p>
+                    <ul>
+                        ${process.problems.map(problem => `<li>${problem}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            let solutionsHTML = '';
+            if (process.solutions) {
+                solutionsHTML = `
+                    <p><strong>Acciones correctivas:</strong></p>
+                    <ul>
+                        ${process.solutions.map(solution => `<li>${solution}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Construir el contenido completo
+            contentContainer.innerHTML = `
+                <div class="process-card">
+                    <div class="process-header">
+                        <h2>${process.title}</h2>
+                    </div>
+                    <div class="process-body">
+                        <div class="info-section">
+                            <h3>Descripción del servicio</h3>
+                            <p>${process.description}</p>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Indicadores clave</h3>
+                            ${indicatorsHTML}
+                        </div>
+                        
+                        ${qualityParamsHTML ? `<div class="info-section">${qualityParamsHTML}</div>` : ''}
+                        
+                        ${downtimeHTML ? `<div class="info-section">${downtimeHTML}</div>` : ''}
+                        
+                        ${chartsHTML ? chartsHTML : ''}
+                        
+                        <div class="info-section">
+                            <h3>Problemas y soluciones</h3>
+                            <div class="solution-box">
+                                ${problemsHTML}
+                                ${solutionsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Renderizar gráficos después de que el contenido se haya cargado
+            if (process.charts) {
+                setTimeout(() => {
+                    process.charts.forEach((chart, index) => {
+                        const ctx = document.getElementById(`chart-${processId}-${index}`);
+                        if (ctx) {
+                            new Chart(ctx, {
+                                type: chart.type,
+                                data: chart.data,
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: {
+                                            position: 'bottom',
+                                            labels: {
+                                                font: {
+                                                    size: window.innerWidth < 768 ? 10 : 12
+                                                }
+                                            }
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: chart.title,
+                                            font: {
+                                                size: window.innerWidth < 768 ? 14 : 16
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indicadores Clave - Hilandería Textil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --text-light: #f5f5f5;
+            --text-dark: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #1a2530;
+            --secondary: #2980b9;
+            --light: #2c3e50;
+            --dark: #ecf0f1;
+            --text-light: #333;
+            --text-dark: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 100%;
+            width: 100%;
+        }
+
+        /* Panel lateral */
+        .sidebar {
+            width: 100%;
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 15px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            position: absolute;
+            top: 60px;
+            left: 0;
+        }
+
+        .sidebar.active {
+            max-height: calc(100vh - 60px);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-left: 10px;
+        }
+
+        .search-box {
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .process-list {
+            list-style: none;
+        }
+
+        .process-list li {
+            margin-bottom: 8px;
+        }
+
+        .process-list a {
+            display: block;
+            padding: 10px 12px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .process-list a:hover, 
+        .process-list a.active {
+            background-color: var(--secondary);
+        }
+
+        .process-list i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+            background-color: var(--light);
+            padding: 15px 20px;
+            box-shadow: var(--shadow);
+            z-index: 999;
+        }
+
+        .menu-toggle {
+            display: block;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            flex: 1;
+        }
+
+        .header-title h2 {
+            font-size: 1.3rem;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .process-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .dark-mode .process-card {
+            background-color: var(--primary);
+        }
+
+        .process-header {
+            padding: 15px;
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .process-header h2 {
+            font-size: 1.2rem;
+        }
+
+        .process-body {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .dark-mode .info-section h3 {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .indicator-item {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .indicator-item {
+            background-color: #2c3e50;
+        }
+
+        .indicator-item h4 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .values-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .values-table th, 
+        .values-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dark-mode .values-table th, 
+        .dark-mode .values-table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .values-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .dark-mode .values-table th {
+            background-color: #2c3e50;
+        }
+
+        .example-box {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .dark-mode .example-box {
+            background-color: #2c3e50;
+        }
+
+        .solution-box {
+            background-color: #f0f9eb;
+            padding: 15px;
+            border-left: 4px solid var(--success);
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        .dark-mode .solution-box {
+            background-color: #2c3e50;
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .process-step {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 8px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 6px;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+
+        .process-step i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* Media Queries para dispositivos más grandes */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            
+            .sidebar {
+                width: 280px;
+                max-height: 100vh;
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .menu-toggle {
+                display: none;
+            }
+            
+            .header {
+                display: none;
+            }
+            
+            .header-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .indicators-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .process-step {
+                min-width: 120px;
+                padding: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .process-step i {
+                font-size: 2rem;
+            }
+            
+            .main-content {
+                width: calc(100% - 280px);
+                padding: 25px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .indicators-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .process-flow {
+                flex-wrap: nowrap;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .process-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .info-section h3 {
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .header {
+                display: flex;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+            
+            .process-step {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Botón de menú móvil -->
+        <div class="header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2>Indicadores Clave de Producción y Calidad</h2>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <!-- Panel lateral -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-industry fa-2x"></i>
+                <h1>Hilandería Textil</h1>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Buscar proceso...">
+            </div>
+            
+            <ul class="process-list" id="processList">
+                <li><a href="#" class="active" data-process="apertura"><i class="fas fa-door-open"></i> Apertura</a></li>
+                <li><a href="#" data-process="cardas"><i class="fas fa-compress-alt"></i> Cardas</a></li>
+                <li><a href="#" data-process="manuares"><i class="fas fa-stream"></i> Manuares</a></li>
+                <li><a href="#" data-process="mechera"><i class="fas fa-layer-group"></i> Mechera</a></li>
+                <li><a href="#" data-process="hilatura-anillos"><i class="fas fa-ring"></i> Hilatura Anillos</a></li>
+                <li><a href="#" data-process="hilatura-rotor"><i class="fas fa-cog"></i> Hilatura Rotor</a></li>
+                <li><a href="#" data-process="embalaje"><i class="fas fa-box"></i> Embalaje</a></li>
+            </ul>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Diagrama de flujo del proceso -->
+            <div class="process-flow">
+                <div class="process-step">
+                    <i class="fas fa-door-open"></i>
+                    <div>Apertura</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-compress-alt"></i>
+                    <div>Cardas</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-stream"></i>
+                    <div>Manuares</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-layer-group"></i>
+                    <div>Mechera</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-ring"></i>
+                    <div>Hilatura Anillos</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-cog"></i>
+                    <div>Hilatura Rotor</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-box"></i>
+                    <div>Embalaje</div>
+                </div>
+            </div>
+            
+            <div id="processContent">
+                <!-- Contenido dinámico se cargará aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos completos para todos los procesos
+        const processesData = {
+            "apertura": {
+                title: "Proceso de Apertura",
+                description: "Primera etapa del proceso de hilandería donde se abren y limpian las fibras textiles.",
+                indicators: [
+                    {
+                        name: "Eficiencia de limpieza",
+                        formula: "(Impurezas eliminadas / Impurezas iniciales) × 100",
+                        target: "> 85%",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Consistencia de densidad",
+                        formula: "Desviación estándar de densidad de mecha",
+                        target: "< 0.5%",
+                        frequency: "Cada 2 horas"
+                    },
+                    {
+                        name: "Productividad (kg/hora)",
+                        formula: "Kg de fibra procesada / Horas de operación",
+                        target: "Depende de máquina",
+                        frequency: "Por turno"
+                    }
+                ],
+                problems: [
+                    "Obstrucciones en conductos de aire",
+                    "Desgaste de cilindros de apertura",
+                    "Variaciones en alimentación de fibra"
+                ],
+                solutions: [
+                    "Limpieza programada de conductos",
+                    "Revisión y cambio de cilindros según programa",
+                    "Control de uniformidad en alimentación"
+                ]
+            },
+            "cardas": {
+                title: "Proceso de Cardas",
+                description: "Proceso donde se individualizan y paralelizan las fibras, eliminando impurezas y formando la mecha.",
+                indicators: [
+                    {
+                        name: "Uniformidad de mecha (CV%)",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 4.5%",
+                        frequency: "Cada hora"
+                    },
+                    {
+                        name: "Eficiencia de eliminación de impurezas",
+                        formula: "(Impurezas eliminadas / Impurezas entrada) × 100",
+                        target: "> 90%",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Producción por hora (kg/h)",
+                        formula: "Peso de mecha producida / Tiempo",
+                        target: "Depende de máquina",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Neps después de cardado (neps/gramo)",
+                        formula: "Conteo de neps en muestra de 1 gramo",
+                        target: "< 15 neps/gramo",
+                        frequency: "Cada 2 horas"
+                    }
+                ],
+                problems: [
+                    "Cilindros desgastados o dañados",
+                    "Ajustes incorrectos entre cilindros",
+                    "Velocidades inadecuadas"
+                ],
+                solutions: [
+                    "Revisión y cambio de elementos de carda según programa",
+                    "Ajuste preciso de distancias entre cilindros",
+                    "Optimización de velocidades según tipo de fibra"
+                ]
+            },
+            "manuares": {
+                title: "Proceso de Manuares",
+                description: "Etapa de estirado donde se reduce el grosor de la mecha y se mejora la paralelización de las fibras.",
+                indicators: [
+                    {
+                        name: "CV% del producto",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 3.5%",
+                        frequency: "Cada hora"
+                    },
+                    {
+                        name: "Peso por unidad de longitud (g/m)",
+                        formula: "Peso de mecha / Longitud",
+                        target: "Según especificación",
+                        frequency: "Cada 30 minutos"
+                    },
+                    {
+                        name: "Eficiencia de estirado",
+                        formula: "(Peso entrada - Peso salida) / Peso entrada × 100",
+                        target: "Según diseño",
+                        frequency: "Por lote"
+                    }
+                ],
+                problems: [
+                    "Desviaciones en el peso de la mecha",
+                    "Roturas frecuentes de mecha",
+                    "Variaciones en la tensión"
+                ],
+                solutions: [
+                    "Calibración regular de sistemas de alimentación",
+                    "Ajuste de tensiones y velocidades",
+                    "Mantenimiento preventivo de elementos de estirado"
+                ]
+            },
+            "mechera": {
+                title: "Proceso de Mechera",
+                description: "Proceso final de preparación donde se unen varias mechas para formar una mecha compuesta más uniforme.",
+                indicators: [
+                    {
+                        name: "Uniformidad de mecha (CV%)",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 2.5%",
+                        frequency: "Cada hora"
+                    },
+                    {
+                        name: "Roturas por hora",
+                        formula: "Número de roturas en mecha",
+                        target: "< 1 per hour",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Peso por unidad de longitud (g/m)",
+                        formula: "Peso de mecha / Longitud",
+                        target: "Según especificación",
+                        frequency: "Cada 30 minutos"
+                    }
+                ],
+                problems: [
+                    "Desviaciones en el peso de la mecha",
+                    "Roturas frecuentes de mecha",
+                    "Enrollamiento incorrecto"
+                ],
+                solutions: [
+                    "Ajuste de sistemas de alimentación y entrega",
+                    "Optimización de torsión aplicada",
+                    "Revisión de bobinas y portabobinas"
+                ]
+            },
+            "hilatura-anillos": {
+                title: "Hilatura de Anillos",
+                description: "Proceso de hilatura convencional donde se gira el hilo mediante un sistema de anillos y viajeras.",
+                indicators: [
+                    {
+                        name: "Productividad (kg/huso)",
+                        formula: "Peso de hilo producido / (N° husos × Tiempo)",
+                        target: "Depende de número y tipo",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Roturas por 1000 husos-hora",
+                        formula: "(N° roturas × 1000) / (N° husos × Horas)",
+                        target: "< 20",
+                        frequency: "Cada hora"
+                    },
+                    {
+                        name: "CV% de resistencia del hilo",
+                        formula: "(Desviación estándar / Media) × 100",
+                        target: "< 9%",
+                        frequency: "Cada 4 horas"
+                    },
+                    {
+                        name: "Regularidad del hilo (Uster CV%)",
+                        formula: "Medición en equipo Uster",
+                        target: "Según cuenta y tipo de fibra",
+                        frequency: "Cada 2 horas"
+                    }
+                ],
+                problems: [
+                    "Alta tasa de roturas",
+                    "Variaciones en la torsión",
+                    "Defectos en el hilo (neps, pelo)"
+                ],
+                solutions: [
+                    "Optimización de parámetros de hilatura",
+                    "Selección adecuada de anillos y viajeras",
+                    "Control de condiciones ambientales"
+                ]
+            },
+            "hilatura-rotor": {
+                title: "Hilatura de Rotor (Open-End)",
+                description: "Proceso de hilatura sin anillos donde se forma el hilo directamente desde las fibras en un rotor.",
+                indicators: [
+                    {
+                        name: "Productividad (kg/rotor)",
+                        formula: "Peso de hilo producido / (N° rotores × Tiempo)",
+                        target: "Depende de tipo y velocidad",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Eficiencia de producción",
+                        formula: "(Tiempo real producción / Tiempo total) × 100",
+                        target: "> 90%",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Roturas por 1000 rotores-hora",
+                        formula: "(N° roturas × 1000) / (N° rotores × Horas)",
+                        target: "< 15",
+                        frequency: "Cada hora"
+                    },
+                    {
+                        name: "Defectos por 100.000 m",
+                        formula: "N° defectos detectados / (Metraje / 100.000)",
+                        target: "< 5",
+                        frequency: "Cada 4 horas"
+                    }
+                ],
+                problems: [
+                    "Obstrucción de rotores",
+                    "Variaciones en calidad del hilo",
+                    "Desgaste de componentes"
+                ],
+                solutions: [
+                    "Limpieza programada de rotores",
+                    "Control y ajuste de parámetros de hilatura",
+                    "Mantenimiento preventivo de componentes"
+                ]
+            },
+            "embalaje": {
+                title: "Embalaje de Hilo",
+                description: "Proceso final de empaque y preparación del hilo para su comercialización o siguiente proceso.",
+                indicators: [
+                    {
+                        name: "Precisión de peso por cono",
+                        formula: "|Peso real - Peso objetivo| / Peso objetivo × 100",
+                        target: "< 1%",
+                        frequency: "Cada 50 conos"
+                    },
+                    {
+                        name: "Daños en empaque",
+                        formula: "N° unidades dañadas / Total unidades × 100",
+                        target: "< 0.5%",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Eficiencia de empaque",
+                        formula: "(Unidades empacadas / Tiempo)",
+                        target: "Según equipo",
+                        frequency: "Por turno"
+                    }
+                ],
+                problems: [
+                    "Variaciones en el peso de conos",
+                    "Daños en el empaque",
+                    "Errores en etiquetado"
+                ],
+                solutions: [
+                    "Calibración de sistemas de pesaje",
+                    "Mejora de materiales de empaque",
+                    "Sistemas de verificación de etiquetas"
+                ]
+            }
+        };
+
+        // Configuración inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar el primer proceso por defecto
+            loadProcessContent('apertura');
+            
+            // Cambio de tema
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+
+            // Toggle del menú en móviles
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                
+                if (sidebar.classList.contains('active')) {
+                    menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                } else {
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Cerrar menú al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 768 && 
+                    !sidebar.contains(event.target) && 
+                    !menuToggle.contains(event.target) &&
+                    sidebar.classList.contains('active')) {
+                    sidebar.classList.remove('active');
+                    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // Navegación entre procesos
+            const processLinks = document.querySelectorAll('.process-list a');
+            processLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Quitar clase active de todos los links
+                    processLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Añadir clase active al link clickeado
+                    this.classList.add('active');
+                    
+                    // Cerrar menú en móviles después de seleccionar
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.remove('active');
+                        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                    
+                    // Cargar contenido del proceso
+                    const processId = this.getAttribute('data-process');
+                    loadProcessContent(processId);
+                    
+                    // Scroll hacia arriba
+                    window.scrollTo(0, 0);
+                });
+            });
+
+            // Búsqueda de procesos
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('keyup', function() {
+                const searchText = this.value.toLowerCase();
+                const processes = document.querySelectorAll('.process-list li');
+                
+                processes.forEach(process => {
+                    const processText = process.textContent.toLowerCase();
+                    if (processText.includes(searchText)) {
+                        process.style.display = 'block';
+                    } else {
+                        process.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Cargar contenido del proceso
+        function loadProcessContent(processId) {
+            const process = processesData[processId];
+            if (!process) return;
+            
+            const contentContainer = document.getElementById('processContent');
+            
+            // Generar HTML para los indicadores
+            let indicatorsHTML = '';
+            if (process.indicators) {
+                indicatorsHTML = `
+                    <div class="indicators-grid">
+                        ${process.indicators.map(indicator => `
+                            <div class="indicator-item">
+                                <h4>${indicator.name}</h4>
+                                <p><strong>Fórmula:</strong> ${indicator.formula}</p>
+                                <p><strong>Valor objetivo:</strong> ${indicator.target}</p>
+                                <p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            // Generar HTML para problemas y soluciones
+            let problemsHTML = '';
+            if (process.problems) {
+                problemsHTML = `
+                    <p><strong>Problemas comunes:</strong></p>
+                    <ul>
+                        ${process.problems.map(problem => `<li>${problem}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            let solutionsHTML = '';
+            if (process.solutions) {
+                solutionsHTML = `
+                    <p><strong>Acciones correctivas:</strong></p>
+                    <ul>
+                        ${process.solutions.map(solution => `<li>${solution}</li>`).join('')}
+                    </ul>
+                `;
+            }
+            
+            // Construir el contenido completo
+            contentContainer.innerHTML = `
+                <div class="process-card">
+                    <div class="process-header">
+                        <h2>${process.title}</h2>
+                    </div>
+                    <div class="process-body">
+                        <div class="info-section">
+                            <h3>Descripción del proceso</h3>
+                            <p>${process.description}</p>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Indicadores clave</h3>
+                            ${indicatorsHTML}
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3>Problemas y soluciones</h3>
+                            <div class="solution-box">
+                                ${problemsHTML}
+                                ${solutionsHTML}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

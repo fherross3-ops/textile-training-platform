@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitación Procesos Textiles</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-tabs li {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .nav-tabs a {
+            display: block;
+            padding: 0.8rem;
+            text-decoration: none;
+            color: var(--dark);
+            text-align: center;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tabs a:hover {
+            background: #f8f9fa;
+        }
+        
+        .nav-tabs a.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .process-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .process-card-header {
+            background: var(--secondary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .process-card-body {
+            padding: 1rem;
+        }
+        
+        .process-card-footer {
+            padding: 1rem;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--primary);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .resource-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .resource-card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+        
+        .resource-list {
+            list-style: none;
+        }
+        
+        .resource-list li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-left: 3px solid var(--secondary);
+            background-color: #f8f9fa;
+        }
+        
+        .resource-list a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .resource-list a:hover {
+            color: var(--secondary);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs li {
+                flex: 0 0 50%;
+            }
+            
+            .process-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">🏭</div>
+            <h1>Capacitación Procesos Textiles</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <ul class="nav-tabs">
+            <li><a href="#home" class="tab-link active">Inicio</a></li>
+            <li><a href="#processes" class="tab-link">Procesos</a></li>
+            <li><a href="#resources" class="tab-link">Recursos</a></li>
+        </ul>
+        
+        <div id="home" class="tab-content active">
+            <h2>Bienvenido a la Plataforma de Capacitación Textil</h2>
+            <p>Esta herramienta está diseñada para el aprendizaje grupal e individual sobre los procesos textiles esenciales en la producción.</p>
+            
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-card-header">Hilanderia</div>
+                    <div class="process-card-body">
+                        <p>Proceso de transformación de fibras en hilos mediante operaciones de apertura, limpieza, cardado, estirado y torsión.</p>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Hilanderia/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Procesos Húmedos</div>
+                    <div class="process-card-body">
+                        <p>Operaciones que involucran tratamientos con agua y productos químicos para mejorar las propiedades textiles.</p>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Procesos_Humedos/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Tejeduría</div>
+                    <div class="process-card-body">
+                        <p>Proceso de entrecruzamiento de hilos para formar telas mediante diferentes tipos de tejidos y técnicas.</p>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Tejeduria/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://chat.whatsapp.com/Gsz6w3ILVEYAGA2HIy2qei?mode=ems_email_t" class="btn btn-whatsapp" target="_blank">Unirse al Grupo de WhatsApp</a>
+            </div>
+        </div>
+        
+        <div id="processes" class="tab-content">
+            <h2>Procesos Textiles</h2>
+            <p>Selecciona un proceso para acceder a su documentación específica:</p>
+            
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-card-header">Hilanderia</div>
+                    <div class="process-card-body">
+                        <p><strong>Parámetros clave:</strong></p>
+                        <ul>
+                            <li>Finura del hilo</li>
+                            <li>Resistencia a la rotura</li>
+                            <li>Uniformidad</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Hilanderia/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Procesos Húmedos</div>
+                    <div class="process-card-body">
+                        <p><strong>Operaciones incluidas:</strong></p>
+                        <ul>
+                            <li>Teñido</li>
+                            <li>Lavado</li>
+                            <li>Acabados químicos</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Procesos_Humedos/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Tejeduría</div>
+                    <div class="process-card-body">
+                        <p><strong>Tipos de tejido:</strong></p>
+                        <ul>
+                            <li>Tejido plano</li>
+                            <li>Tejido de punto</li>
+                            <li>Tejidos técnicos</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Tejeduria/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Planta de Acabado</div>
+                    <div class="process-card-body">
+                        <p><strong>Procesos finales:</strong></p>
+                        <ul>
+                            <li>Termofijado</li>
+                            <li>Calandrado</li>
+                            <li>Control de calidad</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Planta_Acabado/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Despacho</div>
+                    <div class="process-card-body">
+                        <p><strong>Gestión de entrega:</strong></p>
+                        <ul>
+                            <li>Embalaje</li>
+                            <li>Documentación</li>
+                            <li>Logística</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Despacho/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-card-header">Servicios</div>
+                    <div class="process-card-body">
+                        <p><strong>Áreas de soporte:</strong></p>
+                        <ul>
+                            <li>Mantenimiento</li>
+                            <li>Calidad</li>
+                            <li>Gestión energética</li>
+                        </ul>
+                    </div>
+                    <div class="process-card-footer">
+                        <a href="Servicios/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resources" class="tab-content">
+            <h2>Recursos Adicionales</h2>
+            <p>Material complementario para el aprendizaje y la capacitación:</p>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>Recursos Generales</h3>
+                    <ul class="resource-list">
+                        <li><a href="Recursos/index.html">Manuales técnicos</a></li>
+                        <li><a href="Recursos/index.html">Procedimientos operativos</a></li>
+                        <li><a href="Recursos/index.html">Normativas de calidad</a></li>
+                        <li><a href="Recursos/index.html">Formatos y plantillas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>Encuentros Presenciales</h3>
+                    <ul class="resource-list">
+                        <li><a href="Presenciales/index.html">Calendario de capacitaciones</a></li>
+                        <li><a href="Presenciales/index.html">Presentaciones</a></li>
+                        <li><a href="Presenciales/index.html">Material de apoyo</a></li>
+                        <li><a href="Presenciales/index.html">Galería de fotos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>Evaluaciones</h3>
+                    <ul class="resource-list">
+                        <li><a href="evaluaciones/index.html">Evaluación diagnóstica</a></li>
+                        <li><a href="evaluaciones/index.html">Evaluación formativa</a></li>
+                        <li><a href="evaluaciones/index.html">Evaluación final</a></li>
+                        <li><a href="evaluaciones/index.html">Certificaciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <h3>Contacto y soporte:</h3>
+                <p>Para preguntas específicas, únete a nuestro grupo de WhatsApp:</p>
+                <a href="https://chat.whatsapp.com/Gsz6w3ILVEYAGA2HIy2qei?mode=ems_email_t" class="btn btn-whatsapp" target="_blank">Grupo de WhatsApp</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Plataforma de Capacitación Textil &copy; 2024</p>
+        <p>Alojado en Netlify | Contenido en GitHub</p>
+    </footer>
+    <script>
+        // Navegación por pestañas
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remover clase active de todos los links y contenidos
+                document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Agregar clase active al link clickeado
+                this.classList.add('active');
+                
+                // Mostrar el contenido correspondiente
+                const target = this.getAttribute('href');
+                document.querySelector(target).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -38,4 +38,4 @@ Para sugerencias o mejoras, contactar a través del grupo de WhatsApp.
 ## 📞 Contacto
 
 - Grupo de WhatsApp: [Enlace al grupo](https://chat.whatsapp.com/Gsz6w3ILVEYAGA2HIy2qei?mode=ems_email_t)
-- Plataforma web: [Enlace de Netlify](https://tu-sitio.netlify.app)
+- Plataforma web: [Enlace de Netlify](https://textiletraining.netlify.app/))

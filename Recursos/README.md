@@ -4,6 +4,7 @@ Material complementario para la capacitación textil.
 
 ## 📂 Tipos de Recursos
 
+- Formulario KPI
 - Manuales técnicos
 - Procedimientos operativos
 - Normativas de calidad

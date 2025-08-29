@@ -1,4 +1,4 @@
-# 🏭 Plataforma de Capacitación en Procesos Textiles
+# 🏭 Capacitación en el Saber de los Procesos Textiles
 
 Herramienta web para el aprendizaje grupal e individual sobre procesos textiles.
 

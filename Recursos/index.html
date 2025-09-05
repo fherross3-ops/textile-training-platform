@@ -335,6 +335,74 @@
             color: white;
         }
         
+        /* Estilos para la sección de ejemplos */
+        .example-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background-color: #f9f9f9;
+        }
+        
+        .example-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .example-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .example-process {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            font-size: 0.9rem;
+        }
+        
+        .example-form-group {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid #eee;
+        }
+        
+        .example-form-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .example-form-value {
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .formula {
+            font-family: monospace;
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+        }
+        
+        .example-action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
         /* Estilos para impresión */
         @media print {
             body {
@@ -461,6 +529,19 @@
                 width: 100%;
                 justify-content: space-between;
             }
+            
+            .example-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .example-process {
+                margin-top: 10px;
+            }
+            
+            .example-action-buttons {
+                flex-direction: column;
+            }
         }
     </style>
     <!-- Librería para exportación a PDF -->
@@ -473,6 +554,7 @@
         
         <div class="tabs">
             <div class="tab active" data-tab="kpi">Diseño de KPI</div>
+            <div class="tab" data-tab="examples">Ejemplos de KPI</div>
             <div class="tab" data-tab="resources">Recursos</div>
         </div>
         
@@ -690,573 +772,759 @@
             </form>
         </div>
         
+        <!-- Pestaña de ejemplos de KPI -->
+        <div id="examplesTab" class="tab-content">
+            <h1>Ejemplos de KPI para Proceso Textil</h1>
+            <p>Estos son tres ejemplos completos de formularios KPI para diferentes procesos textiles con datos simulados.</p>
+            
+            <!-- Ejemplo 1 -->
+            <div class="example-section">
+                <div class="example-header">
+                    <h2 class="example-title">Eficiencia de Producción en Hilatura Open-End</h2>
+                    <span class="example-process">Hilatura Open-End</span>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Descripción del KPI</div>
+                    <div class="example-form-value">Mide el porcentaje de eficiencia en el proceso de hilatura open-end, considerando la producción real vs. la producción teórica posible.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Objetivo del KPI</div>
+                    <div class="example-form-value">Maximizar la eficiencia del proceso de hilatura open-end para reducir costos y aumentar la capacidad productiva.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Variables a Medir</div>
+                    <div class="example-form-value">Producción real, Producción teórica, Tiempo de operación</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Unidad de Medida</div>
+                    <div class="example-form-value">Porcentaje (%)</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Fórmula de Cálculo</div>
+                    <div class="formula">(Producción real / Producción teórica) * 100</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Frecuencia de Medición</div>
+                    <div class="example-form-value">Diaria</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Valores Esperados</div>
+                    <div class="example-form-value">
+                        <strong>Valor Meta:</strong> 85%<br>
+                        <strong>Valor Mínimo Aceptable:</strong> 75%<br>
+                        <strong>Valor Máximo Esperado:</strong> 95%<br>
+                        <strong>Rango de Tolerancia:</strong> ±5%
+                    </div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Gráfico en SISGO</div>
+                    <div class="example-form-value">Sí</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Comentario sobre utilidad</div>
+                    <div class="example-form-value">Actualmente utilizado y es útil para identificar cuellos de botella en el proceso.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Responsables</div>
+                    <div class="example-form-value">
+                        <strong>Diseño:</strong> Ing. Carlos Mendoza<br>
+                        <strong>Implementación:</strong> Supervisor Juan Pérez<br>
+                        <strong>Monitoreo:</strong> Jefe de Producción<br>
+                        <strong>Email:</strong> produccion@textilesejemplo.com
+                    </div>
+                </div>
+                
+                <div class="example-action-buttons">
+                    <button class="btn-primary" onclick="useExample(1)">Usar este ejemplo</button>
+                    <button class="btn-success" onclick="exportExampleToPDF(1)">Exportar a PDF</button>
+                </div>
+            </div>
+            
+            <!-- Ejemplo 2 -->
+            <div class="example-section">
+                <div class="example-header">
+                    <h2 class="example-title">Índice de Defectos en Tejeduría</h2>
+                    <span class="example-process">Tejeduría</span>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Descripción del KPI</div>
+                    <div class="example-form-value">Controla la cantidad de defectos por metro cuadrado de tela producida en el área de tejeduría.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Objetivo del KPI</div>
+                    <div class="example-form-value">Reducir los defectos en la tela producida para mejorar la calidad del producto final y minimizar los rechazos.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Variables a Medir</div>
+                    <div class="example-form-value">Defectos encontrados, Metros producidos</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Unidad de Medida</div>
+                    <div class="example-form-value">Defectos por m²</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Fórmula de Cálculo</div>
+                    <div class="formula">Total defectos / Total metros cuadrados producidos</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Frecuencia de Medición</div>
+                    <div class="example-form-value">Por turno</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Valores Esperados</div>
+                    <div class="example-form-value">
+                        <strong>Valor Meta:</strong> 0.5 defectos/m²<br>
+                        <strong>Valor Mínimo Aceptable:</strong> 0 defectos/m²<br>
+                        <strong>Valor Máximo Esperado:</strong> 1.2 defectos/m²<br>
+                        <strong>Rango de Tolerancia:</strong> ±0.2 defectos/m²
+                    </div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Gráfico en SISGO</div>
+                    <div class="example-form-value">No</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Comentario sobre utilidad</div>
+                    <div class="example-form-value">Requiere ser mejorado: necesitamos implementar gráficos de control para seguimiento en tiempo real.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Responsables</div>
+                    <div class="example-form-value">
+                        <strong>Diseño:</strong> Ing. Laura Ramírez<br>
+                        <strong>Implementación:</strong> Supervisor Tejeduría<br>
+                        <strong>Monitoreo:</strong> Control de Calidad<br>
+                        <strong>Email:</strong> calidad@textilesejemplo.com
+                    </div>
+                </div>
+                
+                <div class="example-action-buttons">
+                    <button class="btn-primary" onclick="useExample(2)">Usar este ejemplo</button>
+                    <button class="btn-success" onclick="exportExampleToPDF(2)">Exportar a PDF</button>
+                </div>
+            </div>
+            
+            <!-- Ejemplo 3 -->
+            <div class="example-section">
+                <div class="example-header">
+                    <h2 class="example-title">Consumo Energético por Kg de Producto</h2>
+                    <span class="example-process">Servicios</span>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Descripción del KPI</div>
+                    <div class="example-form-value">Mide la eficiencia en el consumo de energía por kilogramo de producto terminado en el área de servicios.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Objetivo del KPI</div>
+                    <div class="example-form-value">Optimizar el consumo energético para reducir costos operativos y minimizar el impacto ambiental.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Variables a Medir</div>
+                    <div class="example-form-value">Energía consumida, Producción total</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Unidad de Medida</div>
+                    <div class="example-form-value">kWh/kg</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Fórmula de Cálculo</div>
+                    <div class="formula">Total energía consumida / Total kg producidos</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Frecuencia de Medición</div>
+                    <div class="example-form-value">Mensual</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Valores Esperados</div>
+                    <div class="example-form-value">
+                        <strong>Valor Meta:</strong> 2.8 kWh/kg<br>
+                        <strong>Valor Mínimo Aceptable:</strong> 2.5 kWh/kg<br>
+                        <strong>Valor Máximo Esperado:</strong> 3.5 kWh/kg<br>
+                        <strong>Rango de Tolerancia:</strong> ±0.3 kWh/kg
+                    </div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Gráfico en SISGO</div>
+                    <div class="example-form-value">Sí</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Comentario sobre utilidad</div>
+                    <div class="example-form-value">Muy útil para identificar oportunidades de ahorro energético y establecer metas de sostenibilidad.</div>
+                </div>
+                
+                <div class="example-form-group">
+                    <div class="example-form-label">Responsables</div>
+                    <div class="example-form-value">
+                        <strong>Diseño:</strong> Ing. Roberto Silva<br>
+                        <strong>Implementación:</strong> Jefe de Servicios<br>
+                        <strong>Monitoreo:</strong> Gerencia de Operaciones<br>
+                        <strong>Email:</strong> operaciones@textilesejemplo.com
+                    </div>
+                </div>
+                
+                <div class="example-action-buttons">
+                    <button class="btn-primary" onclick="useExample(3)">Usar este ejemplo</button>
+                    <button class="btn-success" onclick="exportExampleToPDF(3)">Exportar a PDF</button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="showTab('kpi')">Volver al Formulario Principal</button>
+            </div>
+        </div>
+        
         <!-- Pestaña de recursos -->
         <div id="resourcesTab" class="tab-content">
             <div class="resources-header">
-                <h2>Recursos</h2>
-                <p>Material complementario para la capacitación textil</p>
+                <h2>Recursos de Capacitación</h2>
+                <p>Material de apoyo para el diseño e implementación de KPIs</p>
             </div>
             
-            <div class="container">
-                <a href="#" class="back-btn" id="backToKPI">← Volver al inicio</a>
-                
-                <div class="content-section">
-                    <h2>Manuales Técnicos</h2>
-                    <p>En esta sección encontrarás manuales técnicos de todos los procesos textiles.</p>
-                    <ul>
-                        <li><a href="manual_hilanderia.pdf">Manual de Hilandería</a></li>
-                        <li><a href="manual_procesos_humedos.pdf">Manual de Procesos Húmedos</a></li>
-                        <li><a href="manual_tejeduria.pdf">Manual de Tejeduría</a></li>
-                        <!-- Agrega más manuales -->
-                    </ul>
-                </div>
-                
-                <div class="content-section">
-                    <h2>Procedimientos Operativos</h2>
-                    <p>Procedimientos estandarizados para cada operación.</p>
-                    <ul>
-                        <li><a href="procedimiento_operativo_hilanderia.pdf">Procedimiento de Hilandería</a></li>
-                        <li><a href="procedimiento_operativo_tejeduria.pdf">Procedimiento de Tejeduría</a></li>
-                        <!-- Agrega más procedimientos -->
-                    </ul>
-                </div>
-                
-                <div class="content-section">
-                    <h2>Normativas de Calidad</h2>
-                    <p>Normas y estándares de calidad aplicables.</p>
-                    <ul>
-                        <li><a href="norma_calidad_textil.pdf">Norma de Calidad Textil</a></li>
-                        <li><a href="especificaciones_tecnicas.pdf">Especificaciones Técnicas</a></li>
-                        <!-- Agrega más normativas -->
-                    </ul>
-                </div>
-                
-                <div class="content-section">
-                    <h2>Formatos y Plantillas</h2>
-                    <p>Formatos para registro de datos y control de procesos.</p>
-                    <ul>
-                        <li><a href="formato_control_calidad.xlsx">Formato de Control de Calidad</a></li>
-                        <li><a href="formato_produccion_diaria.xlsx">Formato de Producción Diaria</a></li>
-                        <!-- Agrega más formatos -->
-                    </ul>
-                </div>
+            <div class="content-section">
+                <h3>Guías y Manuales</h3>
+                <ul>
+                    <li>Manual de Indicadores de Gestión - Textil</li>
+                    <li>Guía para diseño de KPIs en procesos textiles</li>
+                    <li>Plantilla de seguimiento de indicadores</li>
+                    <li>Procedimiento para implementación de KPIs</li>
+                </ul>
             </div>
             
-            <footer>
-                <p>Plataforma de Capacitación Textil &copy; 2024</p>
-            </footer>
+            <div class="content-section">
+                <h3>Videos de Capacitación</h3>
+                <ul>
+                    <li>Introducción a los KPIs en la industria textil</li>
+                    <li>Cómo diseñar KPIs efectivos</li>
+                    <li>Interpretación de resultados y toma de decisiones</li>
+                    <li>Casos de éxito en implementación de KPIs</li>
+                </ul>
+            </div>
+            
+            <div class="content-section">
+                <h3>Plantillas Descargables</h3>
+                <ul>
+                    <li>Formulario KPI (Excel)</li>
+                    <li>Dashboard de seguimiento (Power BI)</li>
+                    <li>Presentación para comités directivos</li>
+                    <li>Formato de reporte de resultados</li>
+                </ul>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="showTab('kpi')">Volver al Formulario Principal</button>
+            </div>
+        </div>
+        
+        <!-- Repositorio de KPIs -->
+        <div class="repository-section">
+            <h2>Repositorio de KPIs Guardados</h2>
+            <p>Aquí puedes ver y gestionar todos los KPIs que has creado:</p>
+            
+            <div class="kpi-list" id="kpiList">
+                <p id="emptyRepository">No hay KPIs guardados aún. Completa el formulario y haz clic en "Guardar KPI" para agregar el primero.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Inicializar jsPDF
-        const { jsPDF } = window.jspdf;
+        // Variables globales
+        let kpiRepository = [];
+        let selectedProcess = '';
         
+        // Inicialización cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', function() {
-            // Variables globales
-            let kpiRepository = JSON.parse(localStorage.getItem('kpiRepository')) || [];
-            const currentKPIId = new URLSearchParams(window.location.search).get('id');
+            // Cargar KPIs guardados del localStorage
+            loadKPIsFromStorage();
             
-            // Elementos del DOM
-            const processItems = document.querySelectorAll('.process-item');
-            const selectedProcessInput = document.getElementById('selectedProcess');
-            const form = document.getElementById('kpiForm');
-            const alertBox = document.getElementById('alertBox');
-            const tabs = document.querySelectorAll('.tab');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const backToKPIBtn = document.getElementById('backToKPI');
+            // Configurar eventos para los elementos de proceso
+            setupProcessSelection();
             
-            // Inicializar la aplicación
-            initApp();
+            // Configurar eventos para los tabs
+            setupTabs();
             
-            function initApp() {
-                // Configurar selección de procesos
-                setupProcessSelection();
-                
-                // Configurar eventos del formulario
-                setupFormEvents();
-                
-                // Configurar pestañas
-                setupTabs();
-                
-                // Configurar botones de acción
-                setupActionButtons();
-                
-                // Configurar botón de volver
-                if (backToKPIBtn) {
-                    backToKPIBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        // Activar la pestaña de KPI
-                        document.querySelector('.tab[data-tab="kpi"]').click();
-                    });
-                }
-                
-                // Cargar KPI si hay un ID en la URL (modo edición)
-                if (currentKPIId) {
-                    loadKPIForEditing(currentKPIId);
-                }
-            }
+            // Configurar eventos para los botones de acción
+            setupActionButtons();
             
-            function setupProcessSelection() {
-                processItems.forEach(item => {
-                    item.addEventListener('click', function() {
-                        // Remover selección previa
-                        processItems.forEach(pi => pi.classList.remove('selected'));
-                        
-                        // Marcar como seleccionado
-                        this.classList.add('selected');
-                        selectedProcessInput.value = this.getAttribute('data-process');
-                    });
-                });
-            }
-            
-            function setupFormEvents() {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    saveKPI();
-                });
-            }
-            
-            function setupTabs() {
-                tabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        const tabId = this.getAttribute('data-tab');
-                        
-                        // Activar pestaña seleccionada
-                        tabs.forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Mostrar contenido correspondiente
-                        tabContents.forEach(content => content.classList.remove('active'));
-                        document.getElementById(`${tabId}Tab`).classList.add('active');
-                    });
-                });
-            }
-            
-            function setupActionButtons() {
-                // Botón para exportar a PDF
-                document.getElementById('btnExportPDF').addEventListener('click', exportToPDF);
-                
-                // Botón para exportar a Word
-                document.getElementById('btnExportWord').addEventListener('click', exportToWord);
-                
-                // Botón para imprimir
-                document.getElementById('btnPrint').addEventListener('click', printForm);
-                
-                // Botón para importar desde CSV
-                document.getElementById('btnImportCSV').addEventListener('click', function() {
-                    document.getElementById('csvFileInput').click();
-                });
-                
-                // Botón para exportar a CSV
-                document.getElementById('btnExportCSV').addEventListener('click', exportToCSV);
-                
-                // Cargar archivo CSV
-                document.getElementById('csvFileInput').addEventListener('change', handleCSVImport);
-            }
-            
-            function saveKPI() {
-                // Validar que se haya seleccionado un proceso
-                if (!selectedProcessInput.value) {
-                    showAlert('Por favor, seleccione un proceso textil.', 'error');
-                    return;
-                }
-                
-                // Validar que el valor mínimo sea menor que el valor meta
-                const minValue = parseFloat(document.getElementById('minValue').value);
-                const targetValue = parseFloat(document.getElementById('targetValue').value);
-                
-                if (minValue >= targetValue) {
-                    showAlert('El valor mínimo debe ser inferior al valor meta.', 'error');
-                    return;
-                }
-                
-                // Validar que se haya seleccionado una opción para el gráfico SISGO
-                const sisgoGrafico = document.querySelector('input[name="sisgoGrafico"]:checked');
-                if (!sisgoGrafico) {
-                    showAlert('Por favor, seleccione si el KPI tiene gráfico en SISGO.', 'error');
-                    return;
-                }
-                
-                // Recopilar datos del formulario
-                const formData = new FormData(form);
-                const formObject = Object.fromEntries(formData.entries());
-                
-                // Añadir ID y timestamp
-                const kpiData = {
-                    id: currentKPIId || Date.now().toString(),
-                    timestamp: new Date().toISOString(),
-                    ...formObject
-                };
-                
-                // Guardar en el repositorio
-                if (currentKPIId) {
-                    // Modo edición: reemplazar KPI existente
-                    const index = kpiRepository.findIndex(kpi => kpi.id === currentKPIId);
-                    if (index !== -1) {
-                        kpiRepository[index] = kpiData;
-                    }
-                } else {
-                    // Modo nuevo: añadir al repositorio
-                    kpiRepository.push(kpiData);
-                }
-                
-                // Guardar en localStorage
-                localStorage.setItem('kpiRepository', JSON.stringify(kpiRepository));
-                
-                // Enviar a Netlify Forms
-                submitToNetlify(kpiData);
-                
-                // Mostrar mensaje de éxito
-                showAlert('KPI guardado exitosamente. Será revisado por el equipo de calidad.', 'success');
-                
-                // Limpiar formulario después de 2 segundos
-                setTimeout(() => {
-                    if (!currentKPIId) {
-                        form.reset();
-                        processItems.forEach(pi => pi.classList.remove('selected'));
-                    }
-                    alertBox.style.display = 'none';
-                    
-                    // Si estábamos editando, redirigir al listado
-                    if (currentKPIId) {
-                        window.location.href = window.location.pathname;
-                    }
-                }, 2000);
-            }
-            
-            function submitToNetlify(kpiData) {
-                // Crear formulario oculto para Netlify
-                const netlifyForm = document.querySelector('form[name="kpi-netlify-form"]');
-                
-                // Llenar los campos del formulario Netlify
-                netlifyForm.querySelector('input[name="kpiName"]').value = kpiData.kpiName || '';
-                netlifyForm.querySelector('input[name="kpiDescription"]').value = kpiData.kpiDescription || '';
-                netlifyForm.querySelector('input[name="kpiObjective"]').value = kpiData.kpiObjective || '';
-                netlifyForm.querySelector('input[name="selectedProcess"]').value = kpiData.selectedProcess || '';
-                netlifyForm.querySelector('input[name="variables"]').value = kpiData.variables || '';
-                netlifyForm.querySelector('input[name="measurementUnit"]').value = kpiData.measurementUnit || '';
-                netlifyForm.querySelector('input[name="formula"]').value = kpiData.formula || '';
-                netlifyForm.querySelector('input[name="frequency"]').value = kpiData.frequency || '';
-                netlifyForm.querySelector('input[name="targetValue"]').value = kpiData.targetValue || '';
-                netlifyForm.querySelector('input[name="minValue"]').value = kpiData.minValue || '';
-                netlifyForm.querySelector('input[name="maxValue"]').value = kpiData.maxValue || '';
-                netlifyForm.querySelector('input[name="toleranceRange"]').value = kpiData.toleranceRange || '';
-                netlifyForm.querySelector('input[name="sisgoGrafico"]').value = kpiData.sisgoGrafico || '';
-                netlifyForm.querySelector('input[name="utilidadComentario"]').value = kpiData.utilidadComentario || '';
-                netlifyForm.querySelector('input[name="designResponsible"]').value = kpiData.designResponsible || '';
-                netlifyForm.querySelector('input[name="implementationResponsible"]').value = kpiData.implementationResponsible || '';
-                netlifyForm.querySelector('input[name="monitoringResponsible"]').value = kpiData.monitoringResponsible || '';
-                netlifyForm.querySelector('input[name="emailContact"]').value = kpiData.emailContact || '';
-                
-                // Crear un formulario temporal para enviar
-                const tempForm = document.createElement('form');
-                tempForm.method = 'POST';
-                tempForm.action = '/';
-                tempForm.style.display = 'none';
-                
-                // Agregar todos los campos al formulario temporal
-                const fields = netlifyForm.querySelectorAll('input, textarea, select');
-                fields.forEach(field => {
-                    const clone = field.cloneNode(true);
-                    tempForm.appendChild(clone);
-                });
-                
-                // Agregar el formulario temporal al documento y enviarlo
-                document.body.appendChild(tempForm);
-                tempForm.submit();
-                document.body.removeChild(tempForm);
-            }
-            
-            function loadKPIForEditing(id) {
-                const kpi = kpiRepository.find(item => item.id === id);
-                if (kpi) {
-                    // Llenar el formulario con los datos del KPI
-                    document.getElementById('kpiName').value = kpi.kpiName || '';
-                    document.getElementById('kpiDescription').value = kpi.kpiDescription || '';
-                    document.getElementById('kpiObjective').value = kpi.kpiObjective || '';
-                    
-                    // Seleccionar proceso
-                    if (kpi.selectedProcess) {
-                        const processItem = document.querySelector(`.process-item[data-process="${kpi.selectedProcess}"]`);
-                        if (processItem) {
-                            processItem.classList.add('selected');
-                            selectedProcessInput.value = kpi.selectedProcess;
-                        }
-                    }
-                    
-                    document.getElementById('variables').value = kpi.variables || '';
-                    document.getElementById('measurementUnit').value = kpi.measurementUnit || '';
-                    document.getElementById('formula').value = kpi.formula || '';
-                    document.getElementById('frequency').value = kpi.frequency || '';
-                    document.getElementById('targetValue').value = kpi.targetValue || '';
-                    document.getElementById('minValue').value = kpi.minValue || '';
-                    document.getElementById('maxValue').value = kpi.maxValue || '';
-                    document.getElementById('toleranceRange').value = kpi.toleranceRange || '';
-                    
-                    // Seleccionar opción de SISGO
-                    if (kpi.sisgoGrafico) {
-                        document.querySelector(`input[name="sisgoGrafico"][value="${kpi.sisgoGrafico}"]`).checked = true;
-                    }
-                    
-                    document.getElementById('utilidadComentario').value = kpi.utilidadComentario || '';
-                    document.getElementById('designResponsible').value = kpi.designResponsible || '';
-                    document.getElementById('implementationResponsible').value = kpi.implementationResponsible || '';
-                    document.getElementById('monitoringResponsible').value = kpi.monitoringResponsible || '';
-                    document.getElementById('emailContact').value = kpi.emailContact || '';
-                    
-                    // Cambiar texto del botón
-                    document.querySelector('.btn-primary').textContent = 'Actualizar KPI';
-                }
-            }
-            
-            function showAlert(message, type) {
-                alertBox.textContent = message;
-                alertBox.className = `alert alert-${type}`;
-                alertBox.style.display = 'block';
-                
-                // Desplazar hacia la alerta
-                alertBox.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            function exportToPDF() {
-                const doc = new jsPDF();
-                
-                // Título
-                doc.setFontSize(20);
-                doc.text('Diseño de KPI Textil', 105, 15, { align: 'center' });
-                
-                // Información básica
-                doc.setFontSize(16);
-                doc.text('Información Básica del KPI', 14, 25);
-                
-                doc.setFontSize(12);
-                doc.text(`Nombre: ${document.getElementById('kpiName').value}`, 14, 35);
-                doc.text(`Descripción: ${document.getElementById('kpiDescription').value}`, 14, 45);
-                
-                // Ajustar texto largo
-                const descriptionLines = doc.splitTextToSize(document.getElementById('kpiDescription').value, 180);
-                doc.text(descriptionLines, 14, 45);
-                
-                let yPosition = 45 + (descriptionLines.length * 6);
-                
-                doc.text(`Objetivo: ${document.getElementById('kpiObjective').value}`, 14, yPosition);
-                const objectiveLines = doc.splitTextToSize(document.getElementById('kpiObjective').value, 180);
-                doc.text(objectiveLines, 14, yPosition);
-                
-                yPosition += (objectiveLines.length * 6) + 10;
-                
-                // Proceso seleccionado
-                doc.text(`Proceso: ${selectedProcessInput.value}`, 14, yPosition);
-                yPosition += 10;
-                
-                // Parámetros y fórmulas
-                doc.setFontSize(16);
-                doc.text('Parámetros y Fórmulas', 14, yPosition);
-                yPosition += 10;
-                
-                doc.setFontSize(12);
-                doc.text(`Variables: ${document.getElementById('variables').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Unidad de Medida: ${document.getElementById('measurementUnit').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Fórmula: ${document.getElementById('formula').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Frecuencia: ${document.getElementById('frequency').value}`, 14, yPosition);
-                yPosition += 15;
-                
-                // Metas y valores
-                doc.setFontSize(16);
-                doc.text('Metas y Valores Esperados', 14, yPosition);
-                yPosition += 10;
-                
-                doc.setFontSize(12);
-                doc.text(`Valor Meta: ${document.getElementById('targetValue').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Valor Mínimo: ${document.getElementById('minValue').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Valor Máximo: ${document.getElementById('maxValue').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Rango de Tolerancia: ${document.getElementById('toleranceRange').value}`, 14, yPosition);
-                yPosition += 15;
-                
-                // Responsables
-                doc.setFontSize(16);
-                doc.text('Responsables', 14, yPosition);
-                yPosition += 10;
-                
-                doc.setFontSize(12);
-                doc.text(`Diseño: ${document.getElementById('designResponsible').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Implementación: ${document.getElementById('implementationResponsible').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Monitoreo: ${document.getElementById('monitoringResponsible').value}`, 14, yPosition);
-                yPosition += 10;
-                doc.text(`Contacto: ${document.getElementById('emailContact').value}`, 14, yPosition);
-                
-                // Guardar PDF
-                doc.save('KPI_Textil.pdf');
-            }
-            
-            function exportToWord() {
-                // Crear contenido HTML para el documento Word
-                const content = `
-                    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-                    <head>
-                        <meta charset='utf-8'>
-                        <title>Diseño de KPI Textil</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; }
-                            h1 { color: #2c3e50; }
-                            h2 { color: #3498db; border-bottom: 1px solid #3498db; padding-bottom: 5px; }
-                            table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            th { background-color: #f2f2f2; }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>Diseño de KPI Textil</h1>
-                        
-                        <h2>Información Básica del KPI</h2>
-                        <table>
-                            <tr><th>Nombre del KPI</th><td>${document.getElementById('kpiName').value}</td></tr>
-                            <tr><th>Descripción</th><td>${document.getElementById('kpiDescription').value}</td></tr>
-                            <tr><th>Objetivo</th><td>${document.getElementById('kpiObjective').value}</td></tr>
-                            <tr><th>Proceso</th><td>${selectedProcessInput.value}</td></tr>
-                        </table>
-                        
-                        <h2>Parámetros y Fórmulas</h2>
-                        <table>
-                            <tr><th>Variables a Medir</th><td>${document.getElementById('variables').value}</td></tr>
-                            <tr><th>Unidad de Medida</th><td>${document.getElementById('measurementUnit').value}</td></tr>
-                            <tr><th>Fórmula de Cálculo</th><td>${document.getElementById('formula').value}</td></tr>
-                            <tr><th>Frecuencia de Medición</th><td>${document.getElementById('frequency').value}</td></tr>
-                        </table>
-                        
-                        <h2>Metas y Valores Esperados</h2>
-                        <table>
-                            <tr><th>Valor Meta</th><td>${document.getElementById('targetValue').value}</td></tr>
-                            <tr><th>Valor Mínimo Aceptable</th><td>${document.getElementById('minValue').value}</td></tr>
-                            <tr><th>Valor Máximo Esperado</th><td>${document.getElementById('maxValue').value}</td></tr>
-                            <tr><th>Rango de Tolerancia</th><td>${document.getElementById('toleranceRange').value}</td></tr>
-                        </table>
-                        
-                        <h2>Responsables</h2>
-                        <table>
-                            <tr><th>Responsable del Diseño</th><td>${document.getElementById('designResponsible').value}</td></tr>
-                            <tr><th>Responsable de Implementación</th><td>${document.getElementById('implementationResponsible').value}</td></tr>
-                            <tr><th>Responsable de Monitoreo</th><td>${document.getElementById('monitoringResponsible').value}</td></tr>
-                            <tr><th>Correo de Contacto</th><td>${document.getElementById('emailContact').value}</td></tr>
-                        </table>
-                    </body>
-                    </html>
-                `;
-                
-                // Crear blob y descargar
-                const blob = new Blob([content], { type: 'application/msword' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'KPI_Textil.doc';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            function printForm() {
-                window.print();
-            }
-            
-            function exportToCSV() {
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
-                
-                // Crear contenido CSV
-                let csvContent = 'Clave,Valor\n';
-                for (const [key, value] of Object.entries(data)) {
-                    csvContent += `"${key}","${value}"\n`;
-                }
-                
-                // Añadir proceso seleccionado
-                csvContent += `"selectedProcess","${selectedProcessInput.value}"\n`;
-                
-                // Crear blob y descargar
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = 'KPI_Textil.csv';
-                link.style.display = 'none';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-            
-            function handleCSVImport(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const csvContent = e.target.result;
-                    const lines = csvContent.split('\n');
-                    
-                    // Procesar cada línea del CSV
-                    const data = {};
-                    for (let i = 1; i < lines.length; i++) { // Saltar la cabecera
-                        const line = lines[i].trim();
-                        if (!line) continue;
-                        
-                        const [key, value] = line.split(',').map(item => 
-                            item.replace(/^"|"$/g, '').trim() // Eliminar comillas
-                        );
-                        
-                        if (key && value) {
-                            data[key] = value;
-                        }
-                    }
-                    
-                    // Llenar el formulario con los datos importados
-                    if (data.kpiName) document.getElementById('kpiName').value = data.kpiName;
-                    if (data.kpiDescription) document.getElementById('kpiDescription').value = data.kpiDescription;
-                    if (data.kpiObjective) document.getElementById('kpiObjective').value = data.kpiObjective;
-                    
-                    // Seleccionar proceso si está en los datos
-                    if (data.selectedProcess) {
-                        const processItem = document.querySelector(`.process-item[data-process="${data.selectedProcess}"]`);
-                        if (processItem) {
-                            processItem.classList.add('selected');
-                            selectedProcessInput.value = data.selectedProcess;
-                        }
-                    }
-                    
-                    if (data.variables) document.getElementById('variables').value = data.variables;
-                    if (data.measurementUnit) document.getElementById('measurementUnit').value = data.measurementUnit;
-                    if (data.formula) document.getElementById('formula').value = data.formula;
-                    if (data.frequency) document.getElementById('frequency').value = data.frequency;
-                    if (data.targetValue) document.getElementById('targetValue').value = data.targetValue;
-                    if (data.minValue) document.getElementById('minValue').value = data.minValue;
-                    if (data.maxValue) document.getElementById('maxValue').value = data.maxValue;
-                    if (data.toleranceRange) document.getElementById('toleranceRange').value = data.toleranceRange;
-                    
-                    // Seleccionar opción de SISGO si está en los datos
-                    if (data.sisgoGrafico) {
-                        const radio = document.querySelector(`input[name="sisgoGrafico"][value="${data.sisgoGrafico}"]`);
-                        if (radio) radio.checked = true;
-                    }
-                    
-                    if (data.utilidadComentario) document.getElementById('utilidadComentario').value = data.utilidadComentario;
-                    if (data.designResponsible) document.getElementById('designResponsible').value = data.designResponsible;
-                    if (data.implementationResponsible) document.getElementById('implementationResponsible').value = data.implementationResponsible;
-                    if (data.monitoringResponsible) document.getElementById('monitoringResponsible').value = data.monitoringResponsible;
-                    if (data.emailContact) document.getElementById('emailContact').value = data.emailContact;
-                    
-                    showAlert('Datos importados exitosamente desde CSV.', 'success');
-                };
-                
-                reader.readAsText(file);
-                // Limpiar el input para permitir importar el mismo archivo otra vez
-                event.target.value = '';
-            }
+            // Configurar el envío del formulario
+            setupFormSubmission();
         });
+        
+        // Configurar la selección de procesos
+        function setupProcessSelection() {
+            const processItems = document.querySelectorAll('.process-item');
+            
+            processItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Deseleccionar todos los procesos
+                    processItems.forEach(pi => pi.classList.remove('selected'));
+                    
+                    // Seleccionar el proceso clickeado
+                    this.classList.add('selected');
+                    
+                    // Guardar el valor seleccionado
+                    selectedProcess = this.getAttribute('data-process');
+                    document.getElementById('selectedProcess').value = selectedProcess;
+                });
+            });
+        }
+        
+        // Configurar los tabs
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    showTab(tabName);
+                });
+            });
+        }
+        
+        // Mostrar una pestaña específica
+        function showTab(tabName) {
+            // Ocultar todos los contenidos de pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activar la pestaña seleccionada
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            document.querySelector(`.tab[data-tab="${tabName}"]`).classList.add('active');
+        }
+        
+        // Configurar los botones de acción
+        function setupActionButtons() {
+            // Botón para exportar a PDF
+            document.getElementById('btnExportPDF').addEventListener('click', exportToPDF);
+            
+            // Botón para exportar a Word
+            document.getElementById('btnExportWord').addEventListener('click', exportToWord);
+            
+            // Botón para imprimir
+            document.getElementById('btnPrint').addEventListener('click', printForm);
+            
+            // Botón para importar desde CSV
+            document.getElementById('btnImportCSV').addEventListener('click', function() {
+                document.getElementById('csvFileInput').click();
+            });
+            
+            // Botón para exportar a CSV
+            document.getElementById('btnExportCSV').addEventListener('click', exportToCSV);
+            
+            // Manejar la selección de archivo CSV
+            document.getElementById('csvFileInput').addEventListener('change', handleCSVImport);
+        }
+        
+        // Configurar el envío del formulario
+        function setupFormSubmission() {
+            document.getElementById('kpiForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveKPI();
+            });
+        }
+        
+        // Guardar un KPI
+        function saveKPI() {
+            // Validar formulario
+            if (!validateForm()) {
+                showAlert('Por favor, complete todos los campos obligatorios.', 'error');
+                return;
+            }
+            
+            // Obtener valores del formulario
+            const formData = new FormData(document.getElementById('kpiForm'));
+            const kpiData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                kpiData[key] = value;
+            }
+            
+            // Agregar ID y timestamp
+            kpiData.id = Date.now();
+            kpiData.createdAt = new Date().toISOString();
+            
+            // Agregar al repositorio
+            kpiRepository.push(kpiData);
+            
+            // Guardar en localStorage
+            saveKPIsToStorage();
+            
+            // Actualizar la lista de KPIs
+            updateKPIList();
+            
+            // Mostrar mensaje de éxito
+            showAlert('KPI guardado correctamente.', 'success');
+            
+            // Limpiar formulario
+            document.getElementById('kpiForm').reset();
+            document.querySelectorAll('.process-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            selectedProcess = '';
+        }
+        
+        // Validar el formulario
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = 'red';
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            // Validar que se haya seleccionado un proceso
+            if (!selectedProcess) {
+                isValid = false;
+                showAlert('Por favor, seleccione un proceso.', 'error');
+            }
+            
+            return isValid;
+        }
+        
+        // Mostrar alerta
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            
+            // Ocultar la alerta después de 5 segundos
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Cargar KPIs desde localStorage
+        function loadKPIsFromStorage() {
+            const storedKPIs = localStorage.getItem('kpiRepository');
+            if (storedKPIs) {
+                kpiRepository = JSON.parse(storedKPIs);
+                updateKPIList();
+            }
+        }
+        
+        // Guardar KPIs en localStorage
+        function saveKPIsToStorage() {
+            localStorage.setItem('kpiRepository', JSON.stringify(kpiRepository));
+        }
+        
+        // Actualizar la lista de KPIs
+        function updateKPIList() {
+            const kpiList = document.getElementById('kpiList');
+            const emptyRepo = document.getElementById('emptyRepository');
+            
+            if (kpiRepository.length === 0) {
+                emptyRepo.style.display = 'block';
+                kpiList.innerHTML = '';
+                return;
+            }
+            
+            emptyRepo.style.display = 'none';
+            
+            // Crear elementos para cada KPI
+            kpiList.innerHTML = '';
+            kpiRepository.forEach(kpi => {
+                const kpiItem = document.createElement('div');
+                kpiItem.className = 'kpi-item';
+                kpiItem.innerHTML = `
+                    <div class="kpi-info">
+                        <h3>${kpi.kpiName}</h3>
+                        <p><strong>Proceso:</strong> ${formatProcessName(kpi.selectedProcess)}</p>
+                        <p><strong>Objetivo:</strong> ${kpi.kpiObjective.substring(0, 100)}...</p>
+                        <p><strong>Creado:</strong> ${new Date(kpi.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <div class="kpi-actions">
+                        <button class="btn-secondary" onclick="viewKPI(${kpi.id})">Ver</button>
+                        <button class="btn-warning" onclick="editKPI(${kpi.id})">Editar</button>
+                        <button class="btn-danger" onclick="deleteKPI(${kpi.id})">Eliminar</button>
+                    </div>
+                `;
+                kpiList.appendChild(kpiItem);
+            });
+        }
+        
+        // Formatear el nombre del proceso para mostrar
+        function formatProcessName(processKey) {
+            const processNames = {
+                'apertura_algodon': 'Apertura Algodón',
+                'cardas': 'Cardas',
+                'manuares': 'Manuares',
+                'mecheras': 'Mecheras',
+                'hilatura_anillos': 'Hilatura Anillos',
+                'hilatura_openend': 'Hilatura Open-End',
+                'urdido': 'Urdido',
+                'tenido': 'Teñido',
+                'reurdido': 'Reurdido',
+                'engomado': 'Engomado',
+                'tejeduria': 'Tejeduría',
+                'acabado': 'Acabado',
+                'revision': 'Revisión',
+                'despacho': 'Despacho',
+                'servicios': 'Servicios',
+                'logistica': 'Logística',
+                'calidad': 'Calidad'
+            };
+            
+            return processNames[processKey] || processKey;
+        }
+        
+        // Ver un KPI
+        function viewKPI(id) {
+            const kpi = kpiRepository.find(k => k.id === id);
+            if (kpi) {
+                // Crear un modal o ventana para mostrar los detalles
+                alert(`Nombre: ${kpi.kpiName}\nProceso: ${formatProcessName(kpi.selectedProcess)}\nDescripción: ${kpi.kpiDescription}`);
+            }
+        }
+        
+        // Editar un KPI
+        function editKPI(id) {
+            const kpi = kpiRepository.find(k => k.id === id);
+            if (kpi) {
+                // Llenar el formulario con los datos del KPI
+                document.getElementById('kpiName').value = kpi.kpiName;
+                document.getElementById('kpiDescription').value = kpi.kpiDescription;
+                document.getElementById('kpiObjective').value = kpi.kpiObjective;
+                
+                // Seleccionar el proceso
+                selectedProcess = kpi.selectedProcess;
+                document.getElementById('selectedProcess').value = selectedProcess;
+                document.querySelectorAll('.process-item').forEach(item => {
+                    item.classList.remove('selected');
+                    if (item.getAttribute('data-process') === selectedProcess) {
+                        item.classList.add('selected');
+                    }
+                });
+                
+                document.getElementById('variables').value = kpi.variables;
+                document.getElementById('measurementUnit').value = kpi.measurementUnit;
+                document.getElementById('formula').value = kpi.formula;
+                document.getElementById('frequency').value = kpi.frequency;
+                document.getElementById('targetValue').value = kpi.targetValue;
+                document.getElementById('minValue').value = kpi.minValue;
+                document.getElementById('maxValue').value = kpi.maxValue;
+                document.getElementById('toleranceRange').value = kpi.toleranceRange;
+                
+                // Seleccionar opción de SISGO
+                if (kpi.sisgoGrafico) {
+                    document.querySelector(`input[name="sisgoGrafico"][value="${kpi.sisgoGrafico}"]`).checked = true;
+                }
+                
+                document.getElementById('utilidadComentario').value = kpi.utilidadComentario || '';
+                document.getElementById('designResponsible').value = kpi.designResponsible;
+                document.getElementById('implementationResponsible').value = kpi.implementationResponsible;
+                document.getElementById('monitoringResponsible').value = kpi.monitoringResponsible;
+                document.getElementById('emailContact').value = kpi.emailContact || '';
+                
+                // Eliminar el KPI existente
+                deleteKPI(id, false);
+                
+                // Desplazarse al inicio del formulario
+                window.scrollTo(0, 0);
+                
+                showAlert('Puede editar el KPI y guardar los cambios.', 'success');
+            }
+        }
+        
+        // Eliminar un KPI
+        function deleteKPI(id, confirm = true) {
+            if (confirm && !window.confirm('¿Está seguro de que desea eliminar este KPI?')) {
+                return;
+            }
+            
+            kpiRepository = kpiRepository.filter(k => k.id !== id);
+            saveKPIsToStorage();
+            updateKPIList();
+            
+            if (confirm) {
+                showAlert('KPI eliminado correctamente.', 'success');
+            }
+        }
+        
+        // Exportar a PDF
+        function exportToPDF() {
+            // Esta función requeriría la implementación con jsPDF
+            showAlert('Funcionalidad de exportación a PDF en desarrollo.', 'info');
+        }
+        
+        // Exportar a Word
+        function exportToWord() {
+            showAlert('Funcionalidad de exportación a Word en desarrollo.', 'info');
+        }
+        
+        // Imprimir formulario
+        function printForm() {
+            window.print();
+        }
+        
+        // Exportar a CSV
+        function exportToCSV() {
+            showAlert('Funcionalidad de exportación a CSV en desarrollo.', 'info');
+        }
+        
+        // Manejar importación desde CSV
+        function handleCSVImport(event) {
+            showAlert('Funcionalidad de importación desde CSV en desarrollo.', 'info');
+            event.target.value = ''; // Limpiar el input file
+        }
+        
+        // Usar un ejemplo de KPI
+        function useExample(exampleNumber) {
+            let exampleData = {};
+            
+            switch(exampleNumber) {
+                case 1:
+                    exampleData = {
+                        kpiName: 'Eficiencia de Producción en Hilatura Open-End',
+                        kpiDescription: 'Mide el porcentaje de eficiencia en el proceso de hilatura open-end, considerando la producción real vs. la producción teórica posible.',
+                        kpiObjective: 'Maximizar la eficiencia del proceso de hilatura open-end para reducir costos y aumentar la capacidad productiva.',
+                        selectedProcess: 'hilatura_openend',
+                        variables: 'Producción real, Producción teórica, Tiempo de operación',
+                        measurementUnit: 'Porcentaje (%)',
+                        formula: '(Producción real / Producción teórica) * 100',
+                        frequency: 'diaria',
+                        targetValue: '85',
+                        minValue: '75',
+                        maxValue: '95',
+                        toleranceRange: '5',
+                        sisgoGrafico: 'si',
+                        utilidadComentario: 'Actualmente utilizado y es útil para identificar cuellos de botella en el proceso.',
+                        designResponsible: 'Ing. Carlos Mendoza',
+                        implementationResponsible: 'Supervisor Juan Pérez',
+                        monitoringResponsible: 'Jefe de Producción',
+                        emailContact: 'produccion@textilesejemplo.com'
+                    };
+                    break;
+                    
+                case 2:
+                    exampleData = {
+                        kpiName: 'Índice de Defectos en Tejeduría',
+                        kpiDescription: 'Controla la cantidad de defectos por metro cuadrado de tela producida en el área de tejeduría.',
+                        kpiObjective: 'Reducir los defectos en la tela producida para mejorar la calidad del producto final y minimizar los rechazos.',
+                        selectedProcess: 'tejeduria',
+                        variables: 'Defectos encontrados, Metros producidos',
+                        measurementUnit: 'Defectos por m²',
+                        formula: 'Total defectos / Total metros cuadrados producidos',
+                        frequency: 'continua',
+                        targetValue: '0.5',
+                        minValue: '0',
+                        maxValue: '1.2',
+                        toleranceRange: '0.2',
+                        sisgoGrafico: 'no',
+                        utilidadComentario: 'Requiere ser mejorado: necesitamos implementar gráficos de control para seguimiento en tiempo real.',
+                        designResponsible: 'Ing. Laura Ramírez',
+                        implementationResponsible: 'Supervisor Tejeduría',
+                        monitoringResponsible: 'Control de Calidad',
+                        emailContact: 'calidad@textilesejemplo.com'
+                    };
+                    break;
+                    
+                case 3:
+                    exampleData = {
+                        kpiName: 'Consumo Energético por Kg de Producto',
+                        kpiDescription: 'Mide la eficiencia en el consumo de energía por kilogramo de producto terminado en el área de servicios.',
+                        kpiObjective: 'Optimizar el consumo energético para reducir costos operativos y minimizar el impacto ambiental.',
+                        selectedProcess: 'servicios',
+                        variables: 'Energía consumida, Producción total',
+                        measurementUnit: 'kWh/kg',
+                        formula: 'Total energía consumida / Total kg producidos',
+                        frequency: 'mensual',
+                        targetValue: '2.8',
+                        minValue: '2.5',
+                        maxValue: '3.5',
+                        toleranceRange: '0.3',
+                        sisgoGrafico: 'si',
+                        utilidadComentario: 'Muy útil para identificar oportunidades de ahorro energético y establecer metas de sostenibilidad.',
+                        designResponsible: 'Ing. Roberto Silva',
+                        implementationResponsible: 'Jefe de Servicios',
+                        monitoringResponsible: 'Gerencia de Operaciones',
+                        emailContact: 'operaciones@textilesejemplo.com'
+                    };
+                    break;
+            }
+            
+            // Llenar el formulario con los datos del ejemplo
+            document.getElementById('kpiName').value = exampleData.kpiName;
+            document.getElementById('kpiDescription').value = exampleData.kpiDescription;
+            document.getElementById('kpiObjective').value = exampleData.kpiObjective;
+            
+            // Seleccionar el proceso
+            selectedProcess = exampleData.selectedProcess;
+            document.getElementById('selectedProcess').value = selectedProcess;
+            document.querySelectorAll('.process-item').forEach(item => {
+                item.classList.remove('selected');
+                if (item.getAttribute('data-process') === selectedProcess) {
+                    item.classList.add('selected');
+                }
+            });
+            
+            document.getElementById('variables').value = exampleData.variables;
+            document.getElementById('measurementUnit').value = exampleData.measurementUnit;
+            document.getElementById('formula').value = exampleData.formula;
+            document.getElementById('frequency').value = exampleData.frequency;
+            document.getElementById('targetValue').value = exampleData.targetValue;
+            document.getElementById('minValue').value = exampleData.minValue;
+            document.getElementById('maxValue').value = exampleData.maxValue;
+            document.getElementById('toleranceRange').value = exampleData.toleranceRange;
+            
+            // Seleccionar opción de SISGO
+            document.querySelector(`input[name="sisgoGrafico"][value="${exampleData.sisgoGrafico}"]`).checked = true;
+            
+            document.getElementById('utilidadComentario').value = exampleData.utilidadComentario;
+            document.getElementById('designResponsible').value = exampleData.designResponsible;
+            document.getElementById('implementationResponsible').value = exampleData.implementationResponsible;
+            document.getElementById('monitoringResponsible').value = exampleData.monitoringResponsible;
+            document.getElementById('emailContact').value = exampleData.emailContact;
+            
+            // Cambiar a la pestaña de formulario
+            showTab('kpi');
+            
+            showAlert('Ejemplo cargado. Puede editarlo y guardarlo como su propio KPI.', 'success');
+        }
+        
+        // Exportar ejemplo a PDF
+        function exportExampleToPDF(exampleNumber) {
+            showAlert(`Exportando ejemplo ${exampleNumber} a PDF...`, 'info');
+            // Implementación real requeriría jsPDF
+        }
     </script>
 </body>
 </html>

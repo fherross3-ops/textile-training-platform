@@ -462,7 +462,9 @@
                 <li><a href="#" data-process="mechera"><i class="fas fa-layer-group"></i> Mechera</a></li>
                 <li><a href="#" data-process="hilatura-anillos"><i class="fas fa-ring"></i> Hilatura Anillos</a></li>
                 <li><a href="#" data-process="hilatura-rotor"><i class="fas fa-cog"></i> Hilatura Rotor</a></li>
-                <li><a href="#" data-process="embalaje"><i class="fas fa-box"></i> Embalaje</a></li>
+                <li><a href="#" data-process="embalaje-hilo"><i class="fas fa-box"></i> Embalaje Hilo</a></li>
+                <li><a href="#" data-process="insumos-envases"><i class="fas fa-boxes"></i> Insumos Envases</a></li>
+                <li><a href="#" data-process="gestion-mantenimiento"><i class="fas fa-tools"></i> Gestión Mantenimiento</a></li>
             </ul>
         </div>
         
@@ -497,6 +499,14 @@
                 <div class="process-step">
                     <i class="fas fa-box"></i>
                     <div>Embalaje</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-boxes"></i>
+                    <div>Insumos Envases</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-tools"></i>
+                    <div>Gestión Mantenimiento</div>
                 </div>
             </div>
             
@@ -630,7 +640,7 @@
                     {
                         name: "Roturas por hora",
                         formula: "Número de roturas en mecha",
-                        target: "< 1 per hour",
+                        target: "< 1 por hora",
                         frequency: "Por turno"
                     },
                     {
@@ -731,7 +741,7 @@
                     "Mantenimiento preventivo de componentes"
                 ]
             },
-            "embalaje": {
+            "embalaje-hilo": {
                 title: "Embalaje de Hilo",
                 description: "Proceso final de empaque y preparación del hilo para su comercialización o siguiente proceso.",
                 indicators: [
@@ -764,6 +774,74 @@
                     "Mejora de materiales de empaque",
                     "Sistemas de verificación de etiquetas"
                 ]
+            },
+            "insumos-envases": {
+                title: "Inventario de Baquelitas por colores",
+                description: "Control contable de la existencia de baquelitas por color.",
+                indicators: [
+                    {
+                        name: "Existencias por color",
+                        formula: "Conteo físico de baquelitas",
+                        target: "Según plan de producción",
+                        frequency: "Diario"
+                    },
+                    {
+                        name: "Baquelitas Dañadas",
+                        formula: "N° unidades dañadas / Total unidades × 100",
+                        target: "< 0.5%",
+                        frequency: "Por color"
+                    },
+                    {
+                        name: "Potes Open-End",
+                        formula: "Conteo de potes disponibles",
+                        target: "Mínimo 10% de reserva",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Falta de baquelitas de colores específicos",
+                    "Daños en el almacenamiento",
+                    "Desorganización en inventario"
+                ],
+                solutions: [
+                    "Implementar sistema de inventario rotativo",
+                    "Mejorar condiciones de almacenamiento",
+                    "Establecer stock mínimo por color"
+                ]
+            },
+            "gestion-mantenimiento": {
+                title: "Programa de Limpieza y Mantenimiento",
+                description: "Gestión de actividades de mantenimiento preventivo y limpieza de equipos.",
+                indicators: [
+                    {
+                        name: "Cumplimiento de programa de limpieza",
+                        formula: "(Limpiezas realizadas / Limpiezas programadas) × 100",
+                        target: "> 95%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Tiempo promedio de respuesta a fallas",
+                        formula: "Suma tiempos de respuesta / N° de fallas",
+                        target: "< 2 horas",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Disponibilidad de equipos",
+                        formula: "(Tiempo operativo / Tiempo total) × 100",
+                        target: "> 90%",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Retrasos en el programa de mantenimiento",
+                    "Falta de repuestos críticos",
+                    "Documentación incompleta de intervenciones"
+                ],
+                solutions: [
+                    "Implementar sistema de alertas para mantenimiento",
+                    "Establecer stock crítico de repuestos",
+                    "Digitalizar registros de mantenimiento"
+                ]
             }
         };
 
@@ -787,7 +865,8 @@
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             
-            menuToggle.addEventListener('click', function() {
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
                 sidebar.classList.toggle('active');
                 
                 if (sidebar.classList.contains('active')) {
@@ -878,7 +957,7 @@
             
             // Generar HTML para problemas y soluciones
             let problemsHTML = '';
-            if (process.problems) {
+            if (process.problems && process.problems.length > 0 && process.problems[0].trim() !== '') {
                 problemsHTML = `
                     <p><strong>Problemas comunes:</strong></p>
                     <ul>
@@ -888,7 +967,7 @@
             }
             
             let solutionsHTML = '';
-            if (process.solutions) {
+            if (process.solutions && process.solutions.length > 0 && process.solutions[0].trim() !== '') {
                 solutionsHTML = `
                     <p><strong>Acciones correctivas:</strong></p>
                     <ul>
@@ -914,6 +993,7 @@
                             ${indicatorsHTML}
                         </div>
                         
+                        ${(problemsHTML || solutionsHTML) ? `
                         <div class="info-section">
                             <h3>Problemas y soluciones</h3>
                             <div class="solution-box">
@@ -921,6 +1001,7 @@
                                 ${solutionsHTML}
                             </div>
                         </div>
+                        ` : ''}
                     </div>
                 </div>
             `;

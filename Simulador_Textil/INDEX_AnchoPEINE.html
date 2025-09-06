@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador: Ancho de Peine vs Ancho de Tela Tejida</title>
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --secondary-color: #004e98;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f7ff, #f0f8ff);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .hero p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-item h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .visualization {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .visualization h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .telar-diagram {
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            margin: 0 auto;
+            position: relative;
+            border: 2px solid var(--dark-color);
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            overflow: hidden;
+        }
+        
+        .reed {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background-color: #aaa;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .reed-space {
+            width: 5%;
+            height: 100%;
+            background-color: #ddd;
+            border-right: 1px solid #888;
+        }
+        
+        .fabric {
+            position: absolute;
+            width: 90%;
+            height: 60%;
+            background: repeating-linear-gradient(
+                90deg,
+                #d4e6f1,
+                #d4e6f1 5px,
+                #bdd7ee 5px,
+                #bdd7ee 10px
+            );
+            opacity: 0.9;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            border-left: 2px dashed var(--accent-color);
+            border-right: 2px dashed var(--accent-color);
+            transition: width 1s ease;
+        }
+        
+        .warp-threads {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .warp-thread {
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .labels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .label {
+            position: absolute;
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--dark-color);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .label-reed {
+            top: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--secondary-color);
+        }
+        
+        .label-fabric {
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--accent-color);
+        }
+        
+        .measure-line {
+            position: absolute;
+            background-color: currentColor;
+            height: 2px;
+        }
+        
+        .measure-line::before, .measure-line::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background-color: currentColor;
+        }
+        
+        .measure-line::before {
+            left: 0;
+            top: -4px;
+        }
+        
+        .measure-line::after {
+            right: 0;
+            top: -4px;
+        }
+        
+        .measure-reed {
+            top: 30%;
+            width: 100%;
+            color: var(--secondary-color);
+        }
+        
+        .measure-fabric {
+            bottom: 25%;
+            width: 90%;
+            left: 5%;
+            color: var(--accent-color);
+        }
+        
+        .formula-box {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .factors-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .factors-table th, .factors-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .factors-table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .factors-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .factors-table tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        /* Nuevos estilos para el simulador */
+        .simulator {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .simulator h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .control-group input[type="range"] {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+        
+        .results {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 5px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .result-label {
+            font-weight: bold;
+        }
+        
+        .result-value {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .preset-btn {
+            padding: 8px 15px;
+            background-color: var(--light-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .preset-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .preset-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .calculation-steps {
+            margin-top: 2rem;
+        }
+        
+        .step {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background-color: var(--warning-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .content, .comparison {
+                flex-direction: column;
+            }
+            
+            .card, .comparison-item {
+                min-width: 100%;
+            }
+            
+            .telar-diagram {
+                height: 300px;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .slider-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #d3d3d3;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: var(--dark-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Simulador: Ancho de Peine vs Ancho de Tela Tejida</h1>
+            <p>Herramienta interactiva para calcular y visualizar la relación entre ambos parámetros</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>Comprendiendo los anchos en el telar</h1>
+            <p>En el proceso de tejido, dos conceptos fundamentales son el <span class="highlight">ancho de peine</span> y el <span class="highlight">ancho de tela tejida</span>. Utilice este simulador interactivo para comprender cómo diferentes factores afectan esta relación y calcule los valores correctos para su producción.</p>
+        </section>
+        
+        <section class="simulator">
+            <h2>Simulador Interactivo</h2>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label for="fabric-type">Tipo de tela:</label>
+                    <select id="fabric-type" class="form-control">
+                        <option value="algodon">Algodón</option>
+                        <option value="lino">Lino</option>
+                        <option value="lana">Lana</option>
+                        <option value="seda">Seda</option>
+                        <option value="poliester">Poliéster</option>
+                        <option value="personalizado">Personalizado</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="finished-width">Ancho terminado deseado (cm):</label>
+                    <input type="range" id="finished-width" min="50" max="300" value="150" class="slider">
+                    <div class="slider-labels">
+                        <span>50 cm</span>
+                        <span id="finished-width-value">150 cm</span>
+                        <span>300 cm</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="shrinkage">Contracción esperada (%):</label>
+                    <input type="range" id="shrinkage" min="2" max="25" value="10" class="slider">
+                    <div class="slider-labels">
+                        <span>2%</span>
+                        <span id="shrinkage-value">10%</span>
+                        <span>25%</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="weave-type">Tipo de tejido:</label>
+                    <select id="weave-type" class="form-control">
+                        <option value="plain">Tafetán (Plain)</option>
+                        <option value="twill">Sarga (Twill)</option>
+                        <option value="satin">Sateno (Satin)</option>
+                        <option value="jacquard">Jacquard</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="presets">
+                <p>Preajustes comunes:</p>
+                <button class="preset-btn" data-width="150" data-shrink="10">Algodón estándar</button>
+                <button class="preset-btn" data-width="180" data-shrink="15">Lana tejida</button>
+                <button class="preset-btn" data-width="120" data-shrink="8">Poliéster</button>
+                <button class="preset-btn" data-width="160" data-shrink="12">Seda</button>
+            </div>
+            
+            <div class="results">
+                <h3>Resultados del cálculo:</h3>
+                <div class="result-item">
+                    <span class="result-label">Ancho de peine necesario:</span>
+                    <span id="reed-width-result" class="result-value">166.7 cm</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Ancho de tela tejida (aprox.):</span>
+                    <span id="woven-width-result" class="result-value">158.3 cm</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Diferencia:</span>
+                    <span id="difference-result" class="result-value">8.4 cm</span>
+                </div>
+                <div class="result-item">
+                    <span class="result-label">Contracción total:</span>
+                    <span id="total-shrinkage-result" class="result-value">10%</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="visualization">
+            <h2>Visualización de la diferencia</h2>
+            <div class="telar-diagram">
+                <div class="reed">
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                    <div class="reed-space"></div>
+                </div>
+                <div class="warp-threads" id="warp-threads"></div>
+                <div class="fabric" id="fabric-visual"></div>
+                <div class="labels">
+                    <div class="measure-line measure-reed"></div>
+                    <div class="measure-line measure-fabric"></div>
+                    <div class="label label-reed">Ancho de Peine: <span id="reed-width-visual">166.7</span> cm</div>
+                    <div class="label label-fabric">Ancho de Tela Tejida: <span id="woven-width-visual">158.3</span> cm</div>
+                </div>
+            </div>
+            <p style="margin-top: 1rem;">Como se muestra en el diagrama, el ancho de peine define los límites máximos, mientras que el ancho de tela tejida es menor debido a la contracción natural del tejido.</p>
+        </section>
+        
+        <section class="calculation-steps">
+            <h2>Cómo calcular el ancho de peine</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <span>Determine el ancho final deseado de la tela después de todos los procesos de acabado.</span>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <span>Estime el porcentaje de contracción basado en el tipo de fibra, estructura de tejido y procesos de acabado.</span>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <span>Utilice la fórmula: <strong>Ancho de peine = Ancho terminado / (1 - % contracción/100)</strong></span>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <span>Para el ancho de tela tejida esperado: <strong>Ancho tejido = Ancho de peine × (1 - % contracción/100 × 0.7)</strong> (el 70% de la contracción ocurre durante el tejido)</span>
+            </div>
+            
+            <div class="formula-box">
+                <p>Fórmula actual aplicada:</p>
+                <p class="formula">Ancho de peine = <span id="formula-finished">150</span> / (1 - <span id="formula-shrinkage">10</span>/100) = <span id="formula-result">166.7</span> cm</p>
+            </div>
+        </section>
+        
+        <section class="content">
+            <div class="card">
+                <h2>Factores que afectan la diferencia</h2>
+                <p>Varios factores influyen en la relación entre el ancho de peine y el ancho de tela tejida:</p>
+                
+                <table class="factors-table">
+                    <tr>
+                        <th>Factor</th>
+                        <th>Efecto en el ancho</th>
+                        <th>Contracción típica</th>
+                    </tr>
+                    <tr>
+                        <td>Algodón</td>
+                        <td>Contracción moderada-alta</td>
+                        <td>8-12%</td>
+                    </tr>
+                    <tr>
+                        <td>Lino</td>
+                        <td>Contracción media</td>
+                        <td>7-10%</td>
+                    </tr>
+                    <tr>
+                        <td>Lana</td>
+                        <td>Alta contracción</td>
+                        <td>10-15%</td>
+                    </tr>
+                    <tr>
+                        <td>Seda</td>
+                        <td>Contracción variable</td>
+                        <td>5-10%</td>
+                    </tr>
+                    <tr>
+                        <td>Poliéster</td>
+                        <td>Baja contracción</td>
+                        <td>2-5%</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <h2>Consejos prácticos</h2>
+                
+                <h3>Para mejores resultados:</h3>
+                <ul>
+                    <li>Realice siempre pruebas de contracción con muestras antes de la producción a gran escala</li>
+                    <li>Considere la tensión del tejido: mayor tensión resulta en mayor contracción</li>
+                    <li>Recuerde que diferentes colores pueden tener diferentes tasas de contracción</li>
+                    <li>Documente los resultados para futuras referencias y mejora de procesos</li>
+                </ul>
+                
+                <h3>Errores comunes a evitar:</h3>
+                <ul>
+                    <li>No considerar la contracción adicional durante el acabado</li>
+                    <li>Utilizar el mismo porcentaje de contracción para diferentes lotes de la misma fibra</li>
+                    <li>Ignorar el efecto del tipo de tejido en la contracción</li>
+                    <li>No ajustar el ancho de peine cuando se cambian los parámetros de tejido</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Simulador de Ancho de Peine vs Ancho de Tela Tejida - Herramienta para la industria textil</p>
+            <p>© 2023 - Procesos de Tejido y Hilandería</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos DOM
+            const finishedWidthSlider = document.getElementById('finished-width');
+            const finishedWidthValue = document.getElementById('finished-width-value');
+            const shrinkageSlider = document.getElementById('shrinkage');
+            const shrinkageValue = document.getElementById('shrinkage-value');
+            const fabricTypeSelect = document.getElementById('fabric-type');
+            const weaveTypeSelect = document.getElementById('weave-type');
+            const presetButtons = document.querySelectorAll('.preset-btn');
+            
+            // Elementos de resultados
+            const reedWidthResult = document.getElementById('reed-width-result');
+            const wovenWidthResult = document.getElementById('woven-width-result');
+            const differenceResult = document.getElementById('difference-result');
+            const totalShrinkageResult = document.getElementById('total-shrinkage-result');
+            
+            // Elementos visuales
+            const fabricVisual = document.getElementById('fabric-visual');
+            const reedWidthVisual = document.getElementById('reed-width-visual');
+            const wovenWidthVisual = document.getElementById('woven-width-visual');
+            const warpThreadsContainer = document.getElementById('warp-threads');
+            
+            // Elementos de fórmula
+            const formulaFinished = document.getElementById('formula-finished');
+            const formulaShrinkage = document.getElementById('formula-shrinkage');
+            const formulaResult = document.getElementById('formula-result');
+            
+            // Valores iniciales
+            let finishedWidth = 150;
+            let shrinkage = 10;
+            let reedWidth = 0;
+            let wovenWidth = 0;
+            
+            // Inicializar hilos de urdimbre
+            function initWarpThreads() {
+                warpThreadsContainer.innerHTML = '';
+                for (let i = 0; i < 50; i++) {
+                    const thread = document.createElement('div');
+                    thread.className = 'warp-thread';
+                    thread.style.left = `${i * 2}%`;
+                    warpThreadsContainer.appendChild(thread);
+                }
+            }
+            
+            // Calcular valores
+            function calculateValues() {
+                // Calcular ancho de peine
+                reedWidth = finishedWidth / (1 - shrinkage/100);
+                
+                // Calcular ancho de tela tejida (aproximadamente el 70% de la contracción ocurre durante el tejido)
+                wovenWidth = reedWidth * (1 - (shrinkage/100 * 0.7));
+                
+                // Actualizar resultados
+                reedWidthResult.textContent = reedWidth.toFixed(1) + ' cm';
+                wovenWidthResult.textContent = wovenWidth.toFixed(1) + ' cm';
+                differenceResult.textContent = (reedWidth - wovenWidth).toFixed(1) + ' cm';
+                totalShrinkageResult.textContent = shrinkage + '%';
+                
+                // Actualizar visualización
+                updateVisualization();
+                
+                // Actualizar fórmula
+                updateFormula();
+            }
+            
+            // Actualizar visualización
+            function updateVisualization() {
+                // Calcular porcentajes para visualización
+                const reedPercent = 100;
+                const fabricPercent = (wovenWidth / reedWidth) * 100;
+                
+                // Actualizar ancho visual de la tela
+                fabricVisual.style.width = `${fabricPercent}%`;
+                
+                // Actualizar etiquetas
+                reedWidthVisual.textContent = reedWidth.toFixed(1);
+                wovenWidthVisual.textContent = wovenWidth.toFixed(1);
+            }
+            
+            // Actualizar fórmula
+            function updateFormula() {
+                formulaFinished.textContent = finishedWidth;
+                formulaShrinkage.textContent = shrinkage;
+                formulaResult.textContent = reedWidth.toFixed(1);
+            }
+            
+            // Event listeners
+            finishedWidthSlider.addEventListener('input', function() {
+                finishedWidth = parseInt(this.value);
+                finishedWidthValue.textContent = finishedWidth + ' cm';
+                calculateValues();
+            });
+            
+            shrinkageSlider.addEventListener('input', function() {
+                shrinkage = parseInt(this.value);
+                shrinkageValue.textContent = shrinkage + '%';
+                calculateValues();
+            });
+            
+            fabricTypeSelect.addEventListener('change', function() {
+                // Ajustar valores según el tipo de tela
+                switch(this.value) {
+                    case 'algodon':
+                        finishedWidthSlider.value = 150;
+                        shrinkageSlider.value = 10;
+                        break;
+                    case 'lino':
+                        finishedWidthSlider.value = 160;
+                        shrinkageSlider.value = 8;
+                        break;
+                    case 'lana':
+                        finishedWidthSlider.value = 180;
+                        shrinkageSlider.value = 15;
+                        break;
+                    case 'seda':
+                        finishedWidthSlider.value = 140;
+                        shrinkageSlider.value = 7;
+                        break;
+                    case 'poliester':
+                        finishedWidthSlider.value = 160;
+                        shrinkageSlider.value = 3;
+                        break;
+                }
+                
+                finishedWidth = parseInt(finishedWidthSlider.value);
+                shrinkage = parseInt(shrinkageSlider.value);
+                
+                finishedWidthValue.textContent = finishedWidth + ' cm';
+                shrinkageValue.textContent = shrinkage + '%';
+                
+                calculateValues();
+            });
+            
+            weaveTypeSelect.addEventListener('change', function() {
+                // Pequeños ajustes según el tipo de tejido
+                if (this.value === 'twill' || this.value === 'satin') {
+                    // Tejidos más densos pueden tener mayor contracción
+                    shrinkage = Math.min(parseInt(shrinkageSlider.value) + 2, 25);
+                    shrinkageSlider.value = shrinkage;
+                    shrinkageValue.textContent = shrinkage + '%';
+                    calculateValues();
+                }
+            });
+            
+            // Presets
+            presetButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remover clase active de todos los botones
+                    presetButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Agregar clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Obtener valores del data attributes
+                    const width = parseInt(this.getAttribute('data-width'));
+                    const shrink = parseInt(this.getAttribute('data-shrink'));
+                    
+                    // Actualizar controles
+                    finishedWidthSlider.value = width;
+                    shrinkageSlider.value = shrink;
+                    
+                    finishedWidth = width;
+                    shrinkage = shrink;
+                    
+                    finishedWidthValue.textContent = finishedWidth + ' cm';
+                    shrinkageValue.textContent = shrinkage + '%';
+                    
+                    calculateValues();
+                });
+            });
+            
+            // Inicializar
+            initWarpThreads();
+            calculateValues();
+            
+            // Animación inicial
+            setTimeout(() => {
+                fabricVisual.style.transition = 'width 2s ease-in-out';
+                
+                document.querySelectorAll('.label').forEach(label => {
+                    label.style.transition = 'opacity 1s ease-in-out';
+                    label.style.opacity = '1';
+                });
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

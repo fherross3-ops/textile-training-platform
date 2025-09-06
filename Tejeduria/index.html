@@ -299,6 +299,7 @@
         .kpi-card h3 {
             font-size: 1.5rem; /* Reducido para móviles */
             margin: 8px 0; /* Reducido para móviles */
+            font-weight: bold;
         }
 
         .kpi-card p {
@@ -408,6 +409,7 @@
                 position: fixed;
                 height: 100%;
                 transform: translateX(-100%);
+                transition: transform 0.3s ease;
             }
 
             .sidebar.active {
@@ -547,6 +549,8 @@
                 <li><a href="#" data-category="servicios"><i class="fas fa-tools"></i> Servicios</a></li>
                 <li><a href="#" data-category="recursos"><i class="fas fa-users"></i> Recursos</a></li>
                 <li><a href="#" data-category="perdidas"><i class="fas fa-money-bill-wave"></i> Pérdidas</a></li>
+                <li><a href="#" data-category="insumos-envases"><i class="fas fa-box"></i> Insumos Envases</a></li>
+                <li><a href="#" data-category="gestion-mantenimiento"><i class="fas fa-cogs"></i> Gestión Mantenimiento</a></li>
             </ul>
         </div>
         
@@ -571,6 +575,8 @@
                 <a href="#" class="mobile-tab" data-category="servicios"><i class="fas fa-tools"></i> Servicios</a>
                 <a href="#" class="mobile-tab" data-category="recursos"><i class="fas fa-users"></i> Recursos</a>
                 <a href="#" class="mobile-tab" data-category="perdidas"><i class="fas fa-money-bill-wave"></i> Pérdidas</a>
+                <a href="#" class="mobile-tab" data-category="insumos-envases"><i class="fas fa-box"></i> Insumos</a>
+                <a href="#" class="mobile-tab" data-category="gestion-mantenimiento"><i class="fas fa-cogs"></i> Mantenimiento</a>
             </div>
 
             <!-- Diagrama de flujo del proceso -->
@@ -600,20 +606,24 @@
             <!-- Resumen de KPIs -->
             <div class="kpi-summary">
                 <div class="kpi-card">
-                    <p>Eficiencia</p>
-                    <h3>87.5%</h3>
+                    <i class="fas fa-tachometer-alt fa-2x"></i>
+                    <h3>90%</h3>
+                    <p>Eficiencia Global</p>
                 </div>
                 <div class="kpi-card">
-                    <p>Paros por hora</p>
-                    <h3>2.3</h3>
+                    <i class="fas fa-stop-circle fa-2x"></i>
+                    <h3>9</h3>
+                    <p>Paros/100k pasadas</p>
                 </div>
                 <div class="kpi-card">
-                    <p>Calidad</p>
-                    <h3>94.2%</h3>
+                    <i class="fas fa-award fa-2x"></i>
+                    <h3>96%</h3>
+                    <p>Calidad Conforme</p>
                 </div>
                 <div class="kpi-card">
-                    <p>Producción (m/turno)</p>
-                    <h3>1256</h3>
+                    <i class="fas fa-bolt fa-2x"></i>
+                    <h3>92%</h3>
+                    <p>Disponibilidad</p>
                 </div>
             </div>
             
@@ -709,7 +719,7 @@
                     "Problemas de programación de producción"
                 ],
                 solutions: [
-                    "Optimizar programación de producción",
+                    "Optimizar programación de production",
                     "Reducir tiempos de cambio de artículo",
                     "Mejorar flujo de materiales",
                     "Implementar mantenimiento productivo total (TPM)"
@@ -836,7 +846,7 @@
                 ]
             },
             "recursos": {
-                title: "Recursos and Operarios",
+                title: "Recursos y Operarios",
                 description: "Indicadores relacionados con la gestión de recursos humanos y carga de trabajo.",
                 indicators: [
                     {
@@ -917,6 +927,90 @@
                     "Optimizar procesos para reducir mermas",
                     "Analizar y atacar causas principales de paros",
                     "Mejorar calidad para reducir retrabajos"
+                ]
+            },
+            "insumos-envases": {
+                title: "Núcleos de Cartón",
+                description: "Indicadores relacionados con la gestión de insumos de los núcleos de cartón.",
+                indicators: [
+                    {
+                        name: "Requerimiento por turno (unidades)",
+                        formula: "Núcleos ocupados / turnos",
+                        target: "Según plan de producción",
+                        frequency: "Por turno"
+                    },
+                    {
+                        name: "Carretes de leno",
+                        formula: "Nº carretes utilizados / Nº metros tejidos",
+                        target: "Según especificación técnica",
+                        frequency: "Diario"
+                    },
+                    {
+                        name: "Rollos de Tirro",
+                        formula: "(Rollos utilizados / cadenas anudadas) × 100",
+                        target: "< 5%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Plástico para cubrir rollos de Estilo Drill",
+                        formula: "(Rollos de Drill cortados / Metros plástico disponible) × 100",
+                        target: "< 10%",
+                        frequency: "Semanal"
+                    }
+                ],
+                problems: [
+                    "Falta de disponibilidad de núcleos de cartón",
+                    "Carretes de leno de baja calidad",
+                    "Alto consumo de tirro",
+                    "Desperdicio excesivo de plástico"
+                ],
+                solutions: [
+                    "Optimizar inventario de núcleos de cartón",
+                    "Establecer control de calidad en carretes de leno",
+                    "Capacitar en uso eficiente de tirro",
+                    "Implementar sistema de reutilización de plástico"
+                ]
+            },
+            "gestion-mantenimiento": {
+                title: "Telares Intervenidos por Mantenimiento Programado",
+                description: "Indicadores relacionados con la gestión de mantenimiento y eficiencia en el proceso de tejeduría.",
+                indicators: [
+                    {
+                        name: "Repuestos Consumo (unidades/mes)",
+                        formula: "Número de unidades utilizadas",
+                        target: "< 2% del inventario",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Intervenciones correctivas en telares operativos",
+                        formula: "(Número de intervenciones) / telares operativos",
+                        target: "< 0.5 por telar/semana",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Costo de paros (metros de tela no tejida/mes)",
+                        formula: "Metros potenciales - Metros reales producidos",
+                        target: "< 3% de la producción potencial",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Paros por tablas, sopladores, tijeras y prealimentadores",
+                        formula: "(Tiempo acumulado de paros por causa / Tiempo total disponible) × 100",
+                        target: "< 2%",
+                        frequency: "Semanal"
+                    }
+                ],
+                problems: [
+                    "Alto consumo de repuestos",
+                    "Intervenciones correctivas frecuentes",
+                    "Pérdida de producción por paros",
+                    "Fallas recurrentes en componentes mecánicos"
+                ],
+                solutions: [
+                    "Implementar programa de mantenimiento predictivo",
+                    "Establecer stock crítico de repuestos",
+                    "Capacitar técnicos en diagnóstico rápido",
+                    "Mejorar procedimientos de mantenimiento preventivo"
                 ]
             }
         };
@@ -1075,9 +1169,9 @@
                 `;
             }
             
-            // Generar HTML para problemas and soluciones
+            // Generar HTML para problemas y soluciones
             let problemsHTML = '';
-            if (category.problems) {
+            if (category.problems && category.problems.length > 0 && category.problems[0].trim() !== '') {
                 problemsHTML = `
                     <p><strong>Problemas comunes:</strong></p>
                     <ul>
@@ -1087,7 +1181,7 @@
             }
             
             let solutionsHTML = '';
-            if (category.solutions) {
+            if (category.solutions && category.solutions.length > 0 && category.solutions[0].trim() !== '') {
                 solutionsHTML = `
                     <p><strong>Acciones correctivas:</strong></p>
                     <ul>
@@ -1113,6 +1207,7 @@
                             ${indicatorsHTML}
                         </div>
                         
+                        ${(problemsHTML || solutionsHTML) ? `
                         <div class="info-section">
                             <h3>Problemas y soluciones</h3>
                             <div class="solution-box">
@@ -1120,6 +1215,7 @@
                                 ${solutionsHTML}
                             </div>
                         </div>
+                        ` : ''}
                     </div>
                 </div>
             `;

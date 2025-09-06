@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torsión del Hilo Textil - Guía Completa</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa, #e8ecf1);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .hero p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .comparison-item h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .visualization {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .visualization h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .yarn-visualization {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            margin: 2rem 0;
+        }
+        
+        .yarn-example {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .yarn-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+        
+        .yarn-display {
+            width: 400px;
+            height: 40px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #f1f1f1;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        .yarn-strand {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .low-twist .yarn-strand {
+            background: repeating-linear-gradient(
+                -20deg,
+                #3498db,
+                #3498db 8px,
+                #2c3e50 8px,
+                #2c3e50 16px
+            );
+        }
+        
+        .medium-twist .yarn-strand {
+            background: repeating-linear-gradient(
+                -45deg,
+                #3498db,
+                #3498db 5px,
+                #2c3e50 5px,
+                #2c3e50 10px
+            );
+        }
+        
+        .high-twist .yarn-strand {
+            background: repeating-linear-gradient(
+                -70deg,
+                #3498db,
+                #3498db 3px,
+                #2c3e50 3px,
+                #2c3e50 6px
+            );
+        }
+        
+        .active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            padding: 12px 24px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.active-btn {
+            background-color: var(--accent-color);
+        }
+        
+        .factor-box {
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .factor-title {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .effects-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .effects-table th, .effects-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .effects-table th {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .effects-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .effects-table tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .content, .comparison {
+                flex-direction: column;
+            }
+            
+            .card, .comparison-item {
+                min-width: 100%;
+            }
+            
+            .yarn-display {
+                width: 300px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .good {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .bad {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .yarn-description {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Torsión del Hilo Textil: Guía Completa</h1>
+            <p>Entendiendo la importancia de la torsión en los procesos de hilatura</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>¿Qué es la Torsión del Hilo?</h1>
+            <p>La torsión es el <span class="highlight">giro helicoidal</span> aplicado a las fibras durante el proceso de hilatura para conferir resistencia, cohesión y otras propiedades al hilo. Es uno de los parámetros más importantes en la producción de hilos, ya que afecta directamente las características del producto final.</p>
+            <p>Se expresa como el número de vueltas por unidad de longitud (vueltas por metro o vueltas por pulgada) y se aplica en la etapa de hilatura mediante los sistemas de torsión de las máquinas de hilar.</p>
+        </section>
+        
+        <section class="comparison">
+            <div class="comparison-item">
+                <h2>¿Por qué se realiza la torsión?</h2>
+                <p>La torsión se aplica a los hilos por varias razones fundamentales:</p>
+                
+                <h3>Cohesión de las fibras</h3>
+                <p>Las fibras individuales necesitan adherencia entre sí para formar un hilo continuo y manejable. La torsión crea fuerzas de fricción que mantienen unidas las fibras.</p>
+                
+                <h3>Resistencia mecánica</h3>
+                <p>Un hilo torsionado tiene mayor resistencia a la tracción que un conjunto de fibras sueltas. La torsión optimiza la contribución de cada fibra a la resistencia total.</p>
+                
+                <h3>Propiedades específicas</h3>
+                <p>Diferentes niveles de torsión confieren propiedades específicas al hilo según su aplicación final: suavidad, elasticidad, volumen, etc.</p>
+                
+                <h3>Estabilidad dimensional</h3>
+                <p>La torsión adecuada previene el deslizamiento de fibras y proporciona estabilidad al hilo durante los procesos textiles posteriores.</p>
+            </div>
+            
+            <div class="comparison-item">
+                <h2>Valores óptimos de torsión</h2>
+                <p>No existe un valor único "mejor" de torsión, ya que depende de múltiples factores:</p>
+                
+                <h3>Tipo de fibra</h3>
+                <p>Fibras más largas y lisas requieren menos torsión que fibras cortas y rugosas.</p>
+                
+                <h3>Numeración del hilo</h3>
+                <p>Hilos más delgados generalmente requieren más torsión que hilos gruesos.</p>
+                
+                <h3>Uso final del hilo</h3>
+                <p>Hilos para tejido de calada vs. punto, uso en urdimbre vs. trama, etc.</p>
+                
+                <div class="factor-box">
+                    <div class="factor-title">Fórmula de la torsión</div>
+                    <p>El factor de torsión (K) se calcula como: <strong>K = T × √N</strong></p>
+                    <p>Donde:<br>
+                    T = Vueltas por pulgada (TPI) o vueltas por metro (TPM)<br>
+                    N = Numeración del hilo (Ne, Nm, Tex, etc.)</p>
+                </div>
+                
+                <h3>Valores típicos</h3>
+                <ul>
+                    <li>Hilos de algodón para tejido: K ≈ 3.5-4.5</li>
+                    <li>Hilos de algodón para calcetería: K ≈ 3.0-3.8</li>
+                    <li>Hilos para costura: K ≈ 4.0-5.0</li>
+                    <li>Hilos de lana peinada: K ≈ 2.8-3.5</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="visualization">
+            <h2>Visualización de Diferentes Niveles de Torsión</h2>
+            <p>Observa cómo varía la estructura del hilo según el nivel de torsión aplicado:</p>
+            
+            <div class="yarn-visualization">
+                <div class="yarn-example low-twist" id="lowTwist">
+                    <div class="yarn-title">Baja Torsión</div>
+                    <div class="yarn-display">
+                        <div class="yarn-strand"></div>
+                    </div>
+                    <div class="yarn-description">
+                        <p>Fibras poco compactadas, mayor suavidad pero menor resistencia</p>
+                    </div>
+                </div>
+                
+                <div class="yarn-example medium-twist" id="mediumTwist">
+                    <div class="yarn-title">Torsión Media (Óptima)</div>
+                    <div class="yarn-display">
+                        <div class="yarn-strand"></div>
+                    </div>
+                    <div class="yarn-description">
+                        <p>Balance ideal entre resistencia, flexibilidad y suavidad</p>
+                    </div>
+                </div>
+                
+                <div class="yarn-example high-twist" id="highTwist">
+                    <div class="yarn-title">Alta Torsión</div>
+                    <div class="yarn-display">
+                        <div class="yarn-strand"></div>
+                    </div>
+                    <div class="yarn-description">
+                        <p>Fibras muy compactadas, mayor resistencia pero menor flexibilidad</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" id="btnLow">Ver Baja Torsión</button>
+                <button class="control-btn active-btn" id="btnMedium">Ver Torsión Media</button>
+                <button class="control-btn" id="btnHigh">Ver Alta Torsión</button>
+            </div>
+        </section>
+        
+        <section class="content">
+            <div class="card">
+                <h2>Criterios para evaluar la torsión</h2>
+                <p>La evaluación de si un hilo tiene la torsión correcta se basa en varios criterios:</p>
+                
+                <h3>Resistencia a la tracción</h3>
+                <p>Un hilo con torsión correcta debe alcanzar los valores de resistencia especificados para su aplicación.</p>
+                
+                <h3>Uniformidad</h3>
+                <p>La torsión debe ser uniforme a lo largo de todo el hilo, sin variaciones significativas.</p>
+                
+                <h3>Apariencia y tacto</h3>
+                <p>El hilo debe tener la apariencia y suavidad adecuadas para su uso final.</p>
+                
+                <h3>Comportamiento en tejeduría</h3>
+                <p>Un hilo bien torsionado debe tener un buen comportamiento durante el tejido, con mínimo de roturas.</p>
+                
+                <h3>Contracción</h3>
+                <p>La contracción del hilo después de la torsión debe estar dentro de los parámetros aceptables.</p>
+                
+                <h3>Métodos de medición</h3>
+                <ul>
+                    <li>Contador de torsión manual o automático</li>
+                    <li>Pruebas de resistencia a la tracción</li>
+                    <li>Evaluación visual bajo lupa o microscopio</li>
+                    <li>Pruebas de comportamiento en tejeduría</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h2>Efectos de la torsión incorrecta</h2>
+                <p>Una torsión inadecuada puede causar diversos problemas en el hilo y el producto final:</p>
+                
+                <table class="effects-table">
+                    <tr>
+                        <th>Tipo de torsión</th>
+                        <th>Efectos en el hilo</th>
+                        <th>Consecuencias en el producto final</th>
+                    </tr>
+                    <tr>
+                        <td><span class="bad">Baja torsión</span></td>
+                        <td>Hilo débil, fibras sueltas, poca cohesión</td>
+                        <td>Roturas frecuentes, formación de pelusas, aspecto pobre</td>
+                    </tr>
+                    <tr>
+                        <td><span class="bad">Alta torsión</span></td>
+                        <td>Hilo duro, contracción excesiva, tendencia a enroscarse</td>
+                        <td>Telas deformadas, torceduras, menor rendimiento</td>
+                    </tr>
+                    <tr>
+                        <td><span class="bad">Torsión irregular</span></td>
+                        <td>Variaciones en diámetro y resistencia</td>
+                        <td>Apariencia irregular en la tela, defectos de tejido</td>
+                    </tr>
+                    <tr>
+                        <td><span class="good">Torsión correcta</span></td>
+                        <td>Resistencia óptima, uniformidad, buen manejo</td>
+                        <td>Calidad uniforme, buen comportamiento en tejeduría</td>
+                    </tr>
+                </table>
+                
+                <h3>Problemas específicos de alta torsión</h3>
+                <ul>
+                    <li>Mayor rigidez y menor flexibilidad</li>
+                    <li>Pérdida de suavidad y tacto áspero</li>
+                    <li>Contracción excesiva después del tejido</li>
+                    <li>Mayor tendencia a encogerse en el lavado</li>
+                    <li>Formación de torceduras (snarls) en el hilo</li>
+                </ul>
+                
+                <h3>Problemas específicos de baja torsión</h3>
+                <ul>
+                    <li>Baja resistencia a la abrasión</li>
+                    <li>Formación de pelusas (pilling)</li>
+                    <li>Deslizamiento de fibras en los cortes</li>
+                    <li>Problemas de separación en tejidos de calada</li>
+                    <li>Dificultad en los procesos de teñido</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="visualization">
+            <h2>Ajuste y Control de la Torsión</h2>
+            <p>El control de la torsión es fundamental para garantizar la calidad del hilo. Los principales métodos de ajuste incluyen:</p>
+            
+            <div class="factor-box">
+                <div class="factor-title">Velocidad de los husillos</div>
+                <p>La velocidad de rotación de los husillos en relación con la velocidad de avance determina el nivel de torsión.</p>
+            </div>
+            
+            <div class="factor-box">
+                <div class="factor-title">Dispositivos de tensión</div>
+                <p>La tensión aplicada al hilo durante la torsión afecta la uniformidad y el nivel final de torsión.</p>
+            </div>
+            
+            <div class="factor-box">
+                <div class="factor-title">Características de las fibras</div>
+                <p>El tipo, longitud y finura de las fibras influyen en la torsión requerida para un hilo específico.</p>
+            </div>
+            
+            <p>Los sistemas modernos de hilatura utilizan controles computarizados para mantener una torsión constante y uniforme, con monitoreo en tiempo real y ajustes automáticos.</p>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Torsión del Hilo Textil - Parámetro Fundamental en Hilatura</p>
+            <p>© 2023 - Tecnología e Ingeniería Textil</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funciones para la visualización interactiva
+        function activateExample(exampleId, btnId) {
+            // Desactivar todos los ejemplos
+            document.querySelectorAll('.yarn-example').forEach(example => {
+                example.classList.remove('active');
+            });
+            
+            // Desactivar todos los botones
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.classList.remove('active-btn');
+            });
+            
+            // Activar el ejemplo seleccionado
+            document.getElementById(exampleId).classList.add('active');
+            
+            // Activar el botón seleccionado
+            document.getElementById(btnId).classList.add('active-btn');
+        }
+        
+        // Configurar event listeners para los botones
+        document.getElementById('btnLow').addEventListener('click', function() {
+            activateExample('lowTwist', 'btnLow');
+        });
+        
+        document.getElementById('btnMedium').addEventListener('click', function() {
+            activateExample('mediumTwist', 'btnMedium');
+        });
+        
+        document.getElementById('btnHigh').addEventListener('click', function() {
+            activateExample('highTwist', 'btnHigh');
+        });
+        
+        // Activar torsión media por defecto al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            activateExample('mediumTwist', 'btnMedium');
+        });
+    </script>
+</body>
+</html>

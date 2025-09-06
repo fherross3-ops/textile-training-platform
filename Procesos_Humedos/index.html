@@ -179,6 +179,7 @@
 
         .header-title {
             flex: 1;
+            text-align: center;
         }
 
         .header-title h2 {
@@ -451,6 +452,8 @@
                 <li><a href="#" data-process="tenido-madejas"><i class="fas fa-palette"></i> Teñido en Cuerda por Madejas</a></li>
                 <li><a href="#" data-process="reurdido"><i class="fas fa-exchange-alt"></i> Reurdido Cintas</a></li>
                 <li><a href="#" data-process="engomado"><i class="fas fa-paint-roller"></i> Engomado</a></li>
+                <li><a href="#" data-process="insumos-envases"><i class="fas fa-box"></i> Insumos Envases</a></li>
+                <li><a href="#" data-process="gestion-mantenimiento"><i class="fas fa-tools"></i> Gestión Mantenimiento</a></li>
             </ul>
         </div>
         
@@ -473,6 +476,14 @@
                 <div class="process-step">
                     <i class="fas fa-paint-roller"></i>
                     <div>Engomado</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-box"></i>
+                    <div>Insumos Envases</div>
+                </div>
+                <div class="process-step">
+                    <i class="fas fa-tools"></i>
+                    <div>Gestión Mantenimiento</div>
                 </div>
             </div>
             
@@ -522,7 +533,7 @@
                 ],
                 solutions: [
                     "Calibración regular de sistemas de medición",
-                    "Ajuste de tensiones и velocidades",
+                    "Ajuste de tensiones y velocidades",
                     "Mejorar calidad de hilos de entrada",
                     "Verificar estado de elementos mecánicos"
                 ]
@@ -586,7 +597,7 @@
                         frequency: "Cada 500 m"
                     },
                     {
-                        name: "Peso por unidad de longitud (g/m)",
+                        name: "Peso per unidad de longitud (g/m)",
                         formula: "Peso de cinta / Longitud",
                         target: "Según especificación ± 1.5%",
                         frequency: "Cada 200 m"
@@ -664,6 +675,84 @@
                     "Ajuste de velocidad y tensión",
                     "Optimización de parámetros de secado"
                 ]
+            },
+            "insumos-envases": {
+                title: "Control de Insumos y Envases",
+                description: "Gestión de inventario y control de calidad de insumos y envases utilizados en los procesos húmedos.",
+                indicators: [
+                    {
+                        name: "Disponibilidad de insumos críticos (%)",
+                        formula: "(Insumos disponibles / Insumos requeridos) × 100",
+                        target: "> 98%",
+                        frequency: "Diario"
+                    },
+                    {
+                        name: "Porcentaje de envases defectuosos",
+                        formula: "(Envases defectuosos / Total de envases) × 100",
+                        target: "< 0.5%",
+                        frequency: "Por lote"
+                    },
+                    {
+                        name: "Rotación de inventario",
+                        formula: "Costo de insumos vendidos / Inventario promedio",
+                        target: "> 4 veces por mes",
+                        frequency: "Mensual"
+                    }
+                ],
+                problems: [
+                    "Falta de insumos críticos en producción",
+                    "Envases defectuosos que afectan la calidad",
+                    "Exceso de inventario obsoleto",
+                    "Errores en el registro de entradas y salidas"
+                ],
+                solutions: [
+                    "Implementar sistema de alertas de stock mínimo",
+                    "Establecer control de calidad en recepción de insumos",
+                    "Optimizar política de inventarios",
+                    "Digitalizar sistema de registro de almacén"
+                ]
+            },
+            "gestion-mantenimiento": {
+                title: "Gestión de Mantenimiento",
+                description: "Coordinación y control de las actividades de mantenimiento preventivo y correctivo de los equipos de procesos húmedos.",
+                indicators: [
+                    {
+                        name: "Cumplimiento de programa de mantenimiento (%)",
+                        formula: "(Actividades realizadas / Actividades programadas) × 100",
+                        target: "> 95%",
+                        frequency: "Semanal"
+                    },
+                    {
+                        name: "Tiempo medio entre fallas (horas)",
+                        formula: "Tiempo total de operación / Número de fallas",
+                        target: "> 500 horas",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Tiempo medio de reparación (horas)",
+                        formula: "Tiempo total de reparación / Número de reparaciones",
+                        target: "< 4 horas",
+                        frequency: "Mensual"
+                    },
+                    {
+                        name: "Disponibilidad de equipos (%)",
+                        formula: "(Tiempo operativo / Tiempo total) × 100",
+                        target: "> 90%",
+                        frequency: "Diario"
+                    }
+                ],
+                problems: [
+                    "Fallas recurrentes en equipos críticos",
+                    "Tiempos excesivos de reparación",
+                    "Falta de repuestos esenciales",
+                    "Documentación incompleta de mantenimiento"
+                ],
+                solutions: [
+                    "Implementar programa de mantenimiento predictivo",
+                    "Establecer stock crítico de repuestos",
+                    "Capacitar técnicos en reparaciones específicas",
+                    "Digitalizar historial de mantenimiento de equipos"
+                ]
             }
         };
 
@@ -687,7 +776,8 @@
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             
-            menuToggle.addEventListener('click', function() {
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
                 sidebar.classList.toggle('active');
                 
                 if (sidebar.classList.contains('active')) {
@@ -761,15 +851,15 @@
             
             // Generar HTML para los indicadores
             let indicatorsHTML = '';
-            if (process.indicators) {
+            if (process.indicators && process.indicators.length > 0) {
                 indicatorsHTML = `
                     <div class="indicators-grid">
                         ${process.indicators.map(indicator => `
                             <div class="indicator-item">
                                 <h4>${indicator.name}</h4>
-                                <p><strong>Fórmula:</strong> ${indicator.formula}</p>
-                                <p><strong>Valor objetivo:</strong> ${indicator.target}</p>
-                                <p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>
+                                ${indicator.formula.trim() ? `<p><strong>Fórmula:</strong> ${indicator.formula}</p>` : ''}
+                                ${indicator.target.trim() ? `<p><strong>Valor objetivo:</strong> ${indicator.target}</p>` : ''}
+                                ${indicator.frequency.trim() ? `<p><strong>Frecuencia de medición:</strong> ${indicator.frequency}</p>` : ''}
                             </div>
                         `).join('')}
                     </div>
@@ -778,21 +868,21 @@
             
             // Generar HTML para problemas y soluciones
             let problemsHTML = '';
-            if (process.problems) {
+            if (process.problems && process.problems.length > 0 && process.problems[0].trim() !== '') {
                 problemsHTML = `
                     <p><strong>Problemas comunes:</strong></p>
                     <ul>
-                        ${process.problems.map(problem => `<li>${problem}</li>`).join('')}
+                        ${process.problems.map(problem => problem.trim() ? `<li>${problem}</li>` : '').join('')}
                     </ul>
                 `;
             }
             
             let solutionsHTML = '';
-            if (process.solutions) {
+            if (process.solutions && process.solutions.length > 0 && process.solutions[0].trim() !== '') {
                 solutionsHTML = `
                     <p><strong>Acciones correctivas:</strong></p>
                     <ul>
-                        ${process.solutions.map(solution => `<li>${solution}</li>`).join('')}
+                        ${process.solutions.map(solution => solution.trim() ? `<li>${solution}</li>` : '').join('')}
                     </ul>
                 `;
             }
@@ -809,11 +899,14 @@
                             <p>${process.description}</p>
                         </div>
                         
+                        ${indicatorsHTML ? `
                         <div class="info-section">
                             <h3>Indicadores clave</h3>
                             ${indicatorsHTML}
                         </div>
+                        ` : ''}
                         
+                        ${(problemsHTML || solutionsHTML) ? `
                         <div class="info-section">
                             <h3>Problemas y soluciones</h3>
                             <div class="solution-box">
@@ -821,6 +914,7 @@
                                 ${solutionsHTML}
                             </div>
                         </div>
+                        ` : ''}
                     </div>
                 </div>
             `;

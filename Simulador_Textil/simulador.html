@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Simuladores Textiles</title>
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --secondary-color: #004e98;
+            --accent-color: #ff6b6b;
+            --light-color: #f5f7fa;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --success-color: #4caf50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f7ff, #f0f8ff);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .hero h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+        
+        .simulator-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .simulator-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            display: flex;
+            align-items: flex-end;
+            padding: 15px;
+            color: white;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-content p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .card-button {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .card-button:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .simulator-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            overflow: auto;
+        }
+        
+        .view-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1010;
+        }
+        
+        .back-button {
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .simulator-content {
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .simulator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-image {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Gestor de Simuladores Textiles</h1>
+            <p>Accede a las herramientas interactivas para procesos textiles</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>Simuladores Disponibles</h1>
+            <p>Selecciona una de las herramientas interactivas para analizar diferentes aspectos de los procesos textiles.</p>
+        </section>
+        
+        <div class="simulator-grid">
+            <div class="simulator-card" data-simulator="ancho-peine">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%233a6ea5%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22>Ancho de Peine vs. Tela</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Ancho de Peine vs Tela Tejida</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Simulador para calcular y visualizar la relación entre el ancho de peine y el ancho de tela tejida.</p>
+                    <a class="card-button" data-simulator="ancho-peine">Abrir Simulador</a>
+                </div>
+            </div>
+            
+            <div class="simulator-card" data-simulator="blendomat">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%232c5530%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22>Mezcla de Algodón</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Sistema de Mezcla de Algodón</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Herramienta para criterios técnicos e indicadores de calidad en la mezcla de algodón.</p>
+                    <a class="card-button" data-simulator="blendomat">Abrir Simulador</a>
+                </div>
+            </div>
+            
+            <div class="simulator-card" data-simulator="conversor-titulos">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%233a6ea5%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22>Conversor de Títulos</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Conversor de Títulos de Hilos</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Conversión entre sistemas de titulación y cálculo de título al doblar hilos.</p>
+                    <a class="card-button" data-simulator="conversor-titulos">Abrir Simulador</a>
+                </div>
+            </div>
+            
+            <div class="simulator-card" data-simulator="torsion">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%232c3e50%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22>Torsión del Hilo</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Torsión del Hilo Textil</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Guía completa sobre la torsión del hilo textil y su importancia en los procesos de hilatura.</p>
+                    <a class="card-button" data-simulator="torsion">Abrir Simulador</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Vista para el simulador de Ancho de Peine -->
+    <div class="simulator-view" id="ancho-peine-view">
+        <div class="view-header">
+            <h2>Simulador: Ancho de Peine vs Ancho de Tela Tejida</h2>
+            <button class="back-button" onclick="closeSimulator('ancho-peine')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="ancho-peine-frame" src="INDEX_AnchoPEINE.html"></iframe>
+    </div>
+    
+    <!-- Vista para el simulador de Blendomat -->
+    <div class="simulator-view" id="blendomat-view">
+        <div class="view-header">
+            <h2>Sistema de Mezcla de Algodón - Blendomat</h2>
+            <button class="back-button" onclick="closeSimulator('blendomat')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="blendomat-frame" src="INDEX_Blendomat_Mezcla3.html"></iframe>
+    </div>
+    
+    <!-- Vista para el conversor de títulos -->
+    <div class="simulator-view" id="conversor-titulos-view">
+        <div class="view-header">
+            <h2>Simulador de Títulos de Hilos Textiles</h2>
+            <button class="back-button" onclick="closeSimulator('conversor-titulos')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="conversor-titulos-frame" src="INDEX_CONVERSOR_TITULOS1.html"></iframe>
+    </div>
+    
+    <!-- Vista para el simulador de torsión -->
+    <div class="simulator-view" id="torsion-view">
+        <div class="view-header">
+            <h2>Torsión del Hilo Textil - Guía Completa</h2>
+            <button class="back-button" onclick="closeSimulator('torsion')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="torsion-frame" src="INDEX_TORSION2.html"></iframe>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Gestor de Simuladores Textiles - Herramientas interactivas para la industria textil</p>
+            <p>© 2023 - Procesos de Tejido y Hilandería</p>
+        </div>
+    </footer>
+
+    <script>
+        // Función para abrir un simulador
+        function openSimulator(simulatorId) {
+            // Ocultar todos los simuladores
+            document.querySelectorAll('.simulator-view').forEach(view => {
+                view.style.display = 'none';
+            });
+            
+            // Mostrar el simulador seleccionado
+            document.getElementById(`${simulatorId}-view`).style.display = 'block';
+            
+            // Ocultar el contenido principal
+            document.querySelector('.container').style.display = 'none';
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+            
+            // Recargar el iframe para asegurar que funciona correctamente
+            const frame = document.getElementById(`${simulatorId}-frame`);
+            frame.src = frame.src;
+        }
+        
+        // Función para cerrar un simulador y volver al gestor
+        function closeSimulator(simulatorId) {
+            // Ocultar el simulador
+            document.getElementById(`${simulatorId}-view`).style.display = 'none';
+            
+            // Mostrar el contenido principal
+            document.querySelector('.container').style.display = 'block';
+            document.querySelector('header').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+        }
+        
+        // Configurar event listeners para los botones
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.card-button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const simulatorId = this.getAttribute('data-simulator');
+                    openSimulator(simulatorId);
+                });
+            });
+            
+            // También permitir hacer clic en toda la tarjeta
+            const cards = document.querySelectorAll('.simulator-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // Evitar que se active cuando se hace clic en el botón
+                    if (!e.target.classList.contains('card-button')) {
+                        const simulatorId = this.getAttribute('data-simulator');
+                        openSimulator(simulatorId);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

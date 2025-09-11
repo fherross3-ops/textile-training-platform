@@ -10,6 +10,7 @@ Herramienta web para el aprendizaje grupal e individual sobre procesos textiles.
 - **Planta de Acabado**: Procesos finales de la tela
 - **Despacho**: Gestión de empaque y envío
 - **Servicios**: Soporte y servicios generales
+- **Administracion**: Soporte y Logistica a todo el Proceso productivo 
 
 ## 🚀 Cómo Usar
 

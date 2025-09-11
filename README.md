@@ -11,7 +11,7 @@ Herramienta web para el aprendizaje grupal e individual sobre procesos textiles.
 - **Despacho**: Gestión de empaque y envío
 - **Servicios**: Soporte y servicios generales
 - **Administracion**: Soporte y Logistica a todo el Proceso productivo 
-
+- **Innovacion y Desarrollo**: Gestion de seguimiento en Ensayos Nuevos Estilos
 ## 🚀 Cómo Usar
 
 1. Navega a través de las diferentes secciones usando el menú principal

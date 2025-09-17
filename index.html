@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   
     <!-- COPIA Y PEGA ESTO EN TU SITIO -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GTM-M3C4QF37 "></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'GTM-M3C4QF37 '); <!-- Cambia G-TUCODIGO por tu ID real -->
-</script>
-    
-    
-    
-    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-M3C4QF37 "></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GTM-M3C4QF37 '); <!-- Cambia G-TUCODIGO por tu ID real -->
+    </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -222,6 +217,84 @@
             color: var(--secondary);
         }
         
+        /* Estilos para el formulario de contacto */
+        .contact-form {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-form h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn-submit {
+            background: var(--success);
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .btn-submit:hover {
+            background: #219653;
+        }
+        
+        .form-feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .form-feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .form-feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
         footer {
             background: var(--dark);
             color: white;
@@ -377,11 +450,6 @@
                             <li>Desperdicios-Mermas</li>
                             <li>Insumos</li>
                             <li>Gestion Mantenimiento</li>
-
-
-
-
-
                         </ul>
                     </div>
                     <div class="process-card-footer">
@@ -405,20 +473,18 @@
                         <li><a href="Recursos/index.html">Cartas de Control Shewart Aplicacion Textil</a></li>
                         <li><a href="Recursos/index.html">Indicadores de Capacidad de Proces Cpk,Cpp.</a></li>
                         <li><a href="Recursos/index.html">Tecnicas de Mejora Continua: PDCA y DMAIC Aplicacion Textil</a></li>
-                     </div>
+                    </ul>
+                </div>
                 
                 <div class="resource-card">
-                    <!-- Busca esta sección en index1.html -->
-<div class="resource-card">
-    <h3>Encuentros Presenciales</h3>
-    <ul class="resource-list">
-        <li><a href="Presenciales/index.html">Calendario de capacitaciones</a></li>
-        <li><a href="Presenciales/index.html">Presentaciones</a></li>
-        <li><a href="Presenciales/index.html">Material de apoyo: PDF, Formas, Especificaciones, Manuales.</a></li>
- <!-- Línea añadida -->
-        <li><a href="Simulador_Textil/simulador.html">Galería de Simuladores</a></li>
-    </ul>
-</div>
+                    <h3>Encuentros Presenciales</h3>
+                    <ul class="resource-list">
+                        <li><a href="Presenciales/index.html">Calendario de capacitaciones</a></li>
+                        <li><a href="Presenciales/index.html">Presentaciones</a></li>
+                        <li><a href="Presenciales/index.html">Material de apoyo: PDF, Formas, Especificaciones, Manuales.</a></li>
+                        <li><a href="Simulador_Textil/simulador.html">Galería de Simuladores</a></li>
+                    </ul>
+                </div>
                 
                 <div class="resource-card">
                     <h3>Evaluaciones</h3>
@@ -431,6 +497,55 @@
                 </div>
             </div>
             
+            <!-- Formulario de Contacto para Netlify -->
+            <div class="contact-form">
+                <h3>Formulario de Contacto</h3>
+                <form name="contacto" method="POST" data-netlify="true" id="contactForm" netlify-honeypot="bot-field">
+                    <input type="hidden" name="form-name" value="contacto" />
+                    <p class="hidden">
+                        <label>No llenar este campo si eres humano: <input name="bot-field" /></label>
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="name">Nombre completo:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Empresa o organización:</label>
+                        <input type="text" id="company" name="company" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department">Área de interés:</label>
+                        <select id="department" name="department" class="form-control" required>
+                            <option value="">Seleccione un área</option>
+                            <option value="Hilanderia">Hilanderia</option>
+                            <option value="Procesos Humedos">Procesos Húmedos</option>
+                            <option value="Tejeduria">Tejeduría</option>
+                            <option value="Planta Acabado">Planta de Acabado</option>
+                            <option value="Despacho">Despacho</option>
+                            <option value="Servicios">Servicios</option>
+                            <option value="General">Consulta General</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje:</label>
+                        <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
+                    
+                    <div id="formFeedback" class="form-feedback"></div>
+                </form>
+            </div>
+            
             <div style="margin-top: 2rem; text-align: center;">
                 <h3>Contacto y soporte:</h3>
                 <p>Para preguntas específicas, únete a nuestro grupo de WhatsApp:</p>
@@ -440,7 +555,7 @@
     </div>
     
     <footer>
-        <p>Plataforma de Capacitación Textil &copyright fherros(R); 2025</p>
+        <p>Plataforma de Capacitación Textil &copy; fherros(R); 2025</p>
         <p>Alojado en Netlify | Contenido en GitHub</p>
     </footer>
     <script>
@@ -461,9 +576,36 @@
                 document.querySelector(target).classList.add('active');
             });
         });
+        
+        // Validación del formulario
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const department = document.getElementById('department').value;
+            const message = document.getElementById('message').value;
+            const feedback = document.getElementById('formFeedback');
+            
+            // Validación simple
+            if (!name || !email || !department || !message) {
+                e.preventDefault();
+                feedback.textContent = 'Por favor, complete todos los campos obligatorios.';
+                feedback.className = 'form-feedback error';
+                return false;
+            }
+            
+            // Validación de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                feedback.textContent = 'Por favor, ingrese un correo electrónico válido.';
+                feedback.className = 'form-feedback error';
+                return false;
+            }
+            
+            // Si todo está bien, mostrar mensaje de éxito
+            feedback.textContent = '¡Gracias por su mensaje! Nos pondremos en contacto pronto.';
+            feedback.className = 'form-feedback success';
+        });
     </script>
 </body>
 </html>
-
-
-

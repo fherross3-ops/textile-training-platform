@@ -357,6 +357,55 @@
             display: none;
         }
 
+        /* Modal para envío por correo */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light);
+            padding-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .close-modal:hover {
+            color: var(--accent);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .form-row {
@@ -400,6 +449,11 @@
             }
             
             .tab-content {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                width: 95%;
                 padding: 20px;
             }
         }
@@ -604,8 +658,8 @@
             <div class="action-buttons">
                 <button id="printBtn" class="btn-secondary"><i class="fas fa-print"></i> Imprimir</button>
                 <button id="exportPdfBtn" class="btn-danger"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
-                <button id="exportWordBtn" class="btn-secondary"><i class="fas fa-file-word"></i> Exportar a Word</button>
-                <button id="exportCsvBtn" class="btn-success"><i class="fas fa-file-csv"></i> Exportar a CSV</button>
+                <button id="sendEmailBtn" class="btn-success"><i class="fas fa-envelope"></i> Enviar por Correo</button>
+                <button id="exportCsvBtn" class="btn-secondary"><i class="fas fa-file-csv"></i> Exportar a CSV</button>
                 <button id="importCsvBtn" class="btn-warning"><i class="fas fa-file-import"></i> Importar desde CSV</button>
                 <input type="file" id="csvFileInput" accept=".csv" style="display: none;">
             </div>
@@ -621,6 +675,52 @@
         
         <!-- [RESTANTE DEL CÓDIGO PARA EJEMPLOS Y RECURSOS] -->
         <!-- Mantén las secciones de ejemplos y recursos -->
+    </div>
+
+    <!-- Modal para envío por correo -->
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-envelope"></i> Enviar KPI por Correo</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="emailForm">
+                <div class="form-group">
+                    <label for="recipientEmail" class="required">Correo destinatario</label>
+                    <input type="email" id="recipientEmail" name="recipientEmail" required placeholder="ejemplo@empresa.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailSubject" class="required">Asunto del correo</label>
+                    <input type="text" id="emailSubject" name="emailSubject" required placeholder="Asunto del correo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailMessage">Mensaje adicional</label>
+                    <textarea id="emailMessage" name="emailMessage" placeholder="Mensaje adicional para el destinatario..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Formato del archivo adjunto</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="format-pdf" name="attachmentFormat" value="pdf" checked>
+                            <label for="format-pdf"><i class="fas fa-file-pdf"></i> PDF</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="format-csv" name="attachmentFormat" value="csv">
+                            <label for="format-csv"><i class="fas fa-file-csv"></i> CSV</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        <i class="fas fa-paper-plane"></i> Enviar Correo
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -670,13 +770,33 @@
             });
 
             document.getElementById('exportPdfBtn').addEventListener('click', exportToPdf);
-            document.getElementById('exportWordBtn').addEventListener('click', exportToWord);
+            document.getElementById('sendEmailBtn').addEventListener('click', openEmailModal);
             document.getElementById('exportCsvBtn').addEventListener('click', exportToCsv);
             document.getElementById('importCsvBtn').addEventListener('click', function() {
                 document.getElementById('csvFileInput').click();
             });
             
             document.getElementById('csvFileInput').addEventListener('change', importFromCsv);
+
+            // Configurar modal de correo
+            const emailModal = document.getElementById('emailModal');
+            const closeModalBtn = document.querySelector('.close-modal');
+            
+            closeModalBtn.addEventListener('click', function() {
+                emailModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === emailModal) {
+                    emailModal.style.display = 'none';
+                }
+            });
+            
+            // Configurar formulario de correo
+            document.getElementById('emailForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                sendEmail();
+            });
 
             // Cargar KPIs guardados
             loadSavedKpis();
@@ -800,14 +920,153 @@
             });
         }
 
+        function openEmailModal() {
+            // Verificar si hay datos en el formulario
+            const kpiName = document.getElementById('kpiName').value;
+            
+            if (!kpiName) {
+                showAlert('Complete el formulario antes de enviar por correo', 'error');
+                return;
+            }
+            
+            // Configurar valores por defecto en el modal
+            document.getElementById('recipientEmail').value = document.getElementById('emailContact').value || '';
+            document.getElementById('emailSubject').value = `KPI: ${kpiName}`;
+            
+            // Mostrar modal
+            document.getElementById('emailModal').style.display = 'flex';
+        }
+
+        function sendEmail() {
+            const recipientEmail = document.getElementById('recipientEmail').value;
+            const emailSubject = document.getElementById('emailSubject').value;
+            const emailMessage = document.getElementById('emailMessage').value;
+            const format = document.querySelector('input[name="attachmentFormat"]:checked').value;
+            
+            // Obtener datos del KPI
+            const kpiData = getKpiData();
+            
+            // Crear contenido del archivo adjunto
+            let attachmentContent, fileName, mimeType;
+            
+            if (format === 'pdf') {
+                // Simular creación de PDF (en un caso real usarías una librería como jsPDF)
+                attachmentContent = generatePdfContent(kpiData);
+                fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.pdf`;
+                mimeType = 'application/pdf';
+            } else {
+                // Crear CSV
+                attachmentContent = generateCsvContent(kpiData);
+                fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.csv`;
+                mimeType = 'text/csv';
+            }
+            
+            // Simular envío de correo (en un caso real usarías un servicio como EmailJS o un backend)
+            const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailMessage + '\n\nAdjunto encontrarás el KPI en formato ' + format.toUpperCase())}`;
+            
+            // En un entorno real, aquí enviarías el correo con el adjunto
+            // Por ahora, abrimos el cliente de correo predeterminado
+            window.location.href = mailtoLink;
+            
+            // Mostrar mensaje de éxito
+            showAlert(`Correo preparado para enviar a ${recipientEmail}. Se abrirá tu cliente de correo.`, 'success');
+            
+            // Cerrar modal
+            document.getElementById('emailModal').style.display = 'none';
+            
+            // En un entorno de producción, aquí integrarías con un servicio como:
+            // - EmailJS
+            // - Un backend propio con Node.js
+            // - Un servicio de terceros como SendGrid
+        }
+
+        function getKpiData() {
+            return {
+                name: document.getElementById('kpiName').value,
+                description: document.getElementById('kpiDescription').value,
+                objective: document.getElementById('kpiObjective').value,
+                process: document.getElementById('selectedProcess').value,
+                variables: document.getElementById('variables').value,
+                unit: document.getElementById('measurementUnit').value,
+                formula: document.getElementById('formula').value,
+                frequency: document.getElementById('frequency').value,
+                target: document.getElementById('targetValue').value,
+                min: document.getElementById('minValue').value,
+                max: document.getElementById('maxValue').value,
+                tolerance: document.getElementById('toleranceRange').value,
+                graphic: document.querySelector('input[name="sisgoGrafico"]:checked').value,
+                utility: document.getElementById('utilidadComentario').value,
+                designResponsible: document.getElementById('designResponsible').value,
+                implementationResponsible: document.getElementById('implementationResponsible').value,
+                monitoringResponsible: document.getElementById('monitoringResponsible').value,
+                email: document.getElementById('emailContact').value
+            };
+        }
+
+        function generatePdfContent(kpiData) {
+            // En un caso real, usarías jsPDF para generar un PDF
+            // Por ahora, simulamos la creación de contenido
+            return `
+                KPI: ${kpiData.name}
+                Descripción: ${kpiData.description}
+                Objetivo: ${kpiData.objective}
+                Proceso: ${processNames[kpiData.process]}
+                Variables: ${kpiData.variables}
+                Unidad: ${kpiData.unit}
+                Fórmula: ${kpiData.formula}
+                Frecuencia: ${kpiData.frequency}
+                Valor objetivo: ${kpiData.target}
+                Valor mínimo: ${kpiData.min || 'N/A'}
+                Valor máximo: ${kpiData.max || 'N/A'}
+                Rango de tolerancia: ${kpiData.tolerance || 'N/A'}
+                Gráfico: ${kpiData.graphic}
+                Utilidad: ${kpiData.utility}
+                Responsable diseño: ${kpiData.designResponsible}
+                Responsable implementación: ${kpiData.implementationResponsible}
+                Responsable monitoreo: ${kpiData.monitoringResponsible}
+                Email contacto: ${kpiData.email}
+                Fecha de creación: ${new Date().toLocaleDateString()}
+            `;
+        }
+
+        function generateCsvContent(kpiData) {
+            // Crear contenido CSV
+            const headers = ['Campo', 'Valor'];
+            const rows = [
+                ['Nombre del KPI', kpiData.name],
+                ['Descripción', kpiData.description],
+                ['Objetivo', kpiData.objective],
+                ['Proceso', processNames[kpiData.process]],
+                ['Variables a medir', kpiData.variables],
+                ['Unidad de medida', kpiData.unit],
+                ['Fórmula de cálculo', kpiData.formula],
+                ['Frecuencia de medición', kpiData.frequency],
+                ['Valor objetivo', kpiData.target],
+                ['Valor mínimo aceptable', kpiData.min || 'N/A'],
+                ['Valor máximo aceptable', kpiData.max || 'N/A'],
+                ['Rango de tolerancia', kpiData.tolerance || 'N/A'],
+                ['Sistema gráfico', kpiData.graphic],
+                ['Comentarios sobre utilidad', kpiData.utility],
+                ['Responsable del diseño', kpiData.designResponsible],
+                ['Responsable de implementación', kpiData.implementationResponsible],
+                ['Responsable de monitoreo', kpiData.monitoringResponsible],
+                ['Email de contacto', kpiData.email],
+                ['Fecha de creación', new Date().toLocaleDateString()]
+            ];
+            
+            let csvContent = headers.join(',') + '\n';
+            rows.forEach(row => {
+                // Escapar comas y comillas en los valores
+                const escapedRow = row.map(field => `"${field.toString().replace(/"/g, '""')}"`);
+                csvContent += escapedRow.join(',') + '\n';
+            });
+            
+            return csvContent;
+        }
+
         function exportToPdf() {
             // Implementación de exportación a PDF
             showAlert('Funcionalidad de exportación a PDF en desarrollo', 'success');
-        }
-
-        function exportToWord() {
-            // Implementación de exportación a Word
-            showAlert('Funcionalidad de exportación a Word en desarrollo', 'success');
         }
 
         function exportToCsv() {

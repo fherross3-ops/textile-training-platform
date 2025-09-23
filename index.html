@@ -262,6 +262,51 @@
             resize: vertical;
         }
         
+        /* Estilos específicos para el campo de archivo */
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        
+        .file-input::file-selector-button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .file-input::file-selector-button:hover {
+            background: var(--primary);
+        }
+        
+        .file-info {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .file-info.error {
+            color: #e74c3c;
+        }
+        
+        .file-info.success {
+            color: #27ae60;
+        }
+        
         .btn-submit {
             background: var(--success);
             width: 100%;
@@ -500,7 +545,7 @@
             <!-- Formulario de Contacto para Netlify -->
             <div class="contact-form">
                 <h3>Formulario de Contacto</h3>
-                <form name="contacto" method="POST" data-netlify="true" id="contactForm" netlify-honeypot="bot-field">
+                <form name="contacto" method="POST" data-netlify="true" id="contactForm" enctype="multipart/form-data" netlify-honeypot="bot-field">
                     <input type="hidden" name="form-name" value="contacto" />
                     <p class="hidden">
                         <label>No llenar este campo si eres humano: <input name="bot-field" /></label>
@@ -538,6 +583,17 @@
                     <div class="form-group">
                         <label for="message">Mensaje:</label>
                         <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <!-- Nuevo campo para adjuntar archivo -->
+                    <div class="form-group">
+                        <label for="attachment">Adjuntar archivo (opcional):</label>
+                        <div class="file-input-container">
+                            <input type="file" id="attachment" name="attachment" class="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt">
+                        </div>
+                        <div id="fileInfo" class="file-info">
+                            Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT (máx. 10MB)
+                        </div>
                     </div>
                     
                     <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
@@ -583,7 +639,9 @@
             const email = document.getElementById('email').value;
             const department = document.getElementById('department').value;
             const message = document.getElementById('message').value;
+            const attachment = document.getElementById('attachment');
             const feedback = document.getElementById('formFeedback');
+            const fileInfo = document.getElementById('fileInfo');
             
             // Validación simple
             if (!name || !email || !department || !message) {
@@ -602,10 +660,51 @@
                 return false;
             }
             
+            // Validación de archivo adjunto
+            if (attachment.files.length > 0) {
+                const file = attachment.files[0];
+                const allowedTypes = ['application/pdf', 'application/msword', 
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'image/jpeg', 'image/jpg', 'image/png', 'text/plain'];
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                
+                if (!allowedTypes.includes(file.type)) {
+                    e.preventDefault();
+                    fileInfo.textContent = 'Tipo de archivo no permitido. Use PDF, DOC, DOCX, JPG, PNG o TXT.';
+                    fileInfo.className = 'file-info error';
+                    return false;
+                }
+                
+                if (file.size > maxSize) {
+                    e.preventDefault();
+                    fileInfo.textContent = 'El archivo es demasiado grande. Tamaño máximo: 10MB.';
+                    fileInfo.className = 'file-info error';
+                    return false;
+                }
+                
+                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+                fileInfo.className = 'file-info success';
+            }
+            
             // Si todo está bien, mostrar mensaje de éxito
             feedback.textContent = '¡Gracias por su mensaje! Nos pondremos en contacto pronto.';
             feedback.className = 'form-feedback success';
         });
+        
+        // Mostrar información del archivo seleccionado
+        document.getElementById('attachment').addEventListener('change', function() {
+            const fileInfo = document.getElementById('fileInfo');
+            
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+                fileInfo.className = 'file-info success';
+            } else {
+                fileInfo.textContent = 'Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT (máx. 10MB)';
+                fileInfo.className = 'file-info';
+            }
+        });
     </script>
 </body>
 </html>
+

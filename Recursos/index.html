@@ -687,7 +687,7 @@
             <form id="emailForm">
                 <div class="form-group">
                     <label for="recipientEmail" class="required">Correo destinatario</label>
-                    <input type="email" id="recipientEmail" name="recipientEmail" required placeholder="ejemplo@empresa.com">
+                    <input type="email" id="recipientEmail" name="recipientEmail" required placeholder="ejemplo@empresa.com" value="jtxdossier@gmail.com" readonly>
                 </div>
                 
                 <div class="form-group">
@@ -930,7 +930,7 @@
             }
             
             // Configurar valores por defecto en el modal
-            document.getElementById('recipientEmail').value = document.getElementById('emailContact').value || '';
+            document.getElementById('recipientEmail').value = 'jtxdossier@gmail.com';
             document.getElementById('emailSubject').value = `KPI: ${kpiName}`;
             
             // Mostrar modal
@@ -950,34 +950,32 @@
             let attachmentContent, fileName, mimeType;
             
             if (format === 'pdf') {
-                // Simular creación de PDF (en un caso real usarías una librería como jsPDF)
-                attachmentContent = generatePdfContent(kpiData);
-                fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.pdf`;
-                mimeType = 'application/pdf';
+                // Generar PDF real
+                generatePdfForEmail(kpiData);
+                return; // La función generatePdfForEmail manejará el envío
             } else {
                 // Crear CSV
                 attachmentContent = generateCsvContent(kpiData);
                 fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.csv`;
                 mimeType = 'text/csv';
+                
+                // Crear enlace de descarga
+                const blob = new Blob([attachmentContent], { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                
+                // Enviar correo con enlace de descarga
+                const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(
+                    emailMessage + '\n\nPuede descargar el archivo CSV desde este enlace: ' + url
+                )}`;
+                
+                window.location.href = mailtoLink;
             }
-            
-            // Simular envío de correo (en un caso real usarías un servicio como EmailJS o un backend)
-            const mailtoLink = `mailto:${recipientEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailMessage + '\n\nAdjunto encontrarás el KPI en formato ' + format.toUpperCase())}`;
-            
-            // En un entorno real, aquí enviarías el correo con el adjunto
-            // Por ahora, abrimos el cliente de correo predeterminado
-            window.location.href = mailtoLink;
             
             // Mostrar mensaje de éxito
             showAlert(`Correo preparado para enviar a ${recipientEmail}. Se abrirá tu cliente de correo.`, 'success');
             
             // Cerrar modal
             document.getElementById('emailModal').style.display = 'none';
-            
-            // En un entorno de producción, aquí integrarías con un servicio como:
-            // - EmailJS
-            // - Un backend propio con Node.js
-            // - Un servicio de terceros como SendGrid
         }
 
         function getKpiData() {
@@ -1001,32 +999,6 @@
                 monitoringResponsible: document.getElementById('monitoringResponsible').value,
                 email: document.getElementById('emailContact').value
             };
-        }
-
-        function generatePdfContent(kpiData) {
-            // En un caso real, usarías jsPDF para generar un PDF
-            // Por ahora, simulamos la creación de contenido
-            return `
-                KPI: ${kpiData.name}
-                Descripción: ${kpiData.description}
-                Objetivo: ${kpiData.objective}
-                Proceso: ${processNames[kpiData.process]}
-                Variables: ${kpiData.variables}
-                Unidad: ${kpiData.unit}
-                Fórmula: ${kpiData.formula}
-                Frecuencia: ${kpiData.frequency}
-                Valor objetivo: ${kpiData.target}
-                Valor mínimo: ${kpiData.min || 'N/A'}
-                Valor máximo: ${kpiData.max || 'N/A'}
-                Rango de tolerancia: ${kpiData.tolerance || 'N/A'}
-                Gráfico: ${kpiData.graphic}
-                Utilidad: ${kpiData.utility}
-                Responsable diseño: ${kpiData.designResponsible}
-                Responsable implementación: ${kpiData.implementationResponsible}
-                Responsable monitoreo: ${kpiData.monitoringResponsible}
-                Email contacto: ${kpiData.email}
-                Fecha de creación: ${new Date().toLocaleDateString()}
-            `;
         }
 
         function generateCsvContent(kpiData) {
@@ -1064,7 +1036,7 @@
             return csvContent;
         }
 
-        // Función mejorada para exportar a PDF
+        // Función corregida para exportar a PDF
         function exportToPdf() {
             // Verificar si hay datos en el formulario
             const kpiName = document.getElementById('kpiName').value;
@@ -1107,12 +1079,12 @@
                 // Función para agregar texto con manejo de páginas
                 function addText(label, value, maxWidth = 170) {
                     const lines = doc.splitTextToSize(`${label}: ${value}`, maxWidth);
-                    if (yPosition + (lines.length * 5) > 270) {
+                    if (yPosition + (lines.length * 7) > 270) {
                         doc.addPage();
                         yPosition = 20;
                     }
                     doc.text(lines, 20, yPosition);
-                    yPosition += (lines.length * 5) + 5;
+                    yPosition += (lines.length * 7) + 5;
                 }
                 
                 // Agregar datos del KPI
@@ -1179,6 +1151,126 @@
             } catch (error) {
                 console.error('Error al generar PDF:', error);
                 showAlert('Error al generar el PDF. Verifique la consola para más detalles.', 'error');
+            }
+        }
+
+        // Función para generar PDF para envío por correo
+        function generatePdfForEmail(kpiData) {
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Configurar fuentes y estilos
+                doc.setFont('helvetica');
+                doc.setFontSize(20);
+                doc.setTextColor(44, 62, 80);
+                
+                // Título
+                doc.text('Ficha Técnica del KPI', 105, 20, { align: 'center' });
+                
+                // Línea decorativa
+                doc.setDrawColor(52, 152, 219);
+                doc.setLineWidth(0.5);
+                doc.line(20, 25, 190, 25);
+                
+                // Información básica
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                doc.text('INFORMACIÓN BÁSICA', 20, 35);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                let yPosition = 45;
+                
+                // Función para agregar texto
+                function addText(label, value, maxWidth = 170) {
+                    const lines = doc.splitTextToSize(`${label}: ${value}`, maxWidth);
+                    if (yPosition + (lines.length * 7) > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    doc.text(lines, 20, yPosition);
+                    yPosition += (lines.length * 7) + 5;
+                }
+                
+                // Agregar datos del KPI
+                addText('Nombre del KPI', kpiData.name);
+                addText('Descripción', kpiData.description);
+                addText('Objetivo', kpiData.objective);
+                addText('Proceso asociado', processNames[kpiData.process]);
+                
+                // Especificaciones técnicas
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.text('ESPECIFICACIONES TÉCNICAS', 20, yPosition);
+                yPosition += 15;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                addText('Variables a medir', kpiData.variables);
+                addText('Unidad de medida', kpiData.unit);
+                addText('Fórmula de cálculo', kpiData.formula);
+                addText('Frecuencia de medición', kpiData.frequency);
+                addText('Valor objetivo', kpiData.target);
+                addText('Valor mínimo aceptable', kpiData.min || 'N/A');
+                addText('Valor máximo aceptable', kpiData.max || 'N/A');
+                addText('Rango de tolerancia', kpiData.tolerance || 'N/A');
+                addText('Sistema gráfico', kpiData.graphic);
+                
+                // Utilidad y aplicación
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.text('UTILIDAD Y APLICACIÓN', 20, yPosition);
+                yPosition += 15;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                addText('Comentarios sobre utilidad', kpiData.utility);
+                addText('Responsable del diseño', kpiData.designResponsible);
+                addText('Responsable de implementación', kpiData.implementationResponsible);
+                addText('Responsable de monitoreo', kpiData.monitoringResponsible);
+                addText('Email de contacto', kpiData.email);
+                
+                // Pie de página
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text(`Página ${i} de ${pageCount}`, 105, 285, { align: 'center' });
+                    doc.text(`Generado el ${new Date().toLocaleDateString()}`, 105, 290, { align: 'center' });
+                }
+                
+                // Obtener el PDF como base64
+                const pdfBase64 = doc.output('datauristring');
+                
+                // Obtener datos del formulario de correo
+                const recipientEmail = document.getElementById('recipientEmail').value;
+                const emailSubject = document.getElementById('emailSubject').value;
+                const emailMessage = document.getElementById('emailMessage').value;
+                
+                // En un entorno real, aquí enviarías el correo con el adjunto
+                // Por ahora, mostramos un mensaje informativo
+                showAlert(`PDF generado correctamente. En un entorno real, se enviaría a ${recipientEmail}`, 'success');
+                
+                // Cerrar modal
+                document.getElementById('emailModal').style.display = 'none';
+                
+                // Descargar el PDF también
+                const fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.pdf`;
+                doc.save(fileName);
+                
+            } catch (error) {
+                console.error('Error al generar PDF para correo:', error);
+                showAlert('Error al generar el PDF para correo.', 'error');
             }
         }
 

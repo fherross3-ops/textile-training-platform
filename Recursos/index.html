@@ -1064,14 +1064,158 @@
             return csvContent;
         }
 
+        // Función mejorada para exportar a PDF
         function exportToPdf() {
-            // Implementación de exportación a PDF
-            showAlert('Funcionalidad de exportación a PDF en desarrollo', 'success');
+            // Verificar si hay datos en el formulario
+            const kpiName = document.getElementById('kpiName').value;
+            
+            if (!kpiName) {
+                showAlert('Complete el formulario antes de exportar a PDF', 'error');
+                return;
+            }
+            
+            try {
+                // Obtener datos del KPI
+                const kpiData = getKpiData();
+                
+                // Crear instancia de jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Configurar fuentes y estilos
+                doc.setFont('helvetica');
+                doc.setFontSize(20);
+                doc.setTextColor(44, 62, 80); // Color primary
+                
+                // Título
+                doc.text('Ficha Técnica del KPI', 105, 20, { align: 'center' });
+                
+                // Línea decorativa
+                doc.setDrawColor(52, 152, 219); // Color secondary
+                doc.setLineWidth(0.5);
+                doc.line(20, 25, 190, 25);
+                
+                // Información básica
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                doc.text('INFORMACIÓN BÁSICA', 20, 35);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                let yPosition = 45;
+                
+                // Función para agregar texto con manejo de páginas
+                function addText(label, value, maxWidth = 170) {
+                    const lines = doc.splitTextToSize(`${label}: ${value}`, maxWidth);
+                    if (yPosition + (lines.length * 5) > 270) {
+                        doc.addPage();
+                        yPosition = 20;
+                    }
+                    doc.text(lines, 20, yPosition);
+                    yPosition += (lines.length * 5) + 5;
+                }
+                
+                // Agregar datos del KPI
+                addText('Nombre del KPI', kpiData.name);
+                addText('Descripción', kpiData.description);
+                addText('Objetivo', kpiData.objective);
+                addText('Proceso asociado', processNames[kpiData.process]);
+                
+                // Especificaciones técnicas
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.text('ESPECIFICACIONES TÉCNICAS', 20, yPosition);
+                yPosition += 15;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                addText('Variables a medir', kpiData.variables);
+                addText('Unidad de medida', kpiData.unit);
+                addText('Fórmula de cálculo', kpiData.formula);
+                addText('Frecuencia de medición', kpiData.frequency);
+                addText('Valor objetivo', kpiData.target);
+                addText('Valor mínimo aceptable', kpiData.min || 'N/A');
+                addText('Valor máximo aceptable', kpiData.max || 'N/A');
+                addText('Rango de tolerancia', kpiData.tolerance || 'N/A');
+                addText('Sistema gráfico', kpiData.graphic);
+                
+                // Utilidad y aplicación
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.text('UTILIDAD Y APLICACIÓN', 20, yPosition);
+                yPosition += 15;
+                
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0);
+                addText('Comentarios sobre utilidad', kpiData.utility);
+                addText('Responsable del diseño', kpiData.designResponsible);
+                addText('Responsable de implementación', kpiData.implementationResponsible);
+                addText('Responsable de monitoreo', kpiData.monitoringResponsible);
+                addText('Email de contacto', kpiData.email);
+                
+                // Pie de página
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text(`Página ${i} de ${pageCount}`, 105, 285, { align: 'center' });
+                    doc.text(`Generado el ${new Date().toLocaleDateString()}`, 105, 290, { align: 'center' });
+                }
+                
+                // Guardar el PDF
+                const fileName = `KPI_${kpiData.name.replace(/\s+/g, '_')}.pdf`;
+                doc.save(fileName);
+                
+                showAlert('PDF exportado correctamente', 'success');
+            } catch (error) {
+                console.error('Error al generar PDF:', error);
+                showAlert('Error al generar el PDF. Verifique la consola para más detalles.', 'error');
+            }
         }
 
         function exportToCsv() {
-            // Implementación de exportación a CSV
-            showAlert('Funcionalidad de exportación a CSV en desarrollo', 'success');
+            // Verificar si hay datos en el formulario
+            const kpiName = document.getElementById('kpiName').value;
+            
+            if (!kpiName) {
+                showAlert('Complete el formulario antes de exportar a CSV', 'error');
+                return;
+            }
+            
+            try {
+                // Obtener datos del KPI
+                const kpiData = getKpiData();
+                
+                // Generar contenido CSV
+                const csvContent = generateCsvContent(kpiData);
+                
+                // Crear y descargar archivo
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                
+                link.setAttribute('href', url);
+                link.setAttribute('download', `KPI_${kpiData.name.replace(/\s+/g, '_')}.csv`);
+                link.style.visibility = 'hidden';
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showAlert('CSV exportado correctamente', 'success');
+            } catch (error) {
+                console.error('Error al generar CSV:', error);
+                showAlert('Error al generar el CSV', 'error');
+            }
         }
 
         function importFromCsv(event) {

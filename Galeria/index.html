@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Multimedia</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        /* Cabecera */
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+            min-width: 80px;
+        }
+        
+        .filter-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .filter-btn.active {
+            background-color: #2575fc;
+            color: white;
+        }
+        
+        /* Galería */
+        main {
+            flex: 1;
+        }
+        
+        .gallery {
+            padding: 2rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .media-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .media-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .media-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .video-thumbnail {
+            position: relative;
+        }
+        
+        .video-thumbnail::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .pdf-thumbnail {
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #e74c3c;
+            height: 180px;
+        }
+        
+        .media-info {
+            padding: 15px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .media-info h3 {
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            line-height: 1.3;
+        }
+        
+        .media-info p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            max-width: 95%;
+            max-height: 95%;
+            overflow: auto;
+            position: relative;
+            padding: 20px;
+            width: 100%;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: white;
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-body {
+            margin-top: 10px;
+        }
+        
+        .modal-video {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            border-radius: 4px;
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            height: auto;
+            max-height: 70vh;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+        }
+        
+        .modal-pdf {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Pie de página */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+        
+        /* Estados de carga */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2575fc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive - Tabletas */
+        @media (max-width: 1024px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        /* Responsive - Móviles Grandes */
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+                padding: 1.5rem 0;
+            }
+            
+            header {
+                padding: 1.5rem 0;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .media-thumbnail, .pdf-thumbnail {
+                height: 160px;
+            }
+            
+            .modal-content {
+                padding: 15px;
+            }
+        }
+        
+        /* Responsive - Móviles Pequeños */
+        @media (max-width: 600px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+            
+            .filters {
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                padding: 8px 14px;
+                font-size: 0.9rem;
+                min-width: 70px;
+            }
+            
+            .media-info {
+                padding: 12px;
+            }
+            
+            .media-info h3 {
+                font-size: 1rem;
+            }
+            
+            .media-info p {
+                font-size: 0.85rem;
+            }
+            
+            .media-thumbnail, .pdf-thumbnail {
+                height: 140px;
+            }
+            
+            .pdf-thumbnail {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Responsive - Móviles Muy Pequeños */
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 200px;
+                margin-bottom: 5px;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            header p {
+                font-size: 0.95rem;
+            }
+            
+            .modal-content {
+                padding: 10px;
+            }
+            
+            .close-btn {
+                top: 5px;
+                right: 5px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Orientación horizontal en móviles */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .modal-content {
+                max-height: 90vh;
+            }
+            
+            .modal-video,
+            .modal-image,
+            .modal-pdf {
+                max-height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <div class="container">
+            <h1>Galería Multimedia</h1>
+            <p>Explora nuestra colección de videos, imágenes y documentos</p>
+        </div>
+    </header>
+    
+    <!-- Navegación -->
+    <nav>
+        <div class="container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="video">Videos</button>
+                <button class="filter-btn" data-filter="image">Imágenes</button>
+                <button class="filter-btn" data-filter="pdf">PDFs</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Galería -->
+    <main class="container">
+        <div class="gallery" id="gallery">
+            <!-- Los elementos se cargarán dinámicamente con JavaScript -->
+        </div>
+    </main>
+    
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal" aria-label="Cerrar">&times;</button>
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido del modal se cargará dinámicamente -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pie de página -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Galería Multimedia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Datos de ejemplo - reemplazar con tus propios archivos
+        const mediaItems = [
+            {
+                id: 1,
+                title: "Cartas de Control",
+                type: "video",
+                src: "videos/video1_es_mx.mp4",
+                thumbnail: "images/arboldesicion.jpg",
+                description: "Construcción de Cartas de Control"
+            },
+            {
+                id: 2,
+                title: "Árbol de Decisión",
+                type: "image",
+                src: "images/arboldesicion.jpg",
+                thumbnail: "images/arboldesicion.jpg",
+                description: "Diagrama de árbol de decisión"
+            },
+            {
+                id: 3,
+                title: "Cálculo de Límites",
+                type: "image",
+                src: "images/calculolimites.jpg",
+                thumbnail: "images/calculolimites.jpg",
+                description: "Fórmulas y tabla de cálculo"
+            },
+            {
+                id: 4,
+                title: "Documento PDF de Ejemplo",
+                type: "pdf",
+                src: "pdfs/documento1.pdf",
+                thumbnail: "pdf",
+                description: "Documento informativo en formato PDF"
+            },
+            {
+                id: 5,
+                title: "Ejemplo X-R",
+                type: "pdf",
+                src: "pdfs/Ejemplo_X-R.pdf",
+                thumbnail: "pdf",
+                description: "Ejemplos Construccion Cartas de Control"
+            },
+            
+        
+            {
+                id: 3,
+                title: "Cálculo de Límites",
+                type: "image",
+                src: "images/Scan_FORMATO_CARTA DE CONTROL.jpg",
+                thumbnail: "images/Scan_FORMATO_CARTA DE CONTROL.jpg",
+                description: "Fórmato para graficar"
+            },
+
+
+        ];
+        
+        // Elementos del DOM
+        const gallery = document.getElementById('gallery');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const modal = document.getElementById('modal');
+        const modalBody = document.getElementById('modal-body');
+        const closeModal = document.getElementById('close-modal');
+        
+        // Función para simular carga (para demostración)
+        function simulateLoading() {
+            gallery.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+            return new Promise(resolve => setTimeout(resolve, 800));
+        }
+        
+        // Función para renderizar la galería
+        async function renderGallery(filter = 'all') {
+            await simulateLoading();
+            
+            gallery.innerHTML = '';
+            
+            const filteredItems = filter === 'all' 
+                ? mediaItems 
+                : mediaItems.filter(item => item.type === filter);
+            
+            // Si no hay elementos, mostrar mensaje
+            if (filteredItems.length === 0) {
+                gallery.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">No hay elementos para mostrar con el filtro seleccionado.</p>';
+                return;
+            }
+            
+            filteredItems.forEach(item => {
+                const mediaItem = document.createElement('div');
+                mediaItem.className = `media-item ${item.type}-item`;
+                mediaItem.setAttribute('data-id', item.id);
+                
+                let thumbnailHTML = '';
+                
+                if (item.type === 'video') {
+                    thumbnailHTML = `
+                        <div class="video-thumbnail">
+                            <img src="${item.thumbnail}" alt="${item.title}" class="media-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlZpZGVvPC90ZXh0Pjwvc3Zn+';">
+                        </div>
+                    `;
+                } else if (item.type === 'image') {
+                    thumbnailHTML = `
+                        <img src="${item.thumbnail}" alt="${item.title}" class="media-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbjwvdGV4dD48L3N2Zz4=';">
+                    `;
+                } else if (item.type === 'pdf') {
+                    thumbnailHTML = `
+                        <div class="pdf-thumbnail">
+                            <span>📄</span>
+                        </div>
+                    `;
+                }
+                
+                mediaItem.innerHTML = `
+                    ${thumbnailHTML}
+                    <div class="media-info">
+                        <h3>${item.title}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                `;
+                
+                mediaItem.addEventListener('click', () => openModal(item));
+                gallery.appendChild(mediaItem);
+            });
+        }
+        
+        // Función para abrir el modal
+        function openModal(item) {
+            let contentHTML = '';
+            
+            if (item.type === 'video') {
+                contentHTML = `
+                    <video controls class="modal-video">
+                        <source src="${item.src}" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
+                    <p class="modal-title">${item.title}</p>
+                `;
+            } else if (item.type === 'image') {
+                contentHTML = `
+                    <img src="${item.src}" alt="${item.title}" class="modal-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <p style="display: none; text-align: center; padding: 2rem;">Imagen no disponible: ${item.src}</p>
+                    <p class="modal-title">${item.title}</p>
+                `;
+            } else if (item.type === 'pdf') {
+                contentHTML = `
+                    <iframe src="${item.src}" class="modal-pdf"></iframe>
+                    <p class="modal-title">${item.title}</p>
+                `;
+            }
+            
+            modalBody.innerHTML = contentHTML;
+            modal.style.display = 'flex';
+            
+            // Enfocar el botón de cerrar para accesibilidad
+            closeModal.focus();
+        }
+        
+        // Event Listeners
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remover clase active de todos los botones
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Agregar clase active al botón clickeado
+                btn.classList.add('active');
+                // Filtrar galería
+                const filter = btn.getAttribute('data-filter');
+                renderGallery(filter);
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            closeModalFunc();
+        });
+        
+        // Función para cerrar modal
+        function closeModalFunc() {
+            modal.style.display = 'none';
+            // Pausar video si está reproduciéndose
+            const video = modalBody.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        }
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModalFunc();
+            }
+        });
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closeModalFunc();
+            }
+        });
+        
+        // Inicializar galería
+        renderGallery();
+    </script>
+</body>
+</html>

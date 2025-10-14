@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --light-gray: #f5f5f5;
+            --border-color: #ddd;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button.secondary {
+            background-color: #95a5a6;
+        }
+        
+        button.secondary:hover {
+            background-color: #7f8c8d;
+        }
+        
+        button.success {
+            background-color: var(--success-color);
+        }
+        
+        button.success:hover {
+            background-color: #219653;
+        }
+        
+        button.warning {
+            background-color: var(--warning-color);
+        }
+        
+        button.warning:hover {
+            background-color: #e67e22;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px 10px;
+            text-align: center;
+        }
+        
+        th {
+            background-color: var(--light-gray);
+            font-weight: 600;
+        }
+        
+        .sample-input {
+            width: 60px;
+            padding: 4px;
+            text-align: center;
+        }
+        
+        .chart-container {
+            margin: 30px 0;
+            height: 300px;
+            position: relative;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .formula-explanation {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+        }
+        
+        .formula-explanation h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .formula-item {
+            margin-bottom: 15px;
+        }
+        
+        .formula-item h4 {
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .error {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .success {
+            color: var(--success-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .warning {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .data-section {
+            overflow-x: auto;
+        }
+        
+        .sample-header {
+            background-color: #e8f4f8;
+            font-weight: bold;
+        }
+        
+        .capability-interpretation {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .capability-good {
+            border-left-color: var(--success-color);
+            background-color: #e8f5e8;
+        }
+        
+        .capability-warning {
+            border-left-color: var(--warning-color);
+            background-color: #fef9e7;
+        }
+        
+        .capability-poor {
+            border-left-color: var(--accent-color);
+            background-color: #fdeaea;
+        }
+        
+        .interpretation-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .process-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-excellent {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .status-acceptable {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .status-marginal {
+            background-color: var(--warning-color);
+            color: white;
+        }
+        
+        .status-poor {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .spec-status {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .spec-applied {
+            color: var(--success-color);
+        }
+        
+        .spec-missing {
+            color: var(--warning-color);
+        }
+        
+        .export-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .export-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .export-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .file-input-container {
+            margin-bottom: 15px;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .file-input-label:hover {
+            background-color: #2980b9;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Nuevos estilos para mejoras */
+        .parameter-explanation {
+            background-color: #e8f4f8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .parameter-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .dashboard-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .summary-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .control-status {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .in-control {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .out-of-control-status {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+        
+        .data-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+        
+        .sticky-header th {
+            position: sticky;
+            top: 0;
+            background-color: var(--light-gray);
+            z-index: 10;
+        }
+        
+        .chart-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</h1>
+            <p>Herramienta para monitoreo y control de procesos estadísticos con datos individuales</p>
+        </header>
+        
+        <!-- Panel de Resumen -->
+        <div class="dashboard-summary" id="dashboard-summary">
+            <div class="summary-card">
+                <div class="summary-label">Estado del Proceso</div>
+                <div class="summary-value" id="process-status-value">-</div>
+                <div class="summary-label" id="process-status-label">Sin datos</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Capacidad (Cpk)</div>
+                <div class="summary-value" id="cpk-summary">-</div>
+                <div class="summary-label" id="cpk-status">No calculado</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Observaciones</div>
+                <div class="summary-value" id="observations-count">0</div>
+                <div class="summary-label">Total registradas</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Rangos Móviles</div>
+                <div class="summary-value" id="ranges-count">0</div>
+                <div class="summary-label">Total calculados</div>
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <div class="card">
+                <h2>Configuración del Proceso</h2>
+                
+                <div class="parameter-explanation">
+                    <div class="parameter-title">Datos Individuales</div>
+                    <p>En la carta I-RM, cada observación representa una medición individual del proceso. Los rangos móviles se calculan entre observaciones consecutivas.</p>
+                </div>
+                
+                <div class="parameter-explanation">
+                    <div class="parameter-title">k (Límites de control)</div>
+                    <p>Define el ancho de los límites de control. k=3 significa límites a ±3 desviaciones estándar (99.73% de datos).</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="k-value">Valor k (para límites de control):</label>
+                    <input type="number" id="k-value" value="3" step="0.1" min="1" max="5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="process-name">Nombre del Proceso:</label>
+                    <input type="text" id="process-name" placeholder="Ej: Espesor (mm)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="usl">Límite Superior de Especificación (USL):</label>
+                    <input type="number" id="usl" placeholder="Opcional">
+                    <div id="usl-status" class="spec-status"></div>
+                </div>
+                <div class="form-group">
+                    <label for="lsl">Límite Inferior de Especificación (LSL):</label>
+                    <input type="number" id="lsl" placeholder="Opcional">
+                    <div id="lsl-status" class="spec-status"></div>
+                </div>
+                <div class="form-group">
+                    <button id="add-observation-btn" class="secondary">Agregar Observación</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Instrucciones</h2>
+                <p>1. Ingrese los datos individuales del proceso en la tabla.</p>
+                <p>2. El rango móvil (RM) se calculará automáticamente entre observaciones consecutivas.</p>
+                <p>3. Haga clic en "Calcular Carta de Control" para generar los gráficos.</p>
+                <p>4. Los límites USL y LSL se mostrarán como líneas rojas en el gráfico I.</p>
+                <p>5. La carta I-RM es útil para procesos con mediciones individuales o cuando la producción es lenta.</p>
+                <button id="calculate-btn">Calcular Carta de Control</button>
+                <button id="clear-data" class="secondary">Limpiar Datos</button>
+                <button id="import-data-btn" class="warning">Importar desde CSV/Excel</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Datos Individuales y Rangos Móviles</h2>
+            <div class="data-section">
+                <div class="data-table-container">
+                    <table id="data-table">
+                        <thead>
+                            <tr id="table-header" class="sticky-header">
+                                <!-- Los encabezados se generarán dinámicamente -->
+                            </tr>
+                        </thead>
+                        <tbody id="data-body">
+                            <!-- Las filas de datos se agregarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Estado de Control del Proceso -->
+        <div class="card">
+            <h2>Estado del Control del Proceso</h2>
+            <div id="control-status" class="control-status">
+                Estado del proceso: Sin datos suficientes para evaluación
+            </div>
+            <div id="control-analysis" style="margin-top: 15px;">
+                <p>Puntos fuera de control: <span id="out-of-control-count">0</span></p>
+                <p>Puntos fuera de especificación: <span id="out-of-spec-count">0</span></p>
+                <p>Recomendaciones: <span id="recommendations">Ingrese más datos para obtener recomendaciones</span></p>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="card">
+                <h2>Estadísticas del Proceso</h2>
+                <div id="process-stats">
+                    <p>Media de rangos móviles (R̄): <span id="mr-bar">-</span></p>
+                    <p>Media del proceso (μ̂): <span id="process-mean">-</span></p>
+                    <p>Desviación estándar (σ̂): <span id="process-std">-</span></p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Capacidad del Proceso</h2>
+                <div id="process-capability">
+                    <p>C<sub>p</sub>: <span id="cp-value">-</span></p>
+                    <p>C<sub>pk</sub>: <span id="cpk-value">-</span></p>
+                    <p>Rendimiento (%): <span id="yield-percent">-</span></p>
+                    <div id="capability-interpretation">
+                        <!-- La interpretación se generará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Carta de Control I (Individual) con Límites de Especificación</h2>
+            <div class="chart-container">
+                <canvas id="i-chart"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(54, 162, 235);"></div>
+                    <span>Observación Individual (I)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(0, 0, 0); border: 1px dashed #000;"></div>
+                    <span>Línea Central (CL)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(220, 53, 69); border: 1px dashed #dc3545;"></div>
+                    <span>Límites de Control (UCL/LCL)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(255, 0, 0);"></div>
+                    <span>Límites de Especificación (USL/LSL)</span>
+                </div>
+            </div>
+            <div id="i-limits">
+                <p>Línea Central (CL): <span id="i-cl">-</span></p>
+                <p>Límite Superior de Control (UCL): <span id="i-ucl">-</span></p>
+                <p>Límite Inferior de Control (LCL): <span id="i-lcl">-</span></p>
+                <p>Límite Superior de Especificación (USL): <span id="i-usl">-</span></p>
+                <p>Límite Inferior de Especificación (LSL): <span id="i-lsl">-</span></p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Carta de Control RM (Rango Móvil)</h2>
+            <div class="chart-container">
+                <canvas id="rm-chart"></canvas>
+            </div>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(255, 159, 64);"></div>
+                    <span>Rango Móvil (RM)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(0, 0, 0); border: 1px dashed #000;"></div>
+                    <span>Línea Central (CL)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: rgb(220, 53, 69); border: 1px dashed #dc3545;"></div>
+                    <span>Límites de Control (UCL/LCL)</span>
+                </div>
+            </div>
+            <div id="rm-limits">
+                <p>Línea Central (CL): <span id="rm-cl">-</span></p>
+                <p>Límite Superior de Control (UCL): <span id="rm-ucl">-</span></p>
+                <p>Límite Inferior de Control (LCL): <span id="rm-lcl">-</span></p>
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <h3>Exportar Reporte Ejecutivo</h3>
+            <div class="export-buttons">
+                <button id="export-pdf-btn" class="success">Generar PDF Ejecutivo</button>
+                <button id="send-email-btn" class="warning">Enviar por Correo</button>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2023 Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</p>
+        </div>
+    </div>
+
+    <!-- Modal para importación de datos -->
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <h3>Importar Datos desde Archivo</h3>
+            <div class="file-input-container">
+                <label for="file-input" class="file-input-label">Seleccionar archivo CSV</label>
+                <input type="file" id="file-input" class="file-input" accept=".csv">
+                <div class="file-info" id="file-info">No se ha seleccionado ningún archivo</div>
+            </div>
+            <div class="form-group">
+                <label for="csv-delimiter">Separador (para archivos CSV):</label>
+                <select id="csv-delimiter">
+                    <option value=",">Coma (,)</option>
+                    <option value=";">Punto y coma (;)</option>
+                    <option value="\t">Tabulador</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button id="cancel-import" class="secondary">Cancelar</button>
+                <button id="confirm-import" class="success">Importar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para envío por correo -->
+    <div id="email-modal" class="modal">
+        <div class="modal-content">
+            <h3>Enviar Reporte Ejecutivo por Correo</h3>
+            <div class="form-group">
+                <label for="email-to">Destinatario:</label>
+                <input type="email" id="email-to" value="jtxdossier@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="email-subject">Asunto:</label>
+                <input type="text" id="email-subject" value="Reporte Ejecutivo - Carta de Control I-RM">
+            </div>
+            <div class="form-group">
+                <label for="email-message">Mensaje:</label>
+                <textarea id="email-message" rows="4" placeholder="Mensaje opcional..."></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button id="cancel-email" class="secondary">Cancelar</button>
+                <button id="send-email" class="success">Enviar Reporte</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        // Constantes para factores d2 y d3 para rangos móviles (n=2)
+        const d2 = 1.128; // Factor d2 para n=2 (rangos móviles)
+        const d3 = 0.853; // Factor d3 para n=2 (rangos móviles)
+        
+        // Variables globales
+        let observationCounter = 1;
+        let iChart, rmChart;
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reconstruir encabezado de tabla
+            rebuildTableHeader();
+            
+            // Agregar observación inicial
+            addObservation();
+            
+            // Configurar eventos
+            document.getElementById('add-observation-btn').addEventListener('click', addObservation);
+            document.getElementById('calculate-btn').addEventListener('click', calculateControlChart);
+            document.getElementById('clear-data').addEventListener('click', clearData);
+            document.getElementById('import-data-btn').addEventListener('click', showImportModal);
+            document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
+            document.getElementById('send-email-btn').addEventListener('click', showEmailModal);
+            
+            // Eventos para modales
+            document.getElementById('cancel-import').addEventListener('click', hideImportModal);
+            document.getElementById('confirm-import').addEventListener('click', importDataFromFile);
+            document.getElementById('file-input').addEventListener('change', updateFileInfo);
+            document.getElementById('cancel-email').addEventListener('click', hideEmailModal);
+            document.getElementById('send-email').addEventListener('click', sendEmail);
+            
+            // Monitorear cambios en los límites de especificación
+            document.getElementById('usl').addEventListener('input', updateSpecStatus);
+            document.getElementById('lsl').addEventListener('input', updateSpecStatus);
+            
+            // Inicializar gráficos
+            initializeCharts();
+            
+            // Actualizar estado inicial de especificaciones
+            updateSpecStatus();
+            
+            // Actualizar resumen inicial
+            updateDashboardSummary();
+        });
+        
+        // Reconstruir encabezado de tabla
+        function rebuildTableHeader() {
+            const tableHeader = document.getElementById('table-header');
+            tableHeader.innerHTML = '';
+            
+            // Agregar columna de observación
+            const obsHeader = document.createElement('th');
+            obsHeader.textContent = 'Observación';
+            tableHeader.appendChild(obsHeader);
+            
+            // Agregar columna para valor individual
+            const valueHeader = document.createElement('th');
+            valueHeader.textContent = 'Valor Individual (I)';
+            tableHeader.appendChild(valueHeader);
+            
+            // Agregar columna para rango móvil
+            const rangeHeader = document.createElement('th');
+            rangeHeader.textContent = 'Rango Móvil (RM)';
+            tableHeader.appendChild(rangeHeader);
+        }
+        
+        // Agregar nueva observación
+        function addObservation() {
+            const dataBody = document.getElementById('data-body');
+            const newRow = document.createElement('tr');
+            
+            // Celda de número de observación
+            const obsCell = document.createElement('td');
+            obsCell.textContent = observationCounter;
+            newRow.appendChild(obsCell);
+            
+            // Celda para valor individual
+            const inputCell = document.createElement('td');
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'sample-input';
+            input.addEventListener('input', function() {
+                calculateMovingRanges();
+                updateDashboardSummary();
+            });
+            inputCell.appendChild(input);
+            newRow.appendChild(inputCell);
+            
+            // Celda para rango móvil
+            const rangeCell = document.createElement('td');
+            rangeCell.className = 'moving-range';
+            rangeCell.textContent = '-';
+            newRow.appendChild(rangeCell);
+            
+            dataBody.appendChild(newRow);
+            observationCounter++;
+            
+            // Recalcular rangos móviles
+            calculateMovingRanges();
+            updateDashboardSummary();
+        }
+        
+        // Calcular rangos móviles
+        function calculateMovingRanges() {
+            const rows = document.querySelectorAll('#data-body tr');
+            
+            // Limpiar todos los rangos móviles
+            rows.forEach(row => {
+                row.querySelector('.moving-range').textContent = '-';
+            });
+            
+            // Calcular rangos móviles para observaciones consecutivas
+            for (let i = 1; i < rows.length; i++) {
+                const currentRow = rows[i];
+                const previousRow = rows[i-1];
+                
+                const currentInput = currentRow.querySelector('.sample-input');
+                const previousInput = previousRow.querySelector('.sample-input');
+                
+                const currentValue = parseFloat(currentInput.value);
+                const previousValue = parseFloat(previousInput.value);
+                
+                if (!isNaN(currentValue) && !isNaN(previousValue)) {
+                    const movingRange = Math.abs(currentValue - previousValue);
+                    currentRow.querySelector('.moving-range').textContent = movingRange.toFixed(4);
+                }
+            }
+        }
+        
+        // Calcular carta de control
+        function calculateControlChart() {
+            const individualValues = [];
+            const movingRanges = [];
+            const observationNumbers = [];
+            
+            // Recopilar datos de todas las observaciones
+            const rows = document.querySelectorAll('#data-body tr');
+            
+            rows.forEach(row => {
+                const input = row.querySelector('.sample-input');
+                const rangeCell = row.querySelector('.moving-range');
+                
+                if (input.value && !isNaN(parseFloat(input.value))) {
+                    individualValues.push(parseFloat(input.value));
+                    observationNumbers.push(parseInt(row.cells[0].textContent));
+                    
+                    // Solo agregar rangos móviles válidos (no la primera observación)
+                    if (rangeCell.textContent !== '-') {
+                        movingRanges.push(parseFloat(rangeCell.textContent));
+                    }
+                }
+            });
+            
+            // Verificar si hay datos suficientes
+            if (individualValues.length < 2) {
+                alert('Se necesitan al menos 2 observaciones con datos para calcular la carta de control');
+                return;
+            }
+            
+            // Calcular estadísticas del proceso
+            const mrBar = movingRanges.reduce((sum, mr) => sum + mr, 0) / movingRanges.length;
+            const processMean = individualValues.reduce((sum, value) => sum + value, 0) / individualValues.length;
+            
+            // Calcular desviación estándar usando rangos móviles
+            const processStd = mrBar / d2;
+            
+            // Obtener valor k
+            const k = parseFloat(document.getElementById('k-value').value);
+            
+            // Calcular límites de control para I (Individual)
+            const iUCL = processMean + k * processStd;
+            const iLCL = processMean - k * processStd;
+            
+            // Calcular límites de control para RM (Rango Móvil)
+            const rmUCL = mrBar * (1 + k * (d3 / d2));
+            const rmLCL = Math.max(0, mrBar * (1 - k * (d3 / d2)));
+            
+            // Obtener límites de especificación
+            const usl = document.getElementById('usl').value ? parseFloat(document.getElementById('usl').value) : null;
+            const lsl = document.getElementById('lsl').value ? parseFloat(document.getElementById('lsl').value) : null;
+            
+            // Detectar puntos fuera de control y fuera de especificación
+            let outOfControlCount = 0;
+            let outOfSpecCount = 0;
+            
+            individualValues.forEach(value => {
+                if (value > iUCL || value < iLCL) {
+                    outOfControlCount++;
+                }
+                if (usl !== null && value > usl) {
+                    outOfSpecCount++;
+                }
+                if (lsl !== null && value < lsl) {
+                    outOfSpecCount++;
+                }
+            });
+            
+            movingRanges.forEach(range => {
+                if (range > rmUCL || (rmLCL > 0 && range < rmLCL)) {
+                    outOfControlCount++;
+                }
+            });
+            
+            // Actualizar estadísticas en la interfaz
+            document.getElementById('mr-bar').textContent = mrBar.toFixed(4);
+            document.getElementById('process-mean').textContent = processMean.toFixed(4);
+            document.getElementById('process-std').textContent = processStd.toFixed(4);
+            
+            document.getElementById('i-cl').textContent = processMean.toFixed(4);
+            document.getElementById('i-ucl').textContent = iUCL.toFixed(4);
+            document.getElementById('i-lcl').textContent = iLCL.toFixed(4);
+            document.getElementById('i-usl').textContent = usl !== null ? usl.toFixed(4) : '-';
+            document.getElementById('i-lsl').textContent = lsl !== null ? lsl.toFixed(4) : '-';
+            
+            document.getElementById('rm-cl').textContent = mrBar.toFixed(4);
+            document.getElementById('rm-ucl').textContent = rmUCL.toFixed(4);
+            document.getElementById('rm-lcl').textContent = rmLCL > 0 ? rmLCL.toFixed(4) : '0';
+            
+            // Actualizar estado de control
+            const controlStatus = document.getElementById('control-status');
+            const outOfControlElement = document.getElementById('out-of-control-count');
+            const outOfSpecElement = document.getElementById('out-of-spec-count');
+            const recommendationsElement = document.getElementById('recommendations');
+            
+            outOfControlElement.textContent = outOfControlCount;
+            outOfSpecElement.textContent = outOfSpecCount;
+            
+            if (outOfControlCount === 0 && outOfSpecCount === 0) {
+                controlStatus.textContent = 'Estado del proceso: Bajo Control Estadístico';
+                controlStatus.className = 'control-status in-control';
+                recommendationsElement.textContent = 'El proceso está bajo control estadístico. Continúe monitoreando.';
+            } else {
+                controlStatus.textContent = 'Estado del proceso: Fuera de Control';
+                controlStatus.className = 'control-status out-of-control-status';
+                
+                let recommendations = '';
+                if (outOfControlCount > 0) {
+                    recommendations += 'Existen puntos fuera de los límites de control. Investigue causas especiales. ';
+                }
+                if (outOfSpecCount > 0) {
+                    recommendations += 'Existen observaciones fuera de especificación. Revise el proceso.';
+                }
+                recommendationsElement.textContent = recommendations;
+            }
+            
+            // Calcular capacidad del proceso si hay especificaciones
+            if (usl !== null && lsl !== null) {
+                calculateProcessCapability(processMean, processStd, usl, lsl, individualValues);
+            } else {
+                document.getElementById('cp-value').textContent = '-';
+                document.getElementById('cpk-value').textContent = '-';
+                document.getElementById('yield-percent').textContent = '-';
+                document.getElementById('capability-interpretation').innerHTML = 
+                    '<p>Ingrese ambos límites de especificación para calcular la capacidad del proceso.</p>';
+            }
+            
+            // Actualizar gráficos
+            updateIChart(observationNumbers, individualValues, processMean, iUCL, iLCL, usl, lsl);
+            updateRMChart(observationNumbers, movingRanges, mrBar, rmUCL, rmLCL);
+            
+            // Actualizar resumen del dashboard
+            updateDashboardSummary();
+        }
+        
+        // Calcular capacidad del proceso
+        function calculateProcessCapability(mean, std, usl, lsl, values) {
+            // Calcular Cp
+            const cp = (usl - lsl) / (6 * std);
+            
+            // Calcular Cpk
+            const cpu = (usl - mean) / (3 * std);
+            const cpl = (mean - lsl) / (3 * std);
+            const cpk = Math.min(cpu, cpl);
+            
+            // Calcular rendimiento
+            const withinSpec = values.filter(value => value >= lsl && value <= usl).length;
+            const yieldPercent = (withinSpec / values.length) * 100;
+            
+            // Actualizar interfaz
+            document.getElementById('cp-value').textContent = cp.toFixed(4);
+            document.getElementById('cpk-value').textContent = cpk.toFixed(4);
+            document.getElementById('yield-percent').textContent = yieldPercent.toFixed(2);
+            
+            // Interpretar capacidad
+            const interpretation = document.getElementById('capability-interpretation');
+            let interpretationClass = '';
+            let interpretationText = '';
+            
+            if (cpk >= 1.67) {
+                interpretationClass = 'capability-good';
+                interpretationText = 'Capacidad excelente. El proceso cumple con especificaciones con amplio margen.';
+            } else if (cpk >= 1.33) {
+                interpretationClass = 'capability-good';
+                interpretationText = 'Capacidad adecuada. El proceso cumple con especificaciones.';
+            } else if (cpk >= 1.0) {
+                interpretationClass = 'capability-warning';
+                interpretationText = 'Capacidad marginal. El proceso puede tener problemas para cumplir especificaciones.';
+            } else if (cpk >= 0.67) {
+                interpretationClass = 'capability-warning';
+                interpretationText = 'Capacidad insuficiente. El proceso no cumple consistentemente con especificaciones.';
+            } else {
+                interpretationClass = 'capability-poor';
+                interpretationText = 'Capacidad inaceptable. El proceso no cumple con especificaciones.';
+            }
+            
+            interpretation.innerHTML = `
+                <div class="capability-interpretation ${interpretationClass}">
+                    <div class="interpretation-title">Interpretación:</div>
+                    <div>${interpretationText}</div>
+                </div>
+            `;
+            
+            // Actualizar resumen del dashboard
+            document.getElementById('cpk-summary').textContent = cpk.toFixed(2);
+            document.getElementById('cpk-status').textContent = getCpkStatusText(cpk);
+        }
+        
+        // Obtener texto de estado para Cpk
+        function getCpkStatusText(cpk) {
+            if (cpk >= 1.67) return 'Excelente';
+            if (cpk >= 1.33) return 'Adecuado';
+            if (cpk >= 1.0) return 'Marginal';
+            if (cpk >= 0.67) return 'Insuficiente';
+            return 'Inaceptable';
+        }
+        
+        // Inicializar gráficos
+        function initializeCharts() {
+            const iCtx = document.getElementById('i-chart').getContext('2d');
+            const rmCtx = document.getElementById('rm-chart').getContext('2d');
+            
+            // Configuración común para gráficos
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Observación'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Valor'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                }
+            };
+            
+            // Crear gráficos vacíos
+            iChart = new Chart(iCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Observación Individual (I)',
+                            data: [],
+                            borderColor: 'rgb(54, 162, 235)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                            tension: 0.1,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Línea Central (CL)',
+                            data: [],
+                            borderColor: 'rgb(0, 0, 0)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Superior de Control (UCL)',
+                            data: [],
+                            borderColor: 'rgb(220, 53, 69)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Inferior de Control (LCL)',
+                            data: [],
+                            borderColor: 'rgb(220, 53, 69)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Superior de Especificación (USL)',
+                            data: [],
+                            borderColor: 'rgb(255, 0, 0)',
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Inferior de Especificación (LSL)',
+                            data: [],
+                            borderColor: 'rgb(255, 0, 0)',
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+            
+            rmChart = new Chart(rmCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Rango Móvil (RM)',
+                            data: [],
+                            borderColor: 'rgb(255, 159, 64)',
+                            backgroundColor: 'rgba(255, 159, 64, 0.1)',
+                            tension: 0.1,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Línea Central (CL)',
+                            data: [],
+                            borderColor: 'rgb(0, 0, 0)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Superior de Control (UCL)',
+                            data: [],
+                            borderColor: 'rgb(220, 53, 69)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        },
+                        {
+                            label: 'Límite Inferior de Control (LCL)',
+                            data: [],
+                            borderColor: 'rgb(220, 53, 69)',
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: commonOptions
+            });
+        }
+        
+        // Actualizar gráfico I
+        function updateIChart(labels, data, cl, ucl, lcl, usl, lsl) {
+            // Preparar datos para el gráfico
+            const clData = Array(data.length).fill(cl);
+            const uclData = Array(data.length).fill(ucl);
+            const lclData = Array(data.length).fill(lcl);
+            const uslData = usl !== null ? Array(data.length).fill(usl) : [];
+            const lslData = lsl !== null ? Array(data.length).fill(lsl) : [];
+            
+            // Actualizar gráfico
+            iChart.data.labels = labels;
+            iChart.data.datasets[0].data = data;
+            iChart.data.datasets[1].data = clData;
+            iChart.data.datasets[2].data = uclData;
+            iChart.data.datasets[3].data = lclData;
+            iChart.data.datasets[4].data = uslData;
+            iChart.data.datasets[5].data = lslData;
+            
+            // Actualizar título del eje Y
+            const processName = document.getElementById('process-name').value || 'Valor';
+            iChart.options.scales.y.title.text = processName;
+            
+            iChart.update();
+        }
+        
+        // Actualizar gráfico RM
+        function updateRMChart(labels, data, cl, ucl, lcl) {
+            // Nota: Los rangos móviles comienzan desde la segunda observación
+            // Ajustar etiquetas para que coincidan
+            const rmLabels = labels.slice(1);
+            
+            // Preparar datos para el gráfico
+            const clData = Array(data.length).fill(cl);
+            const uclData = Array(data.length).fill(ucl);
+            const lclData = Array(data.length).fill(lcl);
+            
+            // Actualizar gráfico
+            rmChart.data.labels = rmLabels;
+            rmChart.data.datasets[0].data = data;
+            rmChart.data.datasets[1].data = clData;
+            rmChart.data.datasets[2].data = uclData;
+            rmChart.data.datasets[3].data = lclData;
+            
+            rmChart.update();
+        }
+        
+        // Limpiar datos
+        function clearData() {
+            if (confirm('¿Está seguro de que desea eliminar todos los datos?')) {
+                const dataBody = document.getElementById('data-body');
+                dataBody.innerHTML = '';
+                observationCounter = 1;
+                addObservation();
+                
+                // Reiniciar gráficos
+                iChart.data.labels = [];
+                iChart.data.datasets.forEach(dataset => dataset.data = []);
+                iChart.update();
+                
+                rmChart.data.labels = [];
+                rmChart.data.datasets.forEach(dataset => dataset.data = []);
+                rmChart.update();
+                
+                // Reiniciar estadísticas
+                document.getElementById('mr-bar').textContent = '-';
+                document.getElementById('process-mean').textContent = '-';
+                document.getElementById('process-std').textContent = '-';
+                
+                document.getElementById('i-cl').textContent = '-';
+                document.getElementById('i-ucl').textContent = '-';
+                document.getElementById('i-lcl').textContent = '-';
+                
+                document.getElementById('rm-cl').textContent = '-';
+                document.getElementById('rm-ucl').textContent = '-';
+                document.getElementById('rm-lcl').textContent = '-';
+                
+                // Reiniciar estado de control
+                document.getElementById('control-status').textContent = 'Estado del proceso: Sin datos suficientes para evaluación';
+                document.getElementById('control-status').className = 'control-status';
+                document.getElementById('out-of-control-count').textContent = '0';
+                document.getElementById('out-of-spec-count').textContent = '0';
+                document.getElementById('recommendations').textContent = 'Ingrese más datos para obtener recomendaciones';
+                
+                // Reiniciar capacidad
+                document.getElementById('cp-value').textContent = '-';
+                document.getElementById('cpk-value').textContent = '-';
+                document.getElementById('yield-percent').textContent = '-';
+                document.getElementById('capability-interpretation').innerHTML = '';
+                
+                // Actualizar resumen
+                updateDashboardSummary();
+            }
+        }
+        
+        // Mostrar modal de importación
+        function showImportModal() {
+            document.getElementById('import-modal').style.display = 'flex';
+        }
+        
+        // Ocultar modal de importación
+        function hideImportModal() {
+            document.getElementById('import-modal').style.display = 'none';
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-info').textContent = 'No se ha seleccionado ningún archivo';
+        }
+        
+        // Actualizar información del archivo
+        function updateFileInfo() {
+            const fileInput = document.getElementById('file-input');
+            const fileInfo = document.getElementById('file-info');
+            
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
+            } else {
+                fileInfo.textContent = 'No se ha seleccionado ningún archivo';
+            }
+        }
+        
+        // Importar datos desde archivo - CORREGIDO
+        function importDataFromFile() {
+            const fileInput = document.getElementById('file-input');
+            
+            if (fileInput.files.length === 0) {
+                alert('Por favor, seleccione un archivo para importar');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const content = e.target.result;
+                    let data = [];
+                    
+                    if (file.name.endsWith('.csv')) {
+                        // Procesar CSV
+                        const delimiter = document.getElementById('csv-delimiter').value;
+                        const lines = content.split('\n');
+                        
+                        // Eliminar líneas vacías y procesar datos
+                        for (let i = 0; i < lines.length; i++) {
+                            const line = lines[i].trim();
+                            if (line) {
+                                const values = line.split(delimiter);
+                                const numericValue = parseFloat(values[0]);
+                                if (!isNaN(numericValue)) {
+                                    data.push(numericValue);
+                                }
+                            }
+                        }
+                    } else {
+                        alert('Solo se admiten archivos CSV');
+                        hideImportModal();
+                        return;
+                    }
+                    
+                    // Limpiar datos existentes
+                    clearData();
+                    
+                    // Agregar datos importados (sin fila vacía adicional)
+                    if (data.length > 0) {
+                        // Eliminar la fila vacía inicial
+                        const dataBody = document.getElementById('data-body');
+                        dataBody.innerHTML = '';
+                        observationCounter = 1;
+                        
+                        // Agregar cada dato como una observación
+                        data.forEach(value => {
+                            addObservation();
+                            const rows = document.querySelectorAll('#data-body tr');
+                            const lastRow = rows[rows.length - 1];
+                            const input = lastRow.querySelector('.sample-input');
+                            input.value = value;
+                        });
+                        
+                        // Recalcular rangos móviles
+                        calculateMovingRanges();
+                        
+                        // Cerrar modal
+                        hideImportModal();
+                        
+                        alert(`Se importaron ${data.length} observaciones correctamente`);
+                    } else {
+                        alert('No se encontraron datos válidos en el archivo');
+                    }
+                    
+                } catch (error) {
+                    alert('Error al importar datos: ' + error.message);
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('Error al leer el archivo');
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // Mostrar modal de correo
+        function showEmailModal() {
+            document.getElementById('email-modal').style.display = 'flex';
+        }
+        
+        // Ocultar modal de correo
+        function hideEmailModal() {
+            document.getElementById('email-modal').style.display = 'none';
+        }
+        
+        // Enviar correo - CORREGIDO
+        function sendEmail() {
+            const to = document.getElementById('email-to').value;
+            const subject = document.getElementById('email-subject').value;
+            const message = document.getElementById('email-message').value;
+            
+            if (!to) {
+                alert('Por favor, ingrese un destinatario');
+                return;
+            }
+            
+            // Crear contenido del correo
+            const processName = document.getElementById('process-name').value || 'Proceso Sin Nombre';
+            const now = new Date();
+            
+            let emailBody = `
+Reporte Ejecutivo - Carta de Control I-RM
+
+Proceso: ${processName}
+Fecha de generación: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}
+
+RESUMEN EJECUTIVO
+-----------------
+Estado del proceso: ${document.getElementById('process-status-value').textContent}
+Capacidad del proceso (Cpk): ${document.getElementById('cpk-summary').textContent}
+Observaciones analizadas: ${document.getElementById('observations-count').textContent}
+Puntos fuera de control: ${document.getElementById('out-of-control-count').textContent}
+Puntos fuera de especificación: ${document.getElementById('out-of-spec-count').textContent}
+
+ESTADÍSTICAS DEL PROCESO
+------------------------
+Media de rangos móviles (R̄): ${document.getElementById('mr-bar').textContent}
+Media del proceso (μ̂): ${document.getElementById('process-mean').textContent}
+Desviación estándar (σ̂): ${document.getElementById('process-std').textContent}
+
+LÍMITES DE CONTROL
+------------------
+Carta I (Individual):
+- Línea Central (CL): ${document.getElementById('i-cl').textContent}
+- Límite Superior (UCL): ${document.getElementById('i-ucl').textContent}
+- Límite Inferior (LCL): ${document.getElementById('i-lcl').textContent}
+
+Carta RM (Rango Móvil):
+- Línea Central (CL): ${document.getElementById('rm-cl').textContent}
+- Límite Superior (UCL): ${document.getElementById('rm-ucl').textContent}
+- Límite Inferior (LCL): ${document.getElementById('rm-lcl').textContent}
+
+LÍMITES DE ESPECIFICACIÓN
+-------------------------
+Límite Superior (USL): ${document.getElementById('i-usl').textContent}
+Límite Inferior (LSL): ${document.getElementById('i-lsl').textContent}
+
+CAPACIDAD DEL PROCESO
+---------------------
+Cₚ: ${document.getElementById('cp-value').textContent}
+Cₚₖ: ${document.getElementById('cpk-value').textContent}
+Rendimiento: ${document.getElementById('yield-percent').textContent}%
+
+INTERPRETACIÓN
+--------------
+${document.getElementById('capability-interpretation').textContent.replace('Interpretación:', '').trim()}
+
+RECOMENDACIONES
+---------------
+${document.getElementById('recommendations').textContent}
+            `;
+            
+            if (message) {
+                emailBody += `\n\nMENSAJE ADICIONAL:\n${message}`;
+            }
+            
+            emailBody += `\n\n---\nEste reporte fue generado automáticamente por el sistema de Control de Calidad.`;
+            
+            // Crear enlace de correo
+            const mailtoLink = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Abrir cliente de correo
+            window.location.href = mailtoLink;
+            
+            hideEmailModal();
+        }
+        
+        // Exportar a PDF - CORREGIDO
+        function exportToPDF() {
+            // Verificar si jsPDF está disponible
+            if (typeof jspdf === 'undefined') {
+                alert('Error: La biblioteca jsPDF no está cargada correctamente');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const processName = document.getElementById('process-name').value || 'Proceso Sin Nombre';
+            const now = new Date();
+            
+            // Título del reporte
+            doc.setFontSize(20);
+            doc.text('REPORTE EJECUTIVO - CARTA DE CONTROL I-RM', 105, 20, { align: 'center' });
+            
+            // Información del proceso
+            doc.setFontSize(12);
+            doc.text(`Proceso: ${processName}`, 20, 40);
+            doc.text(`Fecha de generación: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 20, 50);
+            doc.text(`Observaciones analizadas: ${document.getElementById('observations-count').textContent}`, 20, 60);
+            
+            // Estado del proceso
+            doc.setFontSize(14);
+            doc.text('RESUMEN EJECUTIVO', 20, 80);
+            doc.setFontSize(12);
+            doc.text(`Estado del proceso: ${document.getElementById('process-status-value').textContent}`, 20, 95);
+            doc.text(`Capacidad del proceso (Cpk): ${document.getElementById('cpk-summary').textContent}`, 20, 105);
+            doc.text(`Puntos fuera de control: ${document.getElementById('out-of-control-count').textContent}`, 20, 115);
+            doc.text(`Puntos fuera de especificación: ${document.getElementById('out-of-spec-count').textContent}`, 20, 125);
+            
+            // Interpretación de capacidad
+            const interpretationText = document.getElementById('capability-interpretation').textContent.replace('Interpretación:', '').trim();
+            if (interpretationText) {
+                doc.text('Interpretación de capacidad:', 20, 140);
+                const splitText = doc.splitTextToSize(interpretationText, 170);
+                doc.text(splitText, 20, 150);
+            }
+            
+            // Recomendaciones
+            doc.text('Recomendaciones:', 20, 170);
+            const recommendationsText = document.getElementById('recommendations').textContent;
+            const splitRecommendations = doc.splitTextToSize(recommendationsText, 170);
+            doc.text(splitRecommendations, 20, 180);
+            
+            // Estadísticas del proceso
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text('ESTADÍSTICAS DEL PROCESO', 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            
+            const stats = [
+                `Media de rangos móviles (R̄): ${document.getElementById('mr-bar').textContent}`,
+                `Media del proceso (μ̂): ${document.getElementById('process-mean').textContent}`,
+                `Desviación estándar (σ̂): ${document.getElementById('process-std').textContent}`
+            ];
+            
+            stats.forEach((stat, index) => {
+                doc.text(stat, 20, 40 + index * 10);
+            });
+            
+            // Límites de control
+            doc.text('Límites de Control para I (Individual):', 20, 75);
+            doc.text(`Línea Central (CL): ${document.getElementById('i-cl').textContent}`, 30, 85);
+            doc.text(`Límite Superior (UCL): ${document.getElementById('i-ucl').textContent}`, 30, 95);
+            doc.text(`Límite Inferior (LCL): ${document.getElementById('i-lcl').textContent}`, 30, 105);
+            
+            // Límites de especificación
+            doc.text('Límites de Especificación:', 20, 120);
+            doc.text(`Límite Superior (USL): ${document.getElementById('i-usl').textContent}`, 30, 130);
+            doc.text(`Límite Inferior (LSL): ${document.getElementById('i-lsl').textContent}`, 30, 140);
+            
+            doc.text('Límites de Control para RM (Rango Móvil):', 20, 155);
+            doc.text(`Línea Central (CL): ${document.getElementById('rm-cl').textContent}`, 30, 165);
+            doc.text(`Límite Superior (UCL): ${document.getElementById('rm-ucl').textContent}`, 30, 175);
+            doc.text(`Límite Inferior (LCL): ${document.getElementById('rm-lcl').textContent}`, 30, 185);
+            
+            // Capacidad del proceso
+            if (document.getElementById('cp-value').textContent !== '-') {
+                doc.text('Capacidad del Proceso:', 20, 200);
+                doc.text(`Cₚ: ${document.getElementById('cp-value').textContent}`, 30, 210);
+                doc.text(`Cₚₖ: ${document.getElementById('cpk-value').textContent}`, 30, 220);
+                doc.text(`Rendimiento: ${document.getElementById('yield-percent').textContent}%`, 30, 230);
+            }
+            
+            // Guardar PDF
+            doc.save(`Reporte_Ejecutivo_${processName.replace(/\s+/g, '_')}_${now.getTime()}.pdf`);
+        }
+        
+        // Actualizar estado de especificaciones
+        function updateSpecStatus() {
+            const usl = document.getElementById('usl').value;
+            const lsl = document.getElementById('lsl').value;
+            const uslStatus = document.getElementById('usl-status');
+            const lslStatus = document.getElementById('lsl-status');
+            
+            if (usl) {
+                uslStatus.textContent = 'USL configurado';
+                uslStatus.className = 'spec-status spec-applied';
+            } else {
+                uslStatus.textContent = 'USL no configurado';
+                uslStatus.className = 'spec-status spec-missing';
+            }
+            
+            if (lsl) {
+                lslStatus.textContent = 'LSL configurado';
+                lslStatus.className = 'spec-status spec-applied';
+            } else {
+                lslStatus.textContent = 'LSL no configurado';
+                lslStatus.className = 'spec-status spec-missing';
+            }
+        }
+        
+        // Actualizar resumen del dashboard
+        function updateDashboardSummary() {
+            const observations = [];
+            const rows = document.querySelectorAll('#data-body tr');
+            
+            rows.forEach(row => {
+                const input = row.querySelector('.sample-input');
+                if (input.value && !isNaN(parseFloat(input.value))) {
+                    observations.push(parseFloat(input.value));
+                }
+            });
+            
+            // Actualizar contadores
+            document.getElementById('observations-count').textContent = observations.length;
+            
+            // Calcular rangos móviles válidos
+            const validRanges = [];
+            for (let i = 1; i < rows.length; i++) {
+                const rangeCell = rows[i].querySelector('.moving-range');
+                if (rangeCell.textContent !== '-') {
+                    validRanges.push(parseFloat(rangeCell.textContent));
+                }
+            }
+            document.getElementById('ranges-count').textContent = validRanges.length;
+            
+            // Actualizar estado del proceso
+            const processStatusValue = document.getElementById('process-status-value');
+            const processStatusLabel = document.getElementById('process-status-label');
+            
+            if (observations.length < 2) {
+                processStatusValue.textContent = 'Sin datos';
+                processStatusLabel.textContent = 'Ingrese al menos 2 observaciones';
+            } else {
+                processStatusValue.textContent = 'Datos suficientes';
+                processStatusLabel.textContent = 'Puede calcular la carta de control';
+            }
+            
+            // Actualizar Cpk si está disponible
+            const cpkElement = document.getElementById('cpk-value');
+            if (cpkElement.textContent !== '-') {
+                const cpk = parseFloat(cpkElement.textContent);
+                document.getElementById('cpk-summary').textContent = cpk.toFixed(2);
+                document.getElementById('cpk-status').textContent = getCpkStatusText(cpk);
+            }
+        }
+    </script>
+</body>
+</html>

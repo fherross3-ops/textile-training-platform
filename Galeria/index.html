@@ -466,60 +466,56 @@
     
     <script>
         // Datos de ejemplo - reemplazar con tus propios archivos
-        const mediaItems = [
-            {
-                id: 1,
-                title: "Cartas de Control",
-                type: "video",
-                src: "videos/video1_es_mx.mp4",
-                thumbnail: "images/arboldesicion.jpg",
-                description: "Construcción de Cartas de Control"
-            },
-            {
-                id: 2,
-                title: "Árbol de Decisión",
-                type: "image",
-                src: "images/arboldesicion.jpg",
-                thumbnail: "images/arboldesicion.jpg",
-                description: "Diagrama de árbol de decisión"
-            },
-            {
-                id: 3,
-                title: "Cálculo de Límites",
-                type: "image",
-                src: "images/calculolimites.jpg",
-                thumbnail: "images/calculolimites.jpg",
-                description: "Fórmulas y tabla de cálculo"
-            },
-            {
-                id: 4,
-                title: "Documento PDF de Ejemplo",
-                type: "pdf",
-                src: "pdfs/documento1.pdf",
-                thumbnail: "pdf",
-                description: "Documento informativo en formato PDF"
-            },
-            {
-                id: 5,
-                title: "Ejemplo X-R",
-                type: "pdf",
-                src: "pdfs/Ejemplo_X-R.pdf",
-                thumbnail: "pdf",
-                description: "Ejemplos Construccion Cartas de Control"
-            },
-            
-        
-            {
-                id: 3,
-                title: "Cálculo de Límites",
-                type: "image",
-                src: "images/Scan_FORMATO_CARTA DE CONTROL.jpg",
-                thumbnail: "images/Scan_FORMATO_CARTA DE CONTROL.jpg",
-                description: "Fórmato para graficar"
-            },
-
-
-        ];
+     const mediaItems = [
+    {
+        id: 1,
+        title: "Cartas de Control",
+        type: "video",
+        src: "videos/video1_es_mx.mp4",
+        thumbnail: "imagenes/arboldesicion.jpg", // Cambiado de "images" a "imagenes"
+        description: "Construcción de Cartas de Control"
+    },
+    {
+        id: 2,
+        title: "Árbol de Decisión",
+        type: "image",
+        src: "imagenes/arboldesicion.jpg", // Cambiado de "images" a "imagenes"
+        thumbnail: "imagenes/arboldesicion.jpg", // Cambiado de "images" a "imagenes"
+        description: "Diagrama de árbol de decisión"
+    },
+    {
+        id: 3,
+        title: "Cálculo de Límites",
+        type: "image",
+        src: "imagenes/calculolimites.jpg", // Cambiado de "images" a "imagenes"
+        thumbnail: "imagenes/calculolimites.jpg", // Cambiado de "images" a "imagenes"
+        description: "Fórmulas y tabla de cálculo"
+    },
+    {
+        id: 4,
+        title: "Documento PDF de Ejemplo",
+        type: "pdf",
+        src: "pdf/documento1.pdf", // Cambiado de "pdfs" a "pdf"
+        thumbnail: "pdf",
+        description: "Documento informativo en formato PDF"
+    },
+    {
+        id: 5,
+        title: "Ejemplo X-R",
+        type: "pdf",
+        src: "pdf/Ejemplo_X-R.pdf", // Cambiado de "pdfs" a "pdf"
+        thumbnail: "pdf",
+        description: "Ejemplos Construccion Cartas de Control"
+    },
+    {
+        id: 6, // Cambié el ID a 6 (no puede repetirse el 3)
+        title: "Formato Carta de Control",
+        type: "image",
+        src: "imagenes/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // Cambiado de "images" a "imagenes"
+        thumbnail: "imagenes/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // Cambiado de "images" a "imagenes"
+        description: "Formato para graficar"
+    }
+];
         
         // Elementos del DOM
         const gallery = document.getElementById('gallery');

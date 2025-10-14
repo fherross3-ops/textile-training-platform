@@ -3,591 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería Multimedia</title>
+    <title>Explorador de Archivos</title>
     <style>
-        /* TODOS LOS ESTILOS ANTERIORES MANTENIDOS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Arial, sans-serif;
         }
         
         body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
-            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
         }
         
         header {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: #2c3e50;
             color: white;
-            padding: 2rem 0;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         header h1 {
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
         }
         
         header p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
         }
         
-        nav {
-            background-color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .filters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .filter-btn {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.95rem;
-            min-width: 80px;
-        }
-        
-        .filter-btn:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .filter-btn.active {
-            background-color: #2575fc;
-            color: white;
-        }
-        
-        main {
-            flex: 1;
-        }
-        
-        .gallery {
-            padding: 2rem 0;
+        .files-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
+            padding: 30px;
         }
         
-        .media-item {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .media-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-        
-        .media-thumbnail {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-        
-        .video-thumbnail {
-            position: relative;
-        }
-        
-        .video-thumbnail::after {
-            content: '▶';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        
-        .pdf-thumbnail {
-            background-color: #f8f9fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: #e74c3c;
-            height: 180px;
-        }
-        
-        .media-info {
-            padding: 15px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .media-info h3 {
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            line-height: 1.3;
-        }
-        
-        .media-info p {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 8px;
-            max-width: 95%;
-            max-height: 95%;
-            overflow: auto;
-            position: relative;
+        .file-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
             padding: 20px;
-            width: 100%;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            font-size: 1.8rem;
+            text-align: center;
+            transition: all 0.3s ease;
             cursor: pointer;
-            color: white;
-            z-index: 10;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .modal-body {
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: #3498db;
+        }
+        
+        .file-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .image-icon { color: #e74c3c; }
+        .video-icon { color: #9b59b6; }
+        .pdf-icon { color: #e67e22; }
+        
+        .file-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .file-card p {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .file-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .file-link:hover {
+            background: #2980b9;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
             margin-top: 10px;
         }
         
-        .modal-video {
-            width: 100%;
-            height: auto;
-            max-height: 70vh;
-            border-radius: 4px;
+        .status-working {
+            background: #d4edda;
+            color: #155724;
         }
         
-        .modal-image {
-            max-width: 100%;
-            height: auto;
-            max-height: 70vh;
-            display: block;
-            margin: 0 auto;
-            border-radius: 4px;
+        .status-broken {
+            background: #f8d7da;
+            color: #721c24;
         }
         
-        .modal-pdf {
-            width: 100%;
-            height: 70vh;
-            border: none;
-            border-radius: 4px;
-        }
-        
-        .modal-title {
-            text-align: center;
+        .preview {
             margin-top: 15px;
-            font-weight: 600;
-            color: #333;
+            max-width: 100%;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .preview-visible {
+            display: block;
         }
         
         footer {
-            background-color: #333;
+            background: #34495e;
             color: white;
             text-align: center;
-            padding: 1.5rem 0;
-            margin-top: auto;
-        }
-        
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            grid-column: 1 / -1;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2575fc;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .debug-panel {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .debug-item {
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 4px;
-        }
-        
-        .debug-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .debug-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            padding: 20px;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Galería Multimedia - MODO DIAGNÓSTICO</h1>
-            <p>Verificando archivos y configuraciones</p>
-        </div>
-    </header>
-    
-    <nav>
-        <div class="container">
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="video">Videos</button>
-                <button class="filter-btn" data-filter="image">Imágenes</button>
-                <button class="filter-btn" data-filter="pdf">PDFs</button>
-            </div>
-        </div>
-    </nav>
-    
-    <main class="container">
-        <!-- Panel de diagnóstico -->
-        <div class="debug-panel" id="debug-panel">
-            <h3>🔍 Diagnóstico de Archivos</h3>
-            <div id="debug-results">
-                <p>Verificando archivos...</p>
-            </div>
+    <div class="container">
+        <header>
+            <h1>📁 Explorador de Archivos</h1>
+            <p>Visualización directa de todos tus archivos</p>
+        </header>
+        
+        <div class="files-grid" id="filesGrid">
+            <!-- Los archivos se cargarán aquí -->
         </div>
         
-        <div class="gallery" id="gallery">
-            <!-- Los elementos se cargarán dinámicamente con JavaScript -->
-        </div>
-    </main>
-    
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <button class="close-btn" id="close-modal" aria-label="Cerrar">&times;</button>
-            <div class="modal-body" id="modal-body">
-                <!-- Contenido del modal se cargará dinámicamente -->
-            </div>
-        </div>
+        <footer>
+            <p>✨ Todos los archivos cargados directamente desde GitHub</p>
+        </footer>
     </div>
-    
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 Galería Multimedia. Modo diagnóstico activado.</p>
-        </div>
-    </footer>
-    
+
     <script>
-        // Array con TODOS los archivos - NO BORRAR NADA
-        const mediaItems = [
+        // LISTA DIRECTA de tus archivos - FÁCIL de modificar
+        const files = [
+    {
+        name: "Nombre que quieras",
+        type: "image", // o "video" o "pdf"
+        url: "ruta/a/tu/archivo.jpg",
+        description: "Descripción aquí"
+    },
+    // ... más archivos
+]; = [
             {
-                id: 1,
-                title: "Cartas de Control",
-                type: "video",
-                src: "videos/video1_es_mx.mp4",
-                thumbnail: "images/arboldesicion.jpg",
-                description: "Construcción de Cartas de Control"
-            },
-            {
-                id: 2,
-                title: "Árbol de Decisión",
+                name: "Árbol de Decisión",
                 type: "image",
-                src: "images/arboldesicion.jpg",
-                thumbnail: "images/arboldesicion.jpg",
+                url: "images/arboldesicion.jpg",
                 description: "Diagrama de árbol de decisión"
             },
             {
-                id: 3,
-                title: "Cálculo de Límites",
+                name: "Cálculo de Límites", 
                 type: "image",
-                src: "images/calculolimites.jpg",
-                thumbnail: "images/calculolimites.jpg",
+                url: "images/calculolimites.jpg",
                 description: "Fórmulas y tabla de cálculo"
             },
             {
-                id: 4,
-                title: "Ejemplo X-R",
-                type: "pdf",
-                src: "pdfs/Ejemplo_X-R.pdf",
-                thumbnail: "pdf",
-                description: "Ejemplos Construcción Cartas de Control"
+                name: "Formato Carta de Control",
+                type: "image", 
+                url: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
+                description: "Formato para graficar"
             },
             {
-                id: 5,
-                title: "Formato Carta de Control",
-                type: "image",
-                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
-                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
-                description: "Formato para graficar"
+                name: "Video Cartas de Control",
+                type: "video",
+                url: "videos/video1_es_mx.mp4", 
+                description: "Construcción de Cartas de Control"
+            },
+            {
+                name: "PDF Ejemplo X-R",
+                type: "pdf",
+                url: "pdfs/Ejemplo_X-R.pdf",
+                description: "Ejemplos Construcción Cartas de Control"
             }
         ];
 
-        // Elementos del DOM
-        const gallery = document.getElementById('gallery');
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const modal = document.getElementById('modal');
-        const modalBody = document.getElementById('modal-body');
-        const closeModal = document.getElementById('close-modal');
-        const debugResults = document.getElementById('debug-results');
-        
-        // Función para verificar archivos
-        async function checkAllFiles() {
-            debugResults.innerHTML = '<p>🔍 Verificando archivos...</p>';
-            let resultsHTML = '';
+        function createFileCard(file) {
+            const card = document.createElement('div');
+            card.className = 'file-card';
             
-            for (const item of mediaItems) {
+            let icon = '📄';
+            let iconClass = '';
+            
+            if (file.type === 'image') {
+                icon = '🖼️';
+                iconClass = 'image-icon';
+            } else if (file.type === 'video') {
+                icon = '🎥';
+                iconClass = 'video-icon';
+            } else if (file.type === 'pdf') {
+                icon = '📊';
+                iconClass = 'pdf-icon';
+            }
+            
+            card.innerHTML = `
+                <div class="file-icon ${iconClass}">${icon}</div>
+                <h3>${file.name}</h3>
+                <p>${file.description}</p>
+                <a href="${file.url}" target="_blank" class="file-link">
+                    🔗 Abrir Archivo
+                </a>
+                <div class="status status-working">✅ DISPONIBLE</div>
+                
+                ${file.type === 'image' ? `
+                    <img src="${file.url}" alt="${file.name}" class="preview" 
+                         onload="this.classList.add('preview-visible')"
+                         onerror="this.style.display='none'">
+                ` : ''}
+            `;
+            
+            return card;
+        }
+
+        function loadFiles() {
+            const grid = document.getElementById('filesGrid');
+            grid.innerHTML = '';
+            
+            files.forEach(file => {
+                const card = createFileCard(file);
+                grid.appendChild(card);
+            });
+        }
+
+        // Verificar si los archivos existen
+        async function checkFiles() {
+            const cards = document.querySelectorAll('.file-card');
+            
+            for (let i = 0; i < files.length; i++) {
                 try {
-                    const response = await fetch(item.src, { method: 'HEAD' });
-                    const exists = response.ok;
+                    const response = await fetch(files[i].url, { method: 'HEAD' });
+                    const statusElement = cards[i].querySelector('.status');
                     
-                    if (exists) {
-                        resultsHTML += `
-                            <div class="debug-item debug-success">
-                                ✅ <strong>${item.title}</strong> - ${item.src} - EXISTE
-                            </div>
-                        `;
-                    } else {
-                        resultsHTML += `
-                            <div class="debug-item debug-error">
-                                ❌ <strong>${item.title}</strong> - ${item.src} - NO EXISTE (Error ${response.status})
-                            </div>
-                        `;
+                    if (!response.ok) {
+                        statusElement.textContent = '❌ NO ENCONTRADO';
+                        statusElement.className = 'status status-broken';
                     }
                 } catch (error) {
-                    resultsHTML += `
-                        <div class="debug-item debug-error">
-                            ❌ <strong>${item.title}</strong> - ${item.src} - ERROR: ${error.message}
-                        </div>
-                    `;
+                    const statusElement = cards[i].querySelector('.status');
+                    statusElement.textContent = '❌ ERROR';
+                    statusElement.className = 'status status-broken';
                 }
-                
-                debugResults.innerHTML = resultsHTML;
             }
-            
-            // Verificar estructura de carpetas
-            resultsHTML += `<div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ccc;">
-                <strong>📁 Estructura esperada:</strong><br>
-                - Galeria/images/arboldesicion.jpg<br>
-                - Galeria/images/calculolimites.jpg<br>
-                - Galeria/images/Scan_FORMATO_CARTA_DE_CONTROL.jpg<br>
-                - Galeria/videos/video1_es_mx.mp4<br>
-                - Galeria/pdfs/Ejemplo_X-R.pdf
-            </div>`;
-            
-            debugResults.innerHTML = resultsHTML;
         }
 
-        // Función para simular carga
-        function simulateLoading() {
-            gallery.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
-            return new Promise(resolve => setTimeout(resolve, 800));
-        }
-        
-        // Función para renderizar la galería
-        async function renderGallery(filter = 'all') {
-            await simulateLoading();
-            
-            gallery.innerHTML = '';
-            
-            const filteredItems = filter === 'all' 
-                ? mediaItems 
-                : mediaItems.filter(item => item.type === filter);
-            
-            console.log(`Filtro: ${filter}, Elementos: ${filteredItems.length}`);
-            
-            if (filteredItems.length === 0) {
-                gallery.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">No hay elementos para mostrar con el filtro seleccionado.</p>';
-                return;
-            }
-            
-            for (const item of filteredItems) {
-                const mediaItem = document.createElement('div');
-                mediaItem.className = `media-item ${item.type}-item`;
-                mediaItem.setAttribute('data-id', item.id);
-                
-                let thumbnailHTML = '';
-                
-                if (item.type === 'video') {
-                    thumbnailHTML = `
-                        <div class="video-thumbnail">
-                            <img src="${item.thumbnail}" alt="${item.title}" class="media-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlZpZGVvPC90ZXh0Pjwvc3Zn+';">
-                        </div>
-                    `;
-                } else if (item.type === 'image') {
-                    thumbnailHTML = `
-                        <img src="${item.thumbnail}" alt="${item.title}" class="media-thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbjwvdGV4dD48L3N2Zz4=';">
-                    `;
-                } else if (item.type === 'pdf') {
-                    thumbnailHTML = `
-                        <div class="pdf-thumbnail">
-                            <span>📄</span>
-                        </div>
-                    `;
-                }
-                
-                mediaItem.innerHTML = `
-                    ${thumbnailHTML}
-                    <div class="media-info">
-                        <h3>${item.title}</h3>
-                        <p>${item.description}</p>
-                    </div>
-                `;
-                
-                mediaItem.addEventListener('click', () => openModal(item));
-                gallery.appendChild(mediaItem);
-            }
-        }
-        
-        // Función para abrir el modal
-        async function openModal(item) {
-            let contentHTML = '';
-            
-            if (item.type === 'video') {
-                contentHTML = `
-                    <video controls class="modal-video">
-                        <source src="${item.src}" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
-                    <p class="modal-title">${item.title}</p>
-                `;
-            } else if (item.type === 'image') {
-                contentHTML = `
-                    <img src="${item.src}" alt="${item.title}" class="modal-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div style="display: none; text-align: center; padding: 2rem; color: #e74c3c;">
-                        <h3>⚠️ Error al cargar la imagen</h3>
-                        <p>No se puede cargar: ${item.src}</p>
-                        <p>Verifica que sea una imagen válida y no un archivo de texto.</p>
-                    </div>
-                    <p class="modal-title">${item.title}</p>
-                `;
-            } else if (item.type === 'pdf') {
-                contentHTML = `
-                    <iframe src="${item.src}#view=FitH" class="modal-pdf"></iframe>
-                    <p class="modal-title">${item.title}</p>
-                `;
-            }
-            
-            modalBody.innerHTML = contentHTML;
-            modal.style.display = 'flex';
-            closeModal.focus();
-        }
-        
-        // Event Listeners
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.getAttribute('data-filter');
-                renderGallery(filter);
-            });
-        });
-        
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-            const video = modalBody.querySelector('video');
-            if (video) video.pause();
-        });
-        
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                const video = modalBody.querySelector('video');
-                if (video) video.pause();
-            }
-        });
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.style.display === 'flex') {
-                modal.style.display = 'none';
-                const video = modalBody.querySelector('video');
-                if (video) video.pause();
-            }
-        });
-        
         // Inicializar
-        renderGallery();
-        checkAllFiles();
+        loadFiles();
+        setTimeout(checkFiles, 1000);
 
-        // Log adicional
-        setTimeout(() => {
-            console.log("=== INFORMACIÓN COMPLETA ===");
-            console.log("URL actual:", window.location.href);
-            console.log("Ruta base:", window.location.origin + window.location.pathname);
-        }, 1000);
+        // Mensaje en consola para debug
+        console.log('🎯 EXPLORADOR DE ARCHIVOS CARGADO');
+        console.log('📁 Archivos configurados:', files);
     </script>
 </body>
 </html>

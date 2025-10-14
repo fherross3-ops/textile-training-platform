@@ -465,59 +465,57 @@
     </footer>
     
     <script>
-        // Datos de ejemplo - reemplazar con tus propios archivos
-     // Array ACTUALIZADO - coincide con tus carpetas reales: images, pdfs, videos
-// Array FINAL - con todas las rutas correctas
-const mediaItems = [
-    {
-        id: 1,
-        title: "Cartas de Control",
-        type: "video",
-        src: "videos/video1_es_mx.mp4",
-        thumbnail: "images/arboldesicion.jpg",
-        description: "Construcción de Cartas de Control"
-    },
-    {
-        id: 2,
-        title: "Árbol de Decisión",
-        type: "image",
-        src: "images/arboldesicion.jpg",
-        thumbnail: "images/arboldesicion.jpg",
-        description: "Diagrama de árbol de decisión"
-    },
-    {
-        id: 3,
-        title: "Cálculo de Límites",
-        type: "image",
-        src: "images/calculolimites.jpg",
-        thumbnail: "images/calculolimites.jpg",
-        description: "Fórmulas y tabla de cálculo"
-    },
-    {
-        id: 4,
-        title: "Documento PDF de Ejemplo",
-        type: "pdf",
-        src: "pdfs/documento1.pdf",
-        thumbnail: "pdf",
-        description: "Documento informativo en formato PDF"
-    },
-    {
-        id: 5,
-        title: "Ejemplo X-R",
-        type: "pdf",
-        src: "pdfs/Ejemplo_X-R.pdf",
-        thumbnail: "pdf",
-        description: "Ejemplos Construccion Cartas de Control"
-    },
-    {
-        id: 6,
-        title: "Formato Carta de Control",
-        type: "image",
-        src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE CORREGIDO
-        thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE CORREGIDO
-        description: "Formato para graficar"
-    }
-];
+        // Array CORREGIDO - tipos consistentes con los filtros
+        const mediaItems = [
+            {
+                id: 1,
+                title: "Cartas de Control",
+                type: "video",  // Debe ser "video" (no "videos")
+                src: "videos/video1_es_mx.mp4",
+                thumbnail: "images/arboldesicion.jpg",
+                description: "Construcción de Cartas de Control"
+            },
+            {
+                id: 2,
+                title: "Árbol de Decisión",
+                type: "image",  // Debe ser "image" (no "images")
+                src: "images/arboldesicion.jpg",
+                thumbnail: "images/arboldesicion.jpg",
+                description: "Diagrama de árbol de decisión"
+            },
+            {
+                id: 3,
+                title: "Cálculo de Límites",
+                type: "image",  // Debe ser "image" (no "images")
+                src: "images/calculolimites.jpg",
+                thumbnail: "images/calculolimites.jpg",
+                description: "Fórmulas y tabla de cálculo"
+            },
+            {
+                id: 4,
+                title: "Documento PDF de Ejemplo",
+                type: "pdf",    // Debe ser "pdf" (no "pdfs")
+                src: "pdfs/documento1.pdf",
+                thumbnail: "pdf",
+                description: "Documento informativo en formato PDF"
+            },
+            {
+                id: 5,
+                title: "Ejemplo X-R",
+                type: "pdf",    // Debe ser "pdf" (no "pdfs")
+                src: "pdfs/Ejemplo_X-R.pdf",
+                thumbnail: "pdf",
+                description: "Ejemplos Construccion Cartas de Control"
+            },
+            {
+                id: 6,
+                title: "Formato Carta de Control",
+                type: "image",  // Debe ser "image" (no "images")
+                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
+                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
+                description: "Formato para graficar"
+            }
+        ];
         
         // Elementos del DOM
         const gallery = document.getElementById('gallery');
@@ -532,7 +530,7 @@ const mediaItems = [
             return new Promise(resolve => setTimeout(resolve, 800));
         }
         
-        // Función para renderizar la galería
+        // Función para renderizar la galería - CORREGIDA
         async function renderGallery(filter = 'all') {
             await simulateLoading();
             
@@ -541,6 +539,8 @@ const mediaItems = [
             const filteredItems = filter === 'all' 
                 ? mediaItems 
                 : mediaItems.filter(item => item.type === filter);
+            
+            console.log(`Filtro: ${filter}, Elementos: ${filteredItems.length}`); // Debug
             
             // Si no hay elementos, mostrar mensaje
             if (filteredItems.length === 0) {
@@ -661,26 +661,27 @@ const mediaItems = [
         
         // Inicializar galería
         renderGallery();
-        // Agrega esto después de renderGallery(); para verificar
-setTimeout(() => {
-    console.log("=== VERIFICACIÓN DE ARCHIVOS ===");
-    mediaItems.forEach(item => {
-        const img = new Image();
-        img.onload = function() {
-            console.log(`✅ ${item.src} - EXISTE`);
-        };
-        img.onerror = function() {
-            console.log(`❌ ${item.src} - NO EXISTE o error de carga`);
-        };
-        // Para PDFs, verificamos el thumbnail (que es una imagen)
-        if (item.type === 'pdf') {
-            // Para PDFs, no verificamos la carga de imagen
-            console.log(`📄 ${item.src} - PDF (verificar manualmente)`);
-        } else {
-            img.src = item.thumbnail || item.src;
-        }
-    });
-}, 1000);
+
+        // Debug: verificar archivos
+        setTimeout(() => {
+            console.log("=== VERIFICACIÓN DE ARCHIVOS ===");
+            mediaItems.forEach(item => {
+                console.log(`📁 ${item.title}: ${item.type} -> ${item.src}`);
+                
+                if (item.type !== 'pdf') {
+                    const img = new Image();
+                    img.onload = function() {
+                        console.log(`✅ ${item.src} - EXISTE`);
+                    };
+                    img.onerror = function() {
+                        console.log(`❌ ${item.src} - NO EXISTE`);
+                    };
+                    img.src = item.thumbnail || item.src;
+                } else {
+                    console.log(`📄 ${item.src} - PDF`);
+                }
+            });
+        }, 2000);
     </script>
 </body>
 </html>

@@ -284,6 +284,15 @@
             margin: 10px 0;
         }
         
+        .video-error {
+            text-align: center;
+            padding: 2rem;
+            color: #e74c3c;
+            background: #fdf2f2;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
         @media (max-width: 768px) {
             .gallery {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -337,18 +346,10 @@
     </footer>
     
     <script>
-        // Array FINAL con todas las rutas CORRECTAS
+        // Array CORREGIDO - solo con archivos que funcionan
         const mediaItems = [
             {
                 id: 1,
-                title: "Cartas de Control",
-                type: "video",
-                src: "videos/video1_es_mx.mp4",
-                thumbnail: "images/arboldesicion.jpg",
-                description: "Construcción de Cartas de Control"
-            },
-            {
-                id: 2,
                 title: "Árbol de Decisión",
                 type: "image",
                 src: "images/arboldesicion.jpg",
@@ -356,7 +357,7 @@
                 description: "Diagrama de árbol de decisión"
             },
             {
-                id: 3,
+                id: 2,
                 title: "Cálculo de Límites",
                 type: "image",
                 src: "images/calculolimites.jpg",
@@ -364,7 +365,7 @@
                 description: "Fórmulas y tabla de cálculo"
             },
             {
-                id: 4,
+                id: 3,
                 title: "Ejemplo X-R",
                 type: "pdf",
                 src: "pdfs/Ejemplo_X-R.pdf",
@@ -372,11 +373,11 @@
                 description: "Ejemplos Construcción Cartas de Control"
             },
             {
-                id: 5,
+                id: 4,
                 title: "Formato Carta de Control",
                 type: "image",
-                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE EXACTO CORREGIDO
-                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE EXACTO CORREGIDO
+                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
+                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
                 description: "Formato para graficar"
             }
         ];
@@ -459,7 +460,7 @@
             }
         }
         
-        // Función para abrir el modal
+        // Función para abrir el modal - MEJORADA
         async function openModal(item) {
             let contentHTML = '';
             
@@ -477,21 +478,31 @@
                 `;
             } else if (item.type === 'video') {
                 contentHTML = `
-                    <video controls class="modal-video">
-                        <source src="${item.src}" type="video/mp4">
-                        Tu navegador no soporta el elemento de video.
-                    </video>
+                    <div class="video-error">
+                        <h3>⚠️ Problema con el video</h3>
+                        <p>El formato del video <strong>${item.src}</strong> no es compatible.</p>
+                        <p>Intenta convertir el video a formato MP4 con H.264.</p>
+                    </div>
                     <p class="modal-title">${item.title}</p>
                 `;
             } else if (item.type === 'image') {
                 contentHTML = `
-                    <img src="${item.src}" alt="${item.title}" class="modal-image">
+                    <img src="${item.src}" alt="${item.title}" class="modal-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display: none; text-align: center; padding: 2rem; color: #e74c3c;">
+                        <h3>⚠️ Error al cargar la imagen</h3>
+                        <p>No se puede cargar: ${item.src}</p>
+                    </div>
                     <p class="modal-title">${item.title}</p>
                 `;
             } else if (item.type === 'pdf') {
                 contentHTML = `
-                    <iframe src="${item.src}" class="modal-pdf"></iframe>
+                    <iframe src="${item.src}#view=FitH" class="modal-pdf"></iframe>
                     <p class="modal-title">${item.title}</p>
+                    <p style="text-align: center; color: #666; margin-top: 10px;">
+                        <a href="${item.src}" target="_blank" style="color: #2575fc; text-decoration: none;">
+                            🔗 Abrir PDF en nueva pestaña
+                        </a>
+                    </p>
                 `;
             }
             
@@ -537,15 +548,24 @@
 
         // Verificación completa de archivos
         setTimeout(async () => {
-            console.log("=== VERIFICACIÓN FINAL DE ARCHIVOS ===");
-            console.log("Todos los archivos deben existir:");
+            console.log("=== DIAGNÓSTICO COMPLETO ===");
+            console.log("Archivos que deberían funcionar:");
             
             for (const item of mediaItems) {
                 const exists = await checkFileExists(item.src);
                 console.log(`${exists ? '✅' : '❌'} ${item.title}: ${item.src}`);
+                
+                if (exists && item.type === 'image') {
+                    const img = new Image();
+                    img.onload = function() {
+                        console.log(`   📸 Imagen se carga correctamente`);
+                    };
+                    img.onerror = function() {
+                        console.log(`   ❌ Error al cargar la imagen`);
+                    };
+                    img.src = item.src;
+                }
             }
-            
-            console.log("🎉 Si todos muestran ✅, la galería debe funcionar completamente!");
         }, 2000);
     </script>
 </body>

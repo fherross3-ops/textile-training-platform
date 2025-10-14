@@ -337,7 +337,7 @@
     </footer>
     
     <script>
-        // Array CORREGIDO con las rutas EXACTAS de tus archivos
+        // Array FINAL con todas las rutas CORRECTAS
         const mediaItems = [
             {
                 id: 1,
@@ -375,8 +375,8 @@
                 id: 5,
                 title: "Formato Carta de Control",
                 type: "image",
-                src: "images/Scan_FORMATO_CARTA_DE_C...", // Nombre EXACTO del archivo
-                thumbnail: "images/Scan_FORMATO_CARTA_DE_C...", // Nombre EXACTO del archivo
+                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE EXACTO CORREGIDO
+                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg", // NOMBRE EXACTO CORREGIDO
                 description: "Formato para graficar"
             }
         ];
@@ -537,19 +537,15 @@
 
         // Verificación completa de archivos
         setTimeout(async () => {
-            console.log("=== VERIFICACIÓN COMPLETA DE ARCHIVOS ===");
-            console.log("Estructura actual:");
-            console.log("- images/arboldesicion.jpg");
-            console.log("- images/calculolimites.jpg"); 
-            console.log("- images/Scan_FORMATO_CARTA_DE_C... (nombre truncado)");
-            console.log("- videos/video1_es_mx.mp4");
-            console.log("- pdfs/Ejemplo_X-R.pdf");
-            console.log("");
+            console.log("=== VERIFICACIÓN FINAL DE ARCHIVOS ===");
+            console.log("Todos los archivos deben existir:");
             
             for (const item of mediaItems) {
                 const exists = await checkFileExists(item.src);
-                console.log(`${exists ? '✅' : '❌'} ${item.title}: ${item.src} ${exists ? 'EXISTE' : 'NO EXISTE'}`);
+                console.log(`${exists ? '✅' : '❌'} ${item.title}: ${item.src}`);
             }
+            
+            console.log("🎉 Si todos muestran ✅, la galería debe funcionar completamente!");
         }, 2000);
     </script>
 </body>

@@ -660,6 +660,26 @@ const mediaItems = [
         
         // Inicializar galería
         renderGallery();
+        // Agrega esto después de renderGallery(); para verificar
+setTimeout(() => {
+    console.log("=== VERIFICACIÓN DE ARCHIVOS ===");
+    mediaItems.forEach(item => {
+        const img = new Image();
+        img.onload = function() {
+            console.log(`✅ ${item.src} - EXISTE`);
+        };
+        img.onerror = function() {
+            console.log(`❌ ${item.src} - NO EXISTE o error de carga`);
+        };
+        // Para PDFs, verificamos el thumbnail (que es una imagen)
+        if (item.type === 'pdf') {
+            // Para PDFs, no verificamos la carga de imagen
+            console.log(`📄 ${item.src} - PDF (verificar manualmente)`);
+        } else {
+            img.src = item.thumbnail || item.src;
+        }
+    });
+}, 1000);
     </script>
 </body>
 </html>

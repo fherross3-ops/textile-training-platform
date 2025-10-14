@@ -465,12 +465,12 @@
     </footer>
     
     <script>
-        // Array CORREGIDO - tipos consistentes con los filtros
+        // Array COMPLETAMENTE CORREGIDO - IDs únicos y rutas correctas
         const mediaItems = [
             {
                 id: 1,
                 title: "Cartas de Control",
-                type: "video",  // Debe ser "video" (no "videos")
+                type: "video",
                 src: "videos/video1_es_mx.mp4",
                 thumbnail: "images/arboldesicion.jpg",
                 description: "Construcción de Cartas de Control"
@@ -478,7 +478,7 @@
             {
                 id: 2,
                 title: "Árbol de Decisión",
-                type: "image",  // Debe ser "image" (no "images")
+                type: "image",
                 src: "images/arboldesicion.jpg",
                 thumbnail: "images/arboldesicion.jpg",
                 description: "Diagrama de árbol de decisión"
@@ -486,7 +486,7 @@
             {
                 id: 3,
                 title: "Cálculo de Límites",
-                type: "image",  // Debe ser "image" (no "images")
+                type: "image",
                 src: "images/calculolimites.jpg",
                 thumbnail: "images/calculolimites.jpg",
                 description: "Fórmulas y tabla de cálculo"
@@ -494,7 +494,7 @@
             {
                 id: 4,
                 title: "Documento PDF de Ejemplo",
-                type: "pdf",    // Debe ser "pdf" (no "pdfs")
+                type: "pdf",
                 src: "pdfs/documento1.pdf",
                 thumbnail: "pdf",
                 description: "Documento informativo en formato PDF"
@@ -502,15 +502,15 @@
             {
                 id: 5,
                 title: "Ejemplo X-R",
-                type: "pdf",    // Debe ser "pdf" (no "pdfs")
+                type: "pdf",
                 src: "pdfs/Ejemplo_X-R.pdf",
                 thumbnail: "pdf",
                 description: "Ejemplos Construccion Cartas de Control"
             },
             {
-                id: 6,
+                id: 6, // ID ÚNICO - CORREGIDO
                 title: "Formato Carta de Control",
-                type: "image",  // Debe ser "image" (no "images")
+                type: "image",
                 src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
                 thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
                 description: "Formato para graficar"
@@ -524,13 +524,13 @@
         const modalBody = document.getElementById('modal-body');
         const closeModal = document.getElementById('close-modal');
         
-        // Función para simular carga (para demostración)
+        // Función para simular carga
         function simulateLoading() {
             gallery.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
             return new Promise(resolve => setTimeout(resolve, 800));
         }
         
-        // Función para renderizar la galería - CORREGIDA
+        // Función para renderizar la galería
         async function renderGallery(filter = 'all') {
             await simulateLoading();
             
@@ -540,7 +540,7 @@
                 ? mediaItems 
                 : mediaItems.filter(item => item.type === filter);
             
-            console.log(`Filtro: ${filter}, Elementos: ${filteredItems.length}`); // Debug
+            console.log(`Filtro: ${filter}, Elementos encontrados: ${filteredItems.length}`);
             
             // Si no hay elementos, mostrar mensaje
             if (filteredItems.length === 0) {
@@ -601,7 +601,7 @@
             } else if (item.type === 'image') {
                 contentHTML = `
                     <img src="${item.src}" alt="${item.title}" class="modal-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <p style="display: none; text-align: center; padding: 2rem;">Imagen no disponible: ${item.src}</p>
+                    <p style="display: none; text-align: center; padding: 2rem; color: red;">Error: No se puede cargar la imagen: ${item.src}</p>
                     <p class="modal-title">${item.title}</p>
                 `;
             } else if (item.type === 'pdf') {
@@ -662,23 +662,27 @@
         // Inicializar galería
         renderGallery();
 
-        // Debug: verificar archivos
+        // Debug mejorado: verificar archivos
         setTimeout(() => {
-            console.log("=== VERIFICACIÓN DE ARCHIVOS ===");
+            console.log("=== VERIFICACIÓN COMPLETA DE ARCHIVOS ===");
             mediaItems.forEach(item => {
-                console.log(`📁 ${item.title}: ${item.type} -> ${item.src}`);
+                console.log(`📁 ${item.title} (ID: ${item.id}):`);
+                console.log(`   Tipo: ${item.type}`);
+                console.log(`   Thumbnail: ${item.thumbnail}`);
+                console.log(`   Src: ${item.src}`);
                 
                 if (item.type !== 'pdf') {
                     const img = new Image();
                     img.onload = function() {
-                        console.log(`✅ ${item.src} - EXISTE`);
+                        console.log(`   ✅ ARCHIVO EXISTE - Se puede cargar`);
                     };
                     img.onerror = function() {
-                        console.log(`❌ ${item.src} - NO EXISTE`);
+                        console.log(`   ❌ ERROR - No se puede cargar: ${item.thumbnail || item.src}`);
+                        console.log(`   💡 Sugerencia: Verifica que el archivo exista en GitHub`);
                     };
                     img.src = item.thumbnail || item.src;
                 } else {
-                    console.log(`📄 ${item.src} - PDF`);
+                    console.log(`   📄 PDF - Verificar manualmente: ${item.src}`);
                 }
             });
         }, 2000);

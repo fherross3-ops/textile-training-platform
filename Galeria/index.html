@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería Multimedia</title>
     <style>
+        /* TODOS LOS ESTILOS ANTERIORES MANTENIDOS */
         * {
             margin: 0;
             padding: 0;
@@ -275,41 +276,38 @@
             100% { transform: rotate(360deg); }
         }
         
-        .file-error {
-            text-align: center;
-            padding: 2rem;
-            color: #e74c3c;
-            background: #fdf2f2;
+        .debug-panel {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
             border-radius: 8px;
-            margin: 10px 0;
+            padding: 15px;
+            margin: 20px 0;
         }
         
-        .video-error {
-            text-align: center;
-            padding: 2rem;
-            color: #e74c3c;
-            background: #fdf2f2;
-            border-radius: 8px;
-            margin: 10px 0;
+        .debug-item {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 4px;
         }
         
-        @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                gap: 15px;
-            }
-            
-            header h1 {
-                font-size: 2rem;
-            }
+        .debug-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .debug-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Galería Multimedia</h1>
-            <p>Explora nuestra colección de videos, imágenes y documentos</p>
+            <h1>Galería Multimedia - MODO DIAGNÓSTICO</h1>
+            <p>Verificando archivos y configuraciones</p>
         </div>
     </header>
     
@@ -325,6 +323,14 @@
     </nav>
     
     <main class="container">
+        <!-- Panel de diagnóstico -->
+        <div class="debug-panel" id="debug-panel">
+            <h3>🔍 Diagnóstico de Archivos</h3>
+            <div id="debug-results">
+                <p>Verificando archivos...</p>
+            </div>
+        </div>
+        
         <div class="gallery" id="gallery">
             <!-- Los elementos se cargarán dinámicamente con JavaScript -->
         </div>
@@ -341,15 +347,23 @@
     
     <footer>
         <div class="container">
-            <p>&copy; 2023 Galería Multimedia. Todos los derechos reservados.</p>
+            <p>&copy; 2023 Galería Multimedia. Modo diagnóstico activado.</p>
         </div>
     </footer>
     
     <script>
-        // Array CORREGIDO - solo con archivos que funcionan
+        // Array con TODOS los archivos - NO BORRAR NADA
         const mediaItems = [
             {
                 id: 1,
+                title: "Cartas de Control",
+                type: "video",
+                src: "videos/video1_es_mx.mp4",
+                thumbnail: "images/arboldesicion.jpg",
+                description: "Construcción de Cartas de Control"
+            },
+            {
+                id: 2,
                 title: "Árbol de Decisión",
                 type: "image",
                 src: "images/arboldesicion.jpg",
@@ -357,7 +371,7 @@
                 description: "Diagrama de árbol de decisión"
             },
             {
-                id: 2,
+                id: 3,
                 title: "Cálculo de Límites",
                 type: "image",
                 src: "images/calculolimites.jpg",
@@ -365,7 +379,7 @@
                 description: "Fórmulas y tabla de cálculo"
             },
             {
-                id: 3,
+                id: 4,
                 title: "Ejemplo X-R",
                 type: "pdf",
                 src: "pdfs/Ejemplo_X-R.pdf",
@@ -373,7 +387,7 @@
                 description: "Ejemplos Construcción Cartas de Control"
             },
             {
-                id: 4,
+                id: 5,
                 title: "Formato Carta de Control",
                 type: "image",
                 src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
@@ -388,15 +402,53 @@
         const modal = document.getElementById('modal');
         const modalBody = document.getElementById('modal-body');
         const closeModal = document.getElementById('close-modal');
+        const debugResults = document.getElementById('debug-results');
         
-        // Función para verificar si un archivo existe
-        async function checkFileExists(url) {
-            try {
-                const response = await fetch(url, { method: 'HEAD' });
-                return response.ok;
-            } catch (error) {
-                return false;
+        // Función para verificar archivos
+        async function checkAllFiles() {
+            debugResults.innerHTML = '<p>🔍 Verificando archivos...</p>';
+            let resultsHTML = '';
+            
+            for (const item of mediaItems) {
+                try {
+                    const response = await fetch(item.src, { method: 'HEAD' });
+                    const exists = response.ok;
+                    
+                    if (exists) {
+                        resultsHTML += `
+                            <div class="debug-item debug-success">
+                                ✅ <strong>${item.title}</strong> - ${item.src} - EXISTE
+                            </div>
+                        `;
+                    } else {
+                        resultsHTML += `
+                            <div class="debug-item debug-error">
+                                ❌ <strong>${item.title}</strong> - ${item.src} - NO EXISTE (Error ${response.status})
+                            </div>
+                        `;
+                    }
+                } catch (error) {
+                    resultsHTML += `
+                        <div class="debug-item debug-error">
+                            ❌ <strong>${item.title}</strong> - ${item.src} - ERROR: ${error.message}
+                        </div>
+                    `;
+                }
+                
+                debugResults.innerHTML = resultsHTML;
             }
+            
+            // Verificar estructura de carpetas
+            resultsHTML += `<div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ccc;">
+                <strong>📁 Estructura esperada:</strong><br>
+                - Galeria/images/arboldesicion.jpg<br>
+                - Galeria/images/calculolimites.jpg<br>
+                - Galeria/images/Scan_FORMATO_CARTA_DE_CONTROL.jpg<br>
+                - Galeria/videos/video1_es_mx.mp4<br>
+                - Galeria/pdfs/Ejemplo_X-R.pdf
+            </div>`;
+            
+            debugResults.innerHTML = resultsHTML;
         }
 
         // Función para simular carga
@@ -460,29 +512,16 @@
             }
         }
         
-        // Función para abrir el modal - MEJORADA
+        // Función para abrir el modal
         async function openModal(item) {
             let contentHTML = '';
             
-            // Verificar si el archivo existe
-            const fileExists = await checkFileExists(item.src);
-            
-            if (!fileExists) {
+            if (item.type === 'video') {
                 contentHTML = `
-                    <div class="file-error">
-                        <h3>⚠️ Archivo no encontrado</h3>
-                        <p>El archivo <strong>${item.src}</strong> no existe en el servidor.</p>
-                        <p>Verifica que el archivo esté en la carpeta correcta en GitHub.</p>
-                    </div>
-                    <p class="modal-title">${item.title}</p>
-                `;
-            } else if (item.type === 'video') {
-                contentHTML = `
-                    <div class="video-error">
-                        <h3>⚠️ Problema con el video</h3>
-                        <p>El formato del video <strong>${item.src}</strong> no es compatible.</p>
-                        <p>Intenta convertir el video a formato MP4 con H.264.</p>
-                    </div>
+                    <video controls class="modal-video">
+                        <source src="${item.src}" type="video/mp4">
+                        Tu navegador no soporta el elemento de video.
+                    </video>
                     <p class="modal-title">${item.title}</p>
                 `;
             } else if (item.type === 'image') {
@@ -491,6 +530,7 @@
                     <div style="display: none; text-align: center; padding: 2rem; color: #e74c3c;">
                         <h3>⚠️ Error al cargar la imagen</h3>
                         <p>No se puede cargar: ${item.src}</p>
+                        <p>Verifica que sea una imagen válida y no un archivo de texto.</p>
                     </div>
                     <p class="modal-title">${item.title}</p>
                 `;
@@ -498,11 +538,6 @@
                 contentHTML = `
                     <iframe src="${item.src}#view=FitH" class="modal-pdf"></iframe>
                     <p class="modal-title">${item.title}</p>
-                    <p style="text-align: center; color: #666; margin-top: 10px;">
-                        <a href="${item.src}" target="_blank" style="color: #2575fc; text-decoration: none;">
-                            🔗 Abrir PDF en nueva pestaña
-                        </a>
-                    </p>
                 `;
             }
             
@@ -543,30 +578,16 @@
             }
         });
         
-        // Inicializar galería
+        // Inicializar
         renderGallery();
+        checkAllFiles();
 
-        // Verificación completa de archivos
-        setTimeout(async () => {
-            console.log("=== DIAGNÓSTICO COMPLETO ===");
-            console.log("Archivos que deberían funcionar:");
-            
-            for (const item of mediaItems) {
-                const exists = await checkFileExists(item.src);
-                console.log(`${exists ? '✅' : '❌'} ${item.title}: ${item.src}`);
-                
-                if (exists && item.type === 'image') {
-                    const img = new Image();
-                    img.onload = function() {
-                        console.log(`   📸 Imagen se carga correctamente`);
-                    };
-                    img.onerror = function() {
-                        console.log(`   ❌ Error al cargar la imagen`);
-                    };
-                    img.src = item.src;
-                }
-            }
-        }, 2000);
+        // Log adicional
+        setTimeout(() => {
+            console.log("=== INFORMACIÓN COMPLETA ===");
+            console.log("URL actual:", window.location.href);
+            console.log("Ruta base:", window.location.origin + window.location.pathname);
+        }, 1000);
     </script>
 </body>
 </html>

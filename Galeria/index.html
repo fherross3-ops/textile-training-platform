@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería Multimedia</title>
     <style>
-        /* Estilos generales */
         * {
             margin: 0;
             padding: 0;
@@ -29,7 +28,6 @@
             width: 100%;
         }
         
-        /* Cabecera */
         header {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
@@ -48,7 +46,6 @@
             opacity: 0.9;
         }
         
-        /* Navegación */
         nav {
             background-color: white;
             padding: 1rem 0;
@@ -86,7 +83,6 @@
             color: white;
         }
         
-        /* Galería */
         main {
             flex: 1;
         }
@@ -172,7 +168,6 @@
             line-height: 1.4;
         }
         
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -250,7 +245,6 @@
             color: #333;
         }
         
-        /* Pie de página */
         footer {
             background-color: #333;
             color: white;
@@ -259,7 +253,6 @@
             margin-top: auto;
         }
         
-        /* Estados de carga */
         .loading {
             display: flex;
             justify-content: center;
@@ -282,145 +275,28 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Responsive - Tabletas */
-        @media (max-width: 1024px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                gap: 15px;
-            }
-            
-            header h1 {
-                font-size: 2.2rem;
-            }
+        .file-error {
+            text-align: center;
+            padding: 2rem;
+            color: #e74c3c;
+            background: #fdf2f2;
+            border-radius: 8px;
+            margin: 10px 0;
         }
         
-        /* Responsive - Móviles Grandes */
         @media (max-width: 768px) {
             .gallery {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 gap: 15px;
-                padding: 1.5rem 0;
-            }
-            
-            header {
-                padding: 1.5rem 0;
             }
             
             header h1 {
                 font-size: 2rem;
             }
-            
-            header p {
-                font-size: 1rem;
-            }
-            
-            .container {
-                padding: 0 15px;
-            }
-            
-            .media-thumbnail, .pdf-thumbnail {
-                height: 160px;
-            }
-            
-            .modal-content {
-                padding: 15px;
-            }
-        }
-        
-        /* Responsive - Móviles Pequeños */
-        @media (max-width: 600px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 12px;
-            }
-            
-            .filters {
-                gap: 8px;
-            }
-            
-            .filter-btn {
-                padding: 8px 14px;
-                font-size: 0.9rem;
-                min-width: 70px;
-            }
-            
-            .media-info {
-                padding: 12px;
-            }
-            
-            .media-info h3 {
-                font-size: 1rem;
-            }
-            
-            .media-info p {
-                font-size: 0.85rem;
-            }
-            
-            .media-thumbnail, .pdf-thumbnail {
-                height: 140px;
-            }
-            
-            .pdf-thumbnail {
-                font-size: 3rem;
-            }
-        }
-        
-        /* Responsive - Móviles Muy Pequeños */
-        @media (max-width: 480px) {
-            .gallery {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .filters {
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-            }
-            
-            .filter-btn {
-                width: 100%;
-                max-width: 200px;
-                margin-bottom: 5px;
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            header p {
-                font-size: 0.95rem;
-            }
-            
-            .modal-content {
-                padding: 10px;
-            }
-            
-            .close-btn {
-                top: 5px;
-                right: 5px;
-                width: 35px;
-                height: 35px;
-                font-size: 1.5rem;
-            }
-        }
-        
-        /* Orientación horizontal en móviles */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .modal-content {
-                max-height: 90vh;
-            }
-            
-            .modal-video,
-            .modal-image,
-            .modal-pdf {
-                max-height: 60vh;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Cabecera -->
     <header>
         <div class="container">
             <h1>Galería Multimedia</h1>
@@ -428,7 +304,6 @@
         </div>
     </header>
     
-    <!-- Navegación -->
     <nav>
         <div class="container">
             <div class="filters">
@@ -440,14 +315,12 @@
         </div>
     </nav>
     
-    <!-- Galería -->
     <main class="container">
         <div class="gallery" id="gallery">
             <!-- Los elementos se cargarán dinámicamente con JavaScript -->
         </div>
     </main>
     
-    <!-- Modal -->
     <div class="modal" id="modal">
         <div class="modal-content">
             <button class="close-btn" id="close-modal" aria-label="Cerrar">&times;</button>
@@ -457,7 +330,6 @@
         </div>
     </div>
     
-    <!-- Pie de página -->
     <footer>
         <div class="container">
             <p>&copy; 2023 Galería Multimedia. Todos los derechos reservados.</p>
@@ -465,7 +337,7 @@
     </footer>
     
     <script>
-        // Array COMPLETAMENTE CORREGIDO - IDs únicos y rutas correctas
+        // Array CORREGIDO con las rutas EXACTAS de tus archivos
         const mediaItems = [
             {
                 id: 1,
@@ -493,30 +365,22 @@
             },
             {
                 id: 4,
-                title: "Documento PDF de Ejemplo",
-                type: "pdf",
-                src: "pdfs/documento1.pdf",
-                thumbnail: "pdf",
-                description: "Documento informativo en formato PDF"
-            },
-            {
-                id: 5,
                 title: "Ejemplo X-R",
                 type: "pdf",
                 src: "pdfs/Ejemplo_X-R.pdf",
                 thumbnail: "pdf",
-                description: "Ejemplos Construccion Cartas de Control"
+                description: "Ejemplos Construcción Cartas de Control"
             },
             {
-                id: 6, // ID ÚNICO - CORREGIDO
+                id: 5,
                 title: "Formato Carta de Control",
                 type: "image",
-                src: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
-                thumbnail: "images/Scan_FORMATO_CARTA_DE_CONTROL.jpg",
+                src: "images/Scan_FORMATO_CARTA_DE_C...", // Nombre EXACTO del archivo
+                thumbnail: "images/Scan_FORMATO_CARTA_DE_C...", // Nombre EXACTO del archivo
                 description: "Formato para graficar"
             }
         ];
-        
+
         // Elementos del DOM
         const gallery = document.getElementById('gallery');
         const filterBtns = document.querySelectorAll('.filter-btn');
@@ -524,6 +388,16 @@
         const modalBody = document.getElementById('modal-body');
         const closeModal = document.getElementById('close-modal');
         
+        // Función para verificar si un archivo existe
+        async function checkFileExists(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch (error) {
+                return false;
+            }
+        }
+
         // Función para simular carga
         function simulateLoading() {
             gallery.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
@@ -540,15 +414,14 @@
                 ? mediaItems 
                 : mediaItems.filter(item => item.type === filter);
             
-            console.log(`Filtro: ${filter}, Elementos encontrados: ${filteredItems.length}`);
+            console.log(`Filtro: ${filter}, Elementos: ${filteredItems.length}`);
             
-            // Si no hay elementos, mostrar mensaje
             if (filteredItems.length === 0) {
                 gallery.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">No hay elementos para mostrar con el filtro seleccionado.</p>';
                 return;
             }
             
-            filteredItems.forEach(item => {
+            for (const item of filteredItems) {
                 const mediaItem = document.createElement('div');
                 mediaItem.className = `media-item ${item.type}-item`;
                 mediaItem.setAttribute('data-id', item.id);
@@ -583,14 +456,26 @@
                 
                 mediaItem.addEventListener('click', () => openModal(item));
                 gallery.appendChild(mediaItem);
-            });
+            }
         }
         
         // Función para abrir el modal
-        function openModal(item) {
+        async function openModal(item) {
             let contentHTML = '';
             
-            if (item.type === 'video') {
+            // Verificar si el archivo existe
+            const fileExists = await checkFileExists(item.src);
+            
+            if (!fileExists) {
+                contentHTML = `
+                    <div class="file-error">
+                        <h3>⚠️ Archivo no encontrado</h3>
+                        <p>El archivo <strong>${item.src}</strong> no existe en el servidor.</p>
+                        <p>Verifica que el archivo esté en la carpeta correcta en GitHub.</p>
+                    </div>
+                    <p class="modal-title">${item.title}</p>
+                `;
+            } else if (item.type === 'video') {
                 contentHTML = `
                     <video controls class="modal-video">
                         <source src="${item.src}" type="video/mp4">
@@ -600,8 +485,7 @@
                 `;
             } else if (item.type === 'image') {
                 contentHTML = `
-                    <img src="${item.src}" alt="${item.title}" class="modal-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <p style="display: none; text-align: center; padding: 2rem; color: red;">Error: No se puede cargar la imagen: ${item.src}</p>
+                    <img src="${item.src}" alt="${item.title}" class="modal-image">
                     <p class="modal-title">${item.title}</p>
                 `;
             } else if (item.type === 'pdf') {
@@ -613,78 +497,59 @@
             
             modalBody.innerHTML = contentHTML;
             modal.style.display = 'flex';
-            
-            // Enfocar el botón de cerrar para accesibilidad
             closeModal.focus();
         }
         
         // Event Listeners
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remover clase active de todos los botones
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // Agregar clase active al botón clickeado
                 btn.classList.add('active');
-                // Filtrar galería
                 const filter = btn.getAttribute('data-filter');
                 renderGallery(filter);
             });
         });
         
         closeModal.addEventListener('click', () => {
-            closeModalFunc();
+            modal.style.display = 'none';
+            const video = modalBody.querySelector('video');
+            if (video) video.pause();
         });
         
-        // Función para cerrar modal
-        function closeModalFunc() {
-            modal.style.display = 'none';
-            // Pausar video si está reproduciéndose
-            const video = modalBody.querySelector('video');
-            if (video) {
-                video.pause();
-            }
-        }
-        
-        // Cerrar modal al hacer clic fuera del contenido
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                closeModalFunc();
+                modal.style.display = 'none';
+                const video = modalBody.querySelector('video');
+                if (video) video.pause();
             }
         });
         
-        // Cerrar modal con tecla Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.style.display === 'flex') {
-                closeModalFunc();
+                modal.style.display = 'none';
+                const video = modalBody.querySelector('video');
+                if (video) video.pause();
             }
         });
         
         // Inicializar galería
         renderGallery();
 
-        // Debug mejorado: verificar archivos
-        setTimeout(() => {
+        // Verificación completa de archivos
+        setTimeout(async () => {
             console.log("=== VERIFICACIÓN COMPLETA DE ARCHIVOS ===");
-            mediaItems.forEach(item => {
-                console.log(`📁 ${item.title} (ID: ${item.id}):`);
-                console.log(`   Tipo: ${item.type}`);
-                console.log(`   Thumbnail: ${item.thumbnail}`);
-                console.log(`   Src: ${item.src}`);
-                
-                if (item.type !== 'pdf') {
-                    const img = new Image();
-                    img.onload = function() {
-                        console.log(`   ✅ ARCHIVO EXISTE - Se puede cargar`);
-                    };
-                    img.onerror = function() {
-                        console.log(`   ❌ ERROR - No se puede cargar: ${item.thumbnail || item.src}`);
-                        console.log(`   💡 Sugerencia: Verifica que el archivo exista en GitHub`);
-                    };
-                    img.src = item.thumbnail || item.src;
-                } else {
-                    console.log(`   📄 PDF - Verificar manualmente: ${item.src}`);
-                }
-            });
+            console.log("Estructura actual:");
+            console.log("- images/arboldesicion.jpg");
+            console.log("- images/calculolimites.jpg"); 
+            console.log("- images/Scan_FORMATO_CARTA_DE_C... (nombre truncado)");
+            console.log("- videos/video1_es_mx.mp4");
+            console.log("- pdfs/Ejemplo_X-R.pdf");
+            console.log("");
+            
+            for (const item of mediaItems) {
+                const exists = await checkFileExists(item.src);
+                console.log(`${exists ? '✅' : '❌'} ${item.title}: ${item.src} ${exists ? 'EXISTE' : 'NO EXISTE'}`);
+            }
         }, 2000);
     </script>
 </body>

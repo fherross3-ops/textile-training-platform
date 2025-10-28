@@ -45,6 +45,7 @@
             gap: 10px;
             padding: 20px;
             background: #34495e;
+            flex-wrap: wrap;
         }
         
         .filter-btn {
@@ -60,6 +61,11 @@
         .filter-btn:hover, .filter-btn.active {
             background: #e74c3c;
             color: white;
+        }
+        
+        .filter-btn:focus {
+            outline: 2px solid #e74c3c;
+            outline-offset: 2px;
         }
         
         .gallery {
@@ -78,10 +84,11 @@
             cursor: pointer;
         }
         
-        .media-card:hover {
+        .media-card:hover, .media-card:focus {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             border-color: #e74c3c;
+            outline: none;
         }
         
         .media-preview {
@@ -92,16 +99,13 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            position: relative;
         }
         
         .media-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        
-        .video-preview {
-            position: relative;
         }
         
         .video-preview::after {
@@ -119,6 +123,7 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            pointer-events: none;
         }
         
         .pdf-preview {
@@ -174,6 +179,7 @@
             max-height: 90%;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
         
         .close-btn {
@@ -189,11 +195,21 @@
             font-size: 1.5rem;
             cursor: pointer;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-btn:hover, .close-btn:focus {
+            background: rgba(0,0,0,0.9);
+            outline: none;
         }
         
         .modal-body {
             padding: 20px;
             text-align: center;
+            max-height: calc(90vh - 100px);
+            overflow: auto;
         }
         
         .modal-body img {
@@ -236,6 +252,60 @@
             margin: 10px 0;
             display: inline-block;
         }
+        
+        .error-msg {
+            display: none;
+            color: #e74c3c;
+            padding: 20px;
+            text-align: center;
+            background: #f9ebea;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                padding: 15px;
+                gap: 15px;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .filters {
+                padding: 15px;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            .modal-body {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -245,14 +315,14 @@
             <div class="success-badge">✅ TODOS los archivos disponibles</div>
         </header>
         
-        <div class="filters">
-            <button class="filter-btn active" onclick="filterMedia('all')">Todos</button>
-            <button class="filter-btn" onclick="filterMedia('image')">Imágenes</button>
-            <button class="filter-btn" onclick="filterMedia('video')">Videos</button>
-            <button class="filter-btn" onclick="filterMedia('pdf')">PDFs</button>
+        <div class="filters" role="toolbar" aria-label="Filtros de medios">
+            <button class="filter-btn active" onclick="filterMedia('all')" aria-pressed="true">Todos</button>
+            <button class="filter-btn" onclick="filterMedia('image')" aria-pressed="false">Imágenes</button>
+            <button class="filter-btn" onclick="filterMedia('video')" aria-pressed="false">Videos</button>
+            <button class="filter-btn" onclick="filterMedia('pdf')" aria-pressed="false">PDFs</button>
         </div>
         
-        <div class="gallery" id="gallery">
+        <div class="gallery" id="gallery" role="main" aria-label="Galería de medios">
             <!-- Los archivos se cargan aquí -->
         </div>
         
@@ -262,9 +332,9 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
         <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">×</button>
+            <button class="close-btn" onclick="closeModal()" aria-label="Cerrar modal">×</button>
             <div class="modal-body" id="modalBody">
                 <!-- Contenido del modal -->
             </div>
@@ -306,18 +376,14 @@
                 thumbnail: "pdf",
                 description: "PDF: Ejemplos construcción cartas de control"
             },
-           
-              {
+            {
                 id: 5,
-                title: "Asignaciones_CControl",
+                title: "Asignaciones CControl",
                 type: "pdf",
                 url: "pdfs/Asignaciones_CControl.pdf",
                 thumbnail: "pdf",
                 description: "ASIGNACIONES Construcción cartas de control"
             },
-                          
-                               
-                       
             {
                 id: 6,
                 title: "Formato Carta de Control", 
@@ -328,30 +394,43 @@
             }
         ];
 
+        // Función para crear una tarjeta de medio
         function createMediaCard(media) {
             const card = document.createElement('div');
             card.className = 'media-card';
-            card.onclick = () => openModal(media);
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', `Abrir ${media.title} - ${media.description}`);
+            
+            // Manejo de eventos para teclado (accesibilidad)
+            card.addEventListener('click', () => openModal(media));
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openModal(media);
+                }
+            });
             
             let previewHTML = '';
+            let altText = `Vista previa de ${media.title}`;
             
             if (media.type === 'video') {
                 previewHTML = `
                     <div class="media-preview video-preview">
-                        <img src="${media.thumbnail}" alt="${media.title}" 
-                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlZpZGVvPC90ZXh0Pjwvc3ZnPg=='">
+                        <img src="${media.thumbnail}" alt="${altText}" 
+                             onerror="handleImageError(this)">
                     </div>
                 `;
             } else if (media.type === 'image') {
                 previewHTML = `
                     <div class="media-preview">
-                        <img src="${media.thumbnail}" alt="${media.title}"
-                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlbjwvdGV4dD48L3N2Zz4='">
+                        <img src="${media.thumbnail}" alt="${altText}"
+                             onerror="handleImageError(this)">
                     </div>
                 `;
             } else if (media.type === 'pdf') {
                 previewHTML = `
-                    <div class="media-preview pdf-preview">
+                    <div class="media-preview pdf-preview" aria-label="Documento PDF">
                         <div>📊</div>
                     </div>
                 `;
@@ -372,31 +451,55 @@
             return card;
         }
 
-        function renderGallery(filter = 'all') {
-            const gallery = document.getElementById('gallery');
-            gallery.innerHTML = '';
-            
-            const filteredMedia = filter === 'all' 
-                ? mediaFiles 
-                : mediaFiles.filter(media => media.type === filter);
-            
-            filteredMedia.forEach(media => {
-                const card = createMediaCard(media);
-                gallery.appendChild(card);
-            });
+        // Función para manejar errores de carga de imágenes
+        function handleImageError(img) {
+            img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkVycm9yIGVuIGxhIGltYWdlbjwvdGV4dD48L3N2Zz4=';
+            img.alt = 'Error al cargar la imagen';
         }
 
+        // Función para renderizar la galería
+        function renderGallery(filter = 'all') {
+            const gallery = document.getElementById('gallery');
+            
+            // Mostrar estado de carga
+            gallery.innerHTML = '<div class="loading">Cargando medios...</div>';
+            
+            // Usar setTimeout para permitir que se muestre el estado de carga
+            setTimeout(() => {
+                gallery.innerHTML = '';
+                
+                const filteredMedia = filter === 'all' 
+                    ? mediaFiles 
+                    : mediaFiles.filter(media => media.type === filter);
+                
+                if (filteredMedia.length === 0) {
+                    gallery.innerHTML = '<div class="error-msg">No se encontraron medios para el filtro seleccionado.</div>';
+                    return;
+                }
+                
+                filteredMedia.forEach(media => {
+                    const card = createMediaCard(media);
+                    gallery.appendChild(card);
+                });
+            }, 100);
+        }
+
+        // Función para filtrar medios
         function filterMedia(type) {
             // Actualizar botones activos
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
+                btn.setAttribute('aria-pressed', 'false');
             });
+            
             event.target.classList.add('active');
+            event.target.setAttribute('aria-pressed', 'true');
             
             // Renderizar galería filtrada
             renderGallery(type);
         }
 
+        // Función para abrir el modal
         function openModal(media) {
             const modal = document.getElementById('modal');
             const modalBody = document.getElementById('modalBody');
@@ -409,40 +512,57 @@
                         <source src="${media.url}" type="video/mp4">
                         Tu navegador no soporta videos MP4.
                     </video>
-                    <div class="modal-title">${media.title}</div>
+                    <div class="modal-title" id="modalTitle">${media.title}</div>
                 `;
             } else if (media.type === 'image') {
                 contentHTML = `
                     <img src="${media.url}" alt="${media.title}" 
                          style="max-width: 100%; max-height: 70vh;"
                          onerror="this.style.display='none'; document.getElementById('errorMsg').style.display='block'">
-                    <div id="errorMsg" style="display: none; color: red; padding: 20px;">
-                        ❌ Error al cargar la imagen. Posible archivo corrupto.
+                    <div id="errorMsg" class="error-msg">
+                        ❌ Error al cargar la imagen. Posible archivo corrupto o no disponible.
                     </div>
-                    <div class="modal-title">${media.title}</div>
+                    <div class="modal-title" id="modalTitle">${media.title}</div>
                 `;
             } else if (media.type === 'pdf') {
                 contentHTML = `
-                    <iframe src="${media.url}" width="100%" height="500px"></iframe>
-                    <div class="modal-title">${media.title}</div>
-                    <p><a href="${media.url}" target="_blank">🔗 Abrir PDF en nueva pestaña</a></p>
+                    <iframe src="${media.url}" width="100%" height="500px" title="${media.title}"></iframe>
+                    <div class="modal-title" id="modalTitle">${media.title}</div>
+                    <p><a href="${media.url}" target="_blank" rel="noopener">🔗 Abrir PDF en nueva pestaña</a></p>
                 `;
             }
             
             modalBody.innerHTML = contentHTML;
             modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            
+            // Enfocar el botón de cerrar para mejor accesibilidad
+            setTimeout(() => {
+                const closeBtn = modal.querySelector('.close-btn');
+                if (closeBtn) closeBtn.focus();
+            }, 100);
         }
 
+        // Función para cerrar el modal
         function closeModal() {
             const modal = document.getElementById('modal');
             modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
             
             // Pausar video si está reproduciéndose
             const video = modal.querySelector('video');
             if (video) {
                 video.pause();
             }
+            
+            // Enfocar el último elemento activo antes de abrir el modal
+            if (lastFocusedElement) {
+                lastFocusedElement.focus();
+            }
         }
+
+        // Variable para guardar el último elemento enfocado
+        let lastFocusedElement;
 
         // Cerrar modal al hacer clic fuera
         document.getElementById('modal').addEventListener('click', function(e) {
@@ -451,11 +571,27 @@
             }
         });
 
-        // Inicializar galería
-        renderGallery();
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
 
-        // Mensaje de confirmación
-        console.log('🚀 GALERÍA INICIADA - TODOS LOS ARCHIVOS DISPONIBLES');
+        // Guardar el último elemento enfocado antes de abrir el modal
+        document.addEventListener('focusin', function() {
+            if (document.getElementById('modal').style.display !== 'flex') {
+                lastFocusedElement = document.activeElement;
+            }
+        });
+
+        // Inicializar galería
+        document.addEventListener('DOMContentLoaded', function() {
+            renderGallery();
+            
+            // Mensaje de confirmación
+            console.log('🚀 GALERÍA INICIADA - TODOS LOS ARCHIVOS DISPONIBLES');
+        });
     </script>
 </body>
 </html>

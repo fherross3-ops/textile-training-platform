@@ -1,52 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   
-
-<script>
-    // Prevenir clic derecho
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
-
-    // Prevenir atajos de teclado
-    document.addEventListener('keydown', function(e) {
-        if (
-            e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
-            (e.ctrlKey && e.shiftKey && e.key === 'C') ||
-            (e.ctrlKey && e.key === 'u') ||
-            (e.ctrlKey && e.key === 'U')
-        ) {
-            e.preventDefault();
-            alert('Acceso al código fuente no permitido');
-        }
-    });
-
-    // Detección de devtools
-    setInterval(function() {
-        debugger;
-    }, 1000);
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</title>
     <style>
@@ -204,6 +159,12 @@
         
         .sample-input {
             width: 60px;
+            padding: 4px;
+            text-align: center;
+        }
+        
+        .metadata-input {
+            width: 120px;
             padding: 4px;
             text-align: center;
         }
@@ -562,6 +523,22 @@
             background-color: #d1ecf1;
             border: 1px solid #bee5eb;
         }
+
+        .csv-format-info {
+            background-color: #e8f5e8;
+            border: 1px solid #c8e6c9;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .metadata-display {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 2px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -613,6 +590,7 @@
                             <option value="week">Semana</option>
                             <option value="month">Mes</option>
                             <option value="year">Año</option>
+                            <option value="metadata">Usar Metadatos del CSV</option>
                         </select>
                         <div class="time-format-info" id="time-format-info">
                             El eje X mostrará el número secuencial de observación
@@ -699,9 +677,18 @@
                 <p>3. Haga clic en "Calcular Carta de Control" para generar los gráficos.</p>
                 <p>4. Los límites USL y LSL se mostrarán como líneas rojas en el gráfico I.</p>
                 <p>5. La carta I-RM es útil para procesos con mediciones individuales o cuando la producción es lenta.</p>
+                
+                <div class="csv-format-info">
+                    <strong>Formato CSV:</strong> Use dos columnas separadas por coma:<br>
+                    <strong>Columna 1:</strong> Valor numérico de la medición<br>
+                    <strong>Columna 2:</strong> Metadatos (fecha, lote, máquina, etc.)<br>
+                    <em>Ejemplo: 25.4,2024-01-15 o 0.125,Lote-A</em>
+                </div>
+                
                 <button id="calculate-btn">Calcular Carta de Control</button>
                 <button id="clear-data" class="secondary">Limpiar Datos</button>
-                <button id="import-data-btn" class="warning">Importar desde CSV/Excel</button>
+                <button id="import-data-btn" class="warning">Importar desde CSV</button>
+                <button id="export-csv-btn" class="success">Exportar a CSV</button>
             </div>
         </div>
         
@@ -831,14 +818,14 @@
         </div>
         
         <div class="copyright">
-            <p>© 2025 Carta de Control I-RM (Individual-Rango Móvil) JtxDossier(R)- Con Límites de Especificación</p>
+            <p>© 2023 Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</p>
         </div>
     </div>
 
     <!-- Modal para importación de datos -->
     <div id="import-modal" class="modal">
         <div class="modal-content">
-            <h3>Importar Datos desde Archivo</h3>
+            <h3>Importar Datos desde Archivo CSV</h3>
             <div class="file-input-container">
                 <label for="file-input" class="file-input-label">Seleccionar archivo CSV</label>
                 <input type="file" id="file-input" class="file-input" accept=".csv">
@@ -851,6 +838,19 @@
                     <option value=";">Punto y coma (;)</option>
                     <option value="\t">Tabulador</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="csv-has-headers">El archivo tiene encabezados:</label>
+                <select id="csv-has-headers">
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="csv-format-info">
+                <strong>Formato esperado:</strong><br>
+                <strong>Columna 1:</strong> Valor numérico<br>
+                <strong>Columna 2:</strong> Metadatos (fecha, lote, máquina, etc.)<br>
+                <em>Ejemplo: 25.4,2024-01-15</em>
             </div>
             <div class="modal-buttons">
                 <button id="cancel-import" class="secondary">Cancelar</button>
@@ -895,6 +895,7 @@
         let iChart, rmChart;
         let fixedLimits = null; // Almacenará los límites fijos calculados
         let limitsBaseCount = 0; // Número de registros usados para calcular límites
+        let metadataLabels = []; // Almacenará los metadatos para el eje X
         
         // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
@@ -909,6 +910,7 @@
             document.getElementById('calculate-btn').addEventListener('click', calculateControlChart);
             document.getElementById('clear-data').addEventListener('click', clearData);
             document.getElementById('import-data-btn').addEventListener('click', showImportModal);
+            document.getElementById('export-csv-btn').addEventListener('click', exportToCSV);
             document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
             document.getElementById('send-email-btn').addEventListener('click', showEmailModal);
             
@@ -954,7 +956,8 @@
                 'day': 'El eje X mostrará días consecutivos',
                 'week': 'El eje X mostrará semanas consecutivas',
                 'month': 'El eje X mostrará meses consecutivos',
-                'year': 'El eje X mostrará años consecutivos'
+                'year': 'El eje X mostrará años consecutivos',
+                'metadata': 'El eje X mostrará los metadatos importados del CSV'
             };
             
             infoElement.textContent = scaleInfo[timeScale] || scaleInfo['observation'];
@@ -984,6 +987,11 @@
             const timeScale = document.getElementById('time-scale').value;
             const timeFormat = document.getElementById('time-format').value;
             const labels = [];
+            
+            // Si hay metadatos y se seleccionó usar metadatos, usar esos
+            if (timeScale === 'metadata' && metadataLabels.length > 0) {
+                return metadataLabels.slice(0, count);
+            }
             
             if (timeFormat === 'sequential') {
                 for (let i = 1; i <= count; i++) {
@@ -1021,6 +1029,44 @@
             }
             
             return labels;
+        }
+        
+        // NUEVA FUNCIÓN: Exportar a CSV con dos columnas
+        function exportToCSV() {
+            const rows = document.querySelectorAll('#data-body tr');
+            const data = [];
+            
+            // Encabezados
+            data.push(['Valor', 'Metadatos']);
+            
+            // Datos
+            rows.forEach(row => {
+                const valueInput = row.querySelector('.sample-input');
+                const metadataInput = row.querySelector('.metadata-input');
+                
+                if (valueInput && valueInput.value) {
+                    const value = valueInput.value;
+                    const metadata = metadataInput ? metadataInput.value : '';
+                    data.push([value, metadata]);
+                }
+            });
+            
+            // Crear contenido CSV
+            let csvContent = '';
+            data.forEach(row => {
+                csvContent += row.map(field => `"${field}"`).join(',') + '\n';
+            });
+            
+            // Crear y descargar archivo
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `datos_proceso_${new Date().getTime()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
         
         // NUEVA FUNCIÓN: Exportar TODO el contenido visible a PDF
@@ -1139,6 +1185,11 @@
             valueHeader.textContent = 'Valor Individual (I)';
             tableHeader.appendChild(valueHeader);
             
+            // NUEVA: Agregar columna para metadatos
+            const metadataHeader = document.createElement('th');
+            metadataHeader.textContent = 'Metadatos (Fecha/Lote/Máquina)';
+            tableHeader.appendChild(metadataHeader);
+            
             // Agregar columna para rango móvil
             const rangeHeader = document.createElement('th');
             rangeHeader.textContent = 'Rango Móvil (RM)';
@@ -1160,12 +1211,25 @@
             const input = document.createElement('input');
             input.type = 'number';
             input.className = 'sample-input';
+            input.step = 'any';
             input.addEventListener('input', function() {
                 calculateMovingRanges();
                 updateDashboardSummary();
             });
             inputCell.appendChild(input);
             newRow.appendChild(inputCell);
+            
+            // NUEVA: Celda para metadatos
+            const metadataCell = document.createElement('td');
+            const metadataInput = document.createElement('input');
+            metadataInput.type = 'text';
+            metadataInput.className = 'metadata-input';
+            metadataInput.placeholder = 'Fecha/Lote/Máquina...';
+            metadataInput.addEventListener('input', function() {
+                updateDashboardSummary();
+            });
+            metadataCell.appendChild(metadataInput);
+            newRow.appendChild(metadataCell);
             
             // Celda para rango móvil
             const rangeCell = document.createElement('td');
@@ -1213,17 +1277,26 @@
             const individualValues = [];
             const movingRanges = [];
             const observationNumbers = [];
+            metadataLabels = []; // Reiniciar metadatos
             
             // Recopilar datos de todas las observaciones
             const rows = document.querySelectorAll('#data-body tr');
             
             rows.forEach(row => {
                 const input = row.querySelector('.sample-input');
+                const metadataInput = row.querySelector('.metadata-input');
                 const rangeCell = row.querySelector('.moving-range');
                 
                 if (input.value && !isNaN(parseFloat(input.value))) {
                     individualValues.push(parseFloat(input.value));
                     observationNumbers.push(parseInt(row.cells[0].textContent));
+                    
+                    // Guardar metadatos si existen
+                    if (metadataInput && metadataInput.value) {
+                        metadataLabels.push(metadataInput.value);
+                    } else {
+                        metadataLabels.push(`Obs ${observationNumbers[observationNumbers.length-1]}`);
+                    }
                     
                     // Solo agregar rangos móviles válidos (no la primera observación)
                     if (rangeCell.textContent !== '-') {
@@ -1633,7 +1706,8 @@
                 'day': 'Día',
                 'week': 'Semana',
                 'month': 'Mes',
-                'year': 'Año'
+                'year': 'Año',
+                'metadata': 'Metadatos'
             };
             iChart.options.scales.x.title.text = xAxisTitles[timeScale] || 'Observación';
             
@@ -1666,7 +1740,8 @@
                 'day': 'Día',
                 'week': 'Semana',
                 'month': 'Mes',
-                'year': 'Año'
+                'year': 'Año',
+                'metadata': 'Metadatos'
             };
             rmChart.options.scales.x.title.text = xAxisTitles[timeScale] || 'Observación';
             
@@ -1684,6 +1759,7 @@
                 // Reiniciar límites fijos
                 fixedLimits = null;
                 limitsBaseCount = 0;
+                metadataLabels = [];
                 
                 // Reiniciar gráficos
                 iChart.data.labels = [];
@@ -1754,7 +1830,7 @@
             }
         }
         
-        // Importar datos desde archivo - CORREGIDO
+        // Importar datos desde archivo CSV con dos columnas
         function importDataFromFile() {
             const fileInput = document.getElementById('file-input');
             
@@ -1769,48 +1845,62 @@
             reader.onload = function(e) {
                 try {
                     const content = e.target.result;
-                    let data = [];
+                    const data = [];
+                    const metadata = [];
+                    const hasHeaders = document.getElementById('csv-has-headers').value === 'true';
+                    const delimiter = document.getElementById('csv-delimiter').value;
+                    const lines = content.split('\n');
                     
-                    if (file.name.endsWith('.csv')) {
-                        // Procesar CSV
-                        const delimiter = document.getElementById('csv-delimiter').value;
-                        const lines = content.split('\n');
-                        
-                        // Eliminar líneas vacías y procesar datos
-                        for (let i = 0; i < lines.length; i++) {
-                            const line = lines[i].trim();
-                            if (line) {
-                                const values = line.split(delimiter);
+                    let startLine = hasHeaders ? 1 : 0;
+                    
+                    // Procesar cada línea
+                    for (let i = startLine; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (line) {
+                            const values = line.split(delimiter);
+                            
+                            // Verificar que haya al menos una columna
+                            if (values.length >= 1) {
                                 const numericValue = parseFloat(values[0]);
                                 if (!isNaN(numericValue)) {
                                     data.push(numericValue);
+                                    
+                                    // Si hay segunda columna, usarla como metadatos
+                                    if (values.length >= 2 && values[1].trim() !== '') {
+                                        metadata.push(values[1].trim());
+                                    } else {
+                                        metadata.push(`Obs ${data.length}`);
+                                    }
                                 }
                             }
                         }
-                    } else {
-                        alert('Solo se admiten archivos CSV');
-                        hideImportModal();
-                        return;
                     }
                     
                     // Limpiar datos existentes
                     clearData();
                     
-                    // Agregar datos importados (sin fila vacía adicional)
+                    // Agregar datos importados
                     if (data.length > 0) {
-                        // Eliminar la fila vacía inicial
                         const dataBody = document.getElementById('data-body');
                         dataBody.innerHTML = '';
                         observationCounter = 1;
                         
                         // Agregar cada dato como una observación
-                        data.forEach(value => {
+                        data.forEach((value, index) => {
                             addObservation();
                             const rows = document.querySelectorAll('#data-body tr');
                             const lastRow = rows[rows.length - 1];
                             const input = lastRow.querySelector('.sample-input');
+                            const metadataInput = lastRow.querySelector('.metadata-input');
+                            
                             input.value = value;
+                            if (metadata[index]) {
+                                metadataInput.value = metadata[index];
+                            }
                         });
+                        
+                        // Guardar metadatos para uso en gráficos
+                        metadataLabels = metadata;
                         
                         // Recalcular rangos móviles
                         calculateMovingRanges();
@@ -1845,7 +1935,7 @@
             document.getElementById('email-modal').style.display = 'none';
         }
         
-        // Enviar correo - CORREGIDO
+        // Enviar correo
         function sendEmail() {
             const to = document.getElementById('email-to').value;
             const subject = document.getElementById('email-subject').value;
@@ -1931,7 +2021,7 @@ ${document.getElementById('recommendations').textContent}
             hideEmailModal();
         }
         
-        // Exportar a PDF - CORREGIDO
+        // Exportar a PDF
         function exportToPDF() {
             // Verificar si jsPDF está disponible
             if (typeof jspdf === 'undefined') {

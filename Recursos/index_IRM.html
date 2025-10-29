@@ -1,7 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+   
+
+<script>
+    // Prevenir clic derecho
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Prevenir atajos de teclado
+    document.addEventListener('keydown', function(e) {
+        if (
+            e.key === 'F12' ||
+            (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+            (e.ctrlKey && e.key === 'u') ||
+            (e.ctrlKey && e.key === 'U')
+        ) {
+            e.preventDefault();
+            alert('Acceso al código fuente no permitido');
+        }
+    });
+
+    // Detección de devtools
+    setInterval(function() {
+        debugger;
+    }, 1000);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</title>
     <style>
@@ -129,6 +174,14 @@
         
         button.warning:hover {
             background-color: #e67e22;
+        }
+        
+        button.export-complete {
+            background-color: #9b59b6;
+        }
+        
+        button.export-complete:hover {
+            background-color: #8e44ad;
         }
         
         table {
@@ -472,6 +525,43 @@
             height: 12px;
             border-radius: 2px;
         }
+
+        /* Nuevos estilos para configuración de eje horizontal */
+        .time-config-section {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .time-config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .time-format-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .fixed-limits-info {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .limits-fixed {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+        }
     </style>
 </head>
 <body>
@@ -502,6 +592,64 @@
                 <div class="summary-label">Rangos Móviles</div>
                 <div class="summary-value" id="ranges-count">0</div>
                 <div class="summary-label">Total calculados</div>
+            </div>
+        </div>
+
+        <!-- Nueva sección: Configuración de Eje Horizontal y Límites Fijos -->
+        <div class="card">
+            <h2>Configuración de Escala de Tiempo y Límites</h2>
+            
+            <div class="time-config-section">
+                <div class="parameter-title">Configuración del Eje Horizontal</div>
+                <p>Seleccione la escala de tiempo para el análisis de su proceso</p>
+                
+                <div class="time-config-grid">
+                    <div class="form-group">
+                        <label for="time-scale">Escala de Tiempo:</label>
+                        <select id="time-scale">
+                            <option value="observation">Número de Observación</option>
+                            <option value="date">Fecha</option>
+                            <option value="day">Día</option>
+                            <option value="week">Semana</option>
+                            <option value="month">Mes</option>
+                            <option value="year">Año</option>
+                        </select>
+                        <div class="time-format-info" id="time-format-info">
+                            El eje X mostrará el número secuencial de observación
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time-format">Formato de Etiqueta:</label>
+                        <select id="time-format">
+                            <option value="sequential">Secuencial (1, 2, 3...)</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                        <div class="time-format-info">
+                            Formato de las etiquetas en el eje horizontal
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="time-config-section">
+                <div class="parameter-title">Configuración de Límites de Control</div>
+                <p>Los límites se calcularán con los primeros 20 registros y permanecerán fijos</p>
+                
+                <div class="form-group">
+                    <label for="limit-calculation-mode">Modo de Cálculo de Límites:</label>
+                    <select id="limit-calculation-mode">
+                        <option value="fixed">Límites Fijos (primeros 20 registros)</option>
+                        <option value="dynamic">Límites Dinámicos (todos los registros)</option>
+                    </select>
+                    <div class="time-format-info">
+                        En modo fijo, los límites se calculan una vez y permanecen constantes
+                    </div>
+                </div>
+                
+                <div id="fixed-limits-info" class="fixed-limits-info">
+                    <strong>Límites Fijos Activados:</strong> Los límites de control se calcularán con los primeros 20 registros y se mantendrán constantes para el seguimiento. Ideal para detectar cambios en el proceso.
+                </div>
             </div>
         </div>
         
@@ -584,6 +732,7 @@
             <div id="control-analysis" style="margin-top: 15px;">
                 <p>Puntos fuera de control: <span id="out-of-control-count">0</span></p>
                 <p>Puntos fuera de especificación: <span id="out-of-spec-count">0</span></p>
+                <p>Modo de límites: <span id="limits-mode-info">No calculado</span></p>
                 <p>Recomendaciones: <span id="recommendations">Ingrese más datos para obtener recomendaciones</span></p>
             </div>
         </div>
@@ -595,6 +744,7 @@
                     <p>Media de rangos móviles (R̄): <span id="mr-bar">-</span></p>
                     <p>Media del proceso (μ̂): <span id="process-mean">-</span></p>
                     <p>Desviación estándar (σ̂): <span id="process-std">-</span></p>
+                    <p>Registros para límites: <span id="limits-base-count">-</span></p>
                 </div>
             </div>
             
@@ -640,6 +790,7 @@
                 <p>Límite Inferior de Control (LCL): <span id="i-lcl">-</span></p>
                 <p>Límite Superior de Especificación (USL): <span id="i-usl">-</span></p>
                 <p>Límite Inferior de Especificación (LSL): <span id="i-lsl">-</span></p>
+                <p><strong>Base para límites:</strong> <span id="i-limits-base">-</span></p>
             </div>
         </div>
         
@@ -666,19 +817,21 @@
                 <p>Línea Central (CL): <span id="rm-cl">-</span></p>
                 <p>Límite Superior de Control (UCL): <span id="rm-ucl">-</span></p>
                 <p>Límite Inferior de Control (LCL): <span id="rm-lcl">-</span></p>
+                <p><strong>Base para límites:</strong> <span id="rm-limits-base">-</span></p>
             </div>
         </div>
         
         <div class="export-section">
-            <h3>Exportar Reporte Ejecutivo</h3>
+            <h3>Exportar Reporte</h3>
             <div class="export-buttons">
+                <button id="export-complete-pdf-btn" class="export-complete">Exportar PDF Completo</button>
                 <button id="export-pdf-btn" class="success">Generar PDF Ejecutivo</button>
                 <button id="send-email-btn" class="warning">Enviar por Correo</button>
             </div>
         </div>
         
         <div class="copyright">
-            <p>© 2023 Carta de Control I-RM (Individual-Rango Móvil) - Con Límites de Especificación</p>
+            <p>© 2025 Carta de Control I-RM (Individual-Rango Móvil) JtxDossier(R)- Con Límites de Especificación</p>
         </div>
     </div>
 
@@ -740,6 +893,8 @@
         // Variables globales
         let observationCounter = 1;
         let iChart, rmChart;
+        let fixedLimits = null; // Almacenará los límites fijos calculados
+        let limitsBaseCount = 0; // Número de registros usados para calcular límites
         
         // Inicialización
         document.addEventListener('DOMContentLoaded', function() {
@@ -757,6 +912,9 @@
             document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
             document.getElementById('send-email-btn').addEventListener('click', showEmailModal);
             
+            // Evento para exportación completa
+            document.getElementById('export-complete-pdf-btn').addEventListener('click', exportCompletePDF);
+            
             // Eventos para modales
             document.getElementById('cancel-import').addEventListener('click', hideImportModal);
             document.getElementById('confirm-import').addEventListener('click', importDataFromFile);
@@ -768,15 +926,203 @@
             document.getElementById('usl').addEventListener('input', updateSpecStatus);
             document.getElementById('lsl').addEventListener('input', updateSpecStatus);
             
+            // Nuevos eventos para configuración de tiempo y límites
+            document.getElementById('time-scale').addEventListener('change', updateTimeScaleInfo);
+            document.getElementById('time-format').addEventListener('change', updateTimeFormatInfo);
+            document.getElementById('limit-calculation-mode').addEventListener('change', updateLimitModeInfo);
+            
             // Inicializar gráficos
             initializeCharts();
             
             // Actualizar estado inicial de especificaciones
             updateSpecStatus();
+            updateTimeScaleInfo();
+            updateLimitModeInfo();
             
             // Actualizar resumen inicial
             updateDashboardSummary();
         });
+        
+        // Actualizar información de escala de tiempo
+        function updateTimeScaleInfo() {
+            const timeScale = document.getElementById('time-scale').value;
+            const infoElement = document.getElementById('time-format-info');
+            
+            const scaleInfo = {
+                'observation': 'El eje X mostrará el número secuencial de observación',
+                'date': 'El eje X mostrará fechas en formato DD/MM/AAAA',
+                'day': 'El eje X mostrará días consecutivos',
+                'week': 'El eje X mostrará semanas consecutivas',
+                'month': 'El eje X mostrará meses consecutivos',
+                'year': 'El eje X mostrará años consecutivos'
+            };
+            
+            infoElement.textContent = scaleInfo[timeScale] || scaleInfo['observation'];
+        }
+        
+        // Actualizar información de formato de tiempo
+        function updateTimeFormatInfo() {
+            // Puede expandirse para mostrar diferentes formatos según la selección
+        }
+        
+        // Actualizar información de modo de límites
+        function updateLimitModeInfo() {
+            const limitMode = document.getElementById('limit-calculation-mode').value;
+            const infoElement = document.getElementById('fixed-limits-info');
+            
+            if (limitMode === 'fixed') {
+                infoElement.innerHTML = '<strong>Límites Fijos Activados:</strong> Los límites de control se calcularán con los primeros 20 registros y se mantendrán constantes para el seguimiento. Ideal para detectar cambios en el proceso.';
+                infoElement.className = 'fixed-limits-info limits-fixed';
+            } else {
+                infoElement.innerHTML = '<strong>Límites Dinámicos Activados:</strong> Los límites de control se recalcularán con todos los registros disponibles cada vez que se agreguen nuevos datos.';
+                infoElement.className = 'fixed-limits-info';
+            }
+        }
+        
+        // Generar etiquetas para el eje X según la configuración
+        function generateXAxisLabels(count) {
+            const timeScale = document.getElementById('time-scale').value;
+            const timeFormat = document.getElementById('time-format').value;
+            const labels = [];
+            
+            if (timeFormat === 'sequential') {
+                for (let i = 1; i <= count; i++) {
+                    labels.push(i.toString());
+                }
+            } else {
+                // Personalizado según la escala de tiempo
+                const now = new Date();
+                
+                for (let i = 1; i <= count; i++) {
+                    let label;
+                    switch(timeScale) {
+                        case 'date':
+                            const date = new Date(now);
+                            date.setDate(now.getDate() + i - 1);
+                            label = date.toLocaleDateString();
+                            break;
+                        case 'day':
+                            label = `Día ${i}`;
+                            break;
+                        case 'week':
+                            label = `Semana ${i}`;
+                            break;
+                        case 'month':
+                            label = `Mes ${i}`;
+                            break;
+                        case 'year':
+                            label = `Año ${i}`;
+                            break;
+                        default:
+                            label = i.toString();
+                    }
+                    labels.push(label);
+                }
+            }
+            
+            return labels;
+        }
+        
+        // NUEVA FUNCIÓN: Exportar TODO el contenido visible a PDF
+        function exportCompletePDF() {
+            // Verificar si las bibliotecas están disponibles
+            if (typeof jspdf === 'undefined') {
+                alert('Error: La biblioteca jsPDF no está cargada correctamente');
+                return;
+            }
+            
+            if (typeof html2canvas === 'undefined') {
+                alert('Error: La biblioteca html2canvas no está cargada correctamente');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const processName = document.getElementById('process-name').value || 'Proceso Sin Nombre';
+            const now = new Date();
+            
+            // Mostrar mensaje de procesamiento
+            const processingMsg = document.createElement('div');
+            processingMsg.style.position = 'fixed';
+            processingMsg.style.top = '50%';
+            processingMsg.style.left = '50%';
+            processingMsg.style.transform = 'translate(-50%, -50%)';
+            processingMsg.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            processingMsg.style.color = 'white';
+            processingMsg.style.padding = '20px';
+            processingMsg.style.borderRadius = '5px';
+            processingMsg.style.zIndex = '10000';
+            processingMsg.textContent = 'Generando PDF completo... Esto puede tomar unos segundos.';
+            document.body.appendChild(processingMsg);
+            
+            // Obtener el elemento contenedor principal
+            const container = document.querySelector('.container');
+            
+            // Configuración para html2canvas
+            const options = {
+                scale: 2, // Mayor resolución
+                useCORS: true,
+                allowTaint: true,
+                scrollX: 0,
+                scrollY: -window.scrollY,
+                width: container.scrollWidth,
+                height: container.scrollHeight,
+                windowWidth: container.scrollWidth,
+                windowHeight: container.scrollHeight
+            };
+            
+            // Capturar el contenido como imagen
+            html2canvas(container, options).then(canvas => {
+                // Eliminar mensaje de procesamiento
+                document.body.removeChild(processingMsg);
+                
+                const imgData = canvas.toDataURL('image/jpeg', 0.9);
+                const imgWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                // Agregar primera página
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                // Agregar páginas adicionales si es necesario
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Guardar el PDF
+                doc.save(`Registro_Completo_${processName.replace(/\s+/g, '_')}_${now.getTime()}.pdf`);
+                
+            }).catch(error => {
+                // Eliminar mensaje de procesamiento en caso de error
+                if (document.body.contains(processingMsg)) {
+                    document.body.removeChild(processingMsg);
+                }
+                
+                console.error('Error al generar PDF completo:', error);
+                alert('Error al generar el PDF completo: ' + error.message);
+                
+                // Fallback: intentar con opciones más simples
+                try {
+                    html2canvas(container, { scale: 1 }).then(canvas => {
+                        const imgData = canvas.toDataURL('image/jpeg', 0.9);
+                        const imgWidth = doc.internal.pageSize.getWidth();
+                        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                        
+                        doc.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        doc.save(`Registro_Completo_${processName.replace(/\s+/g, '_')}_${now.getTime()}.pdf`);
+                    });
+                } catch (fallbackError) {
+                    alert('No se pudo generar el PDF completo. Error: ' + fallbackError.message);
+                }
+            });
+        }
         
         // Reconstruir encabezado de tabla
         function rebuildTableHeader() {
@@ -892,9 +1238,21 @@
                 return;
             }
             
+            // Determinar si usar límites fijos o dinámicos
+            const limitMode = document.getElementById('limit-calculation-mode').value;
+            let useFixedLimits = false;
+            let dataForLimits = individualValues;
+            let movingRangesForLimits = movingRanges;
+            
+            if (limitMode === 'fixed' && individualValues.length >= 20) {
+                useFixedLimits = true;
+                dataForLimits = individualValues.slice(0, 20);
+                movingRangesForLimits = movingRanges.slice(0, 19); // Los rangos móviles son uno menos
+            }
+            
             // Calcular estadísticas del proceso
-            const mrBar = movingRanges.reduce((sum, mr) => sum + mr, 0) / movingRanges.length;
-            const processMean = individualValues.reduce((sum, value) => sum + value, 0) / individualValues.length;
+            const mrBar = movingRangesForLimits.reduce((sum, mr) => sum + mr, 0) / movingRangesForLimits.length;
+            const processMean = dataForLimits.reduce((sum, value) => sum + value, 0) / dataForLimits.length;
             
             // Calcular desviación estándar usando rangos móviles
             const processStd = mrBar / d2;
@@ -910,6 +1268,44 @@
             const rmUCL = mrBar * (1 + k * (d3 / d2));
             const rmLCL = Math.max(0, mrBar * (1 - k * (d3 / d2)));
             
+            // Almacenar límites fijos si es necesario
+            if (useFixedLimits && !fixedLimits) {
+                fixedLimits = {
+                    processMean: processMean,
+                    processStd: processStd,
+                    mrBar: mrBar,
+                    iUCL: iUCL,
+                    iLCL: iLCL,
+                    rmUCL: rmUCL,
+                    rmLCL: rmLCL,
+                    baseCount: dataForLimits.length
+                };
+                limitsBaseCount = dataForLimits.length;
+            }
+            
+            // Usar límites fijos si están disponibles y estamos en modo fijo
+            let finalProcessMean, finalProcessStd, finalMrBar, finalIUCL, finalILCL, finalRmUCL, finalRmLCL;
+            
+            if (useFixedLimits && fixedLimits) {
+                finalProcessMean = fixedLimits.processMean;
+                finalProcessStd = fixedLimits.processStd;
+                finalMrBar = fixedLimits.mrBar;
+                finalIUCL = fixedLimits.iUCL;
+                finalILCL = fixedLimits.iLCL;
+                finalRmUCL = fixedLimits.rmUCL;
+                finalRmLCL = fixedLimits.rmLCL;
+                limitsBaseCount = fixedLimits.baseCount;
+            } else {
+                finalProcessMean = processMean;
+                finalProcessStd = processStd;
+                finalMrBar = mrBar;
+                finalIUCL = iUCL;
+                finalILCL = iLCL;
+                finalRmUCL = rmUCL;
+                finalRmLCL = rmLCL;
+                limitsBaseCount = dataForLimits.length;
+            }
+            
             // Obtener límites de especificación
             const usl = document.getElementById('usl').value ? parseFloat(document.getElementById('usl').value) : null;
             const lsl = document.getElementById('lsl').value ? parseFloat(document.getElementById('lsl').value) : null;
@@ -919,7 +1315,7 @@
             let outOfSpecCount = 0;
             
             individualValues.forEach(value => {
-                if (value > iUCL || value < iLCL) {
+                if (value > finalIUCL || value < finalILCL) {
                     outOfControlCount++;
                 }
                 if (usl !== null && value > usl) {
@@ -931,34 +1327,45 @@
             });
             
             movingRanges.forEach(range => {
-                if (range > rmUCL || (rmLCL > 0 && range < rmLCL)) {
+                if (range > finalRmUCL || (finalRmLCL > 0 && range < finalRmLCL)) {
                     outOfControlCount++;
                 }
             });
             
             // Actualizar estadísticas en la interfaz
-            document.getElementById('mr-bar').textContent = mrBar.toFixed(4);
-            document.getElementById('process-mean').textContent = processMean.toFixed(4);
-            document.getElementById('process-std').textContent = processStd.toFixed(4);
+            document.getElementById('mr-bar').textContent = finalMrBar.toFixed(4);
+            document.getElementById('process-mean').textContent = finalProcessMean.toFixed(4);
+            document.getElementById('process-std').textContent = finalProcessStd.toFixed(4);
+            document.getElementById('limits-base-count').textContent = `${limitsBaseCount} registros`;
             
-            document.getElementById('i-cl').textContent = processMean.toFixed(4);
-            document.getElementById('i-ucl').textContent = iUCL.toFixed(4);
-            document.getElementById('i-lcl').textContent = iLCL.toFixed(4);
+            document.getElementById('i-cl').textContent = finalProcessMean.toFixed(4);
+            document.getElementById('i-ucl').textContent = finalIUCL.toFixed(4);
+            document.getElementById('i-lcl').textContent = finalILCL.toFixed(4);
             document.getElementById('i-usl').textContent = usl !== null ? usl.toFixed(4) : '-';
             document.getElementById('i-lsl').textContent = lsl !== null ? lsl.toFixed(4) : '-';
+            document.getElementById('i-limits-base').textContent = useFixedLimits ? 
+                `Límites fijos (primeros ${limitsBaseCount} registros)` : 
+                `Límites dinámicos (${limitsBaseCount} registros)`;
             
-            document.getElementById('rm-cl').textContent = mrBar.toFixed(4);
-            document.getElementById('rm-ucl').textContent = rmUCL.toFixed(4);
-            document.getElementById('rm-lcl').textContent = rmLCL > 0 ? rmLCL.toFixed(4) : '0';
+            document.getElementById('rm-cl').textContent = finalMrBar.toFixed(4);
+            document.getElementById('rm-ucl').textContent = finalRmUCL.toFixed(4);
+            document.getElementById('rm-lcl').textContent = finalRmLCL > 0 ? finalRmLCL.toFixed(4) : '0';
+            document.getElementById('rm-limits-base').textContent = useFixedLimits ? 
+                `Límites fijos (primeros ${limitsBaseCount} registros)` : 
+                `Límites dinámicos (${limitsBaseCount} registros)`;
             
             // Actualizar estado de control
             const controlStatus = document.getElementById('control-status');
             const outOfControlElement = document.getElementById('out-of-control-count');
             const outOfSpecElement = document.getElementById('out-of-spec-count');
+            const limitsModeElement = document.getElementById('limits-mode-info');
             const recommendationsElement = document.getElementById('recommendations');
             
             outOfControlElement.textContent = outOfControlCount;
             outOfSpecElement.textContent = outOfSpecCount;
+            limitsModeElement.textContent = useFixedLimits ? 
+                `Límites fijos (base: ${limitsBaseCount} registros)` : 
+                `Límites dinámicos (${limitsBaseCount} registros)`;
             
             if (outOfControlCount === 0 && outOfSpecCount === 0) {
                 controlStatus.textContent = 'Estado del proceso: Bajo Control Estadístico';
@@ -980,7 +1387,7 @@
             
             // Calcular capacidad del proceso si hay especificaciones
             if (usl !== null && lsl !== null) {
-                calculateProcessCapability(processMean, processStd, usl, lsl, individualValues);
+                calculateProcessCapability(finalProcessMean, finalProcessStd, usl, lsl, individualValues);
             } else {
                 document.getElementById('cp-value').textContent = '-';
                 document.getElementById('cpk-value').textContent = '-';
@@ -989,9 +1396,12 @@
                     '<p>Ingrese ambos límites de especificación para calcular la capacidad del proceso.</p>';
             }
             
+            // Generar etiquetas para el eje X
+            const xAxisLabels = generateXAxisLabels(observationNumbers.length);
+            
             // Actualizar gráficos
-            updateIChart(observationNumbers, individualValues, processMean, iUCL, iLCL, usl, lsl);
-            updateRMChart(observationNumbers, movingRanges, mrBar, rmUCL, rmLCL);
+            updateIChart(xAxisLabels, individualValues, finalProcessMean, finalIUCL, finalILCL, usl, lsl);
+            updateRMChart(xAxisLabels, movingRanges, finalMrBar, finalRmUCL, finalRmLCL);
             
             // Actualizar resumen del dashboard
             updateDashboardSummary();
@@ -1215,6 +1625,18 @@
             const processName = document.getElementById('process-name').value || 'Valor';
             iChart.options.scales.y.title.text = processName;
             
+            // Actualizar título del eje X según la escala de tiempo
+            const timeScale = document.getElementById('time-scale').value;
+            const xAxisTitles = {
+                'observation': 'Número de Observación',
+                'date': 'Fecha',
+                'day': 'Día',
+                'week': 'Semana',
+                'month': 'Mes',
+                'year': 'Año'
+            };
+            iChart.options.scales.x.title.text = xAxisTitles[timeScale] || 'Observación';
+            
             iChart.update();
         }
         
@@ -1236,6 +1658,18 @@
             rmChart.data.datasets[2].data = uclData;
             rmChart.data.datasets[3].data = lclData;
             
+            // Actualizar título del eje X según la escala de tiempo
+            const timeScale = document.getElementById('time-scale').value;
+            const xAxisTitles = {
+                'observation': 'Número de Observación',
+                'date': 'Fecha',
+                'day': 'Día',
+                'week': 'Semana',
+                'month': 'Mes',
+                'year': 'Año'
+            };
+            rmChart.options.scales.x.title.text = xAxisTitles[timeScale] || 'Observación';
+            
             rmChart.update();
         }
         
@@ -1246,6 +1680,10 @@
                 dataBody.innerHTML = '';
                 observationCounter = 1;
                 addObservation();
+                
+                // Reiniciar límites fijos
+                fixedLimits = null;
+                limitsBaseCount = 0;
                 
                 // Reiniciar gráficos
                 iChart.data.labels = [];
@@ -1260,20 +1698,24 @@
                 document.getElementById('mr-bar').textContent = '-';
                 document.getElementById('process-mean').textContent = '-';
                 document.getElementById('process-std').textContent = '-';
+                document.getElementById('limits-base-count').textContent = '-';
                 
                 document.getElementById('i-cl').textContent = '-';
                 document.getElementById('i-ucl').textContent = '-';
                 document.getElementById('i-lcl').textContent = '-';
+                document.getElementById('i-limits-base').textContent = '-';
                 
                 document.getElementById('rm-cl').textContent = '-';
                 document.getElementById('rm-ucl').textContent = '-';
                 document.getElementById('rm-lcl').textContent = '-';
+                document.getElementById('rm-limits-base').textContent = '-';
                 
                 // Reiniciar estado de control
                 document.getElementById('control-status').textContent = 'Estado del proceso: Sin datos suficientes para evaluación';
                 document.getElementById('control-status').className = 'control-status';
                 document.getElementById('out-of-control-count').textContent = '0';
                 document.getElementById('out-of-spec-count').textContent = '0';
+                document.getElementById('limits-mode-info').textContent = 'No calculado';
                 document.getElementById('recommendations').textContent = 'Ingrese más datos para obtener recomendaciones';
                 
                 // Reiniciar capacidad
@@ -1431,12 +1873,14 @@ Capacidad del proceso (Cpk): ${document.getElementById('cpk-summary').textConten
 Observaciones analizadas: ${document.getElementById('observations-count').textContent}
 Puntos fuera de control: ${document.getElementById('out-of-control-count').textContent}
 Puntos fuera de especificación: ${document.getElementById('out-of-spec-count').textContent}
+Modo de límites: ${document.getElementById('limits-mode-info').textContent}
 
 ESTADÍSTICAS DEL PROCESO
 ------------------------
 Media de rangos móviles (R̄): ${document.getElementById('mr-bar').textContent}
 Media del proceso (μ̂): ${document.getElementById('process-mean').textContent}
 Desviación estándar (σ̂): ${document.getElementById('process-std').textContent}
+Registros para límites: ${document.getElementById('limits-base-count').textContent}
 
 LÍMITES DE CONTROL
 ------------------
@@ -1444,11 +1888,13 @@ Carta I (Individual):
 - Línea Central (CL): ${document.getElementById('i-cl').textContent}
 - Límite Superior (UCL): ${document.getElementById('i-ucl').textContent}
 - Límite Inferior (LCL): ${document.getElementById('i-lcl').textContent}
+- Base: ${document.getElementById('i-limits-base').textContent}
 
 Carta RM (Rango Móvil):
 - Línea Central (CL): ${document.getElementById('rm-cl').textContent}
 - Límite Superior (UCL): ${document.getElementById('rm-ucl').textContent}
 - Límite Inferior (LCL): ${document.getElementById('rm-lcl').textContent}
+- Base: ${document.getElementById('rm-limits-base').textContent}
 
 LÍMITES DE ESPECIFICACIÓN
 -------------------------
@@ -1507,29 +1953,30 @@ ${document.getElementById('recommendations').textContent}
             doc.text(`Proceso: ${processName}`, 20, 40);
             doc.text(`Fecha de generación: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`, 20, 50);
             doc.text(`Observaciones analizadas: ${document.getElementById('observations-count').textContent}`, 20, 60);
+            doc.text(`Modo de límites: ${document.getElementById('limits-mode-info').textContent}`, 20, 70);
             
             // Estado del proceso
             doc.setFontSize(14);
-            doc.text('RESUMEN EJECUTIVO', 20, 80);
+            doc.text('RESUMEN EJECUTIVO', 20, 90);
             doc.setFontSize(12);
-            doc.text(`Estado del proceso: ${document.getElementById('process-status-value').textContent}`, 20, 95);
-            doc.text(`Capacidad del proceso (Cpk): ${document.getElementById('cpk-summary').textContent}`, 20, 105);
-            doc.text(`Puntos fuera de control: ${document.getElementById('out-of-control-count').textContent}`, 20, 115);
-            doc.text(`Puntos fuera de especificación: ${document.getElementById('out-of-spec-count').textContent}`, 20, 125);
+            doc.text(`Estado del proceso: ${document.getElementById('process-status-value').textContent}`, 20, 105);
+            doc.text(`Capacidad del proceso (Cpk): ${document.getElementById('cpk-summary').textContent}`, 20, 115);
+            doc.text(`Puntos fuera de control: ${document.getElementById('out-of-control-count').textContent}`, 20, 125);
+            doc.text(`Puntos fuera de especificación: ${document.getElementById('out-of-spec-count').textContent}`, 20, 135);
             
             // Interpretación de capacidad
             const interpretationText = document.getElementById('capability-interpretation').textContent.replace('Interpretación:', '').trim();
             if (interpretationText) {
-                doc.text('Interpretación de capacidad:', 20, 140);
+                doc.text('Interpretación de capacidad:', 20, 150);
                 const splitText = doc.splitTextToSize(interpretationText, 170);
-                doc.text(splitText, 20, 150);
+                doc.text(splitText, 20, 160);
             }
             
             // Recomendaciones
-            doc.text('Recomendaciones:', 20, 170);
+            doc.text('Recomendaciones:', 20, 180);
             const recommendationsText = document.getElementById('recommendations').textContent;
             const splitRecommendations = doc.splitTextToSize(recommendationsText, 170);
-            doc.text(splitRecommendations, 20, 180);
+            doc.text(splitRecommendations, 20, 190);
             
             // Estadísticas del proceso
             doc.addPage();
@@ -1540,7 +1987,8 @@ ${document.getElementById('recommendations').textContent}
             const stats = [
                 `Media de rangos móviles (R̄): ${document.getElementById('mr-bar').textContent}`,
                 `Media del proceso (μ̂): ${document.getElementById('process-mean').textContent}`,
-                `Desviación estándar (σ̂): ${document.getElementById('process-std').textContent}`
+                `Desviación estándar (σ̂): ${document.getElementById('process-std').textContent}`,
+                `Registros para límites: ${document.getElementById('limits-base-count').textContent}`
             ];
             
             stats.forEach((stat, index) => {
@@ -1548,27 +1996,29 @@ ${document.getElementById('recommendations').textContent}
             });
             
             // Límites de control
-            doc.text('Límites de Control para I (Individual):', 20, 75);
-            doc.text(`Línea Central (CL): ${document.getElementById('i-cl').textContent}`, 30, 85);
-            doc.text(`Límite Superior (UCL): ${document.getElementById('i-ucl').textContent}`, 30, 95);
-            doc.text(`Límite Inferior (LCL): ${document.getElementById('i-lcl').textContent}`, 30, 105);
+            doc.text('Límites de Control para I (Individual):', 20, 85);
+            doc.text(`Línea Central (CL): ${document.getElementById('i-cl').textContent}`, 30, 95);
+            doc.text(`Límite Superior (UCL): ${document.getElementById('i-ucl').textContent}`, 30, 105);
+            doc.text(`Límite Inferior (LCL): ${document.getElementById('i-lcl').textContent}`, 30, 115);
+            doc.text(`Base: ${document.getElementById('i-limits-base').textContent}`, 30, 125);
             
             // Límites de especificación
-            doc.text('Límites de Especificación:', 20, 120);
-            doc.text(`Límite Superior (USL): ${document.getElementById('i-usl').textContent}`, 30, 130);
-            doc.text(`Límite Inferior (LSL): ${document.getElementById('i-lsl').textContent}`, 30, 140);
+            doc.text('Límites de Especificación:', 20, 140);
+            doc.text(`Límite Superior (USL): ${document.getElementById('i-usl').textContent}`, 30, 150);
+            doc.text(`Límite Inferior (LSL): ${document.getElementById('i-lsl').textContent}`, 30, 160);
             
-            doc.text('Límites de Control para RM (Rango Móvil):', 20, 155);
-            doc.text(`Línea Central (CL): ${document.getElementById('rm-cl').textContent}`, 30, 165);
-            doc.text(`Límite Superior (UCL): ${document.getElementById('rm-ucl').textContent}`, 30, 175);
-            doc.text(`Límite Inferior (LCL): ${document.getElementById('rm-lcl').textContent}`, 30, 185);
+            doc.text('Límites de Control para RM (Rango Móvil):', 20, 175);
+            doc.text(`Línea Central (CL): ${document.getElementById('rm-cl').textContent}`, 30, 185);
+            doc.text(`Límite Superior (UCL): ${document.getElementById('rm-ucl').textContent}`, 30, 195);
+            doc.text(`Límite Inferior (LCL): ${document.getElementById('rm-lcl').textContent}`, 30, 205);
+            doc.text(`Base: ${document.getElementById('rm-limits-base').textContent}`, 30, 215);
             
             // Capacidad del proceso
             if (document.getElementById('cp-value').textContent !== '-') {
-                doc.text('Capacidad del Proceso:', 20, 200);
-                doc.text(`Cₚ: ${document.getElementById('cp-value').textContent}`, 30, 210);
-                doc.text(`Cₚₖ: ${document.getElementById('cpk-value').textContent}`, 30, 220);
-                doc.text(`Rendimiento: ${document.getElementById('yield-percent').textContent}%`, 30, 230);
+                doc.text('Capacidad del Proceso:', 20, 230);
+                doc.text(`Cₚ: ${document.getElementById('cp-value').textContent}`, 30, 240);
+                doc.text(`Cₚₖ: ${document.getElementById('cpk-value').textContent}`, 30, 250);
+                doc.text(`Rendimiento: ${document.getElementById('yield-percent').textContent}%`, 30, 260);
             }
             
             // Guardar PDF

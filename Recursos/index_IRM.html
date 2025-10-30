@@ -855,11 +855,11 @@
                 </select>
             </div>
             <div class="csv-format-info">
-                <strong>Formato esperado:</strong><br>
-                <strong>Columna 1:</strong> Valor numérico<br>
-                <strong>Columna 2:</strong> Metadatos (fecha, lote, máquina, etc.)<br>
-                <em>Ejemplo: 25.4,2024-01-15</em>
-            </div>
+    <strong>Formato esperado:</strong><br>
+    <strong>Columna 1:</strong> Metadatos (fecha, lote, máquina, etc.)<br>
+    <strong>Columna 2:</strong> Valor numérico<br>
+    <em>Ejemplo: 2024-01-15,25.4 o Lote-A,0.125</em>
+</div>
             <div class="modal-buttons">
                 <button id="cancel-import" class="secondary">Cancelar</button>
                 <button id="confirm-import" class="success">Importar</button>
@@ -1838,7 +1838,7 @@
             }
         }
         
-       // Importar datos desde archivo CSV con dos columnas - VERSIÓN CORREGIDA
+      // Importar datos desde archivo CSV con dos columnas - VERSIÓN CORREGIDA
 function importDataFromFile() {
     const fileInput = document.getElementById('file-input');
     
@@ -1871,19 +1871,28 @@ function importDataFromFile() {
                 
                 const values = line.split(delimiter).map(val => val.trim().replace(/"/g, ''));
                 
-                // Verificar que haya al menos una columna con valor numérico válido
-                if (values.length >= 1 && values[0] !== '') {
-                    const numericValue = parseFloat(values[0]);
+                // VERIFICACIÓN CORREGIDA: Primera columna = metadatos, Segunda columna = valor numérico
+                if (values.length >= 2 && values[1] !== '') {
+                    const numericValue = parseFloat(values[1]);
                     if (!isNaN(numericValue)) {
                         data.push(numericValue);
                         validRows++;
                         
-                        // Si hay segunda columna, usarla como metadatos
-                        if (values.length >= 2 && values[1] !== '') {
-                            metadata.push(values[1]);
+                        // Primera columna como metadatos
+                        if (values[0] !== '') {
+                            metadata.push(values[0]);
                         } else {
                             metadata.push(`Obs ${validRows}`);
                         }
+                    }
+                }
+                // Caso alternativo: si solo hay una columna, asumir que es el valor numérico
+                else if (values.length === 1 && values[0] !== '') {
+                    const numericValue = parseFloat(values[0]);
+                    if (!isNaN(numericValue)) {
+                        data.push(numericValue);
+                        validRows++;
+                        metadata.push(`Obs ${validRows}`);
                     }
                 }
             }
@@ -1983,13 +1992,6 @@ function importDataFromFile() {
     
     reader.readAsText(file);
 }
-
-
-
-
-
-
-
 
 
 

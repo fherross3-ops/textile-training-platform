@@ -157,17 +157,25 @@
             font-weight: 600;
         }
         
-        .sample-input {
-            width: 60px;
-            padding: 4px;
-            text-align: center;
-        }
-        
-        .metadata-input {
-            width: 120px;
-            padding: 4px;
-            text-align: center;
-        }
+      .sample-input {
+    width: 120px;
+    min-width: 80px;  /* Ancho mínimo */
+    max-width: 200px; /* Ancho máximo */
+    padding: 6px 8px;
+    text-align: center;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .sample-input {
+        width: 100px;
+        padding: 4px 6px;
+    }
+}
+}
         
         .chart-container {
             margin: 30px 0;
@@ -1830,100 +1838,164 @@
             }
         }
         
-        // Importar datos desde archivo CSV con dos columnas
-        function importDataFromFile() {
-            const fileInput = document.getElementById('file-input');
+       // Importar datos desde archivo CSV con dos columnas - VERSIÓN CORREGIDA
+function importDataFromFile() {
+    const fileInput = document.getElementById('file-input');
+    
+    if (fileInput.files.length === 0) {
+        alert('Por favor, seleccione un archivo para importar');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        try {
+            const content = e.target.result;
+            const data = [];
+            const metadata = [];
+            const hasHeaders = document.getElementById('csv-has-headers').value === 'true';
+            const delimiter = document.getElementById('csv-delimiter').value;
+            const lines = content.split('\n');
             
-            if (fileInput.files.length === 0) {
-                alert('Por favor, seleccione un archivo para importar');
-                return;
-            }
+            let startLine = hasHeaders ? 1 : 0;
+            let validRows = 0;
             
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const content = e.target.result;
-                    const data = [];
-                    const metadata = [];
-                    const hasHeaders = document.getElementById('csv-has-headers').value === 'true';
-                    const delimiter = document.getElementById('csv-delimiter').value;
-                    const lines = content.split('\n');
-                    
-                    let startLine = hasHeaders ? 1 : 0;
-                    
-                    // Procesar cada línea
-                    for (let i = startLine; i < lines.length; i++) {
-                        const line = lines[i].trim();
-                        if (line) {
-                            const values = line.split(delimiter);
-                            
-                            // Verificar que haya al menos una columna
-                            if (values.length >= 1) {
-                                const numericValue = parseFloat(values[0]);
-                                if (!isNaN(numericValue)) {
-                                    data.push(numericValue);
-                                    
-                                    // Si hay segunda columna, usarla como metadatos
-                                    if (values.length >= 2 && values[1].trim() !== '') {
-                                        metadata.push(values[1].trim());
-                                    } else {
-                                        metadata.push(`Obs ${data.length}`);
-                                    }
-                                }
-                            }
+            // Procesar cada línea
+            for (let i = startLine; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                // Saltar líneas completamente vacías
+                if (!line) continue;
+                
+                const values = line.split(delimiter).map(val => val.trim().replace(/"/g, ''));
+                
+                // Verificar que haya al menos una columna con valor numérico válido
+                if (values.length >= 1 && values[0] !== '') {
+                    const numericValue = parseFloat(values[0]);
+                    if (!isNaN(numericValue)) {
+                        data.push(numericValue);
+                        validRows++;
+                        
+                        // Si hay segunda columna, usarla como metadatos
+                        if (values.length >= 2 && values[1] !== '') {
+                            metadata.push(values[1]);
+                        } else {
+                            metadata.push(`Obs ${validRows}`);
                         }
                     }
-                    
-                    // Limpiar datos existentes
-                    clearData();
-                    
-                    // Agregar datos importados
-                    if (data.length > 0) {
-                        const dataBody = document.getElementById('data-body');
-                        dataBody.innerHTML = '';
-                        observationCounter = 1;
-                        
-                        // Agregar cada dato como una observación
-                        data.forEach((value, index) => {
-                            addObservation();
-                            const rows = document.querySelectorAll('#data-body tr');
-                            const lastRow = rows[rows.length - 1];
-                            const input = lastRow.querySelector('.sample-input');
-                            const metadataInput = lastRow.querySelector('.metadata-input');
-                            
-                            input.value = value;
-                            if (metadata[index]) {
-                                metadataInput.value = metadata[index];
-                            }
-                        });
-                        
-                        // Guardar metadatos para uso en gráficos
-                        metadataLabels = metadata;
-                        
-                        // Recalcular rangos móviles
-                        calculateMovingRanges();
-                        
-                        // Cerrar modal
-                        hideImportModal();
-                        
-                        alert(`Se importaron ${data.length} observaciones correctamente`);
-                    } else {
-                        alert('No se encontraron datos válidos en el archivo');
-                    }
-                    
-                } catch (error) {
-                    alert('Error al importar datos: ' + error.message);
                 }
-            };
+            }
             
-            reader.onerror = function() {
-                alert('Error al leer el archivo');
-            };
+            // Limpiar datos existentes
+            clearData();
             
-            reader.readAsText(file);
+            // Agregar datos importados
+            if (data.length > 0) {
+                const dataBody = document.getElementById('data-body');
+                dataBody.innerHTML = '';
+                observationCounter = 1;
+                
+                // Agregar cada dato como una observación
+                data.forEach((value, index) => {
+                    // Crear la fila
+                    const newRow = document.createElement('tr');
+                    
+                    // Celda de número de observación
+                    const obsCell = document.createElement('td');
+                    obsCell.textContent = observationCounter;
+                    newRow.appendChild(obsCell);
+                    
+                    // Celda para valor individual
+                    const inputCell = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'sample-input';
+                    input.step = 'any';
+                    input.value = value; // ESTABLECER EL VALOR DIRECTAMENTE
+                    input.addEventListener('input', function() {
+                        calculateMovingRanges();
+                        updateDashboardSummary();
+                    });
+                    inputCell.appendChild(input);
+                    newRow.appendChild(inputCell);
+                    
+                    // Celda para metadatos
+                    const metadataCell = document.createElement('td');
+                    const metadataInput = document.createElement('input');
+                    metadataInput.type = 'text';
+                    metadataInput.className = 'metadata-input';
+                    metadataInput.placeholder = 'Fecha/Lote/Máquina...';
+                    metadataInput.value = metadata[index] || ''; // ESTABLECER METADATOS DIRECTAMENTE
+                    metadataInput.addEventListener('input', function() {
+                        updateDashboardSummary();
+                    });
+                    
+                    // AUMENTAR LONGITUD MÁXIMA DE CARACTERES (de 50 a 100)
+                    metadataInput.maxLength = 120;
+                    
+                    metadataCell.appendChild(metadataInput);
+                    newRow.appendChild(metadataCell);
+                    
+                    // Celda para rango móvil
+                    const rangeCell = document.createElement('td');
+                    rangeCell.className = 'moving-range';
+                    rangeCell.textContent = '-';
+                    newRow.appendChild(rangeCell);
+                    
+                    dataBody.appendChild(newRow);
+                    observationCounter++;
+                });
+                
+                // Guardar metadatos para uso en gráficos
+                metadataLabels = metadata;
+                
+                // Recalcular rangos móviles
+                calculateMovingRanges();
+                
+                // Actualizar resumen inmediatamente
+                updateDashboardSummary();
+                
+                // Cerrar modal
+                hideImportModal();
+                
+                alert(`Se importaron ${data.length} observaciones correctamente`);
+            } else {
+                alert('No se encontraron datos válidos en el archivo');
+                // Restaurar una observación vacía
+                addObservation();
+            }
+            
+        } catch (error) {
+            alert('Error al importar datos: ' + error.message);
+            console.error('Error detallado:', error);
+            // Restaurar una observación vacía en caso de error
+            addObservation();
         }
+    };
+    
+    reader.onerror = function() {
+        alert('Error al leer el archivo');
+        // Restaurar una observación vacía en caso de error
+        addObservation();
+    };
+    
+    reader.readAsText(file);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         // Mostrar modal de correo
         function showEmailModal() {

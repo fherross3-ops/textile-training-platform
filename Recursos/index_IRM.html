@@ -91,53 +91,145 @@
         }
         
         button {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
+              color: white;              /* Texto blanco por defecto */
+    font-weight: 500;          /* Peso medio para mejor legibilidad */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Sombra sutil */
+}
         
-        button:hover {
+        
+
+
+/* ESTILO ESPECÍFICO PARA EL BOTÓN CALCULAR CARTA DE CONTROL */
+#calculate-btn {
+    background-color: #2c3e50;  /* Color primario oscuro */
+    color: white !important;    /* Texto blanco con máxima prioridad */
+    border: none;
+    padding: 12px 20px !important;  /* Más padding para hacerlo más grande */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem !important;   /* Texto más grande */
+    font-weight: 700 !important;     /* Texto más grueso */
+    transition: all 0.3s ease;
+    margin: 10px 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    min-width: 200px;           /* Ancho mínimo */
+    display: inline-block;
+    text-align: center;
+}
+
+#calculate-btn:hover {
+    background-color: #34495e;  /* Color más claro al hover */
+    color: white !important;
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#calculate-btn:active {
+    transform: translateY(0);   /* Efecto de click */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* ESTILO AÚN MÁS GRANDE PARA DESTACAR */
+#calculate-btn.highlight {
+    background-color: #3498db;  /* Azul vibrante */
+    color: white !important;
+    padding: 15px 25px !important;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    border: 2px solid #2980b9;
+}
+
+#calculate-btn.highlight:hover {
+    background-color: #2980b9;
+    border-color: #1c638e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+button:hover {
             background-color: #2980b9;
         }
         
         button.secondary {
-            background-color: #95a5a6;
-        }
+               background-color: #95a5a6;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
         
         button.secondary:hover {
             background-color: #7f8c8d;
-        }
+    color: white;
+}
         
         button.success {
-            background-color: var(--success-color);
-        }
+          background-color: #27ae60;  /* Verde más claro */
+    color: white;               /* Texto blanco para contraste */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    font-weight: 600;          /* Texto más grueso */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+}
         
         button.success:hover {
-            background-color: #219653;
-        }
+            background-color: #219653; /* Verde más oscuro al hover */
+    color: white;
+}
         
         button.warning {
-            background-color: var(--warning-color);
-        }
+             background-color: #e67e22;  /* Naranja más claro */
+    color: white;               /* Texto blanco para contraste */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    font-weight: 600;          /* Texto más grueso */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+}
         
         button.warning:hover {
-            background-color: #e67e22;
-        }
+             background-color: #d35400; /* Naranja más oscuro al hover */
+    color: white;
+}
         
         button.export-complete {
-            background-color: #9b59b6;
-        }
+         background-color: #9b59b6;  /* Púrpura */
+    color: white;               /* Texto blanco para contraste */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    font-weight: 600;          /* Texto más grueso */
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+}
         
         button.export-complete:hover {
-            background-color: #8e44ad;
-        }
+               background-color: #8e44ad; /* Púrpura más oscuro al hover */
+    color: white;
+}
         
         table {
             width: 100%;
@@ -1342,12 +1434,13 @@
             const k = parseFloat(document.getElementById('k-value').value);
             
             // Calcular límites de control para I (Individual)
-            const iUCL = processMean + k * processStd;
-            const iLCL = processMean - k * processStd;
+      const rawILCL = processMean - k * processStd;
+    const iUCL = processMean + k * processStd;
+    const iLCL = Math.max(0, rawILCL); // ← CORRECCIÓN PARA VARIABLES NO NEGATIVAS
             
             // Calcular límites de control para RM (Rango Móvil)
             const rmUCL = mrBar * (1 + k * (d3 / d2));
-            const rmLCL = Math.max(0, mrBar * (1 - k * (d3 / d2)));
+            const rmLCL = 0; // Para carta de rangos móviles, LCL siempre es 0
             
             // Almacenar límites fijos si es necesario
             if (useFixedLimits && !fixedLimits) {
@@ -1421,7 +1514,7 @@
             
             document.getElementById('i-cl').textContent = finalProcessMean.toFixed(4);
             document.getElementById('i-ucl').textContent = finalIUCL.toFixed(4);
-            document.getElementById('i-lcl').textContent = finalILCL.toFixed(4);
+            document.getElementById('i-lcl').textContent = iLCL.toFixed(4); // Mostrará 0.0000 si es negativo
             document.getElementById('i-usl').textContent = usl !== null ? usl.toFixed(4) : '-';
             document.getElementById('i-lsl').textContent = lsl !== null ? lsl.toFixed(4) : '-';
             document.getElementById('i-limits-base').textContent = useFixedLimits ? 
@@ -1430,7 +1523,7 @@
             
             document.getElementById('rm-cl').textContent = finalMrBar.toFixed(4);
             document.getElementById('rm-ucl').textContent = finalRmUCL.toFixed(4);
-            document.getElementById('rm-lcl').textContent = finalRmLCL > 0 ? finalRmLCL.toFixed(4) : '0';
+            document.getElementById('rm-lcl').textContent = 0;//siempre mostrar 0
             document.getElementById('rm-limits-base').textContent = useFixedLimits ? 
                 `Límites fijos (primeros ${limitsBaseCount} registros)` : 
                 `Límites dinámicos (${limitsBaseCount} registros)`;
@@ -2258,6 +2351,27 @@ ${document.getElementById('recommendations').textContent}
                 document.getElementById('cpk-status').textContent = getCpkStatusText(cpk);
             }
         }
-    </script>
+   
+
+
+function createWarningElement() {
+    const warning = document.createElement('div');
+    warning.id = 'i-lcl-warning';
+    warning.className = 'warning';
+    warning.style.fontSize = '0.8rem';
+    warning.style.color = 'var(--warning-color)';
+    warning.style.marginTop = '5px';
+    
+    const limitsContainer = document.getElementById('i-limits');
+    limitsContainer.appendChild(warning);
+    return warning;
+}
+
+
+
+
+ </script>
+
+
 </body>
 </html>

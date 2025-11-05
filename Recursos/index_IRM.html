@@ -91,145 +91,53 @@
         }
         
         button {
-              color: white;              /* Texto blanco por defecto */
-    font-weight: 500;          /* Peso medio para mejor legibilidad */
-    text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Sombra sutil */
-}
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
         
-        
-
-
-/* ESTILO ESPECÍFICO PARA EL BOTÓN CALCULAR CARTA DE CONTROL */
-#calculate-btn {
-    background-color: #2c3e50;  /* Color primario oscuro */
-    color: white !important;    /* Texto blanco con máxima prioridad */
-    border: none;
-    padding: 12px 20px !important;  /* Más padding para hacerlo más grande */
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1rem !important;   /* Texto más grande */
-    font-weight: 700 !important;     /* Texto más grueso */
-    transition: all 0.3s ease;
-    margin: 10px 0;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    min-width: 200px;           /* Ancho mínimo */
-    display: inline-block;
-    text-align: center;
-}
-
-#calculate-btn:hover {
-    background-color: #34495e;  /* Color más claro al hover */
-    color: white !important;
-    transform: translateY(-2px); /* Efecto de elevación */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-#calculate-btn:active {
-    transform: translateY(0);   /* Efecto de click */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* ESTILO AÚN MÁS GRANDE PARA DESTACAR */
-#calculate-btn.highlight {
-    background-color: #3498db;  /* Azul vibrante */
-    color: white !important;
-    padding: 15px 25px !important;
-    font-size: 1.2rem !important;
-    font-weight: 800 !important;
-    border: 2px solid #2980b9;
-}
-
-#calculate-btn.highlight:hover {
-    background-color: #2980b9;
-    border-color: #1c638e;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-button:hover {
+        button:hover {
             background-color: #2980b9;
         }
         
         button.secondary {
-               background-color: #95a5a6;
-    color: white;
-    font-weight: 500;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
-}
+            background-color: #95a5a6;
+        }
         
         button.secondary:hover {
             background-color: #7f8c8d;
-    color: white;
-}
+        }
         
         button.success {
-          background-color: #27ae60;  /* Verde más claro */
-    color: white;               /* Texto blanco para contraste */
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    font-weight: 600;          /* Texto más grueso */
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
-}
+            background-color: #27ae60;
+        }
         
         button.success:hover {
-            background-color: #219653; /* Verde más oscuro al hover */
-    color: white;
-}
+            background-color: #219653;
+        }
         
         button.warning {
-             background-color: #e67e22;  /* Naranja más claro */
-    color: white;               /* Texto blanco para contraste */
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    font-weight: 600;          /* Texto más grueso */
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
-}
+            background-color: #e67e22;
+        }
         
         button.warning:hover {
-             background-color: #d35400; /* Naranja más oscuro al hover */
-    color: white;
-}
+            background-color: #d35400;
+        }
         
         button.export-complete {
-         background-color: #9b59b6;  /* Púrpura */
-    color: white;               /* Texto blanco para contraste */
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-    font-weight: 600;          /* Texto más grueso */
-    text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
-}
+            background-color: #9b59b6;
+        }
         
         button.export-complete:hover {
-               background-color: #8e44ad; /* Púrpura más oscuro al hover */
-    color: white;
-}
+            background-color: #8e44ad;
+        }
         
         table {
             width: 100%;
@@ -266,7 +174,6 @@ button:hover {
         width: 100px;
         padding: 4px 6px;
     }
-}
 }
         
         .chart-container {
@@ -638,6 +545,149 @@ button:hover {
             color: #666;
             margin-top: 2px;
             font-style: italic;
+        }
+
+        /* ESTILOS MEJORADOS PARA BOTONES DE IMPORTAR/EXPORTAR */
+
+        /* Botón Importar (actualmente clase warning) */
+        button.warning {
+            background-color: #e67e22;  /* Naranja más claro */
+            color: white;               /* Texto blanco para contraste */
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 600;          /* Texto más grueso */
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+        }
+
+        button.warning:hover {
+            background-color: #d35400; /* Naranja más oscuro al hover */
+            color: white;
+        }
+
+        /* Botón Exportar CSV (actualmente clase success) */
+        button.success {
+            background-color: #27ae60;  /* Verde más claro */
+            color: white;               /* Texto blanco para contraste */
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 600;          /* Texto más grueso */
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+        }
+
+        button.success:hover {
+            background-color: #219653; /* Verde más oscuro al hover */
+            color: white;
+        }
+
+        /* Botón Exportar PDF Completo (actualmente clase export-complete) */
+        button.export-complete {
+            background-color: #9b59b6;  /* Púrpura */
+            color: white;               /* Texto blanco para contraste */
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 600;          /* Texto más grueso */
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* Sombra para mejor legibilidad */
+        }
+
+        button.export-complete:hover {
+            background-color: #8e44ad; /* Púrpura más oscuro al hover */
+            color: white;
+        }
+
+        /* ESTILO ESPECÍFICO PARA EL BOTÓN CALCULAR CARTA DE CONTROL */
+        #calculate-btn {
+            background-color: #3498db !important;
+            color: white !important;
+            padding: 12px 24px !important;
+            font-size: 1.1rem !important;
+            font-weight: 700 !important;
+            border: none !important;
+            border-radius: 5px !important;
+            cursor: pointer;
+            margin: 10px 0 !important;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            min-width: 200px;
+        }
+
+        #calculate-btn:hover {
+            background-color: #2980b9 !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* ESTILOS PARA CAMPO DE ETIQUETAS */
+        .label-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            background-color: #f8f9fa;
+        }
+
+        .label-input:focus {
+            border-color: var(--secondary-color);
+            background-color: white;
+            outline: none;
+        }
+
+        /* Indicador visual en la tabla para filas con etiquetas */
+        tr:has(.label-input:not(:placeholder-shown)) {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+
+        tr:has(.label-input:not(:placeholder-shown)) .label-input {
+            background-color: #e8f4f8;
+            border-color: var(--secondary-color);
+        }
+
+        /* Tooltip personalizado mejorado */
+        .chartjs-tooltip {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border: 1px solid #ccc !important;
+            border-radius: 6px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        }
+
+        .chartjs-tooltip .label-section {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+            font-style: italic;
+            color: #2c3e50;
+        }
+
+        /* RESPONSIVE - Ajustes para móviles */
+        @media (max-width: 768px) {
+            #calculate-btn {
+                padding: 16px 20px !important;
+                font-size: 1.1rem !important;
+                width: 100%;
+                margin: 15px 0 !important;
+            }
+            
+            .export-buttons {
+                flex-direction: column;
+            }
+            
+            .export-buttons button {
+                margin-bottom: 10px;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -1270,7 +1320,7 @@ button:hover {
             });
         }
         
-        // Reconstruir encabezado de tabla
+        // Reconstruir encabezado de tabla CON COLUMNA DE ETIQUETAS
         function rebuildTableHeader() {
             const tableHeader = document.getElementById('table-header');
             tableHeader.innerHTML = '';
@@ -1294,9 +1344,14 @@ button:hover {
             const rangeHeader = document.createElement('th');
             rangeHeader.textContent = 'Rango Móvil (RM)';
             tableHeader.appendChild(rangeHeader);
+            
+            // NUEVA: Agregar columna para etiquetas/explicaciones
+            const labelHeader = document.createElement('th');
+            labelHeader.textContent = 'Etiquetas/Explicaciones';
+            tableHeader.appendChild(labelHeader);
         }
         
-        // Agregar nueva observación
+        // Agregar nueva observación CON CAMPO DE ETIQUETAS
         function addObservation() {
             const dataBody = document.getElementById('data-body');
             const newRow = document.createElement('tr');
@@ -1337,6 +1392,19 @@ button:hover {
             rangeCell.textContent = '-';
             newRow.appendChild(rangeCell);
             
+            // NUEVA: Celda para etiquetas/explicaciones
+            const labelCell = document.createElement('td');
+            const labelInput = document.createElement('input');
+            labelInput.type = 'text';
+            labelInput.className = 'label-input';
+            labelInput.placeholder = 'Causa especial, comentario...';
+            labelInput.maxLength = 100; // Texto corto
+            labelInput.addEventListener('input', function() {
+                updateChartAnnotations();
+            });
+            labelCell.appendChild(labelInput);
+            newRow.appendChild(labelCell);
+            
             dataBody.appendChild(newRow);
             observationCounter++;
             
@@ -1372,7 +1440,38 @@ button:hover {
             }
         }
         
-        // Calcular carta de control
+        // Función para recolectar todas las etiquetas
+        function collectLabels() {
+            const labels = {};
+            const rows = document.querySelectorAll('#data-body tr');
+            
+            rows.forEach((row, index) => {
+                const labelInput = row.querySelector('.label-input');
+                const valueInput = row.querySelector('.sample-input');
+                
+                if (labelInput && labelInput.value.trim() !== '' && valueInput && valueInput.value) {
+                    labels[index] = {
+                        text: labelInput.value.trim(),
+                        observation: row.cells[0].textContent,
+                        value: parseFloat(valueInput.value)
+                    };
+                }
+            });
+            
+            return labels;
+        }
+        
+        // Función para actualizar anotaciones cuando cambien las etiquetas
+        function updateChartAnnotations() {
+            if (iChart) {
+                iChart.update('none'); // Actualizar sin animación
+            }
+            if (rmChart) {
+                rmChart.update('none');
+            }
+        }
+        
+        // Calcular carta de control CON CORRECCIONES DE LÍMITES
         function calculateControlChart() {
             const individualValues = [];
             const movingRanges = [];
@@ -1433,14 +1532,14 @@ button:hover {
             // Obtener valor k
             const k = parseFloat(document.getElementById('k-value').value);
             
-            // Calcular límites de control para I (Individual)
-      const rawILCL = processMean - k * processStd;
-    const iUCL = processMean + k * processStd;
-    const iLCL = Math.max(0, rawILCL); // ← CORRECCIÓN PARA VARIABLES NO NEGATIVAS
+            // Calcular límites de control para I (Individual) - CON CORRECCIÓN
+            const rawILCL = processMean - k * processStd;
+            const iUCL = processMean + k * processStd;
+            const iLCL = Math.max(0, rawILCL); // CORRECCIÓN: LCL mínimo = 0 para variables no negativas
             
-            // Calcular límites de control para RM (Rango Móvil)
+            // Calcular límites de control para RM (Rango Móvil) - CON CORRECCIÓN
             const rmUCL = mrBar * (1 + k * (d3 / d2));
-            const rmLCL = 0; // Para carta de rangos móviles, LCL siempre es 0
+            const rmLCL = 0; // CORRECCIÓN: Para carta de rangos móviles, LCL siempre es 0
             
             // Almacenar límites fijos si es necesario
             if (useFixedLimits && !fixedLimits) {
@@ -1514,7 +1613,7 @@ button:hover {
             
             document.getElementById('i-cl').textContent = finalProcessMean.toFixed(4);
             document.getElementById('i-ucl').textContent = finalIUCL.toFixed(4);
-            document.getElementById('i-lcl').textContent = iLCL.toFixed(4); // Mostrará 0.0000 si es negativo
+            document.getElementById('i-lcl').textContent = finalILCL.toFixed(4);
             document.getElementById('i-usl').textContent = usl !== null ? usl.toFixed(4) : '-';
             document.getElementById('i-lsl').textContent = lsl !== null ? lsl.toFixed(4) : '-';
             document.getElementById('i-limits-base').textContent = useFixedLimits ? 
@@ -1523,7 +1622,7 @@ button:hover {
             
             document.getElementById('rm-cl').textContent = finalMrBar.toFixed(4);
             document.getElementById('rm-ucl').textContent = finalRmUCL.toFixed(4);
-            document.getElementById('rm-lcl').textContent = 0;//siempre mostrar 0
+            document.getElementById('rm-lcl').textContent = '0'; // Siempre mostrar 0 para LCL de RM
             document.getElementById('rm-limits-base').textContent = useFixedLimits ? 
                 `Límites fijos (primeros ${limitsBaseCount} registros)` : 
                 `Límites dinámicos (${limitsBaseCount} registros)`;
@@ -1576,6 +1675,9 @@ button:hover {
             // Actualizar gráficos
             updateIChart(xAxisLabels, individualValues, finalProcessMean, finalIUCL, finalILCL, usl, lsl);
             updateRMChart(xAxisLabels, movingRanges, finalMrBar, finalRmUCL, finalRmLCL);
+            
+            // Actualizar anotaciones
+            updateChartAnnotations();
             
             // Actualizar resumen del dashboard
             updateDashboardSummary();
@@ -1643,12 +1745,12 @@ button:hover {
             return 'Inaceptable';
         }
         
-        // Inicializar gráficos
+        // Inicializar gráficos CON TOOLTIPS PERSONALIZADOS
         function initializeCharts() {
             const iCtx = document.getElementById('i-chart').getContext('2d');
             const rmCtx = document.getElementById('rm-chart').getContext('2d');
             
-            // Configuración común para gráficos
+            // Configuración común con tooltips personalizados
             const commonOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -1672,8 +1774,32 @@ button:hover {
                     },
                     tooltip: {
                         mode: 'index',
-                        intersect: false
+                        intersect: false,
+                        // Tooltip personalizado
+                        callbacks: {
+                            afterBody: function(context) {
+                                const dataIndex = context[0].dataIndex;
+                                const labels = collectLabels();
+                                
+                                if (labels[dataIndex]) {
+                                    return [
+                                        '',
+                                        '📝 ' + labels[dataIndex].text
+                                    ];
+                                }
+                                return '';
+                            }
+                        }
                     }
+                },
+                // Interacción mejorada
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                hover: {
+                    intersect: false,
+                    mode: 'index'
                 }
             };
             
@@ -2046,6 +2172,19 @@ function importDataFromFile() {
                     rangeCell.textContent = '-';
                     newRow.appendChild(rangeCell);
                     
+                    // Celda para etiquetas
+                    const labelCell = document.createElement('td');
+                    const labelInput = document.createElement('input');
+                    labelInput.type = 'text';
+                    labelInput.className = 'label-input';
+                    labelInput.placeholder = 'Causa especial, comentario...';
+                    labelInput.maxLength = 100;
+                    labelInput.addEventListener('input', function() {
+                        updateChartAnnotations();
+                    });
+                    labelCell.appendChild(labelInput);
+                    newRow.appendChild(labelCell);
+                    
                     dataBody.appendChild(newRow);
                     observationCounter++;
                 });
@@ -2085,12 +2224,6 @@ function importDataFromFile() {
     
     reader.readAsText(file);
 }
-
-
-
-
-
-
         
         // Mostrar modal de correo
         function showEmailModal() {
@@ -2351,27 +2484,6 @@ ${document.getElementById('recommendations').textContent}
                 document.getElementById('cpk-status').textContent = getCpkStatusText(cpk);
             }
         }
-   
-
-
-function createWarningElement() {
-    const warning = document.createElement('div');
-    warning.id = 'i-lcl-warning';
-    warning.className = 'warning';
-    warning.style.fontSize = '0.8rem';
-    warning.style.color = 'var(--warning-color)';
-    warning.style.marginTop = '5px';
-    
-    const limitsContainer = document.getElementById('i-limits');
-    limitsContainer.appendChild(warning);
-    return warning;
-}
-
-
-
-
- </script>
-
-
+    </script>
 </body>
 </html>

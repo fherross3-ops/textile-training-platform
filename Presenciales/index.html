@@ -51,6 +51,37 @@
             background: #2c3e50;
             color: white;
         }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .photo-grid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+        .photo-grid img:hover {
+            transform: scale(1.05);
+        }
+        .gallery-section {
+            margin-bottom: 2rem;
+        }
+        .gallery-section h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        .material-category {
+            margin-bottom: 1.5rem;
+        }
+        .material-category h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -87,39 +118,70 @@
             <h2>Presentaciones</h2>
             <p>Presentaciones utilizadas en las sesiones de capacitación:</p>
             <ul>
-                <li><a href="presentacion_hilanderia.pdf">Hilandería</a></li>
-                <li><a href="presentacion_procesos_humedos.pdf">Procesos Húmedos</a></li>
-                <li><a href="presentacion_tejeduria.pdf">Tejeduría</a></li>
-                <li><a href="presentacion_acabado.pdf">Planta de Acabado</a></li>
-                <li><a href="presentacion_despacho.pdf">Despacho</a></li>
-                <li><a href="presentacion_servicios.pdf">Servicios</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_hilanderia.pdf" target="_blank">Hilandería</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_procesos_humedos.pdf" target="_blank">Procesos Húmedos</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_tejeduria.pdf" target="_blank">Tejeduría</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_acabado.pdf" target="_blank">Planta de Acabado</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_despacho.pdf" target="_blank">Despacho</a></li>
+                <li><a href="../Recursos/presentaciones/presentacion_servicios.pdf" target="_blank">Servicios</a></li>
             </ul>
         </div>
         
         <div class="content-section">
             <h2>Material de Apoyo</h2>
             <p>Material adicional para complementar las sesiones:</p>
-            <ul>
-                <li><a href="guia_rapida_hilanderia.pdf">Guía Rápida de Hilandería</a></li>
-                <li><a href="guia_rapida_procesos_humedos.pdf">Guía Rápida de Procesos Húmedos</a></li>
-                <li><a href="guia_rapida_tejeduria.pdf">Guía Rápida de Tejeduría</a></li>
-                <li><a href="guia_rapida_acabado.pdf">Guía Rápida de Planta de Acabado</a></li>
-                <li><a href="guia_rapida_despacho.pdf">Guía Rápida de Despacho</a></li>
-                <li><a href="guia_rapida_servicios.pdf">Guía Rápida de Servicios</a></li>
-            </ul>
+            
+            <div class="material-category">
+                <h3>Videos</h3>
+                <ul>
+                    <li><a href="../Recursos/videos/proceso_hilanderia.mp4" target="_blank">Video: Proceso de Hilandería</a></li>
+                    <li><a href="../Recursos/videos/control_calidad.mp4" target="_blank">Video: Control de Calidad</a></li>
+                    <li><a href="../Recursos/videos/operacion_maquinas.mp4" target="_blank">Video: Operación de Máquinas</a></li>
+                </ul>
+            </div>
+            
+            <div class="material-category">
+                <h3>Guías y Documentos</h3>
+                <ul>
+                    <li><a href="../Recursos/guias/guia_rapida_hilanderia.pdf" target="_blank">Guía Rápida de Hilandería</a></li>
+                    <li><a href="../Recursos/guias/guia_procesos_humedos.pdf" target="_blank">Guía de Procesos Húmedos</a></li>
+                    <li><a href="../Recursos/guias/guia_tejeduria.pdf" target="_blank">Guía de Tejeduría</a></li>
+                    <li><a href="../Recursos/guias/manual_calidad.pdf" target="_blank">Manual de Calidad</a></li>
+                    <li><a href="../Recursos/guias/procedimientos_operacion.pdf" target="_blank">Procedimientos de Operación</a></li>
+                </ul>
+            </div>
         </div>
         
         <div class="content-section">
             <h2>Galería de Fotos</h2>
             <p>Fotos de las sesiones de capacitación:</p>
-            <ul>
-                <li><a href="fotos/sesion_hilanderia/">Sesión de Hilandería</a></li>
-                <li><a href="fotos/sesion_procesos_humedos/">Sesión de Procesos Húmedos</a></li>
-                <li><a href="fotos/sesion_tejeduria/">Sesión de Tejeduría</a></li>
-                <li><a href="fotos/sesion_acabado/">Sesión de Planta de Acabado</a></li>
-                <li><a href="fotos/sesion_despacho/">Sesión de Despacho</a></li>
-                <li><a href="fotos/sesion_servicios/">Sesión de Servicios</a></li>
-            </ul>
+            
+            <div class="gallery-section">
+                <h3>Sesión de Hilandería - 14 de Agosto 2025</h3>
+                <div class="photo-grid">
+                    <a href="galeria_fotos/sesion_hilanderia/foto1.jpg" target="_blank">
+                        <img src="galeria_fotos/sesion_hilanderia/thumb_foto1.jpg" alt="Capacitación Hilandería 1">
+                    </a>
+                    <a href="galeria_fotos/sesion_hilanderia/foto2.jpg" target="_blank">
+                        <img src="galeria_fotos/sesion_hilanderia/thumb_foto2.jpg" alt="Capacitación Hilandería 2">
+                    </a>
+                    <a href="galeria_fotos/sesion_hilanderia/foto3.jpg" target="_blank">
+                        <img src="galeria_fotos/sesion_hilanderia/thumb_foto3.jpg" alt="Capacitación Hilandería 3">
+                    </a>
+                </div>
+            </div>
+            
+            <div class="gallery-section">
+                <h3>Sesión de Procesos Húmedos - 21 de Agosto 2025</h3>
+                <div class="photo-grid">
+                    <a href="galeria_fotos/sesion_procesos_humedos/foto1.jpg" target="_blank">
+                        <img src="galeria_fotos/sesion_procesos_humedos/thumb_foto1.jpg" alt="Capacitación Procesos Húmedos 1">
+                    </a>
+                    <a href="galeria_fotos/sesion_procesos_humedos/foto2.jpg" target="_blank">
+                        <img src="galeria_fotos/sesion_procesos_humedos/thumb_foto2.jpg" alt="Capacitación Procesos Húmedos 2">
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     

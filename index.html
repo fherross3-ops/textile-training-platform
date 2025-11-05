@@ -7,7 +7,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'GTM-M3C4QF37 '); <!-- Cambia G-TUCODIGO por tu ID real -->
+      gtag('config', 'GTM-M3C4QF37 ');
     </script>
     
     <meta charset="UTF-8">
@@ -21,6 +21,11 @@
             --light: #ecf0f1;
             --dark: #2c3e50;
             --success: #27ae60;
+            --white: #ffffff;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 3px 10px rgba(0, 0, 0, 0.1);
+            --border-radius: 5px;
+            --transition: all 0.3s;
         }
         
         * {
@@ -38,10 +43,10 @@
         
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+            color: var(--white);
             padding: 1rem;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
         }
         
         .logo-container {
@@ -70,11 +75,11 @@
             display: flex;
             flex-wrap: wrap;
             list-style: none;
-            background: white;
-            border-radius: 5px;
+            background: var(--white);
+            border-radius: var(--border-radius);
             margin-bottom: 1.5rem;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
         }
         
         .nav-tabs li {
@@ -88,7 +93,7 @@
             text-decoration: none;
             color: var(--dark);
             text-align: center;
-            transition: all 0.3s;
+            transition: var(--transition);
             border-bottom: 3px solid transparent;
         }
         
@@ -104,10 +109,10 @@
         
         .tab-content {
             display: none;
-            background: white;
+            background: var(--white);
             padding: 1.5rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
         }
         
@@ -115,37 +120,44 @@
             display: block;
         }
         
-        .process-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 1rem;
         }
         
-        .process-card {
-            background: white;
+        .process-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        
+        .resources-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        
+        .card {
+            background: var(--white);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             transition: transform 0.3s;
         }
         
-        .process-card:hover {
+        .card:hover {
             transform: translateY(-5px);
         }
         
-        .process-card-header {
+        .card-header {
             background: var(--secondary);
-            color: white;
+            color: var(--white);
             padding: 1rem;
             text-align: center;
         }
         
-        .process-card-body {
+        .card-body {
             padding: 1rem;
         }
         
-        .process-card-footer {
+        .card-footer {
             padding: 1rem;
             background: #f8f9fa;
             text-align: center;
@@ -155,12 +167,12 @@
             display: inline-block;
             padding: 0.5rem 1rem;
             background: var(--secondary);
-            color: white;
+            color: var(--white);
             border: none;
             border-radius: 4px;
             cursor: pointer;
             text-decoration: none;
-            transition: background 0.3s;
+            transition: var(--transition);
         }
         
         .btn:hover {
@@ -175,21 +187,20 @@
             background: #128C7E;
         }
         
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
+        .btn-submit {
+            background: var(--success);
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
         }
         
-        .resource-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        .btn-submit:hover {
+            background: #219653;
         }
         
-        .resource-card h3 {
+        .resource-card h3,
+        .contact-form h3 {
             color: var(--secondary);
             margin-bottom: 1rem;
             border-bottom: 2px solid var(--light);
@@ -217,20 +228,13 @@
             color: var(--secondary);
         }
         
-        /* Estilos para el formulario de contacto */
+        /* Estilos para formularios */
         .contact-form {
-            background: white;
+            background: var(--white);
             border-radius: 8px;
             padding: 1.5rem;
             margin-top: 2rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .contact-form h3 {
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--light);
-            padding-bottom: 0.5rem;
+            box-shadow: var(--shadow-hover);
         }
         
         .form-group {
@@ -280,13 +284,13 @@
         
         .file-input::file-selector-button {
             background: var(--secondary);
-            color: white;
+            color: var(--white);
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 4px;
             cursor: pointer;
             margin-right: 1rem;
-            transition: background 0.3s;
+            transition: var(--transition);
         }
         
         .file-input::file-selector-button:hover {
@@ -300,23 +304,11 @@
         }
         
         .file-info.error {
-            color: #e74c3c;
+            color: var(--accent);
         }
         
         .file-info.success {
-            color: #27ae60;
-        }
-        
-        .btn-submit {
-            background: var(--success);
-            width: 100%;
-            padding: 0.75rem;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        
-        .btn-submit:hover {
-            background: #219653;
+            color: var(--success);
         }
         
         .form-feedback {
@@ -342,7 +334,7 @@
         
         footer {
             background: var(--dark);
-            color: white;
+            color: var(--white);
             text-align: center;
             padding: 1.5rem;
             margin-top: 2rem;
@@ -378,10 +370,11 @@
             <h2>Procesos Textiles</h2>
             <p>Selecciona un proceso para acceder a su documentación específica:</p>
             
-            <div class="process-grid">
-                <div class="process-card">
-                    <div class="process-card-header">Hilanderia</div>
-                    <div class="process-card-body">
+            <div class="grid process-grid">
+                <!-- Procesos textiles - estructura simplificada -->
+                <div class="card process-card">
+                    <div class="card-header">Hilanderia</div>
+                    <div class="card-body">
                         <p><strong>Parámetros clave (KPI):</strong></p>
                         <ul>
                             <li>Apertura</li>
@@ -395,14 +388,15 @@
                             <li>Gestion Mantenimiento</li>
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Hilanderia/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
                 
-                <div class="process-card">
-                    <div class="process-card-header">Procesos Húmedos</div>
-                    <div class="process-card-body">
+                <!-- Resto de tarjetas de proceso con estructura similar -->
+                <div class="card process-card">
+                    <div class="card-header">Procesos Húmedos</div>
+                    <div class="card-body">
                         <p><strong>Operaciones incluidas:</strong></p>
                         <ul>
                             <li>Urdido</li>
@@ -411,17 +405,16 @@
                             <li>Engomado</li>
                             <li>Insumos Envases</li>
                             <li>Gestion Mantenimiento</li>
-
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Procesos_Humedos/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
                 
-                <div class="process-card">
-                    <div class="process-card-header">Tejeduría</div>
-                    <div class="process-card-body">
+                <div class="card process-card">
+                    <div class="card-header">Tejeduría</div>
+                    <div class="card-body">
                         <p><strong>Tipos de tejido:</strong></p>
                         <ul>
                             <li>Paros Produccion Telar</li>
@@ -435,14 +428,14 @@
                             <li>Gestion Mantenimiento</li>
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Tejeduria/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
                 
-                <div class="process-card">
-                    <div class="process-card-header">Planta de Acabado</div>
-                    <div class="process-card-body">
+                <div class="card process-card">
+                    <div class="card-header">Planta de Acabado</div>
+                    <div class="card-body">
                         <p><strong>Procesos finales:</strong></p>
                         <ul>
                             <li>Paros Produccion Cybitex</li>
@@ -457,14 +450,14 @@
                             <li>Gestion Mantenimiento</li>
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Planta_Acabado/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
                 
-                <div class="process-card">
-                    <div class="process-card-header">Despacho</div>
-                    <div class="process-card-body">
+                <div class="card process-card">
+                    <div class="card-header">Despacho</div>
+                    <div class="card-body">
                         <p><strong>Gestión de entrega:</strong></p>
                         <ul>
                             <li>Despacho</li>
@@ -473,17 +466,16 @@
                             <li>Logistica</li>
                             <li>Insumos</li>
                             <li>Auditorias</li>
-
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Despacho/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
                 
-                <div class="process-card">
-                    <div class="process-card-header">Servicios</div>
-                    <div class="process-card-body">
+                <div class="card process-card">
+                    <div class="card-header">Servicios</div>
+                    <div class="card-body">
                         <p><strong>Áreas de soporte:</strong></p>
                         <ul>
                             <li>Resumen General</li>
@@ -497,7 +489,7 @@
                             <li>Gestion Mantenimiento</li>
                         </ul>
                     </div>
-                    <div class="process-card-footer">
+                    <div class="card-footer">
                         <a href="Servicios/index.html" class="btn">Acceder</a>
                     </div>
                 </div>
@@ -508,8 +500,9 @@
             <h2>KPI (Key Performance Indicators) & Recursos</h2>
             <p>Material complementario para el aprendizaje y la capacitación:</p>
             
-            <div class="resources-grid">
-                <div class="resource-card">
+            <div class="grid resources-grid">
+                <!-- Tarjetas de recursos con estructura simplificada -->
+                <div class="card resource-card">
                     <h3>Temas Contenido Control Estadistico de Procesos</h3>
                     <ul class="resource-list">
                         <li><a href="Recursos/index.html">KPI (Indicadores Clave de desempeño)</a></li>
@@ -522,7 +515,7 @@
                     </ul>
                 </div>
                 
-                <div class="resource-card">
+                <div class="card resource-card">
                     <h3>Encuentros Presenciales</h3>
                     <ul class="resource-list">
                         <li><a href="Presenciales/index.html">Calendario de capacitaciones</a></li>
@@ -532,7 +525,7 @@
                     </ul>
                 </div>
                 
-                <div class="resource-card">
+                <div class="card resource-card">
                     <h3>Evaluaciones</h3>
                     <ul class="resource-list">
                         <li><a href="evaluaciones/index.html">Evaluación diagnóstica</a></li>
@@ -616,7 +609,7 @@
         <p>Alojado en Netlify | Contenido en GitHub</p>
     </footer>
     <script>
-        // Navegación por pestañas
+        // Navegación por pestañas - código optimizado
         document.querySelectorAll('.tab-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -634,21 +627,53 @@
             });
         });
         
-        // Validación del formulario
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // Validación del formulario - código optimizado
+        const contactForm = document.getElementById('contactForm');
+        const attachment = document.getElementById('attachment');
+        const feedback = document.getElementById('formFeedback');
+        const fileInfo = document.getElementById('fileInfo');
+        
+        // Función para mostrar mensajes de feedback
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `form-feedback ${type}`;
+        }
+        
+        // Función para validar archivo
+        function validateFile(file) {
+            const allowedTypes = ['application/pdf', 'application/msword', 
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/jpeg', 'image/jpg', 'image/png', 'text/plain'];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            
+            if (!allowedTypes.includes(file.type)) {
+                fileInfo.textContent = 'Tipo de archivo no permitido. Use PDF, DOC, DOCX, JPG, PNG o TXT.';
+                fileInfo.className = 'file-info error';
+                return false;
+            }
+            
+            if (file.size > maxSize) {
+                fileInfo.textContent = 'El archivo es demasiado grande. Tamaño máximo: 10MB.';
+                fileInfo.className = 'file-info error';
+                return false;
+            }
+            
+            fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+            fileInfo.className = 'file-info success';
+            return true;
+        }
+        
+        // Evento de envío del formulario
+        contactForm.addEventListener('submit', function(e) {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const department = document.getElementById('department').value;
             const message = document.getElementById('message').value;
-            const attachment = document.getElementById('attachment');
-            const feedback = document.getElementById('formFeedback');
-            const fileInfo = document.getElementById('fileInfo');
             
             // Validación simple
             if (!name || !email || !department || !message) {
                 e.preventDefault();
-                feedback.textContent = 'Por favor, complete todos los campos obligatorios.';
-                feedback.className = 'form-feedback error';
+                showFeedback('Por favor, complete todos los campos obligatorios.', 'error');
                 return false;
             }
             
@@ -656,50 +681,28 @@
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 e.preventDefault();
-                feedback.textContent = 'Por favor, ingrese un correo electrónico válido.';
-                feedback.className = 'form-feedback error';
+                showFeedback('Por favor, ingrese un correo electrónico válido.', 'error');
                 return false;
             }
             
             // Validación de archivo adjunto
             if (attachment.files.length > 0) {
                 const file = attachment.files[0];
-                const allowedTypes = ['application/pdf', 'application/msword', 
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                    'image/jpeg', 'image/jpg', 'image/png', 'text/plain'];
-                const maxSize = 10 * 1024 * 1024; // 10MB
-                
-                if (!allowedTypes.includes(file.type)) {
+                if (!validateFile(file)) {
                     e.preventDefault();
-                    fileInfo.textContent = 'Tipo de archivo no permitido. Use PDF, DOC, DOCX, JPG, PNG o TXT.';
-                    fileInfo.className = 'file-info error';
                     return false;
                 }
-                
-                if (file.size > maxSize) {
-                    e.preventDefault();
-                    fileInfo.textContent = 'El archivo es demasiado grande. Tamaño máximo: 10MB.';
-                    fileInfo.className = 'file-info error';
-                    return false;
-                }
-                
-                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-                fileInfo.className = 'file-info success';
             }
             
             // Si todo está bien, mostrar mensaje de éxito
-            feedback.textContent = '¡Gracias por su mensaje! Nos pondremos en contacto pronto.';
-            feedback.className = 'form-feedback success';
+            showFeedback('¡Gracias por su mensaje! Nos pondremos en contacto pronto.', 'success');
         });
         
         // Mostrar información del archivo seleccionado
-        document.getElementById('attachment').addEventListener('change', function() {
-            const fileInfo = document.getElementById('fileInfo');
-            
+        attachment.addEventListener('change', function() {
             if (this.files.length > 0) {
                 const file = this.files[0];
-                fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
-                fileInfo.className = 'file-info success';
+                validateFile(file);
             } else {
                 fileInfo.textContent = 'Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT (máx. 10MB)';
                 fileInfo.className = 'file-info';
@@ -708,7 +711,3 @@
     </script>
 </body>
 </html>
-
-
-
-

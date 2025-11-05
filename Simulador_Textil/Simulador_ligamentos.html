@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Ligamentos Textiles</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        canvas {
+            border: 2px solid #cbd5e1; /* Light gray border */
+            background-color: #ffffff;
+            display: block;
+            border-radius: 12px; /* Rounded corners for canvas */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .control-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+        .control-button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: none;
+        }
+        .control-button.active {
+            background-color: #3b82f6; /* Blue-500 */
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -2px rgba(0, 0, 0, 0.15), 0 3px 5px -2px rgba(0, 0, 0, 0.08);
+        }
+        .control-button:not(.active) {
+            background-color: #e2e8f0; /* Gray-200 */
+            color: #475569; /* Slate-600 */
+        }
+        .control-button:not(.active):hover {
+            background-color: #cbd5e1; /* Gray-300 */
+        }
+        .explanation-box {
+            background-color: #f8fafc; /* Blue-50 */
+            border-left: 4px solid #3b82f6; /* Blue-500 border */
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #1e293b; /* Slate-900 */
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        .animation-controls, .color-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        input[type="range"] {
+            width: 120px;
+        }
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+            .left-panel {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+            }
+            .right-panel {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">Simulador de Ligamentos Textiles</h1>
+            <div class="control-panel">
+                <button id="plainWeaveBtn" class="control-button active">Tafetán (Liso)</button>
+                <button id="twillWeaveBtn" class="control-button">Sarga (2x2)</button>
+                <button id="twill3x1WeaveBtn" class="control-button">Sarga (3x1)</button>
+                <button id="twill2x1WeaveBtn" class="control-button">Sarga (2x1)</button>
+                <button id="twill4x1WeaveBtn" class="control-button">Sarga (4x1)</button>
+                <button id="satinWeaveBtn" class="control-button">Satén (4x1)</button>
+                <button id="basketWeaveBtn" class="control-button">Canastillo (2x2)</button>
+                <!-- Removed Rib Weave Button -->
+                <button id="loomProcessBtn" class="control-button">Proceso en Telar</button>
+                <button id="resetBtn" class="control-button bg-red-500 text-white hover:bg-red-600">Reiniciar Simulador</button>
+            </div>
+
+            <div class="animation-controls">
+                <label for="speedSlider" class="text-sm font-medium text-gray-700">Velocidad:</label>
+                <input type="range" id="speedSlider" min="0.001" max="0.05" step="0.001" value="0.01">
+                <button id="toggleManualModeBtn" class="control-button">Modo Manual</button>
+                <button id="prevStepBtn" class="control-button" disabled>Paso Anterior</button>
+                <button id="nextStepBtn" class="control-button" disabled>Siguiente Paso</button>
+            </div>
+
+            <div class="color-controls">
+                <div class="color-input-group">
+                    <label for="warpColorPicker" class="text-sm font-medium text-gray-700">Color Urdimbre:</label>
+                    <input type="color" id="warpColorPicker" value="#60a5fa">
+                </div>
+                <div class="color-input-group">
+                    <label for="weftColorPicker" class="text-sm font-medium text-gray-700">Color Trama:</label>
+                    <input type="color" id="weftColorPicker" value="#f87171">
+                </div>
+            </div>
+
+            <div id="explanation" class="explanation-box">
+                <h2 class="font-semibold text-lg mb-2">Ligamento Tafetán (Liso)</h2>
+                <p>Es el ligamento más básico y común. Cada hilo de trama pasa por encima de un hilo de urdimbre y por debajo del siguiente, alternando en cada pasada. Esto crea una superficie lisa y uniforme, y es el tejido más resistente y duradero.</p>
+            </div>
+        </div>
+        <div class="right-panel">
+            <canvas id="weaveCanvas" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('weaveCanvas');
+        const ctx = canvas.getContext('2d');
+        const plainWeaveBtn = document.getElementById('plainWeaveBtn');
+        const twillWeaveBtn = document.getElementById('twillWeaveBtn'); // Sarga 2x2
+        const twill3x1WeaveBtn = document.getElementById('twill3x1WeaveBtn'); // New button
+        const twill2x1WeaveBtn = document.getElementById('twill2x1WeaveBtn'); // New button
+        const twill4x1WeaveBtn = document.getElementById('twill4x1WeaveBtn'); // New button
+        const satinWeaveBtn = document.getElementById('satinWeaveBtn'); // Now explicitly 4x1
+        const basketWeaveBtn = document.getElementById('basketWeaveBtn');
+        // const ribWeaveBtn = document.getElementById('ribWeaveBtn'); // Removed
+        const loomProcessBtn = document.getElementById('loomProcessBtn');
+        const resetBtn = document.getElementById('resetBtn'); // New reset button
+        const explanationDiv = document.getElementById('explanation');
+
+        // New UI elements
+        const speedSlider = document.getElementById('speedSlider');
+        const toggleManualModeBtn = document.getElementById('toggleManualModeBtn');
+        const prevStepBtn = document.getElementById('prevStepBtn');
+        const nextStepBtn = document.getElementById('nextStepBtn');
+        const warpColorPicker = document.getElementById('warpColorPicker');
+        const weftColorPicker = document.getElementById('weftColorPicker');
+
+        // Weave parameters
+        const threadSize = 20; // Size of each thread square/segment for weave patterns
+        let currentWeave = 'plain'; // Default weave type
+        let currentExplanationType = 'weave'; // 'weave' or 'loom'
+
+        // Colors
+        let warpColor = warpColorPicker.value; // Dynamic color
+        let weftColor = weftColorPicker.value; // Dynamic color
+        const loomMachineColor = '#a78bfa'; // Purple-400 for loom parts
+        const fabricColor = '#cbd5e1'; // Light gray for fabric
+        const highlightColor = '#facc15'; // Yellow-400 for highlighting
+
+        // Loom animation variables
+        let animationFrameId = null;
+        let loomAnimationState = 0; // 0: Shedding, 1: Picking, 2: Beating-up, 3: Advance/Reset
+        let loomAnimationProgress = 0; // 0 to 1 for current step
+        let animationSpeed = parseFloat(speedSlider.value); // Dynamic speed
+        let activeLoomWarpCount = 6; // Dynamically set based on weave type
+        const loomWarpSpacing = 30; // Base spacing, will be adjusted
+        const loomWarpStartY = 80; // Y start for warp threads
+        const loomWarpEndY = 320; // Y end for warp threads
+        const loomWeftThickness = 8;
+        const loomWarpThickness = 4;
+        const shedHeight = 40; // Max vertical separation for shedding
+        let fabricHeight = 0; // Height of the formed fabric, grows with each cycle
+        // Corrected: fabricThreadSize should be consistent with threadSize
+        const fabricThreadSize = threadSize; // Use base threadSize for consistency
+        const fabricGrowthPerCycle = fabricThreadSize; // Ensure this matches fabricThreadSize for perfect alignment
+        let currentLoomWeftRowIndex = 0; // This will track the actual weft row being formed (0-indexed)
+        let isManualMode = false; // New: Manual mode toggle
+
+        // Global variables for weave patterns
+        const satinHarness = 5; // For 4x1 satin, it's a 5-harness weave
+        const satinStep = 2; // A common step for 5-harness satin (e.g., 2 or 3)
+
+        // Function to clear the canvas
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Function to draw a single thread segment for weave patterns (only fill)
+        function drawSegment(x, y, width, height, color) {
+            ctx.fillStyle = color;
+            // Draw the segment filling the entire cell. Grid lines will provide separation.
+            ctx.fillRect(x, y, width, height);
+        }
+
+        // New function to draw grid lines for a weave pattern
+        function drawGridLines(startX, startY, numWarp, numWeft, threadSize) {
+            ctx.strokeStyle = '#94a3b8'; // Darker grey for definition
+            ctx.lineWidth = 1;
+
+            // Draw vertical lines
+            for (let j = 0; j <= numWarp; j++) {
+                ctx.beginPath();
+                // Ensure coordinates are aligned to pixel grid for crisp lines
+                ctx.moveTo(Math.floor(startX + j * threadSize) + 0.5, Math.floor(startY) + 0.5);
+                ctx.lineTo(Math.floor(startX + j * threadSize) + 0.5, Math.floor(startY + numWeft * threadSize) + 0.5);
+                ctx.stroke();
+            }
+
+            // Draw horizontal lines
+            for (let i = 0; i <= numWeft; i++) {
+                ctx.beginPath();
+                // Ensure coordinates are aligned to pixel grid for crisp lines
+                ctx.moveTo(Math.floor(startX) + 0.5, Math.floor(startY + i * threadSize) + 0.5);
+                ctx.lineTo(Math.floor(startX + numWarp * threadSize) + 0.5, Math.floor(startY + i * threadSize) + 0.5);
+                ctx.stroke();
+            }
+        }
+
+        // Helper to get user-friendly weave name
+        function getWeaveName(weaveType) {
+            switch (weaveType) {
+                case 'plain': return 'Tafetán (Liso)';
+                case 'twill': return 'Sarga (2x2)';
+                case 'twill3x1': return 'Sarga (3x1)';
+                case 'twill2x1': return 'Sarga (2x1)';
+                case 'twill4x1': return 'Sarga (4x1)';
+                case 'satin': return 'Satén (4x1)';
+                case 'basket': return 'Canastillo (2x2)';
+                default: return 'Desconocido';
+            }
+        }
+
+        // --- Weave Drawing Functions (now accept offsetX, offsetY) ---
+
+        // Plain Weave (Tafetán)
+        function drawPlainWeave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 8; // A multiple of 2 for clarity
+            const currentPatternNumWeftThreads = 8;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+
+                    // Plain weave logic: (row + column) % 2 determines which thread is on top
+                    if ((i + j) % 2 === 0) { // If sum is even, warp is over (draw warp color)
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // If sum is odd, weft is over (draw weft color)
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Twill Weave (Sarga 2x2)
+        function drawTwillWeave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 8; // Multiple of 4 (2+2) for full repeat
+            const currentPatternNumWeftThreads = 8;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const repeatOver = 2; // Warp threads go over 2
+            const repeatUnder = 2; // Warp threads go under 2
+            const repeatUnit = repeatOver + repeatUnder; // Total threads in repeat (4)
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+                    // Twill pattern: (warp_index + weft_index) % repeat_unit < repeat_over
+                    const patternValue = (j + i) % repeatUnit;
+                    if (patternValue < repeatOver) { // If patternValue is 0 or 1 (less than 2), warp is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // Otherwise (patternValue is 2 or 3), weft is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Twill 3x1 Weave (Sarga 3x1)
+        function drawTwill3x1Weave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 8; // Multiple of 4 (3+1)
+            const currentPatternNumWeftThreads = 8;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const repeatOver = 3; // Warp threads go over 3
+            const repeatUnder = 1; // Warp threads go under 1
+            const repeatUnit = repeatOver + repeatUnder; // Total threads in repeat (4)
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+                    const patternValue = (j + i) % repeatUnit;
+                    if (patternValue < repeatOver) { // If patternValue is 0, 1 or 2 (less than 3), warp is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // Otherwise (patternValue is 3), weft is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Twill 2x1 Weave (Sarga 2x1)
+        function drawTwill2x1Weave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 9; // Multiple of 3 (2+1) for clearer repetition
+            const currentPatternNumWeftThreads = 9;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const repeatOver = 2; // Warp threads go over 2
+            const repeatUnder = 1; // Warp threads go under 1
+            const repeatUnit = repeatOver + repeatUnder; // Total threads in repeat (3)
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+                    const patternValue = (j + i) % repeatUnit;
+                    if (patternValue < repeatOver) { // If patternValue is 0 or 1 (less than 2), warp is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // Otherwise (patternValue is 2), weft is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Twill 4x1 Weave (Sarga 4x1)
+        function drawTwill4x1Weave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 10; // Multiple of 5 (4+1)
+            const currentPatternNumWeftThreads = 10;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const repeatOver = 4; // Warp threads go over 4
+            const repeatUnder = 1; // Warp threads go under 1
+            const repeatUnit = repeatOver + repeatUnder; // Total threads in repeat (5)
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+                    const patternValue = (j + i) % repeatUnit;
+                    if (patternValue < repeatOver) { // If patternValue is 0, 1, 2 or 3 (less than 4), warp is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // Otherwise (patternValue is 4), weft is on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+
+        // Satin Weave (Satén 4x1) - This is a 5-harness satin with 4 warp floats and 1 weft float
+        function drawSatinWeave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = satinHarness * 2; // 10 (multiple of 5)
+            const currentPatternNumWeftThreads = satinHarness * 2; // 10 (multiple of 5)
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+                    // Calculate the "over" point for the weft thread
+                    // This determines the single warp thread over which the weft will pass.
+                    const weftOverPoint = (i * satinStep) % satinHarness;
+
+                    // If the current warp thread 'j' (modulo harness size) is the "over" point for the weft, draw weft color (weft is on top).
+                    // Otherwise, the warp thread is "over" the weft, so draw warp color (warp is on top).
+                    if ((j % satinHarness) === weftOverPoint) {
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    } else {
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Basket Weave (Canastillo 2x2)
+        function drawBasketWeave(offsetX = 0, offsetY = 0) {
+            const currentPatternNumWarpThreads = 8; // Multiple of 2 for 2x2 blocks
+            const currentPatternNumWeftThreads = 8;
+            const patternThreadSize = threadSize; // Use base threadSize for consistency
+            const groupSize = 2; // 2x2 basket weave
+            const startX = Math.floor(offsetX + (canvas.width / 2 - currentPatternNumWarpThreads * patternThreadSize) / 2);
+            const startY = Math.floor(offsetY + (canvas.height - currentPatternNumWeftThreads * patternThreadSize) / 2);
+
+            for (let i = 0; i < currentPatternNumWeftThreads; i++) {
+                for (let j = 0; j < currentPatternNumWarpThreads; j++) {
+                    const x = startX + j * patternThreadSize;
+                    const y = startY + i * patternThreadSize;
+
+                    // Determine which 2x2 block we are in
+                    const warpGroup = Math.floor(j / groupSize);
+                    const weftGroup = Math.floor(i / groupSize);
+
+                    // If both groups are even or both are odd, warp threads are on top
+                    if ((weftGroup % 2 === 0 && warpGroup % 2 === 0) || (weftGroup % 2 !== 0 && warpGroup % 2 !== 0)) {
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, warpColor);
+                    } else { // Otherwise, weft threads are on top
+                        drawSegment(x, y, patternThreadSize, patternThreadSize, weftColor);
+                    }
+                }
+            }
+            drawGridLines(startX, startY, currentPatternNumWarpThreads, currentPatternNumWeftThreads, patternThreadSize);
+        }
+
+        // Removed Rib Weave function
+
+
+        // --- Fabric Weave Pattern Drawing Functions ---
+        function drawFabricWeavePattern(ctx, weaveType, offsetX, offsetY, width, height, numWarp, threadSize, latestCompletedRowIndex) {
+            const numWeftRowsToDraw = Math.floor(height / threadSize);
+            const startX = Math.floor(offsetX); // Ensure startX is integer
+            const startY = Math.floor(offsetY); // Ensure startY is integer
+
+            for (let i = 0; i < numWeftRowsToDraw; i++) {
+                const actualWeftRowIndex = (latestCompletedRowIndex - (numWeftRowsToDraw - 1)) + i;
+
+                if (actualWeftRowIndex < 0) continue;
+
+                for (let j = 0; j < numWarp; j++) {
+                    const x = startX + j * threadSize;
+                    const y = startY + i * threadSize;
+
+                    let drawWarpOverWeft = false; // Default: weft over warp (draw weft color)
+
+                    if (weaveType === 'plain') {
+                        drawWarpOverWeft = ((actualWeftRowIndex + j) % 2 === 0);
+                    } else if (weaveType === 'twill') {
+                        const repeatOver = 2; // For 2x2 twill
+                        const repeatUnder = 2;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        drawWarpOverWeft = ((j + actualWeftRowIndex) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill3x1') {
+                        const repeatOver = 3;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        drawWarpOverWeft = ((j + actualWeftRowIndex) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill2x1') {
+                        const repeatOver = 2;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        drawWarpOverWeft = ((j + actualWeftRowIndex) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill4x1') {
+                        const repeatOver = 4;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        drawWarpOverWeft = ((j + actualWeftRowIndex) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'satin') { // Satin 4x1 logic for fabric
+                        const weftOverPointForFabricRow = (actualWeftRowIndex * satinStep) % satinHarness;
+                        drawWarpOverWeft = !(j === weftOverPointForFabricRow); // If not weft over, then warp over
+                    } else if (weaveType === 'basket') { // Basket Weave logic for fabric
+                        const groupSize = 2;
+                        const warpGroup = Math.floor(j / groupSize);
+                        const weftGroup = Math.floor(actualWeftRowIndex / groupSize);
+                        drawWarpOverWeft = ((weftGroup % 2 === 0 && warpGroup % 2 === 0) || (weftGroup % 2 !== 0 && warpGroup % 2 !== 0));
+                    }
+
+                    if (drawWarpOverWeft) {
+                        drawSegment(x, y, threadSize, threadSize, warpColor);
+                    } else {
+                        drawSegment(x, y, threadSize, threadSize, weftColor);
+                    }
+                }
+            }
+            // Draw grid lines over the fabric pattern for clarity
+            drawGridLines(startX, startY, numWarp, numWeftRowsToDraw, threadSize);
+        }
+
+
+        // --- Loom Process Animation Functions ---
+
+        function drawLoomState(progress, state, weaveType, currentLoomWeftRow) {
+            clearCanvas(); // Always clear canvas at the start of drawing a new loom state
+            const canvasHalfWidth = canvas.width / 2;
+
+            // --- Draw Loom Animation (Left Half) ---
+            const effectiveLoomWarpSpacing = (canvasHalfWidth - 60) / (activeLoomWarpCount - 1);
+            const totalWarpWidth = (activeLoomWarpCount - 1) * effectiveLoomWarpSpacing;
+            const startX_loom = Math.floor((canvasHalfWidth - totalWarpWidth) / 2); // Ensure integer position
+
+            // Draw formed fabric (simplified)
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(startX_loom, loomWarpEndY, totalWarpWidth, fabricHeight);
+            ctx.fillStyle = '#475569';
+            ctx.font = '12px Inter';
+            ctx.textAlign = 'center';
+
+            // Draw the fabric weave pattern with grid lines
+            drawFabricWeavePattern(ctx, weaveType, startX_loom, loomWarpEndY, totalWarpWidth, fabricHeight, activeLoomWarpCount, fabricThreadSize, currentLoomWeftRowIndex - 1);
+
+            if (fabricHeight > 20) {
+                ctx.fillText('Tejido Formado: ' + getWeaveName(weaveType), startX_loom + totalWarpWidth / 2, loomWarpEndY + fabricHeight / 2);
+            }
+
+            // Draw warp threads
+            ctx.lineWidth = loomWarpThickness;
+            ctx.strokeStyle = warpColor;
+
+            for (let i = 0; i < activeLoomWarpCount; i++) {
+                let yOffset = 0;
+                let isRaisedForCurrentShed = false;
+
+                if (weaveType === 'plain') {
+                    // In plain weave, alternate warps are raised/lowered.
+                    // If current weft row is even, warps 0,2,4... are raised. If odd, warps 1,3,5... are raised.
+                    isRaisedForCurrentShed = (i % 2 === (currentLoomWeftRow % 2 === 0 ? 0 : 1));
+                } else if (weaveType === 'twill') {
+                    const repeatOver = 2; // For 2x2 twill
+                    const repeatUnder = 2;
+                    const repeatUnit = repeatOver + repeatUnder;
+                    isRaisedForCurrentShed = ((i + currentLoomWeftRow) % repeatUnit < repeatOver);
+                } else if (weaveType === 'twill3x1') {
+                    const repeatOver = 3;
+                    const repeatUnder = 1;
+                    const repeatUnit = repeatOver + repeatUnder;
+                    isRaisedForCurrentShed = ((i + currentLoomWeftRow) % repeatUnit < repeatOver);
+                } else if (weaveType === 'twill2x1') {
+                    const repeatOver = 2;
+                    const repeatUnder = 1;
+                    const repeatUnit = repeatOver + repeatUnder;
+                    isRaisedForCurrentShed = ((i + currentLoomWeftRow) % repeatUnit < repeatOver);
+                } else if (weaveType === 'twill4x1') {
+                    const repeatOver = 4;
+                    const repeatUnder = 1;
+                    const repeatUnit = repeatOver + repeatUnder;
+                    isRaisedForCurrentShed = ((i + currentLoomWeftRow) % repeatUnit < repeatOver);
+                } else if (weaveType === 'satin') { // Satin 4x1 shedding logic
+                    const currentSatinWeftOverPoint = (currentLoomWeftRow * satinStep) % satinHarness;
+                    // Warp is raised if it's NOT the weft over point (to allow weft to pass underneath)
+                    isRaisedForCurrentShed = !(i === currentSatinWeftOverPoint);
+                } else if (weaveType === 'basket') {
+                    const groupSize = 2;
+                    const warpGroup = Math.floor(i / groupSize);
+                    const weftGroup = Math.floor(currentLoomWeftRow / groupSize);
+                    // If both groups are even or both are odd, warps are raised (to allow weft to pass underneath)
+                    isRaisedForCurrentShed = ((weftGroup % 2 === 0 && warpGroup % 2 === 0) || (weftGroup % 2 !== 0 && warpGroup % 2 !== 0));
+                }
+
+
+                // Highlight logic for shedding
+                let currentWarpColor = warpColor;
+                if (state === 0 && progress > 0 && progress < 1) { // During shedding phase
+                    // Highlight threads that are moving
+                    currentWarpColor = highlightColor;
+                }
+
+                ctx.strokeStyle = currentWarpColor;
+                if (state === 0) { // Shedding (opening the shed)
+                    yOffset = isRaisedForCurrentShed ? -shedHeight * progress : shedHeight * progress;
+                } else if (state === 1 || state === 2) { // Shed is open or beating-up
+                    yOffset = isRaisedForCurrentShed ? -shedHeight : shedHeight;
+                } else if (state === 3) { // Shed closing and preparing for next
+                    // Calculate next shed state to smoothly transition
+                    let nextIsRaised = false;
+                    if (weaveType === 'plain') {
+                        nextIsRaised = (i % 2 === ((currentLoomWeftRow + 1) % 2 === 0 ? 0 : 1));
+                    } else if (weaveType === 'twill') {
+                        const repeatOver = 2;
+                        const repeatUnder = 2;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        nextIsRaised = ((i + (currentLoomWeftRow + 1)) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill3x1') {
+                        const repeatOver = 3;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        nextIsRaised = ((i + (currentLoomWeftRow + 1)) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill2x1') {
+                        const repeatOver = 2;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        nextIsRaised = ((i + (currentLoomWeftRow + 1)) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'twill4x1') {
+                        const repeatOver = 4;
+                        const repeatUnder = 1;
+                        const repeatUnit = repeatOver + repeatUnder;
+                        nextIsRaised = ((i + (currentLoomWeftRow + 1)) % repeatUnit < repeatOver);
+                    } else if (weaveType === 'satin') {
+                        const nextSatinWeftOverPoint = ((currentLoomWeftRow + 1) * satinStep) % satinHarness;
+                        nextIsRaised = !(i === nextSatinWeftOverPoint);
+                    } else if (weaveType === 'basket') {
+                        const groupSize = 2;
+                        const warpGroup = Math.floor(i / groupSize);
+                        const nextWeftGroup = Math.floor((currentLoomWeftRow + 1) / groupSize);
+                        nextIsRaised = ((nextWeftGroup % 2 === 0 && warpGroup % 2 === 0) || (nextWeftGroup % 2 !== 0 && warpGroup % 2 !== 0));
+                    }
+                    // Transition from current shed state to next shed state
+                    yOffset = (isRaisedForCurrentShed ? -shedHeight : shedHeight) * (1 - progress) + (nextIsRaised ? -shedHeight : shedHeight) * progress;
+                }
+
+                ctx.beginPath();
+                ctx.moveTo(startX_loom + i * effectiveLoomWarpSpacing, loomWarpStartY + yOffset);
+                ctx.lineTo(startX_loom + i * effectiveLoomWarpSpacing, loomWarpEndY + yOffset);
+                ctx.stroke();
+            }
+
+            // Draw weft thread and shuttle
+            ctx.lineWidth = loomWeftThickness;
+            ctx.strokeStyle = weftColor;
+            ctx.fillStyle = weftColor;
+
+            let currentWeftY = loomWarpStartY + shedHeight / 2; // Y position for weft insertion
+
+            if (state === 1) { // Picking (weft insertion)
+                const shuttleWidth = 40;
+                const shuttleHeight = 15;
+                const shuttleX = startX_loom - shuttleWidth + (totalWarpWidth + shuttleWidth * 2) * progress;
+
+                // Highlight weft thread during picking
+                ctx.strokeStyle = highlightColor;
+                ctx.fillStyle = highlightColor;
+
+                // Draw shuttle
+                ctx.fillStyle = loomMachineColor;
+                ctx.beginPath();
+                ctx.moveTo(shuttleX, currentWeftY - shuttleHeight / 2);
+                ctx.lineTo(shuttleX + shuttleWidth, currentWeftY - shuttleHeight / 2);
+                ctx.lineTo(shuttleX + shuttleWidth - 5, currentWeftY + shuttleHeight / 2);
+                ctx.lineTo(shuttleX + 5, currentWeftY + shuttleHeight / 2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.strokeStyle = '#6d28d9';
+                ctx.lineWidth = 2;
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = '10px Inter';
+                ctx.fillText('Lanzadera', shuttleX + shuttleWidth / 2, currentWeftY + 4);
+
+                // Draw weft thread trailing from shuttle
+                ctx.strokeStyle = highlightColor; // Weft thread is highlighted
+                ctx.lineWidth = loomWeftThickness;
+                ctx.beginPath();
+                ctx.moveTo(startX_loom, currentWeftY);
+                ctx.lineTo(shuttleX + shuttleWidth / 2, currentWeftY);
+                ctx.stroke();
+
+            } else if (state === 2) { // Beating-up (weft pushed to fabric)
+                const beatUpY = loomWarpEndY - loomWeftThickness / 2;
+                currentWeftY = loomWarpStartY + shedHeight / 2 + (beatUpY - (loomWarpStartY + shedHeight / 2)) * progress;
+
+                // Highlight weft thread during beating-up
+                ctx.strokeStyle = highlightColor;
+
+                // Draw weft thread
+                ctx.lineWidth = loomWeftThickness;
+                ctx.beginPath();
+                ctx.moveTo(startX_loom, currentWeftY);
+                ctx.lineTo(startX_loom + totalWarpWidth, currentWeftY);
+                ctx.stroke();
+
+                // Draw simplified reed (peine) moving
+                const reedHeight = 60;
+                const reedY = currentWeftY - reedHeight / 2;
+                ctx.fillStyle = loomMachineColor;
+                ctx.fillRect(startX_loom - 10, reedY, totalWarpWidth + 20, reedHeight);
+                ctx.strokeStyle = '#6d28d9';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(startX_loom - 10, reedY, totalWarpWidth + 20, reedHeight);
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = '10px Inter';
+                ctx.fillText('Peine', startX_loom + totalWarpWidth / 2, reedY + reedHeight / 2 + 4);
+
+            } else if (state === 3) { // Resetting / Advance
+                // The weft thread is now part of the fabric, no highlight
+                ctx.strokeStyle = weftColor;
+                ctx.lineWidth = loomWeftThickness;
+                ctx.beginPath();
+                ctx.moveTo(startX_loom, loomWarpEndY - loomWeftThickness / 2);
+                ctx.lineTo(startX_loom + totalWarpWidth, loomWarpEndY - loomWeftThickness / 2);
+                ctx.stroke();
+            }
+
+            // Draw loom frame (simplified)
+            ctx.strokeStyle = loomMachineColor;
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            // Left vertical support
+            ctx.beginPath();
+            ctx.moveTo(startX_loom - 30, loomWarpStartY - 30);
+            ctx.lineTo(startX_loom - 30, canvas.height - 30);
+            ctx.stroke();
+            // Right vertical support
+            ctx.beginPath();
+            ctx.moveTo(startX_loom + totalWarpWidth + 30, loomWarpStartY - 30);
+            ctx.lineTo(startX_loom + totalWarpWidth + 30, canvas.height - 30);
+            ctx.stroke();
+            // Top horizontal support
+            ctx.beginPath();
+            ctx.moveTo(startX_loom - 30, loomWarpStartY - 30);
+            ctx.lineTo(startX_loom + totalWarpWidth + 30, loomWarpStartY - 30);
+            ctx.stroke();
+
+            // --- Draw Weave Pattern (Right Half) ---
+            const offsetX_pattern = canvasHalfWidth;
+            const offsetY_pattern = 0;
+
+            ctx.fillStyle = '#475569';
+            ctx.font = '16px Inter';
+            ctx.textAlign = 'center';
+            // Display current weave name on the pattern side
+            ctx.fillText('Ligamento Actual: ' + getWeaveName(currentWeave), offsetX_pattern + canvasHalfWidth / 2, 40);
+
+            if (weaveType === 'plain') {
+                drawPlainWeave(offsetX_pattern, 0);
+            } else if (weaveType === 'twill') {
+                drawTwillWeave(offsetX_pattern, 0);
+            } else if (weaveType === 'twill3x1') {
+                drawTwill3x1Weave(offsetX_pattern, 0);
+            } else if (weaveType === 'twill2x1') {
+                drawTwill2x1Weave(offsetX_pattern, 0);
+            } else if (weaveType === 'twill4x1') {
+                drawTwill4x1Weave(offsetX_pattern, 0);
+            } else if (weaveType === 'satin') {
+                drawSatinWeave(offsetX_pattern, 0);
+            } else if (weaveType === 'basket') {
+                drawBasketWeave(offsetX_pattern, 0);
+            }
+        }
+
+        function animateLoom() {
+            if (isManualMode) {
+                stopLoomAnimation(); // Stop auto animation if in manual mode
+                return;
+            }
+
+            loomAnimationProgress += animationSpeed;
+
+            if (loomAnimationProgress > 1) {
+                loomAnimationProgress = 0;
+                loomAnimationState = (loomAnimationState + 1) % 4; // Cycle through 4 states
+
+                if (loomAnimationState === 0) { // After a full cycle (beating-up and advance), increment fabric height and row index
+                    currentLoomWeftRowIndex++; // Increment the global weft row counter
+                    fabricHeight = Math.min(canvas.height - loomWarpEndY - 10, fabricHeight + fabricGrowthPerCycle);
+                }
+            }
+
+            drawLoomState(loomAnimationProgress, loomAnimationState, currentWeave, currentLoomWeftRowIndex);
+            animationFrameId = requestAnimationFrame(animateLoom);
+        }
+
+        function stopLoomAnimation() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        // --- UI and Event Handling ---
+
+        function updateExplanation(weaveType) {
+            currentExplanationType = 'weave';
+            let title = '';
+            let description = '';
+            switch (weaveType) {
+                case 'plain':
+                    title = 'Ligamento Tafetán (Liso)';
+                    description = 'Es el ligamento más básico y común. Cada hilo de trama pasa por encima de un hilo de urdimbre y por debajo del siguiente, alternando en cada pasada. Esto crea una superficie lisa y uniforme, y es el tejido más resistente y duradero.';
+                    break;
+                case 'twill':
+                    title = 'Ligamento Sarga (2x2)';
+                    description = 'Se caracteriza por sus líneas diagonales distintivas en la superficie del tejido. En la sarga 2x2, cada hilo de trama pasa por encima de dos hilos de urdimbre y luego por debajo de dos hilos, con un desplazamiento en cada pasada para crear el patrón diagonal. Es más flexible y resistente a las arrugas que el tafetán.';
+                    break;
+                case 'twill3x1':
+                    title = 'Ligamento Sarga (3x1)';
+                    description = 'Una variación de la sarga donde cada hilo de trama pasa por encima de tres hilos de urdimbre y luego por debajo de uno, creando una línea diagonal más pronunciada y un tejido con mayor flotación de urdimbre. Ofrece una textura más suave y un brillo sutil.';
+                    break;
+                case 'twill2x1':
+                    title = 'Ligamento Sarga (2x1)';
+                    description = 'En esta sarga, cada hilo de trama pasa por encima de dos hilos de urdimbre y luego por debajo de uno. Esto crea una diagonal visible y un tejido con una flotación de urdimbre menor que la 3x1, resultando en una buena durabilidad y una superficie ligeramente más marcada.';
+                    break;
+                case 'twill4x1':
+                    title = 'Ligamento Sarga (4x1)';
+                    description = 'La sarga 4x1 es una sarga con una flotación de urdimbre aún mayor, donde cada hilo de trama pasa por encima de cuatro hilos de urdimbre y luego por debajo de uno. Esto produce una superficie muy suave y brillante, con diagonales muy marcadas, pero puede ser menos resistente a la abrasión debido a las largas flotaciones.';
+                    break;
+                case 'satin':
+                    title = 'Ligamento Satén (4x1)';
+                    description = 'Este ligamento produce una superficie lisa, brillante y lustrosa. Se caracteriza por tener muy pocos puntos de ligamento, donde los hilos de urdimbre flotan sobre cuatro hilos de trama y pasan por debajo de uno (4x1). <span class="text-yellow-600 font-semibold">Estas largas "flotaciones" de los hilos de urdimbre son la clave de su apariencia suave y reflectante.</span> Los puntos de ligamento están dispersos para evitar formar una línea diagonal. Es menos duradero que el tafetán o la sarga, pero muy elegante.';
+                    break;
+                case 'basket':
+                    title = 'Ligamento Canastillo (2x2)';
+                    description = 'Es una variación del ligamento tafetán donde dos o más hilos de urdimbre y dos o más hilos de trama se entrelazan como una sola unidad. Esto crea un patrón que se asemeja a una cesta, dando una textura más abierta y un tejido más flexible que el tafetán simple.';
+                    break;
+            }
+            explanationDiv.innerHTML = `<h2 class="font-semibold text-lg mb-2">${title}</h2><p>${description}</p>`;
+        }
+
+        function updateLoomExplanation() {
+            currentExplanationType = 'loom';
+            const title = 'Proceso de Tejido en el Telar y Ligamento';
+            const description = `
+                <p class="mb-2">En esta vista, la parte izquierda muestra la simulación del telar, mientras que la parte derecha muestra el patrón del ligamento seleccionado. Observa cómo el movimiento de los hilos de urdimbre en el telar (calada) se adapta al tipo de ligamento para crear el patrón visible.</p>
+                <p class="mb-2 text-yellow-600 font-semibold">Los hilos resaltados en amarillo indican la acción actual del telar.</p>
+                <ol class="list-decimal list-inside ml-4 space-y-1">
+                    <li><strong>Apertura de la Calada (Shedding):</strong> Los hilos de urdimbre se dividen para crear una abertura. El patrón de esta separación se corresponde con el ligamento.</li>
+                    <li><strong>Inserción de la Trama (Picking):</strong> Un hilo de trama (rojo) es insertado a través de la calada por la lanzadera.</li>
+                    <li><strong>Batán (Beating-up):</strong> El peine empuja el hilo de trama firmemente contra el tejido formado.</li>
+                    <li><strong>Cierre de Calada y Avance:</strong> Los hilos de urdimbre cambian de posición para la siguiente pasada, y el tejido avanza (la sección gris en la parte inferior crece y muestra el ligamento).</li>
+                </ol>
+                <p class="mt-2">Estos pasos se repiten continuamente para formar el tejido. La animación muestra una simplificación de este ciclo.</p>
+            `;
+            explanationDiv.innerHTML = `<h2 class="font-semibold text-lg mb-2">${title}</h2>${description}`;
+        }
+
+        function setActiveButton(buttonId) {
+            plainWeaveBtn.classList.remove('active');
+            twillWeaveBtn.classList.remove('active');
+            twill3x1WeaveBtn.classList.remove('active');
+            twill2x1WeaveBtn.classList.remove('active');
+            twill4x1WeaveBtn.classList.remove('active');
+            satinWeaveBtn.classList.remove('active');
+            basketWeaveBtn.classList.remove('active');
+            loomProcessBtn.classList.remove('active');
+            // Ensure the reset button is not "active" in the same way as weave buttons
+            // resetBtn.classList.remove('active'); // Not needed as it has a different style
+            document.getElementById(buttonId).classList.add('active');
+        }
+
+        function setLoomWarpCountForWeave(weaveType) {
+            switch (weaveType) {
+                case 'plain':
+                    activeLoomWarpCount = 8; // Multiple of 2
+                    break;
+                case 'twill': // 2x2
+                    activeLoomWarpCount = 8; // Multiple of 4 (2+2)
+                    break;
+                case 'twill3x1':
+                    activeLoomWarpCount = 8; // Multiple of 4 (3+1)
+                    break;
+                case 'twill2x1':
+                    activeLoomWarpCount = 6; // Multiple of 3 (2+1)
+                    break;
+                case 'twill4x1':
+                    activeLoomWarpCount = 10; // Multiple of 5 (4+1)
+                    break;
+                case 'satin': // Satin 4x1
+                    activeLoomWarpCount = satinHarness; // Which is 5
+                    break;
+                case 'basket':
+                    activeLoomWarpCount = 8; // Multiple of 2 for 2x2 blocks
+                    break;
+                default:
+                    activeLoomWarpCount = 6;
+            }
+        }
+
+        function drawCurrentContent() {
+            clearCanvas(); // Clear canvas at the very beginning
+            stopLoomAnimation(); // Stop any ongoing animation
+
+            if (currentExplanationType === 'weave') {
+                fabricHeight = 0; // Reset fabric height for weave view
+                currentLoomWeftRowIndex = 0; // Reset row index
+                // Disable manual controls and reset button text
+                toggleManualModeBtn.textContent = 'Modo Manual';
+                prevStepBtn.disabled = true;
+                nextStepBtn.disabled = true;
+                speedSlider.disabled = false;
+                isManualMode = false; // Ensure manual mode is off when switching to weave view
+
+                if (currentWeave === 'plain') {
+                    drawPlainWeave();
+                } else if (currentWeave === 'twill') {
+                    drawTwillWeave();
+                } else if (currentWeave === 'twill3x1') {
+                    drawTwill3x1Weave();
+                } else if (currentWeave === 'twill2x1') {
+                    drawTwill2x1Weave();
+                } else if (currentWeave === 'twill4x1') {
+                    drawTwill4x1Weave();
+                } else if (currentWeave === 'satin') {
+                    drawSatinWeave();
+                } else if (currentWeave === 'basket') {
+                    drawBasketWeave();
+                }
+            } else if (currentExplanationType === 'loom') {
+                setLoomWarpCountForWeave(currentWeave);
+                loomAnimationState = 0;
+                loomAnimationProgress = 0;
+                fabricHeight = 0;
+                currentLoomWeftRowIndex = 0;
+                // Enable manual controls if not already in manual mode
+                if (!isManualMode) {
+                    animateLoom(); // Start auto animation
+                } else {
+                    // If already in manual mode, just draw the current state
+                    drawLoomState(loomAnimationProgress, loomAnimationState, currentWeave, currentLoomWeftRowIndex);
+                    prevStepBtn.disabled = false; // Enable step buttons in manual mode
+                    nextStepBtn.disabled = false;
+                    speedSlider.disabled = true; // Disable speed slider in manual mode
+                }
+            }
+        }
+
+        // --- New Event Listeners for Controls ---
+        speedSlider.addEventListener('input', (event) => {
+            animationSpeed = parseFloat(event.target.value);
+        });
+
+        warpColorPicker.addEventListener('input', (event) => {
+            warpColor = event.target.value;
+            drawCurrentContent(); // Redraw with new colors
+        });
+
+        weftColorPicker.addEventListener('input', (event) => {
+            weftColor = event.target.value;
+            drawCurrentContent(); // Redraw with new colors
+        });
+
+        toggleManualModeBtn.addEventListener('click', () => {
+            isManualMode = !isManualMode;
+            if (isManualMode) {
+                toggleManualModeBtn.textContent = 'Modo Automático';
+                stopLoomAnimation(); // Stop current animation
+                prevStepBtn.disabled = false;
+                nextStepBtn.disabled = false;
+                speedSlider.disabled = true; // Disable speed slider
+                drawLoomState(loomAnimationProgress, loomAnimationState, currentWeave, currentLoomWeftRowIndex); // Draw current state
+            } else {
+                toggleManualModeBtn.textContent = 'Modo Manual';
+                prevStepBtn.disabled = true;
+                nextStepBtn.disabled = true;
+                speedSlider.disabled = false; // Enable speed slider
+                animateLoom(); // Restart auto animation
+            }
+        });
+
+        prevStepBtn.addEventListener('click', () => {
+            if (!isManualMode) return;
+
+            loomAnimationProgress = 0; // Reset progress for the step
+            loomAnimationState--;
+            if (loomAnimationState < 0) {
+                loomAnimationState = 3; // Wrap around to the last state
+                currentLoomWeftRowIndex = Math.max(0, currentLoomWeftRowIndex - 1); // Decrement row, but not below 0
+                fabricHeight = Math.max(0, fabricHeight - fabricGrowthPerCycle);
+            }
+            drawLoomState(loomAnimationProgress, loomAnimationState, currentWeave, currentLoomWeftRowIndex);
+        });
+
+        nextStepBtn.addEventListener('click', () => {
+            if (!isManualMode) return;
+
+            loomAnimationProgress = 0; // Reset progress for the step
+            loomAnimationState++;
+            if (loomAnimationState > 3) {
+                loomAnimationState = 0; // Wrap around to the first state
+                currentLoomWeftRowIndex++; // Increment row
+                fabricHeight = Math.min(canvas.height - loomWarpEndY - 10, fabricHeight + fabricGrowthPerCycle);
+            }
+            drawLoomState(loomAnimationProgress, loomAnimationState, currentWeave, currentLoomWeftRowIndex);
+        });
+
+
+        // Original Event Listeners
+        plainWeaveBtn.addEventListener('click', () => {
+            currentWeave = 'plain';
+            currentExplanationType = 'weave';
+            updateExplanation('plain');
+            setActiveButton('plainWeaveBtn');
+            drawCurrentContent();
+        });
+
+        twillWeaveBtn.addEventListener('click', () => {
+            currentWeave = 'twill'; // This is 2x2
+            currentExplanationType = 'weave';
+            updateExplanation('twill');
+            setActiveButton('twillWeaveBtn');
+            drawCurrentContent();
+        });
+
+        twill3x1WeaveBtn.addEventListener('click', () => {
+            currentWeave = 'twill3x1';
+            currentExplanationType = 'weave';
+            updateExplanation('twill3x1');
+            setActiveButton('twill3x1WeaveBtn');
+            drawCurrentContent();
+        });
+
+        twill2x1WeaveBtn.addEventListener('click', () => {
+                            currentWeave = 'twill2x1';
+                            currentExplanationType = 'weave';
+                            updateExplanation('twill2x1');
+                            setActiveButton('twill2x1WeaveBtn');
+                            drawCurrentContent();
+                        });
+
+        twill4x1WeaveBtn.addEventListener('click', () => {
+            currentWeave = 'twill4x1';
+            currentExplanationType = 'weave';
+            updateExplanation('twill4x1');
+            setActiveButton('twill4x1WeaveBtn');
+            drawCurrentContent();
+        });
+
+        satinWeaveBtn.addEventListener('click', () => {
+            currentWeave = 'satin'; // Now explicitly 4x1
+            currentExplanationType = 'weave';
+            updateExplanation('satin');
+            setActiveButton('satinWeaveBtn');
+            drawCurrentContent();
+        });
+
+        basketWeaveBtn.addEventListener('click', () => {
+            currentWeave = 'basket';
+            currentExplanationType = 'weave';
+            updateExplanation('basket');
+            setActiveButton('basketWeaveBtn');
+            drawCurrentContent();
+        });
+
+        loomProcessBtn.addEventListener('click', () => {
+            updateLoomExplanation();
+            setActiveButton('loomProcessBtn');
+            currentExplanationType = 'loom';
+            drawCurrentContent(); // This will start the loom animation
+        });
+
+        // New Reset Button Event Listener
+        resetBtn.addEventListener('click', () => {
+            // Reset all simulation variables to their initial state
+            currentWeave = 'plain';
+            currentExplanationType = 'weave';
+            loomAnimationState = 0;
+            loomAnimationProgress = 0;
+            fabricHeight = 0;
+            currentLoomWeftRowIndex = 0;
+            isManualMode = false;
+            animationSpeed = 0.01; // Reset speed slider value
+            speedSlider.value = 0.01; // Update slider UI
+
+            // Reset UI elements
+            warpColorPicker.value = '#60a5fa'; // Default warp color
+            weftColorPicker.value = '#f87171'; // Default weft color
+            warpColor = warpColorPicker.value;
+            weftColor = weftColorPicker.value;
+
+            toggleManualModeBtn.textContent = 'Modo Manual';
+            prevStepBtn.disabled = true;
+            nextStepBtn.disabled = true;
+            speedSlider.disabled = false;
+
+            // Update explanation and active button
+            updateExplanation('plain');
+            setActiveButton('plainWeaveBtn');
+            drawCurrentContent(); // Redraw the canvas with the reset state
+        });
+
+
+        // Initial draw on load
+        window.onload = () => {
+            drawCurrentContent(); // Draw initial weave and start any animation if applicable
+            updateExplanation('plain');
+            setActiveButton('plainWeaveBtn');
+        };
+
+        // Make canvas responsive
+        function resizeCanvas() {
+            const containerWidth = canvas.parentElement.clientWidth;
+            const size = Math.min(containerWidth, 400); // Max 400px, but responsive
+            canvas.width = size;
+            canvas.height = size;
+            drawCurrentContent(); // Redraw content after resize
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial call to set size
+    </script>
+</body>
+</html>

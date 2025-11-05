@@ -267,6 +267,18 @@
                     <a class="card-button" data-simulator="cpk">Abrir Simulador</a>
                 </div>
             </div>
+
+            <div class="simulator-card" data-simulator="ligamentos">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%239c27b0%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2218%22 fill=%22white%22 text-anchor=%22middle%22>Ligamentos Textiles</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Simulador de Ligamentos Textiles</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Visualiza diferentes tipos de ligamentos textiles y el proceso de tejido en telar.</p>
+                    <a class="card-button" data-simulator="ligamentos">Abrir Simulador</a>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -323,6 +335,17 @@
             </button>
         </div>
         <iframe class="simulator-content" id="cpk-frame" src="Sim_Cpk.html"></iframe>
+    </div>
+
+    <!-- Vista para el simulador de Ligamentos -->
+    <div class="simulator-view" id="ligamentos-view">
+        <div class="view-header">
+            <h2>Simulador de Ligamentos Textiles</h2>
+            <button class="back-button" onclick="closeSimulator('ligamentos')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="ligamentos-frame" src="Simulador_ligamentos.html"></iframe>
     </div>
     
     <footer>

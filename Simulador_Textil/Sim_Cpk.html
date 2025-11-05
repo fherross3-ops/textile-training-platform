@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Corrección de Procesos - Cp y Cpk</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .control-panel {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+        }
+        
+        .visualization {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .process-chart {
+            width: 100%;
+            height: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metrics {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        
+        .metric {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            min-width: 150px;
+            margin: 10px;
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .good { color: var(--success); }
+        .warning { color: var(--warning); }
+        .danger { color: var(--danger); }
+        
+        .scenario-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            background: var(--secondary);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .explanation {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+        
+        .phase {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+            background: white;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .phase h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .scenario-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simulador de Corrección de Procesos</h1>
+            <p class="subtitle">Herramienta visual para mejorar la capacidad de procesos (Cp y Cpk)</p>
+        </header>
+        
+        <div class="card">
+            <h2>¿Qué son Cp y Cpk?</h2>
+            <p><strong>Cp</strong> mide la capacidad potencial del proceso comparando la amplitud de las especificaciones con la variación natural.</p>
+            <p><strong>Cpk</strong> mide la capacidad real considerando tanto la variación como el centrado del proceso.</p>
+            <p>Un proceso es considerado <strong>capaz</strong> cuando Cpk ≥ 1.33.</p>
+        </div>
+        
+        <div class="control-panel">
+            <h2>Configuración del Proceso</h2>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Límite Inferior de Especificación (LIE): <span id="lie-value">10</span></span>
+                </div>
+                <input type="range" id="lie" min="0" max="20" value="10" step="0.1">
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Límite Superior de Especificación (LSE): <span id="lse-value">20</span></span>
+                </div>
+                <input type="range" id="lse" min="10" max="30" value="20" step="0.1">
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Media del Proceso (μ): <span id="mean-value">18</span></span>
+                </div>
+                <input type="range" id="mean" min="10" max="20" value="18" step="0.1">
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>Desviación Estándar (σ): <span id="std-value">1.5</span></span>
+                </div>
+                <input type="range" id="std" min="0.5" max="3" value="1.5" step="0.1">
+            </div>
+        </div>
+        
+        <div class="scenario-buttons">
+            <button id="scenario1">Reducir Variación (σ)</button>
+            <button id="scenario2">Centrar Proceso (μ)</button>
+            <button id="scenario3">Combinación Óptima</button>
+            <button id="reset">Restablecer</button>
+        </div>
+        
+        <div class="visualization">
+            <div class="process-chart" id="processChart">
+                <!-- El gráfico se generará con JavaScript -->
+            </div>
+            
+            <div class="metrics">
+                <div class="metric">
+                    <div>Cp</div>
+                    <div class="metric-value" id="cp-value">1.11</div>
+                    <div>Capacidad Potencial</div>
+                </div>
+                
+                <div class="metric">
+                    <div>Cpk</div>
+                    <div class="metric-value" id="cpk-value">0.44</div>
+                    <div>Capacidad Real</div>
+                </div>
+                
+                <div class="metric">
+                    <div>Estado</div>
+                    <div class="metric-value" id="status-value">No Capaz</div>
+                    <div>Evaluación</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Interpretación de Resultados</h2>
+            <div id="interpretation">
+                <p>El proceso actual tiene un <strong>Cp = 1.11</strong> y un <strong>Cpk = 0.44</strong>.</p>
+                <p>Esto indica que el proceso tiene la <strong>potencial capacidad</strong> de cumplir con las especificaciones (Cp > 1), pero en la práctica <strong>no es capaz</strong> porque está descentrado (Cpk < 1).</p>
+                <p>El proceso está produciendo cerca del límite superior de especificación, lo que aumenta el riesgo de producir productos no conformes.</p>
+            </div>
+        </div>
+        
+        <div class="explanation">
+            <h2>Metodología de Corrección</h2>
+            
+            <div class="phase">
+                <h3>Fase 1: Diagnóstico Detallado</h3>
+                <p>Analizar la capacidad actual y identificar las causas raíz del problema usando herramientas como el Diagrama de Ishikawa.</p>
+            </div>
+            
+            <div class="phase">
+                <h3>Fase 2: Estrategias de Corrección</h3>
+                <p>Implementar acciones para reducir la variación, centrar el proceso o una combinación de ambas.</p>
+            </div>
+            
+            <div class="phase">
+                <h3>Fase 3: Validación</h3>
+                <p>Verificar que las correcciones hayan mejorado la capacidad del proceso y que permanezca bajo control estadístico.</p>
+            </div>
+            
+            <div class="phase">
+                <h3>Fase 4: Estandarización</h3>
+                <p>Documentar los cambios y actualizar los procedimientos para mantener las mejoras.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Simulador de Corrección de Procesos - Herramienta educativa para el control estadístico de calidad</p>
+        </footer>
+    </div>
+
+    <script>
+        // Elementos del DOM
+        const lieSlider = document.getElementById('lie');
+        const lseSlider = document.getElementById('lse');
+        const meanSlider = document.getElementById('mean');
+        const stdSlider = document.getElementById('std');
+        
+        const lieValue = document.getElementById('lie-value');
+        const lseValue = document.getElementById('lse-value');
+        const meanValue = document.getElementById('mean-value');
+        const stdValue = document.getElementById('std-value');
+        
+        const cpValue = document.getElementById('cp-value');
+        const cpkValue = document.getElementById('cpk-value');
+        const statusValue = document.getElementById('status-value');
+        
+        const scenario1Btn = document.getElementById('scenario1');
+        const scenario2Btn = document.getElementById('scenario2');
+        const scenario3Btn = document.getElementById('scenario3');
+        const resetBtn = document.getElementById('reset');
+        
+        const interpretation = document.getElementById('interpretation');
+        const processChart = document.getElementById('processChart');
+        
+        // Valores iniciales
+        let lie = 10;
+        let lse = 20;
+        let mean = 18;
+        let std = 1.5;
+        
+        // Inicializar la visualización
+        updateValues();
+        drawChart();
+        
+        // Event listeners para los sliders
+        lieSlider.addEventListener('input', function() {
+            lie = parseFloat(this.value);
+            updateValues();
+            drawChart();
+        });
+        
+        lseSlider.addEventListener('input', function() {
+            lse = parseFloat(this.value);
+            updateValues();
+            drawChart();
+        });
+        
+        meanSlider.addEventListener('input', function() {
+            mean = parseFloat(this.value);
+            updateValues();
+            drawChart();
+        });
+        
+        stdSlider.addEventListener('input', function() {
+            std = parseFloat(this.value);
+            updateValues();
+            drawChart();
+        });
+        
+        // Event listeners para los botones de escenario
+        scenario1Btn.addEventListener('click', function() {
+            std = 1.0;  // Reducir desviación estándar
+            stdSlider.value = std;
+            updateValues();
+            drawChart();
+        });
+        
+        scenario2Btn.addEventListener('click', function() {
+            mean = 15;  // Centrar el proceso
+            meanSlider.value = mean;
+            updateValues();
+            drawChart();
+        });
+        
+        scenario3Btn.addEventListener('click', function() {
+            mean = 15;  // Combinación óptima
+            std = 1.0;
+            meanSlider.value = mean;
+            stdSlider.value = std;
+            updateValues();
+            drawChart();
+        });
+        
+        resetBtn.addEventListener('click', function() {
+            lie = 10;
+            lse = 20;
+            mean = 18;
+            std = 1.5;
+            
+            lieSlider.value = lie;
+            lseSlider.value = lse;
+            meanSlider.value = mean;
+            stdSlider.value = std;
+            
+            updateValues();
+            drawChart();
+        });
+        
+        // Actualizar valores mostrados
+        function updateValues() {
+            lieValue.textContent = lie.toFixed(1);
+            lseValue.textContent = lse.toFixed(1);
+            meanValue.textContent = mean.toFixed(1);
+            stdValue.textContent = std.toFixed(1);
+            
+            // Calcular Cp y Cpk
+            const cp = (lse - lie) / (6 * std);
+            const cpk = Math.min(
+                (mean - lie) / (3 * std),
+                (lse - mean) / (3 * std)
+            );
+            
+            cpValue.textContent = cp.toFixed(2);
+            cpkValue.textContent = cpk.toFixed(2);
+            
+            // Determinar estado
+            let status, statusClass;
+            if (cpk >= 1.33) {
+                status = "Capaz";
+                statusClass = "good";
+            } else if (cpk >= 1.0) {
+                status = "Marginal";
+                statusClass = "warning";
+            } else {
+                status = "No Capaz";
+                statusClass = "danger";
+            }
+            
+            statusValue.textContent = status;
+            statusValue.className = "metric-value " + statusClass;
+            
+            // Actualizar interpretación
+            updateInterpretation(cp, cpk);
+        }
+        
+        // Actualizar texto de interpretación
+        function updateInterpretation(cp, cpk) {
+            let interpretationText = "";
+            
+            if (cp >= 1.33 && cpk >= 1.33) {
+                interpretationText = `
+                    <p>El proceso tiene un <strong>Cp = ${cp.toFixed(2)}</strong> y un <strong>Cpk = ${cpk.toFixed(2)}</strong>.</p>
+                    <p>Esto indica que el proceso es <strong>capaz y robusto</strong>. Tanto la variación como el centrado están dentro de los límites aceptables.</p>
+                    <p>El proceso está produciendo consistentemente dentro de las especificaciones.</p>
+                `;
+            } else if (cp >= 1.0 && cpk >= 1.0) {
+                interpretationText = `
+                    <p>El proceso tiene un <strong>Cp = ${cp.toFixed(2)}</strong> y un <strong>Cpk = ${cpk.toFixed(2)}</strong>.</p>
+                    <p>Esto indica que el proceso es <strong>mínimamente capaz</strong>. Cumple con los requisitos básicos pero podría mejorar.</p>
+                    <p>Se recomienda monitorear de cerca el proceso y considerar mejoras para aumentar la robustez.</p>
+                `;
+            } else if (cp >= 1.0 && cpk < 1.0) {
+                interpretationText = `
+                    <p>El proceso tiene un <strong>Cp = ${cp.toFixed(2)}</strong> y un <strong>Cpk = ${cpk.toFixed(2)}</strong>.</p>
+                    <p>Esto indica que el proceso tiene la <strong>potencial capacidad</strong> de cumplir con las especificaciones (Cp > 1), pero en la práctica <strong>no es capaz</strong> porque está descentrado (Cpk < 1).</p>
+                    <p>Se recomienda centrar el proceso ajustando la media hacia el valor objetivo.</p>
+                `;
+            } else {
+                interpretationText = `
+                    <p>El proceso tiene un <strong>Cp = ${cp.toFixed(2)}</strong> y un <strong>Cpk = ${cpk.toFixed(2)}</strong>.</p>
+                    <p>Esto indica que el proceso <strong>no es capaz</strong>. La variación es demasiado alta en relación con las especificaciones.</p>
+                    <p>Se requieren acciones correctivas significativas para reducir la variación y posiblemente centrar el proceso.</p>
+                `;
+            }
+            
+            interpretation.innerHTML = interpretationText;
+        }
+        
+        // Dibujar el gráfico del proceso
+        function drawChart() {
+            // Limpiar el gráfico
+            processChart.innerHTML = '';
+            
+            // Crear canvas para el gráfico
+            const canvas = document.createElement('canvas');
+            canvas.width = processChart.clientWidth;
+            canvas.height = processChart.clientHeight;
+            processChart.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Calcular posiciones
+            const margin = 40;
+            const chartWidth = width - 2 * margin;
+            const chartHeight = height - 2 * margin;
+            
+            // Dibujar ejes
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(margin, margin);
+            ctx.lineTo(margin, height - margin);
+            ctx.lineTo(width - margin, height - margin);
+            ctx.stroke();
+            
+            // Dibujar límites de especificación
+            const minVal = Math.min(lie, mean - 3*std) - 1;
+            const maxVal = Math.max(lse, mean + 3*std) + 1;
+            const scale = chartWidth / (maxVal - minVal);
+            
+            const lieX = margin + (lie - minVal) * scale;
+            const lseX = margin + (lse - minVal) * scale;
+            const meanX = margin + (mean - minVal) * scale;
+            
+            // Dibujar área de especificación
+            ctx.fillStyle = 'rgba(52, 152, 219, 0.2)';
+            ctx.fillRect(lieX, margin, lseX - lieX, chartHeight);
+            
+            // Dibujar líneas de límites
+            ctx.strokeStyle = '#3498db';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(lieX, margin);
+            ctx.lineTo(lieX, height - margin);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(lseX, margin);
+            ctx.lineTo(lseX, height - margin);
+            ctx.stroke();
+            
+            // Etiquetar límites
+            ctx.fillStyle = '#3498db';
+            ctx.font = '14px Arial';
+            ctx.fillText('LIE', lieX - 15, height - margin + 20);
+            ctx.fillText('LSE', lseX - 15, height - margin + 20);
+            
+            // Dibujar distribución normal
+            const normalHeight = 150;
+            const points = [];
+            
+            for (let x = minVal; x <= maxVal; x += 0.1) {
+                const y = normalPDF(x, mean, std) * normalHeight;
+                const pointX = margin + (x - minVal) * scale;
+                const pointY = height - margin - y;
+                points.push({x: pointX, y: pointY});
+            }
+            
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            
+            ctx.stroke();
+            
+            // Dibujar línea de media
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(meanX, margin);
+            ctx.lineTo(meanX, height - margin);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Etiquetar media
+            ctx.fillStyle = '#2c3e50';
+            ctx.fillText('μ', meanX - 5, margin - 10);
+            
+            // Dibujar ±3σ
+            const sigma3Left = margin + (mean - 3*std - minVal) * scale;
+            const sigma3Right = margin + (mean + 3*std - minVal) * scale;
+            
+            ctx.strokeStyle = '#f39c12';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([2, 2]);
+            ctx.beginPath();
+            ctx.moveTo(sigma3Left, margin);
+            ctx.lineTo(sigma3Left, height - margin);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(sigma3Right, margin);
+            ctx.lineTo(sigma3Right, height - margin);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Etiquetar ±3σ
+            ctx.fillStyle = '#f39c12';
+            ctx.fillText('-3σ', sigma3Left - 15, margin - 10);
+            ctx.fillText('+3σ', sigma3Right - 15, margin - 10);
+        }
+        
+        // Función de densidad de probabilidad normal
+        function normalPDF(x, mean, std) {
+            return (1 / (std * Math.sqrt(2 * Math.PI))) * 
+                   Math.exp(-0.5 * Math.pow((x - mean) / std, 2));
+        }
+        
+        // Redibujar el gráfico cuando cambie el tamaño de la ventana
+        window.addEventListener('resize', drawChart);
+    </script>
+</body>
+</html>

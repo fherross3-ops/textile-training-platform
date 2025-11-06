@@ -1,83 +1,692 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-M3C4QF37"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GTM-M3C4QF37');
+    </script>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuentros Presenciales</title>
+    <title>Capacitación Procesos Textiles</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --white: #ffffff;
+            --shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 3px 10px rgba(0, 0, 0, 0.1);
+            --border-radius: 5px;
+            --transition: all 0.3s;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            background-color: #f5f7fa;
+            color: #333;
             line-height: 1.6;
         }
-        .section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
         }
-        h2 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
         }
-        .nav {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        
+        .logo {
+            font-size: 2.5rem;
+            margin-right: 1rem;
         }
-        .nav a {
-            margin-right: 15px;
+        
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-tabs li {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .nav-tabs a {
+            display: block;
+            padding: 0.8rem;
             text-decoration: none;
-            color: #3498db;
+            color: var(--dark);
+            text-align: center;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tabs a:hover {
+            background: #f8f9fa;
+        }
+        
+        .nav-tabs a.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
             font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .process-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+        
+        .resources-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
+        
+        .card-footer {
+            padding: 1rem;
+            background: #f8f9fa;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .btn:hover {
+            background: var(--primary);
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+        
+        .btn-submit {
+            background: var(--success);
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .btn-submit:hover {
+            background: #219653;
+        }
+        
+        .resource-card h3,
+        .contact-form h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+        
+        .resource-list {
+            list-style: none;
+        }
+        
+        .resource-list li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-left: 3px solid var(--secondary);
+            background-color: #f8f9fa;
+        }
+        
+        .resource-list a {
+            color: var(--dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .resource-list a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Estilos para formularios */
+        .contact-form {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Estilos específicos para el campo de archivo */
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        
+        .file-input::file-selector-button {
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: var(--transition);
+        }
+        
+        .file-input::file-selector-button:hover {
+            background: var(--primary);
+        }
+        
+        .file-info {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .file-info.error {
+            color: var(--accent);
+        }
+        
+        .file-info.success {
+            color: var(--success);
+        }
+        
+        .form-feedback {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .form-feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .form-feedback.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs li {
+                flex: 0 0 50%;
+            }
+            
+            .process-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Encuentros Presenciales</h1>
+    <header>
+        <div class="logo-container">
+            <div class="logo">🏭</div>
+            <h1>Capacitación Procesos Textiles</h1>
+        </div>
+    </header>
     
-    <div class="nav">
-        <a href="#calendario">📅 Calendario</a>
-        <a href="#presentaciones">📊 Presentaciones</a>
-        <a href="#material">📚 Material</a>
+    <div class="container">
+        <ul class="nav-tabs">
+            <li><a href="#processes" class="tab-link active">Procesos Textiles SISGO KPI</a></li>
+            <li><a href="#resources" class="tab-link">Recursos y Documentos Técnicos</a></li>
+        </ul>
+        
+        <div id="processes" class="tab-content active">
+            <h2>Procesos Textiles</h2>
+            <p>Selecciona un proceso para acceder a su documentación específica:</p>
+            
+            <div class="grid process-grid">
+                <div class="card process-card">
+                    <div class="card-header">Hilanderia</div>
+                    <div class="card-body">
+                        <p><strong>Parámetros clave (KPI):</strong></p>
+                        <ul>
+                            <li>Apertura</li>
+                            <li>Cardas</li>
+                            <li>Manuares</li>
+                            <li>Mecheras</li>
+                            <li>Hilatura Anillos</li>
+                            <li>Hilatura Rotor</li>
+                            <li>Embalaje Hilo Venta</li>
+                            <li>Insumos Envases</li>
+                            <li>Gestion Mantenimiento</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Hilanderia/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="card process-card">
+                    <div class="card-header">Procesos Húmedos</div>
+                    <div class="card-body">
+                        <p><strong>Operaciones incluidas:</strong></p>
+                        <ul>
+                            <li>Urdido</li>
+                            <li>Teñido en Cuerda por Madeja</li>
+                            <li>Reurdido</li>
+                            <li>Engomado</li>
+                            <li>Insumos Envases</li>
+                            <li>Gestion Mantenimiento</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Procesos_Humedos/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="card process-card">
+                    <div class="card-header">Tejeduría</div>
+                    <div class="card-body">
+                        <p><strong>Tipos de tejido:</strong></p>
+                        <ul>
+                            <li>Paros Produccion Telar</li>
+                            <li>Produccion</li>
+                            <li>Tiempos de Intervencion</li>
+                            <li>Calidad Tejido</li>
+                            <li>Servicios Energia</li>
+                            <li>Desperdicios</li>
+                            <li>Mermas Materia Prima</li>
+                            <li>Insumos Envases</li>
+                            <li>Gestion Mantenimiento</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Tejeduria/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="card process-card">
+                    <div class="card-header">Planta de Acabado</div>
+                    <div class="card-body">
+                        <p><strong>Procesos finales:</strong></p>
+                        <ul>
+                            <li>Paros Produccion Cybitex</li>
+                            <li>Produccion</li>
+                            <li>Tiempos Intervencion</li>
+                            <li>Calidad</li>
+                            <li>Servicios</li>
+                            <li>Revision de Tela</li>
+                            <li>Corte-Embalado</li>
+                            <li>Desperdicios-Mermas</li>
+                            <li>Insumos Envases</li>
+                            <li>Gestion Mantenimiento</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Planta_Acabado/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="card process-card">
+                    <div class="card-header">Despacho</div>
+                    <div class="card-body">
+                        <p><strong>Gestión de entrega:</strong></p>
+                        <ul>
+                            <li>Despacho</li>
+                            <li>Inventario</li>
+                            <li>Pedidos</li>
+                            <li>Logistica</li>
+                            <li>Insumos</li>
+                            <li>Auditorias</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Despacho/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+                
+                <div class="card process-card">
+                    <div class="card-header">Servicios</div>
+                    <div class="card-body">
+                        <p><strong>Áreas de soporte:</strong></p>
+                        <ul>
+                            <li>Resumen General</li>
+                            <li>Sistema Agua</li>
+                            <li>Sistema Calderas-Vapor</li>
+                            <li>Sistema Aire Comprimido</li>
+                            <li>Climatizacion</li>
+                            <li>Analisis de Paros</li>
+                            <li>Desperdicios-Mermas</li>
+                            <li>Insumos</li>
+                            <li>Gestion Mantenimiento</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="Servicios/index.html" class="btn">Acceder</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resources" class="tab-content">
+            <h2>KPI (Key Performance Indicators) & Recursos</h2>
+            <p>Material complementario para el aprendizaje y la capacitación:</p>
+            
+            <div class="grid resources-grid">
+                <div class="card resource-card">
+                    <h3>Control Estadístico de Procesos</h3>
+                    <ul class="resource-list">
+                        <li><a href="Recursos/index.html">KPI (Indicadores Clave de desempeño)</a></li>
+                        <li><a href="Recursos/index.html">Implementación KPI</a></li>
+                        <li><a href="Recursos/index.html">Documentación Técnica Textil</a></li>
+                        <li><a href="Recursos/index_IRM.html">Cartas de Control I-RM</a></li>
+                        <li><a href="Recursos/index_XR.html">Cartas de Control X-R</a></li>
+                        <li><a href="Recursos/index.html">Indicadores de Capacidad de Proceso Cpk, Cpp</a></li>
+                        <li><a href="Recursos/index.html">Técnicas de Mejora Continua</a></li>
+                    </ul>
+                </div>
+                
+                <div class="card resource-card">
+                    <h3>Encuentros Presenciales</h3>
+                    <ul class="resource-list">
+                        <li><a href="Presenciales/index.html">Calendario de capacitaciones</a></li>
+                        <li><a href="Presenciales/index.html">Presentaciones</a></li>
+                        <li><a href="Galeria/index.html">Material de apoyo</a></li>
+                        <li><a href="Simulador_Textil/simulador.html">Galería de Simuladores</a></li>
+                    </ul>
+                </div>
+                
+                <div class="card resource-card">
+                    <h3>Evaluaciones</h3>
+                    <ul class="resource-list">
+                        <li><a href="evaluaciones/index.html">Evaluación diagnóstica</a></li>
+                        <li><a href="evaluaciones/index.html">Evaluación formativa</a></li>
+                        <li><a href="evaluaciones/index.html">Evaluación final</a></li>
+                        <li><a href="evaluaciones/index.html">Certificaciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Formulario de Contacto para Netlify -->
+            <div class="contact-form">
+                <h3>Formulario de Contacto</h3>
+                <form name="contacto" method="POST" data-netlify="true" id="contactForm" enctype="multipart/form-data" netlify-honeypot="bot-field">
+                    <input type="hidden" name="form-name" value="contacto" />
+                    <p class="hidden">
+                        <label>No llenar este campo si eres humano: <input name="bot-field" /></label>
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="name">Nombre completo:</label>
+                        <input type="text" id="name" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo electrónico:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Empresa o organización:</label>
+                        <input type="text" id="company" name="company" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department">Área de interés:</label>
+                        <select id="department" name="department" class="form-control" required>
+                            <option value="">Seleccione un área</option>
+                            <option value="Hilanderia">Hilanderia</option>
+                            <option value="Procesos Humedos">Procesos Húmedos</option>
+                            <option value="Tejeduria">Tejeduría</option>
+                            <option value="Planta Acabado">Planta de Acabado</option>
+                            <option value="Despacho">Despacho</option>
+                            <option value="Servicios">Servicios</option>
+                            <option value="General">Consulta General</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensaje:</label>
+                        <textarea id="message" name="message" class="form-control" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="attachment">Adjuntar archivo (opcional):</label>
+                        <div class="file-input-container">
+                            <input type="file" id="attachment" name="attachment" class="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt">
+                        </div>
+                        <div id="fileInfo" class="file-info">
+                            Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT (máx. 10MB)
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">Enviar Mensaje</button>
+                    
+                    <div id="formFeedback" class="form-feedback"></div>
+                </form>
+            </div>
+            
+            <div style="margin-top: 2rem; text-align: center;">
+                <h3>Contacto y soporte:</h3>
+                <p>Para preguntas específicas, únete a nuestro grupo de WhatsApp:</p>
+                <a href="https://chat.whatsapp.com/Gsz6w3ILVEYAGA2HIy2qei?mode=ems_email_t" class="btn btn-whatsapp" target="_blank">Grupo de WhatsApp</a>
+            </div>
+        </div>
     </div>
-
-    <!-- SOLO AGREGÉ id="calendario" -->
-    <section id="calendario" class="section">
-        <h2>Calendario de capacitaciones</h2>
-        <!-- TU CONTENIDO ACTUAL DEL CALENDARIO AQUÍ -->
-        <p>Contenido actual de tu calendario...</p>
-    </section>
-
-    <!-- SOLO AGREGÉ id="presentaciones" -->
-    <section id="presentaciones" class="section">
-        <h2>Presentaciones</h2>
-        <!-- TU CONTENIDO ACTUAL DE PRESENTACIONES AQUÍ -->
-        <p>Contenido actual de tus presentaciones...</p>
-    </section>
-
-    <!-- SOLO AGREGÉ id="material" -->
-    <section id="material" class="section">
-        <h2>Material de apoyo</h2>
-        <!-- TU CONTENIDO ACTUAL DEL MATERIAL AQUÍ -->
-        <p>Contenido actual de tu material...</p>
-    </section>
-
+    
+    <footer>
+        <p>Plataforma de Capacitación Textil &copy; fherros(R); 2025</p>
+        <p>Alojado en Netlify | Contenido en GitHub</p>
+    </footer>
+    
     <script>
-        // Navegación suave
-        document.querySelectorAll('.nav a').forEach(link => {
+        // Navegación por pestañas
+        document.querySelectorAll('.tab-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                }
+                
+                document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.querySelector(this.getAttribute('href')).classList.add('active');
             });
+        });
+        
+        // Validación del formulario
+        const contactForm = document.getElementById('contactForm');
+        const attachment = document.getElementById('attachment');
+        const feedback = document.getElementById('formFeedback');
+        const fileInfo = document.getElementById('fileInfo');
+        
+        function showFeedback(message, type) {
+            feedback.textContent = message;
+            feedback.className = `form-feedback ${type}`;
+        }
+        
+        function validateFile(file) {
+            const allowedTypes = ['application/pdf', 'application/msword', 
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/jpeg', 'image/jpg', 'image/png', 'text/plain'];
+            const maxSize = 10 * 1024 * 1024;
+            
+            if (!allowedTypes.includes(file.type)) {
+                fileInfo.textContent = 'Tipo de archivo no permitido. Use PDF, DOC, DOCX, JPG, PNG o TXT.';
+                fileInfo.className = 'file-info error';
+                return false;
+            }
+            
+            if (file.size > maxSize) {
+                fileInfo.textContent = 'El archivo es demasiado grande. Tamaño máximo: 10MB.';
+                fileInfo.className = 'file-info error';
+                return false;
+            }
+            
+            fileInfo.textContent = `Archivo seleccionado: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+            fileInfo.className = 'file-info success';
+            return true;
+        }
+        
+        contactForm.addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const department = document.getElementById('department').value;
+            const message = document.getElementById('message').value;
+            
+            if (!name || !email || !department || !message) {
+                e.preventDefault();
+                showFeedback('Por favor, complete todos los campos obligatorios.', 'error');
+                return false;
+            }
+            
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                e.preventDefault();
+                showFeedback('Por favor, ingrese un correo electrónico válido.', 'error');
+                return false;
+            }
+            
+            if (attachment.files.length > 0 && !validateFile(attachment.files[0])) {
+                e.preventDefault();
+                return false;
+            }
+            
+            showFeedback('¡Gracias por su mensaje! Nos pondremos en contacto pronto.', 'success');
+        });
+        
+        attachment.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                validateFile(this.files[0]);
+            } else {
+                fileInfo.textContent = 'Formatos permitidos: PDF, DOC, DOCX, JPG, PNG, TXT (máx. 10MB)';
+                fileInfo.className = 'file-info';
+            }
         });
     </script>
 </body>
 </html>
-

@@ -5,312 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuentros Presenciales - Capacitación Textil</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --light: #ecf0f1;
-        }
-        
-        * {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
             background-color: #f5f7fa;
             color: #333;
-            line-height: 1.6;
         }
-        
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
-        .nav-tabs {
-            display: flex;
-            list-style: none;
-            background: white;
-            border-radius: 5px;
-            margin-bottom: 2rem;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-tabs a {
-            display: block;
-            padding: 1rem;
-            text-decoration: none;
-            color: var(--primary);
-            transition: all 0.3s;
-        }
-        
-        .nav-tabs a:hover {
-            background: #f8f9fa;
-        }
-        
-        .nav-tabs a.active {
-            background: var(--secondary);
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-        }
-        
-        .section {
-            background: white;
-            padding: 2rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            scroll-margin-top: 20px; /* Para el desplazamiento suave */
-        }
-        
-        .section h2 {
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            border-bottom: 2px solid var(--light);
-            padding-bottom: 0.5rem;
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .calendar-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--secondary);
-        }
-        
-        .presentations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .presentation-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: center;
-            transition: transform 0.3s;
+            margin-bottom: 2rem;
         }
-        
-        .presentation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        h1 {
+            margin: 0;
         }
-        
-        .btn {
+        .back-btn {
             display: inline-block;
+            margin-bottom: 1rem;
             padding: 0.5rem 1rem;
-            background: var(--secondary);
+            background: #3498db;
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            transition: background 0.3s;
         }
-        
-        .btn:hover {
-            background: var(--primary);
+        .content-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
         }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--secondary);
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #2c3e50;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 50%;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>Encuentros Presenciales</h1>
+        <p>Agenda y material de las sesiones de capacitación presencial</p>
+    </header>
+    
+    <div class="container">
+        <a href="../index.html" class="back-btn">← Volver al inicio</a>
         
-        <ul class="nav-tabs">
-            <li><a href="#calendario" class="tab-link active">Calendario</a></li>
-            <li><a href="#presentaciones" class="tab-link">Presentaciones</a></li>
-            <li><a href="#material" class="tab-link">Material de Apoyo</a></li>
-        </ul>
-        
-        <!-- Sección Calendario -->
-        <section id="calendario" class="section">
-            <h2>📅 Calendario de Capacitaciones</h2>
-            <p>Programa de capacitaciones presenciales para el año 2025:</p>
-            
-            <div class="calendar-grid">
-                <div class="calendar-item">
-                    <h3>Enero 2025</h3>
-                    <p><strong>15 Ene:</strong> Introducción a KPI Textiles</p>
-                    <p><strong>22 Ene:</strong> Control Estadístico de Procesos</p>
-                    <p><strong>29 Ene:</strong> Mejora Continua en Hilandería</p>
-                </div>
+        <div class="content-section">
+            <h2>Calendario de Capacitaciones</h2>
+            <p>Sesiones de capacitación programadas:</p>
+            <ul>
+                <li><strong>14 de Agosto, 2025:</strong> Grupo A. Introduccion-Cartas Control-Evaluacion Diagnostica</li>
+                <li><strong>21 de Agosto, 2025:</strong> Grupo B. Introduccion-Cartas Control-Evaluacion Diagnostica</li>
+                <li><strong>28 de Agosto, 2025:</strong> Grupo A. Suspendido - Otra Actividad Formacion</li>
+                <li><strong>29 de Agosto, 2025:</strong> Grupo A-B. Envio Enlace Web al Movil y Creacion de Grupo Whatsap "Saber Textil Jeantex"-Recurso Apoyo para Desarrollo-Soporte Construccion KPI-Cartas de Control Shewart</li>
+                <li><strong>04 de Septiembre, 2025:</strong> Grupo B. Indicadores de Desempeño-KPI-Construccion KPI-</li>
+                <li><strong>10 de Septiembre, 2025:</strong> Grupo A. Indicadores de Desempeño-KPI-Construccion KPI-</li>
+                <li><strong>18 de Septiembre, 2025:</strong> Grupo B. Suspendido - Otra Actividad Formacion</li>
+                <li><strong>25 de Septiembre, 2025:</strong> Grupo A. Suspendido  -Otra Actividad Formacion</li>
+                <li><strong>02 de Octubre, 2025:</strong> Grupo B. Construccion de Carta de Control Shewart-KPI: Se dicto una sola hora de clase por motivo de otra presentacion programada</li>
+                <li><strong>09 de Octubre, 2025:</strong> Grupo A. Construccion de Carta de Control Shewart-KPI.</li>
+                <li><strong>16 de Octubre, 2025:</strong> Grupo B. Construccion de Carta de Control I-RM.</li>
+                <li><strong>23 de Octubre, 2025:</strong> Grupo A. Construccion de Carta de Control I-RM: Suspendido. - Otra Actividad Formacion.</li>
+                <li><strong>30 de Octubre, 2025:</strong> Grupo B. Analisis Carta de Control I-RM.</li>
+                <li><strong>06 de Noviembre, 2025:</strong> Grupo A. Construccion y Analisis Carta de Control I-RM.</li>
                 
-                <div class="calendar-item">
-                    <h3>Febrero 2025</h3>
-                    <p><strong>5 Feb:</strong> Procesos Húmedos - Optimización</p>
-                    <p><strong>12 Feb:</strong> Tejeduría - Control de Calidad</p>
-                    <p><strong>19 Feb:</strong> Acabados Textiles</p>
-                </div>
-                
-                <div class="calendar-item">
-                    <h3>Marzo 2025</h3>
-                    <p><strong>5 Mar:</strong> Gestión de Despacho</p>
-                    <p><strong>12 Mar:</strong> Servicios Auxiliares</p>
-                    <p><strong>19 Mar:</strong> Taller Práctico - Simuladores</p>
-                </div>
-            </div>
-            
-            <div style="margin-top: 2rem;">
-                <h3>Información Adicional</h3>
-                <ul>
-                    <li><strong>Horario:</strong> 8:00 AM - 5:00 PM</li>
-                    <li><strong>Lugar:</strong> Centro de Capacitación Textil</li>
-                    <li><strong>Inscripciones:</strong> Contactar al departamento de RRHH</li>
-                </ul>
-            </div>
-        </section>
-        
-        <!-- Sección Presentaciones -->
-        <section id="presentaciones" class="section">
-            <h2>📊 Presentaciones</h2>
-            <p>Material de presentaciones utilizadas en las capacitaciones:</p>
-            
-            <div class="presentations-grid">
-                <div class="presentation-card">
-                    <h3>KPI Textiles</h3>
-                    <p>Indicadores clave de desempeño</p>
-                    <a href="Presentaciones/kpi-textiles.pdf" class="btn" download>Descargar PDF</a>
-                </div>
-                
-                <div class="presentation-card">
-                    <h3>Control Estadístico</h3>
-                    <p>Cartas de control y análisis</p>
-                    <a href="Presentaciones/control-estadistico.pdf" class="btn" download>Descargar PDF</a>
-                </div>
-                
-                <div class="presentation-card">
-                    <h3>Procesos Húmedos</h3>
-                    <p>Optimización y parámetros</p>
-                    <a href="Presentaciones/procesos-humedos.pdf" class="btn" download>Descargar PDF</a>
-                </div>
-                
-                <div class="presentation-card">
-                    <h3>Tejeduría Moderna</h3>
-                    <p>Técnicas y control de calidad</p>
-                    <a href="Presentaciones/tejeduria-moderna.pdf" class="btn" download>Descargar PDF</a>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Sección Material de Apoyo -->
-        <section id="material" class="section">
-            <h2>📚 Material de Apoyo Adicional</h2>
-            <p>Recursos complementarios para las capacitaciones:</p>
-            
-            <div class="presentations-grid">
-                <div class="presentation-card">
-                    <h3>Manuales Técnicos</h3>
-                    <p>Documentación completa de procesos</p>
-                    <a href="Galeria/index.html" class="btn">Acceder</a>
-                </div>
-                
-                <div class="presentation-card">
-                    <h3>Formatos</h3>
-                    <p>Formatos y planillas de control</p>
-                    <a href="Galeria/index.html" class="btn">Acceder</a>
-                </div>
-                
-                <div class="presentation-card">
-                    <h3>Simuladores</h3>
-                    <p>Herramientas de simulación</p>
-                    <a href="Simulador_Textil/simulador.html" class="btn">Acceder</a>
-                </div>
-            </div>
-        </section>
-        
-        <a href="#" class="back-to-top">↑</a>
-    </div>
 
-    <script>
-        // Navegación suave entre secciones
-        document.querySelectorAll('.nav-tabs a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
                 
-                // Remover clase active de todos los links
-                document.querySelectorAll('.nav-tabs a').forEach(l => l.classList.remove('active'));
-                
-                // Agregar clase active al link clickeado
-                this.classList.add('active');
-                
-                // Desplazamiento suave a la sección
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        </div>
         
-        // Botón volver arriba
-        const backToTop = document.querySelector('.back-to-top');
+        <div class="content-section">
+
+<!-- Tu comentario o código aquí -->
+
+
+       <!-- <h2>Presentaciones</h2>
+            <p>Presentaciones utilizadas en las sesiones de capacitación:</p>
+            <ul>
+                <li><a href="presentacion_hilanderia.pdf">Hilandería</a></li>
+                <li><a href="presentacion_procesos_humedos.pdf">Procesos Húmedos</a></li>
+                <li><a href="presentacion_tejeduria.pdf">Tejeduría</a></li>
+                <li><a href="presentacion_acabado.pdf">Planta de Acabado</a></li>
+                <li><a href="presentacion_despacho.pdf">Despacho</a></li>
+                <li><a href="presentacion_servicios.pdf">Servicios</a></li>
+            </ul>
+         "
+        </div>
         
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTop.style.display = 'block';
-            } else {
-                backToTop.style.display = 'none';
-            }
-        });
+        <div class="content-section">
+            <h2>Material de Apoyo</h2>
+            <p>Material adicional para complementar las sesiones:</p>
+            <ul>
+                <li><a href="guia_rapida_hilanderia.pdf">Guía Rápida de Hilandería</a></li>
+                <li><a href="guia_rapida_procesos_humedos.pdf">Guía Rápida de Procesos Húmedos</a></li>
+                <li><a href="guia_rapida_tejeduria.pdf">Guía Rápida de Tejeduría</a></li>
+                <li><a href="guia_rapida_acabado.pdf">Guía Rápida de Planta de Acabado</a></li>
+                <li><a href="guia_rapida_despacho.pdf">Guía Rápida de Despacho</a></li>
+                <li><a href="guia_rapida_servicios.pdf">Guía Rápida de Servicios</a></li>
+            </ul>
+        </div>
         
-        backToTop.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        <div class="content-section">
+            <h2>Galería de Fotos</h2>
+            <p>Fotos de las sesiones de capacitación:</p>
+            <ul>
+                <li><a href="fotos/sesion_hilanderia/">Sesión de Hilandería</a></li>
+                <li><a href="fotos/sesion_procesos_humedos/">Sesión de Procesos Húmedos</a></li>
+                <li><a href="fotos/sesion_tejeduria/">Sesión de Tejeduría</a></li>
+                <li><a href="fotos/sesion_acabado/">Sesión de Planta de Acabado</a></li>
+                <li><a href="fotos/sesion_despacho/">Sesión de Despacho</a></li>
+                <li><a href="fotos/sesion_servicios/">Sesión de Servicios</a></li>
+            </ul>
         
-        // Resaltar sección activa en la navegación
-        const sections = document.querySelectorAll('.section');
-        const navLinks = document.querySelectorAll('.nav-tabs a');
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (pageYOffset >= sectionTop - 100) {
-                    current = section.getAttribute('id');
-                }
-            });
-            
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    </script>
+-->
+          </div>
+    </div>
+    
+    <footer>
+        <p>Plataforma de Capacitación Textil &copy; 2024</p>
+    </footer>
 </body>
 </html>
+
+
+
+
+
+
+
+
+

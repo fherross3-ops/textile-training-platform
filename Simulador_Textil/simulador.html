@@ -291,10 +291,47 @@
                     <a class="card-button" data-simulator="filosofia-control">Abrir Simulador</a>
                 </div>
             </div>
+
+            <!-- NUEVOS SIMULADORES AGREGADOS -->
+            <div class="simulator-card" data-simulator="eval-patron">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%231e3a8a%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22 text-anchor=%22middle%22>Evaluador Gráficas Shewhart</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Evaluador - Gráficas de Control Shewhart</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Identifica patrones y demuestra tu conocimiento en control estadístico de procesos.</p>
+                    <a class="card-button" data-simulator="eval-patron">Abrir Simulador</a>
+                </div>
+            </div>
+
+            <div class="simulator-card" data-simulator="guia-patrones">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%232c5530%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22 text-anchor=%22middle%22>Guía Patrones Shewhart</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Guía Avanzada - Gráficas de Control Shewhart</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Guía completa para identificar y comprender patrones en gráficas de control estadístico.</p>
+                    <a class="card-button" data-simulator="guia-patrones">Abrir Simulador</a>
+                </div>
+            </div>
+
+            <div class="simulator-card" data-simulator="limites-control">
+                <div class="card-image" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22180%22><rect width=%22300%22 height=%22180%22 fill=%22%23e74c3c%22/><text x=%22150%22 y=%2290%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22white%22 text-anchor=%22middle%22>Límites Control vs Especificación</text></svg>');">
+                    <div class="card-overlay">
+                        <h3>Límites de Control vs Especificación</h3>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Comprendiendo la diferencia fundamental en el Control Estadístico de Procesos (CEP).</p>
+                    <a class="card-button" data-simulator="limites-control">Abrir Simulador</a>
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Vista para el simulador de Ancho de Peine -->
+    <!-- VISTAS EXISTENTES -->
     <div class="simulator-view" id="ancho-peine-view">
         <div class="view-header">
             <h2>Simulador: Ancho de Peine vs Ancho de Tela Tejida</h2>
@@ -305,7 +342,6 @@
         <iframe class="simulator-content" id="ancho-peine-frame" src="INDEX_AnchoPEINE.html"></iframe>
     </div>
     
-    <!-- Vista para el simulador de Blendomat -->
     <div class="simulator-view" id="blendomat-view">
         <div class="view-header">
             <h2>Sistema de Mezcla de Algodón - Blendomat</h2>
@@ -316,7 +352,6 @@
         <iframe class="simulator-content" id="blendomat-frame" src="INDEX_Blendomat_Mezcla3.html"></iframe>
     </div>
     
-    <!-- Vista para el conversor de títulos -->
     <div class="simulator-view" id="conversor-titulos-view">
         <div class="view-header">
             <h2>Simulador de Títulos de Hilos Textiles</h2>
@@ -327,7 +362,6 @@
         <iframe class="simulator-content" id="conversor-titulos-frame" src="INDEX_CONVERSOR_TITULOS1.html"></iframe>
     </div>
     
-    <!-- Vista para el simulador de torsión -->
     <div class="simulator-view" id="torsion-view">
         <div class="view-header">
             <h2>Torsión del Hilo Textil - Guía Completa</h2>
@@ -338,7 +372,6 @@
         <iframe class="simulator-content" id="torsion-frame" src="INDEX_TORSION2.html"></iframe>
     </div>
 
-    <!-- Vista para el simulador de CPK y CP -->
     <div class="simulator-view" id="cpk-view">
         <div class="view-header">
             <h2>Capacidad de Proceso - Cp y Cpk</h2>
@@ -349,7 +382,6 @@
         <iframe class="simulator-content" id="cpk-frame" src="Sim_Cpk.html"></iframe>
     </div>
 
-    <!-- Vista para el simulador de Ligamentos -->
     <div class="simulator-view" id="ligamentos-view">
         <div class="view-header">
             <h2>Simulador de Ligamentos Textiles</h2>
@@ -360,7 +392,6 @@
         <iframe class="simulator-content" id="ligamentos-frame" src="Simulador_ligamentos.html"></iframe>
     </div>
     
-    <!-- Vista para el simulador de Filosofia del Control -->
     <div class="simulator-view" id="filosofia-control-view">
         <div class="view-header">
             <h2>Simulador: Filosofía del Control Consciente</h2>
@@ -369,6 +400,37 @@
             </button>
         </div>
         <iframe class="simulator-content" id="filosofia-control-frame" src="CEP_conciencia_V2.html"></iframe>
+    </div>
+    
+    <!-- NUEVAS VISTAS AGREGADAS -->
+    <div class="simulator-view" id="eval-patron-view">
+        <div class="view-header">
+            <h2>Evaluador - Gráficas de Control Shewhart</h2>
+            <button class="back-button" onclick="closeSimulator('eval-patron')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="eval-patron-frame" src="index_Eval_Patron_v3.html"></iframe>
+    </div>
+
+    <div class="simulator-view" id="guia-patrones-view">
+        <div class="view-header">
+            <h2>Guía Avanzada - Gráficas de Control Shewhart</h2>
+            <button class="back-button" onclick="closeSimulator('guia-patrones')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="guia-patrones-frame" src="index_Patron_v4.html"></iframe>
+    </div>
+
+    <div class="simulator-view" id="limites-control-view">
+        <div class="view-header">
+            <h2>Límites de Control vs Límites de Especificación</h2>
+            <button class="back-button" onclick="closeSimulator('limites-control')">
+                ← Volver al Gestor
+            </button>
+        </div>
+        <iframe class="simulator-content" id="limites-control-frame" src="Limite_Especif.html"></iframe>
     </div>
     
     <footer>

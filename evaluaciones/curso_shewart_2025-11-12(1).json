@@ -1,0 +1,4854 @@
+{
+  "participantes": [
+    {
+      "ID": 1,
+      "Nombre": "Eleny Cedeño",
+      "Email": "serenys@gmail.com",
+      "Grupo": "A",
+      "Área": "Calidad",
+      "Empresa": "Jeantex",
+      "Teléfono": "4125320824",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 2,
+      "Nombre": "Lorena Perez",
+      "Email": "lore11divinot@gmail.com",
+      "Grupo": "A",
+      "Área": "Calidad",
+      "Empresa": "Jeantex",
+      "Teléfono": "4263636039",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 3,
+      "Nombre": "Nicolle Zapata",
+      "Email": "zapatanicolles@gmail.com",
+      "Grupo": "A",
+      "Área": "Calidad",
+      "Empresa": "Jeantex",
+      "Teléfono": "4243153757",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 4,
+      "Nombre": "Karla Betancourt",
+      "Email": "karla.betancourt30.11@gmail.com",
+      "Grupo": "A",
+      "Área": "Produccion",
+      "Empresa": "Jeantex",
+      "Teléfono": "4128925014",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 5,
+      "Nombre": "Edgar Hernandez",
+      "Email": "edgar.uc.ing@gmail.com",
+      "Grupo": "A",
+      "Área": "Tejeduria",
+      "Empresa": "Jeantex",
+      "Teléfono": "4244231222",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 6,
+      "Nombre": "Alvaro Rosas",
+      "Email": "alvarorosas77@gmail.com",
+      "Grupo": "A",
+      "Área": "Tejeduria",
+      "Empresa": "Jeantex",
+      "Teléfono": "4120355041",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 7,
+      "Nombre": "Jose Tochon",
+      "Email": "jtochon89@gail.com",
+      "Grupo": "B",
+      "Área": "Proyectos",
+      "Empresa": "Jeantex",
+      "Teléfono": "4120344903",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 8,
+      "Nombre": "Luis Morales",
+      "Email": "luismorales251189@gmail.com",
+      "Grupo": "A",
+      "Área": "HFC",
+      "Empresa": "Jeantex",
+      "Teléfono": "4127413748",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 9,
+      "Nombre": "Richard Lopez",
+      "Email": "richardlopez08@gmail.com",
+      "Grupo": "A",
+      "Área": "HFC",
+      "Empresa": "Jeantex",
+      "Teléfono": "412682964",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 10,
+      "Nombre": "Victor Rodriguez",
+      "Email": "victor.rodriguez2107@gmail.com",
+      "Grupo": "A",
+      "Área": "P.Humedos",
+      "Empresa": "Jeantex",
+      "Teléfono": "4128821134",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 11,
+      "Nombre": "Brizeida Uzcategui",
+      "Email": "coordinadorlogistica.jeantex@gmail.com",
+      "Grupo": "A",
+      "Área": "Despacho",
+      "Empresa": "Jeantex",
+      "Teléfono": "4123284007",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 12,
+      "Nombre": "Yessele Hernandez",
+      "Email": "Yesselle.hernandez@gmail.com",
+      "Grupo": "A",
+      "Área": "Planificacion",
+      "Empresa": "Jeantex",
+      "Teléfono": "4141760386",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 13,
+      "Nombre": "Leicester Perez",
+      "Email": "leicesterantonio@gmail.com",
+      "Grupo": "A",
+      "Área": "Tejeduria",
+      "Empresa": "Jeantex",
+      "Teléfono": "4243486580",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 14,
+      "Nombre": "Abraham Arevalo",
+      "Email": "abrahanarevalo@hotmail.com",
+      "Grupo": "B",
+      "Área": "Servicios Energia",
+      "Empresa": "Jeantex",
+      "Teléfono": "4124601768",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 15,
+      "Nombre": "Marivict Gonzalez",
+      "Email": "despacho@jeantex.com.ve",
+      "Grupo": "B",
+      "Área": "Despacho",
+      "Empresa": "Jeantex",
+      "Teléfono": "4243490707",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 16,
+      "Nombre": "Maria Barco",
+      "Email": "labacabado@gmail.com",
+      "Grupo": "A",
+      "Área": "Calidad",
+      "Empresa": "Jeantex",
+      "Teléfono": "4162441950",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 17,
+      "Nombre": "Manuel Quiñones",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "Servicios Energia",
+      "Empresa": "Jeantex",
+      "Teléfono": "4124492250",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 18,
+      "Nombre": "Pierina Garcia",
+      "Email": "pgarcia@jeantex.com.ve",
+      "Grupo": "B",
+      "Área": "Administracion",
+      "Empresa": "Jeantex",
+      "Teléfono": "4129732953",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 19,
+      "Nombre": "Robinson Hernandez",
+      "Email": "robinsonjoseehl@gmail.com",
+      "Grupo": "B",
+      "Área": "P.Acabado",
+      "Empresa": "Jeantex",
+      "Teléfono": "4144493404",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 20,
+      "Nombre": "Jesus Rivera",
+      "Email": "jesusriver11@gmail.com",
+      "Grupo": "B",
+      "Área": "P.Acabado",
+      "Empresa": "Jeantex",
+      "Teléfono": "4121440302",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 21,
+      "Nombre": "Ronald Erazo",
+      "Email": "ronalddhlepress@gmail.com",
+      "Grupo": "A",
+      "Área": "Administracion",
+      "Empresa": "Jeantex",
+      "Teléfono": "4243409706",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 22,
+      "Nombre": "Antonio Mejias",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "HFC",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 23,
+      "Nombre": "Mariela mora",
+      "Email": "marigab2513@gmail.com",
+      "Grupo": "A",
+      "Área": "Planificacion",
+      "Empresa": "Jeantex",
+      "Teléfono": "4128270841",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 24,
+      "Nombre": "Milagros Laya",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "Planificacion",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 25,
+      "Nombre": "Jhonny Hernandez",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "Tejeduria",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 26,
+      "Nombre": "Jesus Aponte",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "P.Humedos",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 27,
+      "Nombre": "Gabriel Zambrano",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "P.Acabado",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 28,
+      "Nombre": "Leopoldo Alvarez",
+      "Email": "",
+      "Grupo": "B",
+      "Área": "Seguridad",
+      "Empresa": "Jeantex",
+      "Teléfono": "",
+      "Fecha Registro": "25/8/2025"
+    },
+    {
+      "ID": 29,
+      "Nombre": "Victor Silva",
+      "Email": "",
+      "Grupo": "A",
+      "Área": "Tejeduria",
+      "Empresa": "Jeantex",
+      "Teléfono": "4124825115",
+      "Fecha Registro": "25/8/2025"
+    }
+  ],
+  "asignaciones": [
+    {
+      "ID": 1,
+      "Asignación": "Crear y Diseñar KPI",
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 2,
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 3,
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 4,
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 5,
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 6,
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 7,
+      "Asignación": "Calcular los limites de control",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 8,
+      "Asignación": "Construir la Grafica de Control",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 9,
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 10,
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 11,
+      "Asignación": "Identificar Patrones y tendencias",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 12,
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 14,
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 15,
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 16,
+      "Asignación": "Simular 80 valores",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 17,
+      "Asignación": "Establecer Limites de Especificacion",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025",
+      "Estado": "Pendiente"
+    },
+    {
+      "ID": 18,
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025",
+      "Estado": "Pendiente"
+    }
+  ],
+  "progreso": [
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Eleny Cedeño",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Lorena Perez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Nicolle Zapata",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Karla Betancourt",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Edgar Hernandez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Alvaro Rosas",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jose Tochon",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Luis Morales",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Richard Lopez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Rodriguez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Brizeida Uzcategui",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Yessele Hernandez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leicester Perez",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Abraham Arevalo",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Marivict Gonzalez",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Maria Barco",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Manuel Quiñones",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Pierina Garcia",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Robinson Hernandez",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Rivera",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Ronald Erazo",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Antonio Mejias",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Mariela mora",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Milagros Laya",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jhonny Hernandez",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Jesus Aponte",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Gabriel Zambrano",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Leopoldo Alvarez",
+      "Grupo": "B",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Crear y Diseñar KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "3/9/2025",
+      "Fecha Fin": "8/9/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Asignacion de quipos de Trabajo",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "16/9/2025",
+      "Fecha Fin": "23/9/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Enlace Sitio Web Saber Textil",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "23/9/2025",
+      "Fecha Fin": "27/9/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Seleccionar KPI Carta de Control",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "2/10/2025",
+      "Fecha Fin": "5/10/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Registrar 20 Valores del KPI",
+      "Estado": "Completado",
+      "Calificación": 100,
+      "Fecha Inicio": "5/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Utilizar Plantilla Ford/BASF",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Calcular los limites de control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "14/10/2025",
+      "Fecha Fin": "30/10/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Construir la Grafica de Control",
+      "Estado": "En Progreso",
+      "Calificación": 50,
+      "Fecha Inicio": "30/10/2025",
+      "Fecha Fin": "6/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Sacar 2 conclusiones observables de la grafica",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Identificar Causas Comunes y Causas Especiales",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Identificar Patrones y tendencias",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "6/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Observar, Comprender e Interpretar SPC (Carta Control) ",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Indicar las Herramientas que utilizara para MC",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "13/11/2025",
+      "Fecha Fin": "20/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Desarrollar Tecnica Mejora Continua PDCA",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "20/11/2025",
+      "Fecha Fin": "24/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Simular 80 valores",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "05/10/2025",
+      "Fecha Fin": "10/10/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Establecer Limites de Especificacion",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    },
+    {
+      "Participante": "Victor Silva",
+      "Grupo": "A",
+      "Asignación": "Determinar Cp y Cpk. (interpretacion-conclusion-accion)",
+      "Estado": "Pendiente",
+      "Calificación": "",
+      "Fecha Inicio": "06/11/2025",
+      "Fecha Fin": "13/11/2025"
+    }
+  ]
+}

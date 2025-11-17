@@ -157,6 +157,59 @@
             border-radius: 4px;
             margin-top: 1rem;
         }
+        
+        /* Nuevos estilos para el simulador */
+        .simulator-icon {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .simulator-icon:hover {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+        .simulator-badge {
+            background: #27ae60;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        .data-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .data-btn {
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .data-btn:hover {
+            background: #2980b9;
+        }
+        .data-btn.success {
+            background: #27ae60;
+        }
+        .data-btn.success:hover {
+            background: #219653;
+        }
     </style>
     <!-- Iconos de Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -169,6 +222,55 @@
     
     <div class="container">
         <a href="../index.html" class="back-btn">← Volver al inicio</a>
+        
+        <!-- NUEVA SECCIÓN: Simulador de Gestión de Curso -->
+        <div class="content-section">
+            <h2>Simulador de Gestión de Curso</h2>
+            <p>Sistema completo para la gestión de participantes, asignaciones y progreso del curso Shewart.</p>
+            
+            <div class="media-section">
+                <!-- Simulador de Asignaciones -->
+                <a href="asignaciones_v7.html" class="media-item" target="_blank">
+                    <div class="simulator-icon">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Sistema de Gestión</span>
+                        <div class="simulator-badge">SIMULADOR</div>
+                    </div>
+                    <h3>Gestión de Curso Shewart</h3>
+                    <p>Sistema completo para administrar participantes, asignaciones y progreso del curso</p>
+                </a>
+                
+                <!-- Cargar datos desde JSON -->
+                <div class="media-item" id="load-data-item">
+                    <div class="simulator-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                        <i class="fas fa-database"></i>
+                        <span>Datos del Curso</span>
+                        <div class="simulator-badge">JSON</div>
+                    </div>
+                    <h3>Cargar Datos del Curso</h3>
+                    <p>Importar datos desde el archivo JSON del curso Shewart</p>
+                    
+                    <div class="data-actions">
+                        <button class="data-btn success" id="load-json-btn">
+                            <i class="fas fa-upload"></i> Cargar desde JSON
+                        </button>
+                        <input type="file" id="json-file-input" accept=".json" style="display: none;">
+                    </div>
+                </div>
+                
+                <!-- Espacio para agregar más recursos en el futuro -->
+                <a href="#" class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">
+                            <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 0.5rem; display: block;"></i>
+                            PDF de Ejemplo
+                        </span>
+                    </div>
+                    <h3>Manual de Procedimientos</h3>
+                    <p>Guía completa de procesos textiles</p>
+                </a>
+            </div>
+        </div>
         
         <!-- SECCIÓN DESTACADA: PDF de Asignaciones -->
         <div class="pdf-viewer-container">
@@ -303,6 +405,61 @@
                 pdfIframe.parentNode.insertBefore(errorMsg, pdfIframe.nextSibling);
                 pdfIframe.style.display = 'none';
             };
+            
+            // Script para cargar datos JSON
+            document.getElementById('load-json-btn').addEventListener('click', function() {
+                document.getElementById('json-file-input').click();
+            });
+            
+            document.getElementById('json-file-input').addEventListener('change', function(e) {
+                if (e.target.files[0]) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        try {
+                            const jsonData = JSON.parse(event.target.result);
+                            alert('Datos del curso cargados correctamente desde: ' + file.name);
+                            console.log('Datos cargados:', jsonData);
+                            
+                            // Aquí podrías redirigir al simulador con los datos cargados
+                            // o almacenarlos para usar en el simulador
+                            localStorage.setItem('curso_shewart_imported_data', JSON.stringify(jsonData));
+                            
+                            // Opcional: abrir el simulador automáticamente
+                            if (confirm('¿Desea abrir el simulador de gestión de curso ahora?')) {
+                                window.open('asignaciones_v7.html', '_blank');
+                            }
+                        } catch (error) {
+                            alert('Error al cargar el archivo JSON: ' + error.message);
+                        }
+                    };
+                    
+                    reader.readAsText(file);
+                }
+            });
+            
+            // Intentar cargar automáticamente el archivo JSON si existe
+            try {
+                // Esto es solo para demostración - en un entorno real, se cargaría desde el servidor
+                fetch('curso_shewart_2025-11-12(1).json')
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Archivo no encontrado');
+                    })
+                    .then(data => {
+                        console.log('Datos del curso cargados automáticamente:', data);
+                        // Podrías almacenar estos datos para usar en el simulador
+                        localStorage.setItem('curso_shewart_default_data', JSON.stringify(data));
+                    })
+                    .catch(error => {
+                        console.log('No se pudo cargar el archivo JSON automáticamente:', error.message);
+                    });
+            } catch (error) {
+                console.log('Error al intentar cargar JSON automáticamente:', error);
+            }
         });
     </script>
 </body>

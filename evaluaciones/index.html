@@ -57,9 +57,13 @@
             text-align: center;
             transition: transform 0.3s ease;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         .media-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
         .media-item img {
             max-width: 100%;
@@ -76,83 +80,33 @@
             color: #666;
             font-size: 0.9rem;
         }
-        
-        /* Modal para visualización de imagen */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            animation: fadeIn 0.3s;
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90%;
-            margin-top: 2%;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-        }
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .close:hover {
-            color: #bbb;
-        }
-        .modal-caption {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
-            color: #ccc;
-            padding: 10px 0;
-            font-size: 1.1rem;
-        }
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-        
-        /* Estilos para la imagen de asignaciones */
-        .asignaciones-container {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .asignaciones-header {
+        .pdf-icon {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            height: 200px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .pdf-icon:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+        .pdf-icon i {
+            font-size: 4rem;
             margin-bottom: 1rem;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 0.5rem;
         }
-        .asignaciones-image {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            cursor: zoom-in;
-            transition: transform 0.3s ease;
+        .pdf-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
         }
-        .asignaciones-image:hover {
-            transform: scale(1.02);
-        }
-        
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -160,7 +114,52 @@
             background: #2c3e50;
             color: white;
         }
+        
+        /* Estilos para el visor de PDF */
+        .pdf-viewer-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        .pdf-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .pdf-btn {
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pdf-btn:hover {
+            background: #2980b9;
+        }
+        .pdf-preview {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
     </style>
+    <!-- Iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -171,20 +170,29 @@
     <div class="container">
         <a href="../index.html" class="back-btn">← Volver al inicio</a>
         
-        <!-- NUEVA SECCIÓN: Imagen de Asignaciones -->
-        <div class="asignaciones-container">
-            <div class="asignaciones-header">
+        <!-- SECCIÓN DESTACADA: PDF de Asignaciones -->
+        <div class="pdf-viewer-container">
+            <div class="pdf-header">
                 <h2>Asignaciones - Cartas de Control Shewart</h2>
                 <span style="color: #3498db; font-weight: bold;">Jeantex S.A.</span>
             </div>
             <p>Desarrollo práctico de Cartas de Control Shewart para el control estadístico de procesos.</p>
             
-            <img id="asignacionesImg" src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A." class="asignaciones-image" 
-                 onclick="openModal('Asignaciones.jpg', 'Asignaciones - Cartas de Control Shewart - Jeantex S.A.')">
-            
-            <div style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                <p><strong>Haga clic en la imagen para ampliarla</strong></p>
+            <div class="pdf-actions">
+                <a href="Asignaciones..pdf" class="pdf-btn" target="_blank">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </a>
+                <a href="Asignaciones..pdf" class="pdf-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Abrir en nueva pestaña
+                </a>
             </div>
+            
+            <!-- Vista previa del PDF -->
+            <iframe src="Asignaciones..pdf" class="pdf-preview" title="Asignaciones - Cartas de Control Shewart">
+                <p>Tu navegador no soporta la visualización de PDFs. 
+                   <a href="Asignaciones..pdf" target="_blank">Haz clic aquí para descargar el PDF</a>.
+                </p>
+            </iframe>
         </div>
         
         <div class="content-section">
@@ -226,43 +234,47 @@
             </ul>
         </div>
         
-        <!-- SECCIÓN: Otros Recursos de Aprendizaje -->
+        <!-- SECCIÓN: Recursos de Aprendizaje -->
         <div class="content-section">
-            <h2>Otros Recursos de Aprendizaje</h2>
+            <h2>Recursos de Aprendizaje</h2>
             <p>Materiales complementarios para el desarrollo de actividades y evaluaciones.</p>
             
             <div class="media-section">
-                <div class="media-item" onclick="openModal('Asignaciones.jpg', 'Asignaciones - Cartas de Control Shewart')">
-                    <img src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A." style="height: 150px; object-fit: cover;">
+                <!-- PDF de Asignaciones -->
+                <a href="Asignaciones..pdf" class="media-item" target="_blank">
+                    <div class="pdf-icon">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF Document</span>
+                        <div class="pdf-badge">ASIGNACIONES</div>
+                    </div>
                     <h3>Asignaciones Cartas de Control</h3>
                     <p>Desarrollo práctico de Cartas de Control Shewart - Jeantex S.A.</p>
-                </div>
+                </a>
                 
                 <!-- Espacio para agregar más recursos en el futuro -->
-                <div class="media-item">
-                    <div style="background: #e9ecef; height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                        <span style="color: #6c757d;">PDF de Ejemplo</span>
+                <a href="#" class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">
+                            <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 0.5rem; display: block;"></i>
+                            PDF de Ejemplo
+                        </span>
                     </div>
                     <h3>Manual de Procedimientos</h3>
                     <p>Guía completa de procesos textiles</p>
-                </div>
+                </a>
                 
-                <div class="media-item">
-                    <div style="background: #e9ecef; height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                        <span style="color: #6c757d;">Video Tutorial</span>
+                <a href="#" class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">
+                            <i class="fas fa-film" style="font-size: 3rem; margin-bottom: 0.5rem; display: block;"></i>
+                            Video Tutorial
+                        </span>
                     </div>
                     <h3>Video Instructivo</h3>
                     <p>Demostración de técnicas avanzadas</p>
-                </div>
+                </a>
             </div>
         </div>
-    </div>
-    
-    <!-- Modal para visualización de imagen -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <div id="modalCaption" class="modal-caption"></div>
     </div>
     
     <footer>
@@ -270,54 +282,28 @@
     </footer>
 
     <script>
-        // Funciones para el modal de imagen
-        function openModal(imageSrc, caption) {
-            document.getElementById('imageModal').style.display = "block";
-            document.getElementById('modalImage').src = imageSrc;
-            document.getElementById('modalCaption').innerHTML = caption;
-        }
-        
-        function closeModal() {
-            document.getElementById('imageModal').style.display = "none";
-        }
-        
-        // Cerrar modal al hacer clic fuera de la imagen
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-        
-        // Cerrar modal con tecla ESC
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
-        
-        // Verificar si la imagen se carga correctamente
-        window.onload = function() {
-            const img = document.getElementById('asignacionesImg');
-            img.onerror = function() {
-                // Si la imagen no se carga, mostrar un mensaje
-                this.alt = "Imagen no disponible - Verifique que el archivo 'Asignaciones.jpg' esté en la misma carpeta";
-                this.style.border = "2px dashed #e74c3c";
-                this.style.padding = "20px";
-                this.style.backgroundColor = "#f9f9f9";
-                this.style.cursor = "default";
-                
-                // Crear mensaje de error
+        // Script para manejar la visualización del PDF
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfIframe = document.querySelector('.pdf-preview');
+            
+            // Verificar si el PDF se carga correctamente
+            pdfIframe.onload = function() {
+                console.log('PDF cargado correctamente');
+            };
+            
+            pdfIframe.onerror = function() {
+                // Si hay error al cargar el PDF, mostrar mensaje
                 const errorMsg = document.createElement('div');
                 errorMsg.innerHTML = `
                     <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-top: 10px;">
-                        <strong>Error:</strong> No se pudo cargar la imagen "Asignaciones.jpg". 
+                        <strong>Error:</strong> No se pudo cargar el PDF "Asignaciones..pdf". 
                         Verifique que el archivo exista en la misma carpeta que este archivo HTML.
                     </div>
                 `;
-                img.parentNode.insertBefore(errorMsg, img.nextSibling);
+                pdfIframe.parentNode.insertBefore(errorMsg, pdfIframe.nextSibling);
+                pdfIframe.style.display = 'none';
             };
-        };
+        });
     </script>
 </body>
 </html>

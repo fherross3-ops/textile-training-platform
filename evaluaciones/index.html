@@ -199,7 +199,7 @@
     </header>
     
     <div class="container">
-        <a href="../index.html" class="back-btn">← Volver al inicio</a>
+        <a href="#" class="back-btn">← Volver al inicio</a>
         
         <!-- SECCIÓN DESTACADA: PDF de Asignaciones -->
         <div class="pdf-viewer-container">
@@ -210,18 +210,18 @@
             <p>Desarrollo práctico de Cartas de Control Shewart para el control estadístico de procesos.</p>
             
             <div class="pdf-actions">
-                <a href="Asignaciones..pdf" class="pdf-btn" target="_blank">
+                <a href="Asignaciones.pdf" class="pdf-btn" target="_blank">
                     <i class="fas fa-download"></i> Descargar PDF
                 </a>
-                <a href="Asignaciones..pdf" class="pdf-btn" target="_blank">
+                <a href="Asignaciones.pdf" class="pdf-btn" target="_blank">
                     <i class="fas fa-external-link-alt"></i> Abrir en nueva pestaña
                 </a>
             </div>
             
             <!-- Vista previa del PDF -->
-            <iframe src="Asignaciones..pdf" class="pdf-preview" title="Asignaciones - Cartas de Control Shewart">
+            <iframe src="Asignaciones.pdf" class="pdf-preview" title="Asignaciones - Cartas de Control Shewart">
                 <p>Tu navegador no soporta la visualización de PDFs. 
-                   <a href="Asignaciones..pdf" target="_blank">Haz clic aquí para descargar el PDF</a>.
+                   <a href="Asignaciones.pdf" target="_blank">Haz clic aquí para descargar el PDF</a>.
                 </p>
             </iframe>
         </div>
@@ -230,7 +230,7 @@
             <h2>Evaluación Diagnóstica</h2>
             <p>Evaluación inicial para medir conocimientos previos.</p>
             <ul>
-                <li><a href="evaluacion_diagnostica_Grupos A-B">Cartas de Control-Shewart</a></li>
+                <li><a href="#">Cartas de Control-Shewart</a></li>
                 <!-- Agrega más evaluaciones diagnósticas -->
             </ul>
         </div>
@@ -272,7 +272,7 @@
             
             <div class="media-section">
                 <!-- PDF de Asignaciones -->
-                <a href="Asignaciones..pdf" class="media-item" target="_blank">
+                <a href="Asignaciones.pdf" class="media-item" target="_blank">
                     <div class="pdf-icon">
                         <i class="fas fa-file-pdf"></i>
                         <span>PDF Document</span>
@@ -283,20 +283,12 @@
                 </a>
                 
                 <!-- Recursos de imagen JPG -->
-                <a href="recurso1.jpg" class="media-item" target="_blank">
+                <a href="Asignaciones.jpg" class="media-item" target="_blank">
                     <div class="image-icon">
-                        <img src="recurso1.jpg" alt="Recurso de aprendizaje 1" onerror="this.parentElement.innerHTML='<i class=\'fas fa-image\' style=\'font-size:4rem;margin-bottom:1rem;\'></i><span>Imagen JPG</span><div class=\'image-badge\'>RECURSO</div>'">
+                        <img src="Asignaciones.jpg" alt="Asignaciones - Cartas de Control Shewart" onerror="this.parentElement.innerHTML='<i class=\'fas fa-image\' style=\'font-size:4rem;margin-bottom:1rem;\'></i><span>Imagen JPG</span><div class=\'image-badge\'>RECURSO</div>'">
                     </div>
-                    <h3>Recurso Visual 1</h3>
-                    <p>Material gráfico complementario para el aprendizaje</p>
-                </a>
-                
-                <a href="recurso2.jpg" class="media-item" target="_blank">
-                    <div class="image-icon">
-                        <img src="recurso2.jpg" alt="Recurso de aprendizaje 2" onerror="this.parentElement.innerHTML='<i class=\'fas fa-image\' style=\'font-size:4rem;margin-bottom:1rem;\'></i><span>Imagen JPG</span><div class=\'image-badge\'>RECURSO</div>'">
-                    </div>
-                    <h3>Recurso Visual 2</h3>
-                    <p>Material gráfico complementario para el aprendizaje</p>
+                    <h3>Asignaciones - Vista Previa</h3>
+                    <p>Vista previa de las asignaciones en formato imagen</p>
                 </a>
                 
                 <!-- Espacio para agregar más recursos en el futuro -->
@@ -321,14 +313,6 @@
                     <h3>Video Instructivo</h3>
                     <p>Demostración de técnicas avanzadas</p>
                 </a>
-                
-                <a href="recurso3.jpg" class="media-item" target="_blank">
-                    <div class="image-icon">
-                        <img src="recurso3.jpg" alt="Recurso de aprendizaje 3" onerror="this.parentElement.innerHTML='<i class=\'fas fa-image\' style=\'font-size:4rem;margin-bottom:1rem;\'></i><span>Imagen JPG</span><div class=\'image-badge\'>RECURSO</div>'">
-                    </div>
-                    <h3>Recurso Visual 3</h3>
-                    <p>Material gráfico complementario para el aprendizaje</p>
-                </a>
             </div>
         </div>
     </div>
@@ -352,7 +336,7 @@
                 const errorMsg = document.createElement('div');
                 errorMsg.innerHTML = `
                     <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-top: 10px;">
-                        <strong>Error:</strong> No se pudo cargar el PDF "Asignaciones..pdf". 
+                        <strong>Error:</strong> No se pudo cargar el PDF "Asignaciones.pdf". 
                         Verifique que el archivo exista en la misma carpeta que este archivo HTML.
                     </div>
                 `;
@@ -361,7 +345,7 @@
             };
             
             // Verificar y cargar recursos JPG
-            const imageResources = ['recurso1.jpg', 'recurso2.jpg', 'recurso3.jpg'];
+            const imageResources = ['Asignaciones.jpg'];
             
             imageResources.forEach(resource => {
                 fetch(resource)

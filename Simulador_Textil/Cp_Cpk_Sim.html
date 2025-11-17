@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacidad de Proceso: Cp y Cpk</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .formula-card {
+            background: #f8f9fa;
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .formula {
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.4rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .visualization-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .chart-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .chart {
+            height: 300px;
+            position: relative;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #f8f9fa;
+        }
+        
+        .interactive-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+        }
+        
+        .value-display {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .results-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .result-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .interpretation {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .good {
+            background-color: #d5f4e6;
+            color: #27ae60;
+        }
+        
+        .marginal {
+            background-color: #fcf3cd;
+            color: #f39c12;
+        }
+        
+        .poor {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .point-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .point-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--dark-color);
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .visualization-container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Capacidad de Proceso: Cp y Cpk</h1>
+            <p class="subtitle">Cómo calcular, interpretar y utilizar los índices de capacidad de proceso</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="content-section">
+            <h2>¿Qué son los índices de capacidad de proceso?</h2>
+            <p>Los índices de capacidad de proceso son medidas estadísticas que comparan la variabilidad de un proceso con los límites de especificación para determinar si el proceso es capaz de producir productos que cumplan con los requisitos.</p>
+            
+            <div class="key-points">
+                <div class="point-card">
+                    <h3>Cp - Índice de Capacidad Potencial</h3>
+                    <p>Mide la capacidad potencial del proceso, asumiendo que está centrado. Evalúa si la variación natural del proceso cabe dentro de las especificaciones.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Cpk - Índice de Capacidad Real</h3>
+                    <p>Mide la capacidad real del proceso, considerando su centrado. Evalúa qué tan bien el proceso está cumpliendo con las especificaciones considerando su posición actual.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Fórmulas de Cálculo</h2>
+            
+            <div class="formula-card">
+                <h3>Índice Cp (Capacidad Potencial)</h3>
+                <div class="formula">
+                    Cp = (LES - LEI) / (6σ)
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>LES</strong>: Límite de Especificación Superior</li>
+                    <li><strong>LEI</strong>: Límite de Especificación Inferior</li>
+                    <li><strong>σ</strong>: Desviación estándar del proceso</li>
+                </ul>
+                <p>El Cp solo considera la dispersión del proceso, no su centrado.</p>
+            </div>
+            
+            <div class="formula-card">
+                <h3>Índice Cpk (Capacidad Real)</h3>
+                <div class="formula">
+                    Cpk = Mínimo[(μ - LEI) / (3σ), (LES - μ) / (3σ)]
+                </div>
+                <p>Donde:</p>
+                <ul>
+                    <li><strong>μ</strong>: Media del proceso</li>
+                    <li><strong>LES</strong>: Límite de Especificación Superior</li>
+                    <li><strong>LEI</strong>: Límite de Especificación Inferior</li>
+                    <li><strong>σ</strong>: Desviación estándar del proceso</li>
+                </ul>
+                <p>El Cpk considera tanto la dispersión como el centrado del proceso.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Simulador Interactivo</h2>
+            <p>Utiliza los controles para ajustar los parámetros del proceso y observa cómo cambian los índices Cp y Cpk:</p>
+            
+            <div class="interactive-controls">
+                <div class="control-group">
+                    <label for="spec-lower">Límite de Especificación Inferior (LEI): <span id="spec-lower-value" class="value-display">8.0</span></label>
+                    <input type="range" id="spec-lower" min="7.0" max="9.5" step="0.1" value="8.0">
+                </div>
+                <div class="control-group">
+                    <label for="spec-upper">Límite de Especificación Superior (LES): <span id="spec-upper-value" class="value-display">12.0</span></label>
+                    <input type="range" id="spec-upper" min="10.5" max="13.0" step="0.1" value="12.0">
+                </div>
+                <div class="control-group">
+                    <label for="process-mean">Media del Proceso (μ): <span id="process-mean-value" class="value-display">10.0</span></label>
+                    <input type="range" id="process-mean" min="8.5" max="11.5" step="0.1" value="10.0">
+                </div>
+                <div class="control-group">
+                    <label for="process-std">Desviación Estándar (σ): <span id="process-std-value" class="value-display">0.5</span></label>
+                    <input type="range" id="process-std" min="0.2" max="1.5" step="0.05" value="0.5">
+                </div>
+            </div>
+            
+            <div class="results-panel">
+                <div class="result-card">
+                    <h3>Índice Cp</h3>
+                    <div id="cp-value" class="result-value">1.33</div>
+                    <div id="cp-interpretation" class="interpretation good">Capaz</div>
+                </div>
+                <div class="result-card">
+                    <h3>Índice Cpk</h3>
+                    <div id="cpk-value" class="result-value">1.33</div>
+                    <div id="cpk-interpretation" class="interpretation good">Capaz</div>
+                </div>
+                <div class="result-card">
+                    <h3>Relación Cp/Cpk</h3>
+                    <div id="cp-cpk-ratio" class="result-value">1.00</div>
+                    <div id="ratio-interpretation" class="interpretation good">Proceso Centrado</div>
+                </div>
+            </div>
+            
+            <div class="visualization-container">
+                <div class="chart-container">
+                    <div class="chart-title">Distribución del Proceso vs Especificaciones</div>
+                    <div class="chart" id="process-chart">
+                        <!-- El gráfico se generará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Interpretación de los Resultados</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Valor del Índice</th>
+                        <th>Interpretación</th>
+                        <th>Capacidad del Proceso</th>
+                        <th>PPM Aproximado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>> 1.67</td>
+                        <td>Excelente capacidad</td>
+                        <td>Más que adecuado</td>
+                        <td>&lt; 0.1</td>
+                    </tr>
+                    <tr>
+                        <td>1.33 - 1.67</td>
+                        <td>Buena capacidad</td>
+                        <td>Adecuado</td>
+                        <td>~0.1 - 63</td>
+                    </tr>
+                    <tr>
+                        <td>1.00 - 1.33</td>
+                        <td>Capacidad marginal</td>
+                        <td>Aceptable con control estricto</td>
+                        <td>~63 - 2700</td>
+                    </tr>
+                    <tr>
+                        <td>0.67 - 1.00</td>
+                        <td>Capacidad insuficiente</td>
+                        <td>No adecuado para producción</td>
+                        <td>~2700 - 45500</td>
+                    </tr>
+                    <tr>
+                        <td>&lt; 0.67</td>
+                        <td>Capacidad inaceptable</td>
+                        <td>Completamente inadecuado</td>
+                        <td>> 45500</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Relación entre Cp y Cpk</h3>
+            <ul>
+                <li><strong>Cp = Cpk</strong>: El proceso está perfectamente centrado entre las especificaciones.</li>
+                <li><strong>Cp > Cpk</strong>: El proceso no está centrado. Mientras mayor sea la diferencia, más descentrado está.</li>
+                <li><strong>Cpk > Cp</strong>: No es posible matemáticamente. Cpk nunca puede ser mayor que Cp.</li>
+                <li><strong>Cp ≥ 1.33 y Cpk ≥ 1.33</strong>: El proceso se considera capaz y está bajo control estadístico.</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2>Aplicaciones Prácticas</h2>
+            
+            <div class="key-points">
+                <div class="point-card">
+                    <h3>Evaluación de Proveedores</h3>
+                    <p>Los índices Cp y Cpk permiten evaluar la capacidad de los proveedores para cumplir con las especificaciones requeridas.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Mejora Continua</h3>
+                    <p>Monitorear estos índices a lo largo del tiempo ayuda a identificar oportunidades de mejora en el proceso.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Reducción de Desperdicios</h3>
+                    <p>Al mejorar la capacidad del proceso, se reduce el número de productos no conformes y se optimizan los recursos.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Validación de Procesos</h3>
+                    <p>En industrias reguladas (farmacéutica, automotriz), se requieren valores mínimos de Cpk para validar procesos.</p>
+                </div>
+            </div>
+            
+            <h3>Limitaciones y Consideraciones</h3>
+            <ul>
+                <li>Los índices Cp y Cpk asumen que los datos siguen una distribución normal.</li>
+                <li>El proceso debe estar bajo control estadístico antes de calcular la capacidad.</li>
+                <li>Se requiere un tamaño de muestra adecuado para obtener estimaciones confiables.</li>
+                <li>Estos índices no considerar cambios en el proceso a lo largo del tiempo.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Simulador Interactivo: Capacidad de Proceso Cp y Cpk</p>
+            <p>Control Estadístico de Procesos (CEP) | Calidad y Mejora Continua</p>
+        </div>
+    </footer>
+
+    <script>
+        // Elementos del DOM
+        const specLowerInput = document.getElementById('spec-lower');
+        const specUpperInput = document.getElementById('spec-upper');
+        const processMeanInput = document.getElementById('process-mean');
+        const processStdInput = document.getElementById('process-std');
+        
+        const specLowerValue = document.getElementById('spec-lower-value');
+        const specUpperValue = document.getElementById('spec-upper-value');
+        const processMeanValue = document.getElementById('process-mean-value');
+        const processStdValue = document.getElementById('process-std-value');
+        
+        const cpValue = document.getElementById('cp-value');
+        const cpkValue = document.getElementById('cpk-value');
+        const cpCpkRatio = document.getElementById('cp-cpk-ratio');
+        
+        const cpInterpretation = document.getElementById('cp-interpretation');
+        const cpkInterpretation = document.getElementById('cpk-interpretation');
+        const ratioInterpretation = document.getElementById('ratio-interpretation');
+        
+        const processChart = document.getElementById('process-chart');
+        
+        // Valores iniciales
+        let specLower = 8.0;
+        let specUpper = 12.0;
+        let processMean = 10.0;
+        let processStd = 0.5;
+        
+        // Inicializar visualizaciones
+        updateDisplays();
+        calculateIndices();
+        renderProcessChart();
+        
+        // Event listeners para los controles
+        specLowerInput.addEventListener('input', function() {
+            specLower = parseFloat(this.value);
+            if (specLower >= specUpper - 0.5) {
+                specLower = specUpper - 0.5;
+                this.value = specLower;
+            }
+            updateDisplays();
+            calculateIndices();
+            renderProcessChart();
+        });
+        
+        specUpperInput.addEventListener('input', function() {
+            specUpper = parseFloat(this.value);
+            if (specUpper <= specLower + 0.5) {
+                specUpper = specLower + 0.5;
+                this.value = specUpper;
+            }
+            updateDisplays();
+            calculateIndices();
+            renderProcessChart();
+        });
+        
+        processMeanInput.addEventListener('input', function() {
+            processMean = parseFloat(this.value);
+            updateDisplays();
+            calculateIndices();
+            renderProcessChart();
+        });
+        
+        processStdInput.addEventListener('input', function() {
+            processStd = parseFloat(this.value);
+            updateDisplays();
+            calculateIndices();
+            renderProcessChart();
+        });
+        
+        function updateDisplays() {
+            specLowerValue.textContent = specLower.toFixed(1);
+            specUpperValue.textContent = specUpper.toFixed(1);
+            processMeanValue.textContent = processMean.toFixed(1);
+            processStdValue.textContent = processStd.toFixed(2);
+        }
+        
+        function calculateIndices() {
+            // Calcular Cp
+            const tolerance = specUpper - specLower;
+            const processSpread = 6 * processStd;
+            const cp = tolerance / processSpread;
+            
+            // Calcular Cpk
+            const cpu = (specUpper - processMean) / (3 * processStd);
+            const cpl = (processMean - specLower) / (3 * processStd);
+            const cpk = Math.min(cpu, cpl);
+            
+            // Actualizar displays
+            cpValue.textContent = cp.toFixed(2);
+            cpkValue.textContent = cpk.toFixed(2);
+            cpCpkRatio.textContent = (cpk / cp).toFixed(2);
+            
+            // Interpretar resultados
+            interpretCp(cp);
+            interpretCpk(cpk);
+            interpretRatio(cp, cpk);
+        }
+        
+        function interpretCp(cp) {
+            cpInterpretation.className = 'interpretation';
+            
+            if (cp >= 1.67) {
+                cpInterpretation.textContent = 'Excelente capacidad';
+                cpInterpretation.classList.add('good');
+            } else if (cp >= 1.33) {
+                cpInterpretation.textContent = 'Buena capacidad';
+                cpInterpretation.classList.add('good');
+            } else if (cp >= 1.00) {
+                cpInterpretation.textContent = 'Capacidad marginal';
+                cpInterpretation.classList.add('marginal');
+            } else if (cp >= 0.67) {
+                cpInterpretation.textContent = 'Capacidad insuficiente';
+                cpInterpretation.classList.add('poor');
+            } else {
+                cpInterpretation.textContent = 'Capacidad inaceptable';
+                cpInterpretation.classList.add('poor');
+            }
+        }
+        
+        function interpretCpk(cpk) {
+            cpkInterpretation.className = 'interpretation';
+            
+            if (cpk >= 1.67) {
+                cpkInterpretation.textContent = 'Excelente capacidad';
+                cpkInterpretation.classList.add('good');
+            } else if (cpk >= 1.33) {
+                cpkInterpretation.textContent = 'Buena capacidad';
+                cpkInterpretation.classList.add('good');
+            } else if (cpk >= 1.00) {
+                cpkInterpretation.textContent = 'Capacidad marginal';
+                cpkInterpretation.classList.add('marginal');
+            } else if (cpk >= 0.67) {
+                cpkInterpretation.textContent = 'Capacidad insuficiente';
+                cpkInterpretation.classList.add('poor');
+            } else {
+                cpkInterpretation.textContent = 'Capacidad inaceptable';
+                cpkInterpretation.classList.add('poor');
+            }
+        }
+        
+        function interpretRatio(cp, cpk) {
+            ratioInterpretation.className = 'interpretation';
+            const ratio = cpk / cp;
+            
+            if (ratio >= 0.95) {
+                ratioInterpretation.textContent = 'Proceso bien centrado';
+                ratioInterpretation.classList.add('good');
+            } else if (ratio >= 0.85) {
+                ratioInterpretation.textContent = 'Proceso aceptablemente centrado';
+                ratioInterpretation.classList.add('marginal');
+            } else {
+                ratioInterpretation.textContent = 'Proceso descentrado';
+                ratioInterpretation.classList.add('poor');
+            }
+        }
+        
+        function renderProcessChart() {
+            // Limpiar el gráfico
+            processChart.innerHTML = '';
+            
+            // Parámetros para la curva normal
+            const chartMin = 7;
+            const chartMax = 13;
+            const chartWidth = chartMax - chartMin;
+            
+            // Dibujar límites de especificación
+            const specLowerLine = document.createElement('div');
+            specLowerLine.className = 'spec-line';
+            specLowerLine.style.left = `${((specLower - chartMin) / chartWidth) * 100}%`;
+            specLowerLine.style.backgroundColor = 'var(--accent-color)';
+            processChart.appendChild(specLowerLine);
+            
+            const specUpperLine = document.createElement('div');
+            specUpperLine.className = 'spec-line';
+            specUpperLine.style.left = `${((specUpper - chartMin) / chartWidth) * 100}%`;
+            specUpperLine.style.backgroundColor = 'var(--accent-color)';
+            processChart.appendChild(specUpperLine);
+            
+            // Dibujar media del proceso
+            const meanLine = document.createElement('div');
+            meanLine.className = 'spec-line';
+            meanLine.style.left = `${((processMean - chartMin) / chartWidth) * 100}%`;
+            meanLine.style.backgroundColor = 'var(--secondary-color)';
+            meanLine.style.width = '3px';
+            processChart.appendChild(meanLine);
+            
+            // Dibujar área de la distribución
+            const distributionArea = document.createElement('div');
+            distributionArea.style.position = 'absolute';
+            distributionArea.style.bottom = '0';
+            distributionArea.style.width = '100%';
+            distributionArea.style.height = '80%';
+            distributionArea.style.background = 'linear-gradient(to top, rgba(52, 152, 219, 0.3), rgba(52, 152, 219, 0.1))';
+            distributionArea.style.borderTop = '2px solid var(--secondary-color)';
+            processChart.appendChild(distributionArea);
+            
+            // Dibujar curva normal aproximada
+            const points = 100;
+            const path = document.createElement('div');
+            path.style.position = 'absolute';
+            path.style.bottom = '0';
+            path.style.width = '100%';
+            path.style.height = '80%';
+            path.style.pointerEvents = 'none';
+            
+            // Crear un SVG para la curva
+            const svgNS = "http://www.w3.org/2000/svg";
+            const svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+            svg.style.position = "absolute";
+            svg.style.bottom = "0";
+            
+            const pathElement = document.createElementNS(svgNS, "path");
+            let d = "";
+            
+            for (let i = 0; i <= points; i++) {
+                const x = chartMin + (i / points) * chartWidth;
+                const y = normalPDF(x, processMean, processStd);
+                
+                // Escalar y para que quepa en el gráfico
+                const maxY = normalPDF(processMean, processMean, processStd);
+                const scaledY = (y / maxY) * 80; // 80% de la altura del gráfico
+                
+                const xPercent = ((x - chartMin) / chartWidth) * 100;
+                const yPercent = 100 - scaledY;
+                
+                if (i === 0) {
+                    d += `M ${xPercent}% ${yPercent}% `;
+                } else {
+                    d += `L ${xPercent}% ${yPercent}% `;
+                }
+            }
+            
+            pathElement.setAttribute("d", d);
+            pathElement.setAttribute("fill", "none");
+            pathElement.setAttribute("stroke", "var(--secondary-color)");
+            pathElement.setAttribute("stroke-width", "2");
+            
+            svg.appendChild(pathElement);
+            processChart.appendChild(svg);
+            
+            // Añadir etiquetas
+            addLabel(processChart, 'LEI', ((specLower - chartMin) / chartWidth) * 100, 'var(--accent-color)');
+            addLabel(processChart, 'LES', ((specUpper - chartMin) / chartWidth) * 100, 'var(--accent-color)');
+            addLabel(processChart, 'Media', ((processMean - chartMin) / chartWidth) * 100, 'var(--secondary-color)');
+        }
+        
+        // Función de densidad de probabilidad normal
+        function normalPDF(x, mean, std) {
+            const variance = std * std;
+            const exponent = -((x - mean) ** 2) / (2 * variance);
+            return (1 / (Math.sqrt(2 * Math.PI * variance))) * Math.exp(exponent);
+        }
+        
+        function addLabel(chart, text, xPercent, color) {
+            const label = document.createElement('div');
+            label.textContent = text;
+            label.style.position = 'absolute';
+            label.style.left = `${xPercent}%`;
+            label.style.bottom = '0';
+            label.style.transform = 'translateX(-50%)';
+            label.style.color = color;
+            label.style.fontWeight = 'bold';
+            label.style.fontSize = '12px';
+            chart.appendChild(label);
+        }
+    </script>
+</body>
+</html>

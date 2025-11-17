@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Avanzada - Gráficas de Control Shewhart</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --zone-a: #e74c3c;
+            --zone-b: #f39c12;
+            --zone-c: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: white;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .app-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: 80px 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+        
+        /* HEADER */
+        .header {
+            grid-column: 1 / -1;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        /* SIDEBAR */
+        .sidebar {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .criteria-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.1rem;
+        }
+        
+        .criteria-list {
+            list-style: none;
+        }
+        
+        .criteria-item {
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .criteria-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .criteria-item.active {
+            background: rgba(52, 152, 219, 0.2);
+            border-left-color: var(--secondary);
+        }
+        
+        .criteria-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: var(--secondary);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        /* MAIN CONTENT */
+        .main-content {
+            display: grid;
+            grid-template-rows: 320px 1fr; /* Reducido el gráfico para dar más espacio a explicaciones */
+            gap: 0;
+            padding: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .chart-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .chart-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .chart {
+            height: calc(100% - 60px);
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        /* ZONAS DE CONTROL */
+        .zone {
+            position: absolute;
+            left: 0;
+            right: 0;
+            opacity: 0.1;
+        }
+        
+        .zone-a { 
+            background: var(--zone-a); 
+            height: 16.67%;
+        }
+        
+        .zone-b { 
+            background: var(--zone-b); 
+            height: 16.67%;
+        }
+        
+        .zone-c { 
+            background: var(--zone-c); 
+            height: 33.33%;
+        }
+        
+        .zone-label {
+            position: absolute;
+            right: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        /* LÍNEAS DE CONTROL */
+        .control-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+        
+        .center-line {
+            background: var(--secondary);
+            top: 50%;
+        }
+        
+        .limit-line {
+            border-top: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+        
+        /* PUNTOS DE DATOS */
+        .data-point {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .data-point:hover {
+            width: 18px;
+            height: 18px;
+            z-index: 10;
+        }
+        
+        .normal-point {
+            background: var(--secondary);
+        }
+        
+        .violation-point {
+            background: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+        
+        /* PANEL DE EXPLICACIÓN */
+        .explanation-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            max-height: 100%;
+        }
+        
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .criteria-badge {
+            padding: 0.3rem 0.8rem;
+            background: var(--accent);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .explanation-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .explanation-text h3 {
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .causes-list {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .causes-list h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+        
+        .causes-list ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+        
+        .causes-list li {
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        /* BOTONES */
+        .btn {
+            padding: 0.7rem 1.5rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(52, 152, 219, 0.2);
+        }
+        
+        /* INDICADORES DE ESTADO */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-stable {
+            background: var(--success);
+        }
+        
+        .status-unstable {
+            background: var(--accent);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 250px 1fr;
+            }
+            
+            .explanation-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <h1>Guía Avanzada - Gráficas de Control Shewhart</h1>
+            </div>
+            <div class="controls">
+                <button class="btn btn-outline" id="btnReset">Reiniciar</button>
+                <button class="btn" id="btnRandom">Generar Aleatorio</button>
+            </div>
+        </header>
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="criteria-section">
+                <h3 class="section-title">Criterios de Nelson / Western Electric</h3>
+                <ul class="criteria-list">
+                    <li class="criteria-item active" data-criteria="1">
+                        <span class="criteria-number">1</span>
+                        Punto fuera de los límites
+                    </li>
+                    <li class="criteria-item" data-criteria="2">
+                        <span class="criteria-number">2</span>
+                        9 puntos en zona C (un lado)
+                    </li>
+                    <li class="criteria-item" data-criteria="3">
+                        <span class="criteria-number">3</span>
+                        6 puntos en tendencia
+                    </li>
+                    <li class="criteria-item" data-criteria="4">
+                        <span class="criteria-number">4</span>
+                        14 puntos alternantes
+                    </li>
+                    <li class="criteria-item" data-criteria="5">
+                        <span class="criteria-number">5</span>
+                        2 de 3 puntos en zona A
+                    </li>
+                    <li class="criteria-item" data-criteria="6">
+                        <span class="criteria-number">6</span>
+                        4 de 5 puntos en zona B
+                    </li>
+                    <li class="criteria-item" data-criteria="7">
+                        <span class="criteria-number">7</span>
+                        15 puntos en zona C
+                    </li>
+                    <li class="criteria-item" data-criteria="8">
+                        <span class="criteria-number">8</span>
+                        8 puntos fuera de zona C
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="criteria-section">
+                <h3 class="section-title">Patrones Adicionales</h3>
+                <ul class="criteria-list">
+                    <li class="criteria-item" data-criteria="trend">
+                        <span class="criteria-number">T</span>
+                        Tendencia gradual
+                    </li>
+                    <li class="criteria-item" data-criteria="shift">
+                        <span class="criteria-number">S</span>
+                        Cambio abrupto
+                    </li>
+                    <li class="criteria-item" data-criteria="cycle">
+                        <span class="criteria-number">C</span>
+                        Patrón cíclico
+                    </li>
+                    <li class="criteria-item" data-criteria="stratification">
+                        <span class="criteria-number">E</span>
+                        Estratificación
+                    </li>
+                    <li class="criteria-item" data-criteria="mixture">
+                        <span class="criteria-number">M</span>
+                        Mezcla de poblaciones
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="status-indicator">
+                <div class="status-dot status-unstable"></div>
+                <span id="statusText">Estado: Fuera de control - Patrón especial detectado</span>
+            </div>
+        </aside>
+        
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- GRÁFICA PRINCIPAL -->
+            <section class="chart-container">
+                <div class="chart-title">
+                    <h2>Gráfica de Control X-Bar</h2>
+                    <div class="chart-info">
+                        LCS: +3σ | LC: μ | LCI: -3σ
+                    </div>
+                </div>
+                <div class="chart" id="controlChart">
+                    <!-- Zonas -->
+                    <div class="zone zone-a" style="top: 0%;"></div>
+                    <div class="zone zone-b" style="top: 16.67%;"></div>
+                    <div class="zone zone-c" style="top: 33.33%;"></div>
+                    <div class="zone zone-c" style="bottom: 33.33%;"></div>
+                    <div class="zone zone-b" style="bottom: 16.67%;"></div>
+                    <div class="zone zone-a" style="bottom: 0%;"></div>
+                    
+                    <!-- Etiquetas de zonas -->
+                    <div class="zone-label" style="top: 8.33%;">Zona A</div>
+                    <div class="zone-label" style="top: 25%;">Zona B</div>
+                    <div class="zone-label" style="top: 41.67%;">Zona C</div>
+                    <div class="zone-label" style="bottom: 41.67%;">Zona C</div>
+                    <div class="zone-label" style="bottom: 25%;">Zona B</div>
+                    <div class="zone-label" style="bottom: 8.33%;">Zona A</div>
+                    
+                    <!-- Líneas de control -->
+                    <div class="control-line center-line" style="top: 50%;"></div>
+                    <div class="control-line limit-line" style="top: 16.67%;"></div>
+                    <div class="control-line limit-line" style="top: 33.33%;"></div>
+                    <div class="control-line limit-line" style="bottom: 33.33%;"></div>
+                    <div class="control-line limit-line" style="bottom: 16.67%;"></div>
+                    
+                    <!-- Puntos se generan dinámicamente -->
+                </div>
+            </section>
+            
+            <!-- PANEL DE EXPLICACIÓN -->
+            <section class="explanation-panel" id="explanationPanel">
+                <!-- El contenido se actualizará dinámicamente -->
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chart = document.getElementById('controlChart');
+            const explanationPanel = document.getElementById('explanationPanel');
+            const criteriaItems = document.querySelectorAll('.criteria-item');
+            const btnReset = document.getElementById('btnReset');
+            const btnRandom = document.getElementById('btnRandom');
+            const statusText = document.getElementById('statusText');
+            
+            let currentCriteria = '1';
+            let dataPoints = [];
+            
+            // Inicializar la gráfica
+            initializeChart();
+            
+            // Event listeners para los criterios
+            criteriaItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remover clase active de todos los items
+                    criteriaItems.forEach(i => i.classList.remove('active'));
+                    // Agregar clase active al item clickeado
+                    this.classList.add('active');
+                    
+                    currentCriteria = this.getAttribute('data-criteria');
+                    generatePattern(currentCriteria);
+                    updateExplanation(currentCriteria);
+                });
+            });
+            
+            // Event listeners para botones
+            btnReset.addEventListener('click', resetChart);
+            btnRandom.addEventListener('click', generateRandomData);
+            
+            function initializeChart() {
+                generatePattern('1');
+                updateExplanation('1');
+            }
+            
+            function generatePattern(pattern) {
+                // Limpiar puntos anteriores
+                clearDataPoints();
+                
+                // Generar nuevos puntos según el patrón
+                switch(pattern) {
+                    case '1': // Punto fuera de límites
+                        generateOutOfControlPoints();
+                        break;
+                    case '2': // 9 puntos en zona C (un lado)
+                        generateZoneCRun();
+                        break;
+                    case '3': // 6 puntos en tendencia
+                        generateTrendPoints();
+                        break;
+                    case '4': // 14 puntos alternantes
+                        generateAlternatingPoints();
+                        break;
+                    case '5': // 2 de 3 puntos en zona A
+                        generateZoneAPoints();
+                        break;
+                    case '6': // 4 de 5 puntos en zona B
+                        generateZoneBPoints();
+                        break;
+                    case '7': // 15 puntos en zona C
+                        generateZoneCCluster();
+                        break;
+                    case '8': // 8 puntos fuera de zona C
+                        generateOutsideZoneC();
+                        break;
+                    case 'trend':
+                        generateGradualTrend();
+                        break;
+                    case 'shift':
+                        generateProcessShift();
+                        break;
+                    case 'cycle':
+                        generateCyclicPattern();
+                        break;
+                    case 'stratification':
+                        generateStratification();
+                        break;
+                    case 'mixture':
+                        generateMixture();
+                        break;
+                }
+                
+                // Dibujar puntos en la gráfica
+                renderDataPoints();
+            }
+            
+            function generateOutOfControlPoints() {
+                // Puntos normales
+                for (let i = 0; i < 15; i++) {
+                    dataPoints.push({
+                        x: i / 19, // 20 puntos en total
+                        y: 0.5 + (Math.random() * 0.4 - 0.2), // Entre 30% y 70%
+                        violation: false
+                    });
+                }
+                
+                // Puntos fuera de control
+                dataPoints.push({x: 15/19, y: 0.1, violation: true}); // Abajo
+                dataPoints.push({x: 16/19, y: 0.9, violation: true}); // Arriba
+                
+                // Más puntos normales
+                for (let i = 17; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.4 - 0.2),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateZoneCRun() {
+                // 9 puntos consecutivos en zona C (superior)
+                for (let i = 0; i < 9; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.58 + (Math.random() * 0.1 - 0.05), // Zona C superior
+                        violation: i >= 0 // Todos violan el criterio
+                    });
+                }
+                
+                // Puntos normales para completar
+                for (let i = 9; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.6 - 0.3),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateTrendPoints() {
+                // 6 puntos en tendencia ascendente
+                for (let i = 0; i < 6; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.3 + (i * 0.1),
+                        violation: i >= 0 // Todos violan el criterio
+                    });
+                }
+                
+                // Puntos normales para completar
+                for (let i = 6; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.6 - 0.3),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateAlternatingPoints() {
+                // 14 puntos alternantes
+                for (let i = 0; i < 14; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: i % 2 === 0 ? 0.65 : 0.35,
+                        violation: i >= 0 // Todos violan el criterio
+                    });
+                }
+                
+                // Puntos normales para completar
+                for (let i = 14; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.2 - 0.1),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateZoneAPoints() {
+                // Patrón: 2 de 3 puntos en zona A
+                dataPoints = [
+                    {x: 0/19, y: 0.85, violation: true},
+                    {x: 1/19, y: 0.82, violation: true},
+                    {x: 2/19, y: 0.45, violation: true},
+                    {x: 3/19, y: 0.5, violation: false},
+                    {x: 4/19, y: 0.12, violation: true},
+                    {x: 5/19, y: 0.15, violation: true},
+                    {x: 6/19, y: 0.55, violation: true}
+                ];
+                
+                // Completar con puntos normales
+                for (let i = 7; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.4 - 0.2),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateZoneBPoints() {
+                // 4 de 5 puntos en zona B
+                dataPoints = [
+                    {x: 0/19, y: 0.7, violation: true},
+                    {x: 1/19, y: 0.72, violation: true},
+                    {x: 2/19, y: 0.68, violation: true},
+                    {x: 3/19, y: 0.65, violation: true},
+                    {x: 4/19, y: 0.5, violation: true},
+                    {x: 5/19, y: 0.3, violation: true},
+                    {x: 6/19, y: 0.32, violation: true},
+                    {x: 7/19, y: 0.28, violation: true},
+                    {x: 8/19, y: 0.25, violation: true}
+                ];
+                
+                // Completar con puntos normales
+                for (let i = 9; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.4 - 0.2),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateZoneCCluster() {
+                // 15 puntos en zona C
+                for (let i = 0; i < 15; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.15 - 0.075),
+                        violation: i >= 0
+                    });
+                }
+                
+                for (let i = 15; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.6 - 0.3),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateOutsideZoneC() {
+                // 8 puntos consecutivos fuera de zona C
+                for (let i = 0; i < 8; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.7 + (Math.random() * 0.1),
+                        violation: i >= 0
+                    });
+                }
+                
+                for (let i = 8; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.6 - 0.3),
+                        violation: false
+                    });
+                }
+            }
+            
+            function generateGradualTrend() {
+                // Tendencia gradual a lo largo de todos los puntos
+                for (let i = 0; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.3 + (i * 0.02) + (Math.random() * 0.1 - 0.05),
+                        violation: i >= 6 // Los últimos 14 puntos muestran tendencia
+                    });
+                }
+            }
+            
+            function generateProcessShift() {
+                // Cambio abrupto en el proceso
+                for (let i = 0; i < 10; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.45 + (Math.random() * 0.1 - 0.05),
+                        violation: false
+                    });
+                }
+                
+                for (let i = 10; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.65 + (Math.random() * 0.1 - 0.05),
+                        violation: i >= 10
+                    });
+                }
+            }
+            
+            function generateCyclicPattern() {
+                // Patrón cíclico
+                for (let i = 0; i < 20; i++) {
+                    const cycle = Math.sin(i * 0.8) * 0.2;
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + cycle + (Math.random() * 0.05 - 0.025),
+                        violation: i >= 0
+                    });
+                }
+            }
+            
+            function generateStratification() {
+                // Estratificación - puntos muy cercanos a la media
+                for (let i = 0; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.1 - 0.05),
+                        violation: i >= 14 // Los últimos 15 muestran estratificación
+                    });
+                }
+            }
+            
+            function generateMixture() {
+                // Mezcla de dos poblaciones
+                for (let i = 0; i < 20; i++) {
+                    if (i % 2 === 0) {
+                        dataPoints.push({
+                            x: i / 19,
+                            y: 0.35 + (Math.random() * 0.1 - 0.05),
+                            violation: i >= 0
+                        });
+                    } else {
+                        dataPoints.push({
+                            x: i / 19,
+                            y: 0.65 + (Math.random() * 0.1 - 0.05),
+                            violation: i >= 0
+                        });
+                    }
+                }
+            }
+            
+            function generateRandomData() {
+                clearDataPoints();
+                
+                for (let i = 0; i < 20; i++) {
+                    dataPoints.push({
+                        x: i / 19,
+                        y: 0.5 + (Math.random() * 0.6 - 0.3),
+                        violation: false
+                    });
+                }
+                
+                renderDataPoints();
+                updateExplanation('random');
+            }
+            
+            function clearDataPoints() {
+                // Remover puntos existentes del DOM
+                const existingPoints = chart.querySelectorAll('.data-point');
+                existingPoints.forEach(point => point.remove());
+                dataPoints = [];
+            }
+            
+            function renderDataPoints() {
+                dataPoints.forEach(point => {
+                    const pointElement = document.createElement('div');
+                    pointElement.className = `data-point ${point.violation ? 'violation-point' : 'normal-point'}`;
+                    pointElement.style.left = `${point.x * 100}%`;
+                    pointElement.style.top = `${point.y * 100}%`;
+                    
+                    pointElement.addEventListener('click', function() {
+                        alert(`Punto en posición: ${Math.round(point.x * 100)}%\nValor: ${Math.round(point.y * 100)}% del rango`);
+                    });
+                    
+                    chart.appendChild(pointElement);
+                });
+            }
+            
+            function resetChart() {
+                generatePattern(currentCriteria);
+            }
+            
+            function updateExplanation(criteria) {
+                const explanations = {
+                    '1': {
+                        title: 'Punto fuera de los límites de control',
+                        badge: 'Criterio 1',
+                        interpretation: 'Uno o más puntos se encuentran fuera de los límites de control superior (LCS) o inferior (LCI), que representan ±3 desviaciones estándar de la media del proceso.',
+                        statistical: 'Este es el criterio más básico y evidente de falta de control. La probabilidad de que un punto caiga fuera de los límites de 3-sigma por causas comunes es de apenas 0.27%, indicando fuertemente la presencia de una causa especial.',
+                        causes: [
+                            'Error de medición o registro',
+                            'Material defectuoso o fuera de especificación',
+                            'Cambio repentino en parámetros del proceso',
+                            'Problema mecánico o de equipo',
+                            'Intervención no autorizada en el proceso'
+                        ],
+                        actions: [
+                            'Investigar y documentar la causa inmediatamente',
+                            'Aislar producto afectado',
+                            'Tomar acción correctiva',
+                            'Verificar efectividad de la corrección'
+                        ]
+                    },
+                    '2': {
+                        title: '9 puntos consecutivos en zona C (mismo lado)',
+                        badge: 'Criterio 2',
+                        interpretation: 'Nueve puntos consecutivos se encuentran en la zona C del mismo lado de la línea central.',
+                        statistical: 'Este patrón indica un desplazamiento del promedio del proceso. La probabilidad de que ocurra por azar es muy baja (0.39%), sugiriendo una causa asignable.',
+                        causes: [
+                            'Cambio gradual en calibración de equipo',
+                            'Desgaste de herramienta',
+                            'Lote de material con características diferentes',
+                            'Cambio en método de operación'
+                        ],
+                        actions: [
+                            'Verificar calibración de equipos',
+                            'Revisar estado de herramientas',
+                            'Analizar diferencias entre lotes de material',
+                            'Estandarizar procedimientos de operación'
+                        ]
+                    },
+                    '3': {
+                        title: '6 puntos consecutivos en tendencia',
+                        badge: 'Criterio 3',
+                        interpretation: 'Seis puntos consecutivos muestran una tendencia constante de aumento o disminución.',
+                        statistical: 'Indica un cambio progresivo en el proceso. La probabilidad aleatoria es de 0.27%, señalando una causa especial de variación.',
+                        causes: [
+                            'Desgaste progresivo de herramientas',
+                            'Acumulación de residuos o contaminación',
+                            'Cambio ambiental gradual (temperatura, humedad)',
+                            'Fatiga de materiales o equipos'
+                        ],
+                        actions: [
+                            'Programar mantenimiento preventivo',
+                            'Establecer controles ambientales',
+                            'Monitorear desgaste de componentes',
+                            'Implementar limpieza periódica'
+                        ]
+                    },
+                    '4': {
+                        title: '14 puntos alternando dirección',
+                        badge: 'Criterio 4',
+                        interpretation: 'Catorce puntos consecutivos alternan su posición arriba y abajo de la línea central.',
+                        statistical: 'Este patrón sugiere la presencia de dos poblaciones diferentes o un efecto de sobre-ajuste. La probabilidad aleatoria es extremadamente baja.',
+                        causes: [
+                            'Dos máquinas o procesos diferentes mezclados',
+                            'Sobre-ajuste del operador',
+                            'Dos turnos con métodos diferentes',
+                            'Dos fuentes de material con variabilidad diferente'
+                        ],
+                        actions: [
+                            'Separar y analizar fuentes diferentes',
+                            'Estandarizar procedimientos entre turnos',
+                            'Revisar política de ajustes del proceso',
+                            'Analizar variabilidad por fuente de material'
+                        ]
+                    },
+                    '5': {
+                        title: '2 de 3 puntos en zona A o más allá',
+                        badge: 'Criterio 5',
+                        interpretation: 'Dos de tres puntos consecutivos se encuentran en la zona A o más allá de los límites de control.',
+                        statistical: 'Indica una variabilidad excesiva en el proceso. La probabilidad de ocurrencia aleatoria es muy baja, sugiriendo inestabilidad.',
+                        causes: [
+                            'Proceso con alta variabilidad inherente',
+                            'Problemas de repetibilidad en medición',
+                            'Condiciones de operación inconsistentes',
+                            'Falta de estandarización en procedimientos'
+                        ],
+                        actions: [
+                            'Reducir variabilidad del proceso',
+                            'Mejorar sistema de medición',
+                            'Estandarizar condiciones de operación',
+                            'Implementar controles más estrictos'
+                        ]
+                    },
+                    '6': {
+                        title: '4 de 5 puntos en zona B o más allá',
+                        badge: 'Criterio 6',
+                        interpretation: 'Cuatro de cinco puntos consecutivos se encuentran en la zona B o más allá.',
+                        statistical: 'Sugiere un patrón de variabilidad moderada pero consistente que requiere atención.',
+                        causes: [
+                            'Proceso con moderada variabilidad',
+                            'Pequeños cambios no controlados en parámetros',
+                            'Diferencias entre operadores',
+                            'Ligeras variaciones en material de entrada'
+                        ],
+                        actions: [
+                            'Identificar y controlar fuentes de variación menores',
+                            'Capacitar operadores de manera uniforme',
+                            'Establecer controles más precisos en entradas',
+                            'Monitorear tendencias emergentes'
+                        ]
+                    },
+                    '7': {
+                        title: '15 puntos consecutivos en zona C',
+                        badge: 'Criterio 7',
+                        interpretation: 'Quince puntos consecutivos se encuentran en la zona C (central) de la gráfica.',
+                        statistical: 'Puede indicar estratificación o mezcla de datos de diferentes poblaciones. También puede sugerir sobre-control del proceso.',
+                        causes: [
+                            'Estratificación en el muestreo',
+                            'Datos de múltiples subgrupos mezclados',
+                            'Sobre-ajuste del proceso',
+                            'Resolución insuficiente en medición'
+                        ],
+                        actions: [
+                            'Revisar procedimiento de muestreo',
+                            'Verificar estratificación de datos',
+                            'Evaluar resolución del sistema de medición',
+                            'Analizar posibles sobre-ajustes'
+                        ]
+                    },
+                    '8': {
+                        title: '8 puntos consecutivos fuera de zona C',
+                        badge: 'Criterio 8',
+                        interpretation: 'Ocho puntos consecutivos se encuentran fuera de la zona C (en zonas A o B).',
+                        statistical: 'Indica un cambio sistemático en la variabilidad del proceso o un desplazamiento del promedio.',
+                        causes: [
+                            'Cambio en variabilidad del proceso',
+                            'Nuevo patrón de variación',
+                            'Modificación en condiciones de operación',
+                            'Cambio en características del material'
+                        ],
+                        actions: [
+                            'Investigar cambios recientes en el proceso',
+                            'Analizar patrones de variabilidad',
+                            'Revisar especificaciones de materiales',
+                            'Evaluar condiciones operativas'
+                        ]
+                    },
+                    'trend': {
+                        title: 'Tendencia gradual del proceso',
+                        badge: 'Patrón T',
+                        interpretation: 'Cambio progresivo y sostenido en el comportamiento del proceso a lo largo del tiempo.',
+                        statistical: 'Las tendencias indican que el proceso está experimentando un cambio sistemático que requiere investigación.',
+                        causes: [
+                            'Envejecimiento de componentes',
+                            'Cambio estacional en condiciones ambientales',
+                            'Degradación de materiales',
+                            'Acumulación de tolerancias en ensamblajes'
+                        ],
+                        actions: [
+                            'Analizar ciclo de vida de componentes',
+                            'Implementar controles compensatorios',
+                            'Establecer puntos de ajuste periódico',
+                            'Documentar patrones estacionales'
+                        ]
+                    },
+                    'shift': {
+                        title: 'Cambio abrupto en el proceso',
+                        badge: 'Patrón S',
+                        interpretation: 'Cambio repentino y sostenido en el nivel del proceso, visible como un desplazamiento claro en la media.',
+                        statistical: 'Indica un evento significativo que alteró permanentemente las características del proceso.',
+                        causes: [
+                            'Cambio de herramienta o equipo',
+                            'Nuevo lote de material con características diferentes',
+                            'Modificación en parámetros de proceso',
+                            'Cambio de operador o turno'
+                        ],
+                        actions: [
+                            'Documentar el momento exacto del cambio',
+                            'Identificar eventos coincidentes',
+                            'Evaluar impacto en calidad',
+                            'Decidir si el cambio es aceptable o requiere reversión'
+                        ]
+                    },
+                    'cycle': {
+                        title: 'Patrón cíclico o periódico',
+                        badge: 'Patrón C',
+                        interpretation: 'Variación repetitiva que sigue un patrón regular a lo largo del tiempo.',
+                        statistical: 'Sugiere la influencia de factores externos que varían de manera predecible.',
+                        causes: [
+                            'Variaciones de temperatura ambiental',
+                            'Cambios de turno o operadores',
+                            'Ciclos de mantenimiento',
+                            'Fatiga de equipos o componentes'
+                        ],
+                        actions: [
+                            'Identificar el periodo del ciclo',
+                            'Correlacionar con factores externos',
+                            'Implementar controles para factores cíclicos',
+                            'Programar mantenimiento preventivo'
+                        ]
+                    },
+                    'stratification': {
+                        title: 'Estratificación del proceso',
+                        badge: 'Patrón E',
+                        interpretation: 'Los puntos muestran poca variabilidad y se agrupan estrechamente alrededor de la media.',
+                        statistical: 'Puede indicar sobre-control o mezcla de subgrupos con diferentes medias.',
+                        causes: [
+                            'Muestreo inadecuado (múltiples lecturas del mismo elemento)',
+                            'Sobre-ajuste del operador',
+                            'Estratificación en la recolección de datos',
+                            'Capacidad de medición insuficiente'
+                        ],
+                        actions: [
+                            'Revisar procedimiento de muestreo',
+                            'Evaluar sistema de medición',
+                            'Verificar estratificación de datos',
+                            'Capacitar en procedimientos adecuados'
+                        ]
+                    },
+                    'mixture': {
+                        title: 'Mezcla de poblaciones',
+                        badge: 'Patrón M',
+                        interpretation: 'Los puntos tienden a evitar la zona central y se agrupan cerca de los límites de control.',
+                        statistical: 'Sugiere la presencia de dos o más distribuciones diferentes mezcladas en el proceso.',
+                        causes: [
+                            'Dos máquinas con desempeño diferente',
+                            'Múltiples fuentes de material',
+                            'Diferentes métodos de operación',
+                            'Cambios no controlados en parámetros'
+                        ],
+                        actions: [
+                            'Separar y analizar fuentes individuales',
+                            'Estandarizar métodos de operación',
+                            'Controlar fuentes de material',
+                            'Identificar y eliminar diferencias sistemáticas'
+                        ]
+                    },
+                    'random': {
+                        title: 'Proceso bajo control estadístico',
+                        badge: 'Estado Ideal',
+                        interpretation: 'Los puntos fluctúan aleatoriamente dentro de los límites de control sin mostrar patrones sistemáticos.',
+                        statistical: 'Indica que solo están presentes causas comunes de variación. El proceso es estable y predecible.',
+                        causes: [
+                            'Variación natural del proceso',
+                            'Factores ambientales normales',
+                            'Variabilidad inherente de materiales',
+                            'Capacidad del equipo dentro de especificaciones'
+                        ],
+                        actions: [
+                            'Continuar monitoreo rutinario',
+                            'Mantener procedimientos actuales',
+                            'Documentar desempeño del proceso',
+                            'Buscar oportunidades de mejora continua'
+                        ]
+                    }
+                };
+
+                const explanation = explanations[criteria] || explanations['1'];
+                
+                explanationPanel.innerHTML = `
+                    <div class="explanation-header">
+                        <div class="criteria-badge">${explanation.badge}</div>
+                        <h2>${explanation.title}</h2>
+                    </div>
+                    <div class="explanation-content">
+                        <div class="explanation-text">
+                            <h3>Interpretación</h3>
+                            <p>${explanation.interpretation}</p>
+                            
+                            <h3>Significado Estadístico</h3>
+                            <p>${explanation.statistical}</p>
+                        </div>
+                        
+                        <div class="causes-list">
+                            <h4>Posibles Causas Especiales</h4>
+                            <ul>
+                                ${explanation.causes.map(cause => `<li>${cause}</li>`).join('')}
+                            </ul>
+                            
+                            <h4>Acciones Recomendadas</h4>
+                            <ul>
+                                ${explanation.actions.map(action => `<li>${action}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+
+                // Actualizar estado
+                if (criteria === 'random') {
+                    statusText.textContent = 'Estado: Bajo control - Solo variación común presente';
+                    document.querySelector('.status-dot').className = 'status-dot status-stable';
+                } else {
+                    statusText.textContent = 'Estado: Fuera de control - Patrón especial detectado';
+                    document.querySelector('.status-dot').className = 'status-dot status-unstable';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

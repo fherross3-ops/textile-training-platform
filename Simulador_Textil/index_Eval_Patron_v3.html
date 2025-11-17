@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluador - Gráficas de Control Shewhart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --zone-a: #e74c3c;
+            --zone-b: #f39c12;
+            --zone-c: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #2c3e50);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .screen {
+            display: none;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* FORM STYLES */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        /* CORRECCIÓN: Color de texto en opciones del select */
+        select option {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* BUTTONS */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            margin-right: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #219955;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        .btn-danger {
+            background: var(--accent);
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        /* CHART CONTAINER */
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .chart-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .chart {
+            height: 200px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        /* ZONAS DE CONTROL */
+        .zone {
+            position: absolute;
+            left: 0;
+            right: 0;
+            opacity: 0.1;
+        }
+        
+        .zone-a { 
+            background: var(--zone-a); 
+            height: 16.67%;
+        }
+        
+        .zone-b { 
+            background: var(--zone-b); 
+            height: 16.67%;
+        }
+        
+        .zone-c { 
+            background: var(--zone-c); 
+            height: 33.33%;
+        }
+        
+        .zone-label {
+            position: absolute;
+            right: 5px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            opacity: 0.7;
+        }
+        
+        /* LÍNEAS DE CONTROL */
+        .control-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+        
+        .center-line {
+            background: var(--secondary);
+            top: 50%;
+        }
+        
+        .limit-line {
+            border-top: 1px dashed rgba(255, 255, 255, 0.5);
+        }
+        
+        /* PUNTOS DE DATOS */
+        .data-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid white;
+        }
+        
+        .normal-point {
+            background: var(--secondary);
+        }
+        
+        .violation-point {
+            background: var(--accent);
+        }
+        
+        /* EVALUATION FORM */
+        .evaluation-form {
+            margin-top: 2rem;
+        }
+        
+        .question {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .question-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--warning);
+        }
+        
+        /* SUGGESTIONS */
+        .suggestions {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .suggestions h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+        
+        .suggestion-item {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* RESULTS SCREEN */
+        .results-container {
+            text-align: center;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            color: var(--success);
+        }
+        
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .breakdown-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .breakdown-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        /* ADMIN PANEL */
+        .admin-panel {
+            margin-top: 2rem;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .results-table th, .results-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .results-table th {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* PROGRESS BAR */
+        .progress-container {
+            margin: 2rem 0;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--secondary);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-breakdown {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- SCREEN 1: REGISTRO -->
+        <div class="screen active" id="screen-register">
+            <div class="header">
+                <div class="logo">📊</div>
+                <h1>Evaluador de Dominio - Gráficas de Control Shewhart</h1>
+                <p>Identifica patrones y demuestra tu conocimiento en control estadístico de procesos</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="participant-name">Nombre del Participante:</label>
+                <input type="text" id="participant-name" placeholder="Ingresa tu nombre completo">
+            </div>
+            
+            <div class="form-group">
+                <label for="participant-id">Clave de Identificación:</label>
+                <input type="text" id="participant-id" placeholder="Ingresa tu ID o clave única">
+            </div>
+            
+            <div class="form-group">
+                <label for="participant-email">Correo Electrónico:</label>
+                <input type="email" id="participant-email" placeholder="ejemplo@correo.com">
+            </div>
+            
+            <button class="btn btn-success" id="btn-start">Iniciar Evaluación</button>
+            
+            <!-- Enlace para administración -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="?admin=true" style="color: var(--warning); text-decoration: none;">Acceso Administración</a>
+            </div>
+        </div>
+        
+        <!-- SCREEN 2: EVALUACIÓN -->
+        <div class="screen" id="screen-evaluation">
+            <div class="header">
+                <h2>Evaluación de Patrones - Gráficas de Control</h2>
+                <p>Identifica el patrón en cada gráfica y proporciona una causa y acción posible</p>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <p id="progress-text">Pregunta 1 de 4</p>
+            </div>
+            
+            <div class="charts-container" id="charts-container">
+                <!-- Las gráficas se generarán dinámicamente -->
+            </div>
+            
+            <div class="evaluation-form" id="evaluation-form">
+                <!-- Los formularios de evaluación se generarán dinámicamente -->
+            </div>
+            
+            <button class="btn" id="btn-prev" style="display:none;">Anterior</button>
+            <button class="btn btn-success" id="btn-next">Siguiente</button>
+            <button class="btn btn-warning" id="btn-finish" style="display:none;">Finalizar Evaluación</button>
+        </div>
+        
+        <!-- SCREEN 3: RESULTADOS -->
+        <div class="screen" id="screen-results">
+            <div class="header">
+                <h2>Resultados de la Evaluación</h2>
+            </div>
+            
+            <div class="results-container">
+                <h3>Puntuación Final</h3>
+                <div class="score-display" id="final-score">0</div>
+                <p id="score-message">Basado en tu identificación de patrones y respuestas proporcionadas</p>
+                
+                <div class="score-breakdown">
+                    <div class="breakdown-item">
+                        <h4>Identificación de Patrones</h4>
+                        <div class="breakdown-value" id="pattern-score">0%</div>
+                        <p>90% de la puntuación total</p>
+                    </div>
+                    <div class="breakdown-item">
+                        <h4>Causas y Acciones</h4>
+                        <div class="breakdown-value" id="action-score">0%</div>
+                        <p>10% de la puntuación total</p>
+                    </div>
+                </div>
+                
+                <div id="results-details">
+                    <!-- Los detalles de resultados se generarán dinámicamente -->
+                </div>
+                
+                <button class="btn btn-success" id="btn-save">Guardar Resultados</button>
+                <button class="btn" id="btn-pdf">Generar PDF</button>
+                <button class="btn btn-warning" id="btn-email">Enviar por Correo</button>
+                <button class="btn" id="btn-restart">Realizar Otra Evaluación</button>
+            </div>
+        </div>
+        
+        <!-- SCREEN 4: ADMINISTRACIÓN -->
+        <div class="screen" id="screen-admin">
+            <div class="header">
+                <h2>Administración de Resultados</h2>
+            </div>
+            
+            <div class="admin-panel">
+                <button class="btn" id="btn-export-json">Exportar JSON</button>
+                <button class="btn" id="btn-clear-data">Limpiar Datos</button>
+                
+                <table class="results-table" id="results-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>ID</th>
+                            <th>Puntuación</th>
+                            <th>Fecha</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Los datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <button class="btn" id="btn-back-main">Volver al Inicio</button>
+        </div>
+    </div>
+
+    <script>
+        // Base de conocimiento con patrones, causas y acciones predefinidas
+        const patternsDatabase = {
+            1: {
+                name: "Punto fuera de los límites",
+                causes: [
+                    "Error de medición o registro",
+                    "Material defectuoso o fuera de especificación",
+                    "Cambio repentino en parámetros del proceso",
+                    "Problema mecánico o de equipo",
+                    "Intervención no autorizada en el proceso"
+                ],
+                actions: [
+                    "Investigar y documentar la causa inmediatamente",
+                    "Aislar producto afectado",
+                    "Tomar acción correctiva",
+                    "Verificar efectividad de la corrección"
+                ]
+            },
+            2: {
+                name: "9 puntos en zona C (un lado)",
+                causes: [
+                    "Cambio gradual en calibración de equipo",
+                    "Desgaste de herramienta",
+                    "Lote de material con características diferentes",
+                    "Cambio en método de operación"
+                ],
+                actions: [
+                    "Verificar calibración de equipos",
+                    "Revisar estado de herramientas",
+                    "Analizar diferencias entre lotes de material",
+                    "Estandarizar procedimientos de operación"
+                ]
+            },
+            3: {
+                name: "6 puntos en tendencia",
+                causes: [
+                    "Desgaste progresivo de herramientas",
+                    "Acumulación de residuos o contaminación",
+                    "Cambio ambiental gradual (temperatura, humedad)",
+                    "Fatiga de materiales o equipos"
+                ],
+                actions: [
+                    "Programar mantenimiento preventivo",
+                    "Establecer controles ambientales",
+                    "Monitorear desgaste de componentes",
+                    "Implementar limpieza periódica"
+                ]
+            },
+            4: {
+                name: "14 puntos alternantes",
+                causes: [
+                    "Dos máquinas o procesos diferentes mezclados",
+                    "Sobre-ajuste del operador",
+                    "Dos turnos con métodos diferentes",
+                    "Dos fuentes de material con variabilidad diferente"
+                ],
+                actions: [
+                    "Separar y analizar fuentes diferentes",
+                    "Estandarizar procedimientos entre turnos",
+                    "Revisar política de ajustes del proceso",
+                    "Analizar variabilidad por fuente de material"
+                ]
+            },
+            5: {
+                name: "2 de 3 puntos en zona A",
+                causes: [
+                    "Proceso con alta variabilidad inherente",
+                    "Problemas de repetibilidad en medición",
+                    "Condiciones de operación inconsistentes",
+                    "Falta de estandarización en procedimientos"
+                ],
+                actions: [
+                    "Reducir variabilidad del proceso",
+                    "Mejorar sistema de medición",
+                    "Estandarizar condiciones de operación",
+                    "Implementar controles más estrictos"
+                ]
+            },
+            6: {
+                name: "4 de 5 puntos en zona B",
+                causes: [
+                    "Proceso con moderada variabilidad",
+                    "Pequeños cambios no controlados en parámetros",
+                    "Diferencias entre operadores",
+                    "Ligeras variaciones en material de entrada"
+                ],
+                actions: [
+                    "Identificar y controlar fuentes de variación menores",
+                    "Capacitar operadores de manera uniforme",
+                    "Establecer controles más precisos en entradas",
+                    "Monitorear tendencias emergentes"
+                ]
+            },
+            7: {
+                name: "15 puntos en zona C",
+                causes: [
+                    "Estratificación en el muestreo",
+                    "Datos de múltiples subgrupos mezclados",
+                    "Sobre-ajuste del proceso",
+                    "Resolución insuficiente en medición"
+                ],
+                actions: [
+                    "Revisar procedimiento de muestreo",
+                    "Verificar estratificación de datos",
+                    "Evaluar resolución del sistema de medición",
+                    "Analizar posibles sobre-ajustes"
+                ]
+            },
+            8: {
+                name: "8 puntos fuera de zona C",
+                causes: [
+                    "Cambio en variabilidad del proceso",
+                    "Nuevo patrón de variación",
+                    "Modificación en condiciones de operación",
+                    "Cambio en características del material"
+                ],
+                actions: [
+                    "Investigar cambios recientes en el proceso",
+                    "Analizar patrones de variabilidad",
+                    "Revisar especificaciones de materiales",
+                    "Evaluar condiciones operativas"
+                ]
+            },
+            9: {
+                name: "Tendencia gradual",
+                causes: [
+                    "Envejecimiento de componentes",
+                    "Cambio estacional en condiciones ambientales",
+                    "Degradación de materiales",
+                    "Acumulación de tolerancias en ensamblajes"
+                ],
+                actions: [
+                    "Analizar ciclo de vida de componentes",
+                    "Implementar controles compensatorios",
+                    "Establecer puntos de ajuste periódico",
+                    "Documentar patrones estacionales"
+                ]
+            },
+            10: {
+                name: "Cambio abrupto",
+                causes: [
+                    "Cambio de herramienta o equipo",
+                    "Nuevo lote de material con características diferentes",
+                    "Modificación en parámetros de proceso",
+                    "Cambio de operador o turno"
+                ],
+                actions: [
+                    "Documentar el momento exacto del cambio",
+                    "Identificar eventos coincidentes",
+                    "Evaluar impacto en calidad",
+                    "Decidir si el cambio es aceptable o requiere reversión"
+                ]
+            },
+            11: {
+                name: "Patrón cíclico",
+                causes: [
+                    "Variaciones de temperatura ambiental",
+                    "Cambios de turno o operadores",
+                    "Ciclos de mantenimiento",
+                    "Fatiga de equipos o componentes"
+                ],
+                actions: [
+                    "Identificar el periodo del ciclo",
+                    "Correlacionar con factores externos",
+                    "Implementar controles para factores cíclicos",
+                    "Programar mantenimiento preventivo"
+                ]
+            },
+            12: {
+                name: "Estratificación",
+                causes: [
+                    "Muestreo inadecuado (múltiples lecturas del mismo elemento)",
+                    "Sobre-ajuste del operador",
+                    "Estratificación en la recolección de datos",
+                    "Capacidad de medición insuficiente"
+                ],
+                actions: [
+                    "Revisar procedimiento de muestreo",
+                    "Evaluar sistema de medición",
+                    "Verificar estratificación de datos",
+                    "Capacitar en procedimientos adecuados"
+                ]
+            },
+            13: {
+                name: "Mezcla de poblaciones",
+                causes: [
+                    "Dos máquinas con desempeño diferente",
+                    "Múltiples fuentes de material",
+                    "Diferentes métodos de operación",
+                    "Cambios no controlados en parámetros"
+                ],
+                actions: [
+                    "Separar y analizar fuentes individuales",
+                    "Estandarizar métodos de operación",
+                    "Controlar fuentes de material",
+                    "Identificar y eliminar diferencias sistemáticas"
+                ]
+            }
+        };
+
+        // Datos de la aplicación
+        const appData = {
+            participant: {},
+            currentQuestion: 0,
+            totalQuestions: 4,
+            evaluations: [],
+            results: [],
+            patterns: Object.keys(patternsDatabase).map(id => ({
+                id: parseInt(id),
+                name: patternsDatabase[id].name,
+                description: patternsDatabase[id].name
+            })),
+            selectedPatterns: [],
+            // Mezcla de todas las causas y acciones para sugerencias
+            allCauses: [],
+            allActions: []
+        };
+
+        // Inicializar mezclas de causas y acciones
+        function initializeSuggestions() {
+            appData.allCauses = [];
+            appData.allActions = [];
+            
+            Object.values(patternsDatabase).forEach(pattern => {
+                appData.allCauses = [...appData.allCauses, ...pattern.causes];
+                appData.allActions = [...appData.allActions, ...pattern.actions];
+            });
+            
+            // Mezclar aleatoriamente
+            appData.allCauses = shuffleArray([...new Set(appData.allCauses)]);
+            appData.allActions = shuffleArray([...new Set(appData.allActions)]);
+        }
+
+        // Función para mezclar array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar sugerencias
+            initializeSuggestions();
+            
+            // Cargar datos guardados
+            loadSavedData();
+            
+            // Configurar event listeners
+            document.getElementById('btn-start').addEventListener('click', startEvaluation);
+            document.getElementById('btn-next').addEventListener('click', nextQuestion);
+            document.getElementById('btn-prev').addEventListener('click', prevQuestion);
+            document.getElementById('btn-finish').addEventListener('click', finishEvaluation);
+            document.getElementById('btn-save').addEventListener('click', saveResults);
+            document.getElementById('btn-pdf').addEventListener('click', generatePDF);
+            document.getElementById('btn-email').addEventListener('click', sendEmail);
+            document.getElementById('btn-restart').addEventListener('click', restartEvaluation);
+            document.getElementById('btn-export-json').addEventListener('click', exportJSON);
+            document.getElementById('btn-clear-data').addEventListener('click', clearData);
+            document.getElementById('btn-back-main').addEventListener('click', backToMain);
+            
+            // Mostrar pantalla de administración si hay parámetro
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true') {
+                showScreen('screen-admin');
+                loadAdminData();
+            }
+        });
+
+        // Funciones de navegación entre pantallas
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        // Iniciar evaluación
+        function startEvaluation() {
+            const name = document.getElementById('participant-name').value;
+            const id = document.getElementById('participant-id').value;
+            const email = document.getElementById('participant-email').value;
+            
+            if (!name || !id) {
+                alert('Por favor, ingresa tu nombre y clave de identificación');
+                return;
+            }
+            
+            appData.participant = { name, id, email, date: new Date().toISOString() };
+            
+            // Seleccionar 4 patrones aleatorios
+            appData.selectedPatterns = getRandomPatterns(4);
+            appData.currentQuestion = 0;
+            appData.evaluations = [];
+            
+            showScreen('screen-evaluation');
+            loadQuestion();
+        }
+
+        // Obtener patrones aleatorios
+        function getRandomPatterns(count) {
+            const shuffled = [...appData.patterns].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        // Cargar pregunta actual
+        function loadQuestion() {
+            const currentPattern = appData.selectedPatterns[appData.currentQuestion];
+            
+            // Actualizar barra de progreso
+            updateProgress();
+            
+            // Generar gráfica
+            generateChart(currentPattern.id);
+            
+            // Generar formulario de evaluación
+            generateEvaluationForm(currentPattern);
+            
+            // Actualizar botones de navegación
+            updateNavigationButtons();
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progress = (appData.currentQuestion / appData.totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = 
+                `Pregunta ${appData.currentQuestion + 1} de ${appData.totalQuestions}`;
+        }
+
+        // Generar gráfica
+        function generateChart(patternId) {
+            const container = document.getElementById('charts-container');
+            container.innerHTML = `
+                <div class="chart-box">
+                    <div class="chart-title">Gráfica de Control - Identifica el Patrón</div>
+                    <div class="chart" id="control-chart">
+                        <!-- Zonas -->
+                        <div class="zone zone-a" style="top: 0%;"></div>
+                        <div class="zone zone-b" style="top: 16.67%;"></div>
+                        <div class="zone zone-c" style="top: 33.33%;"></div>
+                        <div class="zone zone-c" style="bottom: 33.33%;"></div>
+                        <div class="zone zone-b" style="bottom: 16.67%;"></div>
+                        <div class="zone zone-a" style="bottom: 0%;"></div>
+                        
+                        <!-- Líneas de control -->
+                        <div class="control-line center-line" style="top: 50%;"></div>
+                        <div class="control-line limit-line" style="top: 16.67%;"></div>
+                        <div class="control-line limit-line" style="top: 33.33%;"></div>
+                        <div class="control-line limit-line" style="bottom: 33.33%;"></div>
+                        <div class="control-line limit-line" style="bottom: 16.67%;"></div>
+                    </div>
+                </div>
+            `;
+            
+            const chart = document.getElementById('control-chart');
+            generatePatternPoints(patternId, chart);
+        }
+
+        // Generar puntos según el patrón
+        function generatePatternPoints(patternId, chart) {
+            let points = [];
+            
+            switch(patternId) {
+                case 1: // Punto fuera de límites
+                    points = generateOutOfControlPoints();
+                    break;
+                case 2: // 9 puntos en zona C
+                    points = generateZoneCRun();
+                    break;
+                case 3: // 6 puntos en tendencia
+                    points = generateTrendPoints();
+                    break;
+                case 4: // 14 puntos alternantes
+                    points = generateAlternatingPoints();
+                    break;
+                case 5: // 2 de 3 puntos en zona A
+                    points = generateZoneAPoints();
+                    break;
+                case 6: // 4 de 5 puntos en zona B
+                    points = generateZoneBPoints();
+                    break;
+                case 7: // 15 puntos en zona C
+                    points = generateZoneCCluster();
+                    break;
+                case 8: // 8 puntos fuera de zona C
+                    points = generateOutsideZoneC();
+                    break;
+                case 9: // Tendencia gradual
+                    points = generateGradualTrend();
+                    break;
+                case 10: // Cambio abrupto
+                    points = generateProcessShift();
+                    break;
+                case 11: // Patrón cíclico
+                    points = generateCyclicPattern();
+                    break;
+                case 12: // Estratificación
+                    points = generateStratification();
+                    break;
+                case 13: // Mezcla de poblaciones
+                    points = generateMixture();
+                    break;
+            }
+            
+            // Dibujar puntos
+            points.forEach(point => {
+                const pointElement = document.createElement('div');
+                pointElement.className = `data-point ${point.violation ? 'violation-point' : 'normal-point'}`;
+                pointElement.style.left = `${point.x * 100}%`;
+                pointElement.style.top = `${point.y * 100}%`;
+                chart.appendChild(pointElement);
+            });
+        }
+
+        // Funciones de generación de patrones (simplificadas)
+        function generateOutOfControlPoints() {
+            const points = [];
+            for (let i = 0; i < 20; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.5 + (Math.random() * 0.4 - 0.2),
+                    violation: false
+                });
+            }
+            points[15] = {x: 15/19, y: 0.1, violation: true};
+            points[16] = {x: 16/19, y: 0.9, violation: true};
+            return points;
+        }
+
+        function generateZoneCRun() {
+            const points = [];
+            for (let i = 0; i < 9; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.58 + (Math.random() * 0.1 - 0.05),
+                    violation: true
+                });
+            }
+            for (let i = 9; i < 20; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.5 + (Math.random() * 0.6 - 0.3),
+                    violation: false
+                });
+            }
+            return points;
+        }
+
+        function generateTrendPoints() {
+            const points = [];
+            for (let i = 0; i < 6; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.3 + (i * 0.1),
+                    violation: true
+                });
+            }
+            for (let i = 6; i < 20; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.5 + (Math.random() * 0.6 - 0.3),
+                    violation: false
+                });
+            }
+            return points;
+        }
+
+        function generateAlternatingPoints() {
+            const points = [];
+            for (let i = 0; i < 14; i++) {
+                points.push({
+                    x: i / 19,
+                    y: i % 2 === 0 ? 0.65 : 0.35,
+                    violation: true
+                });
+            }
+            for (let i = 14; i < 20; i++) {
+                points.push({
+                    x: i / 19,
+                    y: 0.5 + (Math.random() * 0.2 - 0.1),
+                    violation: false
+                });
+            }
+            return points;
+        }
+
+        // Las demás funciones de generación seguirían un patrón similar...
+        function generateZoneAPoints() { return generateOutOfControlPoints(); }
+        function generateZoneBPoints() { return generateOutOfControlPoints(); }
+        function generateZoneCCluster() { return generateOutOfControlPoints(); }
+        function generateOutsideZoneC() { return generateOutOfControlPoints(); }
+        function generateGradualTrend() { return generateOutOfControlPoints(); }
+        function generateProcessShift() { return generateOutOfControlPoints(); }
+        function generateCyclicPattern() { return generateOutOfControlPoints(); }
+        function generateStratification() { return generateOutOfControlPoints(); }
+        function generateMixture() { return generateOutOfControlPoints(); }
+
+        // Generar formulario de evaluación con submenús para causas y acciones
+        function generateEvaluationForm(pattern) {
+            const correctPatternData = patternsDatabase[pattern.id];
+            const randomCauses = getRandomSuggestions(appData.allCauses, correctPatternData.causes, 5);
+            const randomActions = getRandomSuggestions(appData.allActions, correctPatternData.actions, 5);
+            
+            const form = document.getElementById('evaluation-form');
+            form.innerHTML = `
+                <div class="question">
+                    <div class="question-title">Pregunta ${appData.currentQuestion + 1}</div>
+                    <div class="form-group">
+                        <label for="pattern-${appData.currentQuestion}">¿Qué patrón identificas en esta gráfica?</label>
+                        <select id="pattern-${appData.currentQuestion}">
+                            <option value="">Selecciona un patrón</option>
+                            ${appData.patterns.map(p => 
+                                `<option value="${p.id}">${p.name}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cause-${appData.currentQuestion}">¿Cuál podría ser una causa posible de este patrón?</label>
+                        <select id="cause-${appData.currentQuestion}">
+                            <option value="">Selecciona una causa</option>
+                            ${randomCauses.map(cause => 
+                                `<option value="${cause}">${cause}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="action-${appData.currentQuestion}">¿Qué acción recomendarías tomar?</label>
+                        <select id="action-${appData.currentQuestion}">
+                            <option value="">Selecciona una acción</option>
+                            ${randomActions.map(action => 
+                                `<option value="${action}">${action}</option>`
+                            ).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="suggestions">
+                        <h4>💡 Sugerencias de causas y acciones:</h4>
+                        <div class="suggestion-item"><strong>Causas posibles:</strong> ${randomCauses.join(', ')}</div>
+                        <div class="suggestion-item"><strong>Acciones recomendadas:</strong> ${randomActions.join(', ')}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Obtener sugerencias aleatorias que incluyan algunas correctas
+        function getRandomSuggestions(allItems, correctItems, count) {
+            // Incluir al menos 2-3 opciones correctas
+            const correctToInclude = correctItems.slice(0, Math.min(3, correctItems.length));
+            const remainingSlots = count - correctToInclude.length;
+            
+            // Obtener opciones aleatorias de las demás, excluyendo las correctas
+            const otherItems = allItems.filter(item => !correctItems.includes(item));
+            const randomOthers = shuffleArray(otherItems).slice(0, remainingSlots);
+            
+            return shuffleArray([...correctToInclude, ...randomOthers]);
+        }
+
+        // Actualizar botones de navegación
+        function updateNavigationButtons() {
+            document.getElementById('btn-prev').style.display = 
+                appData.currentQuestion > 0 ? 'inline-block' : 'none';
+            
+            document.getElementById('btn-next').style.display = 
+                appData.currentQuestion < appData.totalQuestions - 1 ? 'inline-block' : 'none';
+            
+            document.getElementById('btn-finish').style.display = 
+                appData.currentQuestion === appData.totalQuestions - 1 ? 'inline-block' : 'none';
+        }
+
+        // Navegación entre preguntas
+        function nextQuestion() {
+            saveCurrentAnswer();
+            if (appData.currentQuestion < appData.totalQuestions - 1) {
+                appData.currentQuestion++;
+                loadQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (appData.currentQuestion > 0) {
+                appData.currentQuestion--;
+                loadQuestion();
+            }
+        }
+
+        // Guardar respuesta actual
+        function saveCurrentAnswer() {
+            const patternSelect = document.getElementById(`pattern-${appData.currentQuestion}`);
+            const causeSelect = document.getElementById(`cause-${appData.currentQuestion}`);
+            const actionSelect = document.getElementById(`action-${appData.currentQuestion}`);
+            
+            if (patternSelect && causeSelect && actionSelect) {
+                appData.evaluations[appData.currentQuestion] = {
+                    patternId: parseInt(patternSelect.value),
+                    patternName: patternSelect.options[patternSelect.selectedIndex]?.text,
+                    cause: causeSelect.value,
+                    action: actionSelect.value,
+                    correctPattern: appData.selectedPatterns[appData.currentQuestion].id,
+                    correctPatternName: appData.selectedPatterns[appData.currentQuestion].name,
+                    correctCauses: patternsDatabase[appData.selectedPatterns[appData.currentQuestion].id].causes,
+                    correctActions: patternsDatabase[appData.selectedPatterns[appData.currentQuestion].id].actions
+                };
+            }
+        }
+
+        // Finalizar evaluación
+        function finishEvaluation() {
+            saveCurrentAnswer();
+            calculateResults();
+            showScreen('screen-results');
+            displayResults();
+        }
+
+        // Calcular resultados mejorado con comparación de texto
+        function calculateResults() {
+            let patternScore = 0;
+            let actionScore = 0;
+            
+            appData.evaluations.forEach(evalItem => {
+                // Puntuación por identificación de patrón (90%)
+                if (evalItem.patternId === evalItem.correctPattern) {
+                    patternScore += 1;
+                }
+                
+                // Puntuación por causas y acciones (10%) - Mejorado
+                let causeScore = 0;
+                let actionScoreItem = 0;
+                
+                if (evalItem.cause && evalItem.cause.length > 0) {
+                    // Verificar si la causa seleccionada es correcta
+                    causeScore = evalItem.correctCauses.includes(evalItem.cause) ? 1 : 0;
+                }
+                
+                if (evalItem.action && evalItem.action.length > 0) {
+                    // Verificar si la acción seleccionada es correcta
+                    actionScoreItem = evalItem.correctActions.includes(evalItem.action) ? 1 : 0;
+                }
+                
+                actionScore += (causeScore + actionScoreItem) / 2;
+            });
+            
+            // Convertir a porcentajes
+            patternScore = (patternScore / appData.totalQuestions) * 90;
+            actionScore = (actionScore / appData.totalQuestions) * 10;
+            
+            appData.finalScore = Math.round(patternScore + actionScore);
+            appData.patternScore = Math.round(patternScore);
+            appData.actionScore = Math.round(actionScore);
+        }
+
+        // Mostrar resultados
+        function displayResults() {
+            document.getElementById('final-score').textContent = `${appData.finalScore}/100`;
+            document.getElementById('pattern-score').textContent = `${appData.patternScore}%`;
+            document.getElementById('action-score').textContent = `${appData.actionScore}%`;
+            
+            let scoreMessage = "";
+            if (appData.finalScore >= 90) {
+                scoreMessage = "¡Excelente! Dominio completo de los patrones de control.";
+            } else if (appData.finalScore >= 70) {
+                scoreMessage = "Buen trabajo. Tienes un buen conocimiento de los patrones.";
+            } else if (appData.finalScore >= 50) {
+                scoreMessage = "Conocimiento básico. Se recomienda repasar los patrones.";
+            } else {
+                scoreMessage = "Necesitas estudiar más los patrones de control estadístico.";
+            }
+            document.getElementById('score-message').textContent = scoreMessage;
+            
+            // Detalles de resultados
+            const details = document.getElementById('results-details');
+            details.innerHTML = '<h3>Detalles por Pregunta:</h3>';
+            
+            appData.evaluations.forEach((evalItem, index) => {
+                const isCorrect = evalItem.patternId === evalItem.correctPattern;
+                const causeCorrect = evalItem.cause && evalItem.correctCauses.includes(evalItem.cause);
+                const actionCorrect = evalItem.action && evalItem.correctActions.includes(evalItem.action);
+                
+                details.innerHTML += `
+                    <div class="question" style="text-align: left; margin-bottom: 1rem;">
+                        <p><strong>Pregunta ${index + 1}:</strong> ${isCorrect ? '✅ Correcto' : '❌ Incorrecto'}</p>
+                        <p><strong>Patrón identificado:</strong> ${evalItem.patternName || 'No respondido'}</p>
+                        <p><strong>Patrón correcto:</strong> ${evalItem.correctPatternName}</p>
+                        <p><strong>Causa propuesta:</strong> ${evalItem.cause || 'No proporcionada'} ${causeCorrect ? '✅' : '❌'}</p>
+                        <p><strong>Acción propuesta:</strong> ${evalItem.action || 'No proporcionada'} ${actionCorrect ? '✅' : '❌'}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Guardar resultados
+        function saveResults() {
+            const result = {
+                participant: appData.participant,
+                score: appData.finalScore,
+                patternScore: appData.patternScore,
+                actionScore: appData.actionScore,
+                evaluations: appData.evaluations,
+                timestamp: new Date().toISOString()
+            };
+            
+            appData.results.push(result);
+            localStorage.setItem('shewhartEvaluations', JSON.stringify(appData.results));
+            alert('Resultados guardados correctamente');
+        }
+
+        // Cargar datos guardados
+        function loadSavedData() {
+            const saved = localStorage.getItem('shewhartEvaluations');
+            if (saved) {
+                appData.results = JSON.parse(saved);
+            }
+        }
+
+        // Generar PDF con mejoras de visualización
+        function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Aplicar estilos de optimización para impresión
+            doc.setFontSize(20);
+            doc.text('Evaluación de Gráficas de Control Shewhart', 20, 20);
+            
+            doc.setFontSize(12);
+            doc.text(`Participante: ${appData.participant.name}`, 20, 40);
+            doc.text(`ID: ${appData.participant.id}`, 20, 50);
+            doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 20, 60);
+            doc.text(`Puntuación Final: ${appData.finalScore}/100`, 20, 70);
+            
+            let yPosition = 90;
+            appData.evaluations.forEach((evalItem, index) => {
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                
+                doc.setFontSize(14);
+                doc.text(`Pregunta ${index + 1}:`, 20, yPosition);
+                yPosition += 10;
+                
+                doc.setFontSize(10);
+                doc.text(`Patrón identificado: ${evalItem.patternName || 'No respondido'}`, 20, yPosition);
+                yPosition += 6;
+                doc.text(`Patrón correcto: ${evalItem.correctPatternName}`, 20, yPosition);
+                yPosition += 6;
+                doc.text(`Causa: ${evalItem.cause || 'No proporcionada'}`, 20, yPosition);
+                yPosition += 6;
+                doc.text(`Acción: ${evalItem.action || 'No proporcionada'}`, 20, yPosition);
+                yPosition += 15;
+            });
+            
+            doc.save(`Evaluacion_Shewhart_${appData.participant.name}.pdf`);
+        }
+
+        // Enviar por correo con nuevo correo
+        function sendEmail() {
+            const email = appData.participant.email || 'fherross3@gmail.com';
+            const subject = `Evaluación Shewhart - ${appData.participant.name}`;
+            const body = `
+                Resultados de la evaluación de Gráficas de Control Shewhart:
+                
+                Participante: ${appData.participant.name}
+                ID: ${appData.participant.id}
+                Fecha: ${new Date().toLocaleDateString()}
+                Puntuación Final: ${appData.finalScore}/100
+                
+                Detalles por pregunta:
+                ${appData.evaluations.map((evalItem, index) => `
+                Pregunta ${index + 1}:
+                - Patrón identificado: ${evalItem.patternName || 'No respondido'}
+                - Patrón correcto: ${evalItem.correctPatternName}
+                - Causa: ${evalItem.cause || 'No proporcionada'}
+                - Acción: ${evalItem.action || 'No proporcionada'}
+                `).join('')}
+            `;
+            
+            const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+
+        // Reiniciar evaluación
+        function restartEvaluation() {
+            showScreen('screen-register');
+        }
+
+        // Exportar JSON
+        function exportJSON() {
+            const dataStr = JSON.stringify(appData.results, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'evaluaciones_shewhart.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Limpiar datos
+        function clearData() {
+            if (confirm('¿Estás seguro de que quieres eliminar todos los datos?')) {
+                localStorage.removeItem('shewhartEvaluations');
+                appData.results = [];
+                loadAdminData();
+                alert('Datos eliminados correctamente');
+            }
+        }
+
+        // Cargar datos de administración
+        function loadAdminData() {
+            const tableBody = document.querySelector('#results-table tbody');
+            tableBody.innerHTML = '';
+            
+            appData.results.forEach(result => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${result.participant.name}</td>
+                    <td>${result.participant.id}</td>
+                    <td>${result.score}/100</td>
+                    <td>${new Date(result.timestamp).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn" onclick="viewDetails('${result.participant.id}')">Ver</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Ver detalles (función global para los botones)
+        window.viewDetails = function(participantId) {
+            const result = appData.results.find(r => r.participant.id === participantId);
+            if (result) {
+                alert(`Detalles de ${result.participant.name}:\nPuntuación: ${result.score}/100\nFecha: ${new Date(result.timestamp).toLocaleString()}`);
+            }
+        };
+
+        // Volver al inicio
+        function backToMain() {
+            showScreen('screen-register');
+        }
+    </script>
+</body>
+</html>

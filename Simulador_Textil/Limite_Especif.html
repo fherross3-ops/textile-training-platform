@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Límites de Control vs Especificación</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #2ecc71;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .visualization-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .chart-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .chart {
+            height: 300px;
+            position: relative;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .control-chart {
+            background-color: #f8f9fa;
+        }
+        
+        .histogram-chart {
+            background-color: #f8f9fa;
+        }
+        
+        .spec-line {
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            background-color: var(--accent-color);
+            top: 0;
+        }
+        
+        .control-line {
+            position: absolute;
+            height: 100%;
+            width: 2px;
+            background-color: var(--secondary-color);
+            top: 0;
+        }
+        
+        .center-line {
+            position: absolute;
+            height: 100%;
+            width: 1px;
+            background-color: #7f8c8d;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-style: dashed;
+        }
+        
+        .data-point {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--dark-color);
+            transform: translate(-50%, -50%);
+        }
+        
+        .bar {
+            position: absolute;
+            bottom: 0;
+            background-color: var(--secondary-color);
+            width: 20px;
+        }
+        
+        .interactive-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+        }
+        
+        .value-display {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .point-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .point-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .conclusion h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--dark-color);
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .visualization-container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Límites de Control vs Límites de Especificación</h1>
+            <p class="subtitle">Comprendiendo la diferencia fundamental en el Control Estadístico de Procesos (CEP)</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="content-section">
+            <h2>¿Cuál es la diferencia?</h2>
+            <p>En el Control Estadístico de Procesos, es crucial distinguir entre <strong>límites de control</strong> y <strong>límites de especificación</strong>. Aunque ambos establecen límites, su origen, propósito y uso son completamente diferentes.</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Límites de Control</th>
+                        <th>Límites de Especificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Origen</strong></td>
+                        <td>Se <strong>calculan</strong> a partir de los datos del proceso</td>
+                        <td>Se <strong>definen externamente</strong> (cliente, ingeniería)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Propósito</strong></td>
+                        <td>Monitorear la <strong>estabilidad</strong> del proceso</td>
+                        <td>Definir la <strong>conformidad</strong> del producto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base</strong></td>
+                        <td>Variación natural del proceso</td>
+                        <td>Necesidades del cliente</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Se usan en</strong></td>
+                        <td><strong>Carta de Control</strong></td>
+                        <td><strong>Histograma / Análisis de Capacidad</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Indican</strong></td>
+                        <td>Si el proceso es <strong>estable</strong> (bajo control)</td>
+                        <td>Si el producto es <strong>aceptable</strong> (cumple especificaciones)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2>Visualización de los Conceptos</h2>
+            <p>Utiliza los controles para ajustar los valores y observar cómo cambian las visualizaciones:</p>
+            
+            <div class="interactive-controls">
+                <div class="control-group">
+                    <label for="spec-lower">Límite de Especificación Inferior (LEI): <span id="spec-lower-value" class="value-display">8.0</span></label>
+                    <input type="range" id="spec-lower" min="7.0" max="9.5" step="0.1" value="8.0">
+                </div>
+                <div class="control-group">
+                    <label for="spec-upper">Límite de Especificación Superior (LES): <span id="spec-upper-value" class="value-display">12.0</span></label>
+                    <input type="range" id="spec-upper" min="10.5" max="13.0" step="0.1" value="12.0">
+                </div>
+                <div class="control-group">
+                    <label for="process-variation">Variación del Proceso: <span id="process-variation-value" class="value-display">1.0</span></label>
+                    <input type="range" id="process-variation" min="0.5" max="3.0" step="0.1" value="1.0">
+                </div>
+            </div>
+            
+            <div class="visualization-container">
+                <div class="chart-container">
+                    <div class="chart-title">Carta de Control (Control Chart)</div>
+                    <div class="chart control-chart" id="control-chart">
+                        <!-- Los elementos se generarán con JavaScript -->
+                    </div>
+                    <p class="chart-description">La carta de control muestra la estabilidad del proceso a lo largo del tiempo. Los límites de control (azul) se calculan a partir de la variación natural del proceso.</p>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Histograma con Especificaciones</div>
+                    <div class="chart histogram-chart" id="histogram-chart">
+                        <!-- Los elementos se generarán con JavaScript -->
+                    </div>
+                    <p class="chart-description">El histograma muestra la distribución de los datos del proceso. Los límites de especificación (rojo) definen los requisitos del cliente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Puntos Clave para Recordar</h2>
+            <div class="key-points">
+                <div class="point-card">
+                    <h3>Límites de Control</h3>
+                    <p>Se basan en la variación natural del proceso. Si los puntos caen fuera de estos límites, indica que el proceso está fuera de control (causas especiales).</p>
+                </div>
+                <div class="point-card">
+                    <h3>Límites de Especificación</h3>
+                    <p>Son requisitos externos. Si los productos caen fuera de estos límites, no cumplen con las especificaciones del cliente.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Proceso Estable vs Capaz</h3>
+                    <p>Un proceso puede estar bajo control (estable) pero no ser capaz de cumplir especificaciones si su variación natural es mayor que la tolerancia permitida.</p>
+                </div>
+                <div class="point-card">
+                    <h3>Análisis de Capacidad</h3>
+                    <p>Es la herramienta que compara la variación del proceso (límites de control) con los requisitos (límites de especificación) para determinar si el proceso es capaz.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="conclusion">
+            <h2>Conclusión</h2>
+            <p>No uses los límites de especificación en una carta de control. En su lugar:</p>
+            <ol>
+                <li>Utiliza la <strong>carta de control</strong> con sus límites calculados para <strong>estabilizar el proceso</strong>.</li>
+                <li>Una vez que el proceso esté estable, compara su comportamiento (usando un histograma o análisis de capacidad) con los <strong>límites de especificación predefinidos</strong> para ver si es <strong>capaz</strong> de cumplir con los requisitos.</li>
+            </ol>
+            <p style="margin-top: 1rem; font-weight: bold;">Recuerda: Los límites de control nos dicen cómo se comporta el proceso, mientras que los límites de especificación nos dicen lo que el cliente quiere.</p>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Explicador Interactivo: Límites de Control vs Especificación</p>
+            <p>Control Estadístico de Procesos (CEP) | Calidad y Mejora Continua</p>
+        </div>
+    </footer>
+
+    <script>
+        // Elementos del DOM
+        const specLowerInput = document.getElementById('spec-lower');
+        const specUpperInput = document.getElementById('spec-upper');
+        const processVariationInput = document.getElementById('process-variation');
+        const specLowerValue = document.getElementById('spec-lower-value');
+        const specUpperValue = document.getElementById('spec-upper-value');
+        const processVariationValue = document.getElementById('process-variation-value');
+        const controlChart = document.getElementById('control-chart');
+        const histogramChart = document.getElementById('histogram-chart');
+        
+        // Valores iniciales
+        let specLower = 8.0;
+        let specUpper = 12.0;
+        let processVariation = 1.0;
+        const targetValue = 10.0;
+        
+        // Inicializar visualizaciones
+        updateDisplays();
+        renderCharts();
+        
+        // Event listeners para los controles
+        specLowerInput.addEventListener('input', function() {
+            specLower = parseFloat(this.value);
+            if (specLower >= specUpper - 0.5) {
+                specLower = specUpper - 0.5;
+                this.value = specLower;
+            }
+            updateDisplays();
+            renderCharts();
+        });
+        
+        specUpperInput.addEventListener('input', function() {
+            specUpper = parseFloat(this.value);
+            if (specUpper <= specLower + 0.5) {
+                specUpper = specLower + 0.5;
+                this.value = specUpper;
+            }
+            updateDisplays();
+            renderCharts();
+        });
+        
+        processVariationInput.addEventListener('input', function() {
+            processVariation = parseFloat(this.value);
+            updateDisplays();
+            renderCharts();
+        });
+        
+        function updateDisplays() {
+            specLowerValue.textContent = specLower.toFixed(1);
+            specUpperValue.textContent = specUpper.toFixed(1);
+            processVariationValue.textContent = processVariation.toFixed(1);
+        }
+        
+        function renderCharts() {
+            renderControlChart();
+            renderHistogram();
+        }
+        
+        function renderControlChart() {
+            // Limpiar el gráfico
+            controlChart.innerHTML = '';
+            
+            // Calcular límites de control (simplificado)
+            const controlLimit = processVariation * 3; // 3 sigma
+            const lcl = targetValue - controlLimit; // Límite de control inferior
+            const ucl = targetValue + controlLimit; // Límite de control superior
+            
+            // Dibujar líneas de límites de especificación
+            const specLowerLine = document.createElement('div');
+            specLowerLine.className = 'spec-line';
+            specLowerLine.style.left = `${((specLower - 7) / 6) * 100}%`;
+            controlChart.appendChild(specLowerLine);
+            
+            const specUpperLine = document.createElement('div');
+            specUpperLine.className = 'spec-line';
+            specUpperLine.style.left = `${((specUpper - 7) / 6) * 100}%`;
+            controlChart.appendChild(specUpperLine);
+            
+            // Dibujar líneas de límites de control
+            const lclLine = document.createElement('div');
+            lclLine.className = 'control-line';
+            lclLine.style.left = `${((lcl - 7) / 6) * 100}%`;
+            controlChart.appendChild(lclLine);
+            
+            const uclLine = document.createElement('div');
+            uclLine.className = 'control-line';
+            uclLine.style.left = `${((ucl - 7) / 6) * 100}%`;
+            controlChart.appendChild(uclLine);
+            
+            // Dibujar línea central
+            const centerLine = document.createElement('div');
+            centerLine.className = 'center-line';
+            centerLine.style.left = '50%';
+            controlChart.appendChild(centerLine);
+            
+            // Generar puntos de datos simulados
+            const numPoints = 25;
+            for (let i = 0; i < numPoints; i++) {
+                // Simular variación del proceso
+                const variation = (Math.random() - 0.5) * 2 * processVariation;
+                const value = targetValue + variation;
+                
+                const point = document.createElement('div');
+                point.className = 'data-point';
+                
+                // Posición horizontal basada en el valor
+                const xPos = ((value - 7) / 6) * 100;
+                point.style.left = `${xPos}%`;
+                
+                // Posición vertical (tiempo)
+                const yPos = (i / (numPoints - 1)) * 100;
+                point.style.top = `${yPos}%`;
+                
+                // Color basado en si está fuera de límites de control
+                if (value < lcl || value > ucl) {
+                    point.style.backgroundColor = 'var(--accent-color)';
+                }
+                
+                controlChart.appendChild(point);
+            }
+            
+            // Añadir etiquetas
+            addLabel(controlChart, 'LEI', ((specLower - 7) / 6) * 100, 'var(--accent-color)');
+            addLabel(controlChart, 'LES', ((specUpper - 7) / 6) * 100, 'var(--accent-color)');
+            addLabel(controlChart, 'LCL', ((lcl - 7) / 6) * 100, 'var(--secondary-color)');
+            addLabel(controlChart, 'UCL', ((ucl - 7) / 6) * 100, 'var(--secondary-color)');
+        }
+        
+        function renderHistogram() {
+            // Limpiar el gráfico
+            histogramChart.innerHTML = '';
+            
+            // Generar datos simulados para el histograma
+            const numBins = 12;
+            const binWidth = 0.5;
+            const bins = Array(numBins).fill(0);
+            const numSamples = 200;
+            
+            for (let i = 0; i < numSamples; i++) {
+                // Simular variación del proceso
+                const variation = (Math.random() - 0.5) * 2 * processVariation;
+                const value = targetValue + variation;
+                
+                // Encontrar el bin correspondiente
+                const binIndex = Math.floor((value - 7) / binWidth);
+                if (binIndex >= 0 && binIndex < numBins) {
+                    bins[binIndex]++;
+                }
+            }
+            
+            // Encontrar la frecuencia máxima para escalar
+            const maxFreq = Math.max(...bins);
+            
+            // Dibujar barras del histograma
+            for (let i = 0; i < numBins; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                
+                // Posición y tamaño
+                const xPos = (i / numBins) * 100;
+                const height = (bins[i] / maxFreq) * 100;
+                
+                bar.style.left = `${xPos}%`;
+                bar.style.width = `${100 / numBins}%`;
+                bar.style.height = `${height}%`;
+                
+                // Color basado en si está fuera de especificaciones
+                const binCenter = 7 + (i + 0.5) * binWidth;
+                if (binCenter < specLower || binCenter > specUpper) {
+                    bar.style.backgroundColor = 'var(--accent-color)';
+                }
+                
+                histogramChart.appendChild(bar);
+            }
+            
+            // Dibujar líneas de límites de especificación
+            const specLowerLine = document.createElement('div');
+            specLowerLine.className = 'spec-line';
+            specLowerLine.style.left = `${((specLower - 7) / 6) * 100}%`;
+            histogramChart.appendChild(specLowerLine);
+            
+            const specUpperLine = document.createElement('div');
+            specUpperLine.className = 'spec-line';
+            specUpperLine.style.left = `${((specUpper - 7) / 6) * 100}%`;
+            histogramChart.appendChild(specUpperLine);
+            
+            // Añadir etiquetas
+            addLabel(histogramChart, 'LEI', ((specLower - 7) / 6) * 100, 'var(--accent-color)');
+            addLabel(histogramChart, 'LES', ((specUpper - 7) / 6) * 100, 'var(--accent-color)');
+        }
+        
+        function addLabel(chart, text, xPercent, color) {
+            const label = document.createElement('div');
+            label.textContent = text;
+            label.style.position = 'absolute';
+            label.style.left = `${xPercent}%`;
+            label.style.bottom = '0';
+            label.style.transform = 'translateX(-50%)';
+            label.style.color = color;
+            label.style.fontWeight = 'bold';
+            label.style.fontSize = '12px';
+            chart.appendChild(label);
+        }
+    </script>
+</body>
+</html>

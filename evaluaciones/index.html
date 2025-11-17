@@ -44,6 +44,37 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 1.5rem;
         }
+        .media-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .media-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .media-item:hover {
+            transform: translateY(-5px);
+        }
+        .media-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .media-item h3 {
+            margin: 0.5rem 0;
+            color: #2c3e50;
+        }
+        .media-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -99,6 +130,37 @@
                 <li><a href="certificado_competencia.pdf">Certificado de Competencia</a></li>
                -->
             </ul>
+        </div>
+        
+        <!-- NUEVA SECCIÓN: Imágenes, PDFs y Videos -->
+        <div class="content-section">
+            <h2>Recursos de Aprendizaje</h2>
+            <p>Materiales complementarios para el desarrollo de actividades y evaluaciones.</p>
+            
+            <div class="media-section">
+                <div class="media-item">
+                    <img src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A.">
+                    <h3>Asignaciones Cartas de Control</h3>
+                    <p>Desarrollo práctico de Cartas de Control Shewart - Jeantex S.A.</p>
+                </div>
+                
+                <!-- Espacio para agregar más recursos en el futuro -->
+                <div class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">PDF de Ejemplo</span>
+                    </div>
+                    <h3>Manual de Procedimientos</h3>
+                    <p>Guía completa de procesos textiles</p>
+                </div>
+                
+                <div class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">Video Tutorial</span>
+                    </div>
+                    <h3>Video Instructivo</h3>
+                    <p>Demostración de técnicas avanzadas</p>
+                </div>
+            </div>
         </div>
     </div>
     

@@ -56,6 +56,7 @@
             padding: 1rem;
             text-align: center;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
         .media-item:hover {
             transform: translateY(-5px);
@@ -75,6 +76,83 @@
             color: #666;
             font-size: 0.9rem;
         }
+        
+        /* Modal para visualización de imagen */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            margin-top: 2%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close:hover {
+            color: #bbb;
+        }
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        
+        /* Estilos para la imagen de asignaciones */
+        .asignaciones-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .asignaciones-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        .asignaciones-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+        .asignaciones-image:hover {
+            transform: scale(1.02);
+        }
+        
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -92,6 +170,22 @@
     
     <div class="container">
         <a href="../index.html" class="back-btn">← Volver al inicio</a>
+        
+        <!-- NUEVA SECCIÓN: Imagen de Asignaciones -->
+        <div class="asignaciones-container">
+            <div class="asignaciones-header">
+                <h2>Asignaciones - Cartas de Control Shewart</h2>
+                <span style="color: #3498db; font-weight: bold;">Jeantex S.A.</span>
+            </div>
+            <p>Desarrollo práctico de Cartas de Control Shewart para el control estadístico de procesos.</p>
+            
+            <img id="asignacionesImg" src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A." class="asignaciones-image" 
+                 onclick="openModal('Asignaciones.jpg', 'Asignaciones - Cartas de Control Shewart - Jeantex S.A.')">
+            
+            <div style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                <p><strong>Haga clic en la imagen para ampliarla</strong></p>
+            </div>
+        </div>
         
         <div class="content-section">
             <h2>Evaluación Diagnóstica</h2>
@@ -132,21 +226,21 @@
             </ul>
         </div>
         
-        <!-- NUEVA SECCIÓN: Imágenes, PDFs y Videos -->
+        <!-- SECCIÓN: Otros Recursos de Aprendizaje -->
         <div class="content-section">
-            <h2>Recursos de Aprendizaje</h2>
+            <h2>Otros Recursos de Aprendizaje</h2>
             <p>Materiales complementarios para el desarrollo de actividades y evaluaciones.</p>
             
             <div class="media-section">
-                <div class="media-item">
-                    <img src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A.">
+                <div class="media-item" onclick="openModal('Asignaciones.jpg', 'Asignaciones - Cartas de Control Shewart')">
+                    <img src="Asignaciones.jpg" alt="Asignaciones Jeantex S.A." style="height: 150px; object-fit: cover;">
                     <h3>Asignaciones Cartas de Control</h3>
                     <p>Desarrollo práctico de Cartas de Control Shewart - Jeantex S.A.</p>
                 </div>
                 
                 <!-- Espacio para agregar más recursos en el futuro -->
                 <div class="media-item">
-                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                    <div style="background: #e9ecef; height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
                         <span style="color: #6c757d;">PDF de Ejemplo</span>
                     </div>
                     <h3>Manual de Procedimientos</h3>
@@ -154,7 +248,7 @@
                 </div>
                 
                 <div class="media-item">
-                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                    <div style="background: #e9ecef; height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
                         <span style="color: #6c757d;">Video Tutorial</span>
                     </div>
                     <h3>Video Instructivo</h3>
@@ -164,8 +258,66 @@
         </div>
     </div>
     
+    <!-- Modal para visualización de imagen -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+    
     <footer>
         <p>Plataforma de Capacitación Textil &copy; 2024</p>
     </footer>
+
+    <script>
+        // Funciones para el modal de imagen
+        function openModal(imageSrc, caption) {
+            document.getElementById('imageModal').style.display = "block";
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalCaption').innerHTML = caption;
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+        }
+        
+        // Cerrar modal al hacer clic fuera de la imagen
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // Verificar si la imagen se carga correctamente
+        window.onload = function() {
+            const img = document.getElementById('asignacionesImg');
+            img.onerror = function() {
+                // Si la imagen no se carga, mostrar un mensaje
+                this.alt = "Imagen no disponible - Verifique que el archivo 'Asignaciones.jpg' esté en la misma carpeta";
+                this.style.border = "2px dashed #e74c3c";
+                this.style.padding = "20px";
+                this.style.backgroundColor = "#f9f9f9";
+                this.style.cursor = "default";
+                
+                // Crear mensaje de error
+                const errorMsg = document.createElement('div');
+                errorMsg.innerHTML = `
+                    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Error:</strong> No se pudo cargar la imagen "Asignaciones.jpg". 
+                        Verifique que el archivo exista en la misma carpeta que este archivo HTML.
+                    </div>
+                `;
+                img.parentNode.insertBefore(errorMsg, img.nextSibling);
+            };
+        };
+    </script>
 </body>
 </html>

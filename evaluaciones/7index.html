@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Integrado - Gestión de Curso Shewart</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 5px;
+            --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+        
+        .user-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background-color: white;
+            font-weight: bold;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+        
+        .tab:hover:not(.active) {
+            background-color: #e9ecef;
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .participant-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .participant-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .participant-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .participant-info {
+            margin-bottom: 5px;
+        }
+        
+        .participant-info strong {
+            display: inline-block;
+            width: 100px;
+        }
+        
+        .group-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .group-A {
+            background-color: #e1f5fe;
+            color: #0288d1;
+        }
+        
+        .group-B {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .assignments-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .assignments-table th,
+        .assignments-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .assignments-table th {
+            background-color: var(--primary-color);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+        
+        .assignments-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending {
+            background-color: #ffecb3;
+            color: #ff8f00;
+        }
+        
+        .status-in-progress {
+            background-color: #e1f5fe;
+            color: #0288d1;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .grade-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .grade-excelente {
+            background-color: var(--success-color);
+        }
+        
+        .grade-bueno {
+            background-color: var(--primary-color);
+        }
+        
+        .grade-regular {
+            background-color: var(--warning-color);
+        }
+        
+        .grade-deficiente {
+            background-color: var(--danger-color);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .action-buttons .btn {
+            flex: 1;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .participant-assignments {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .assignment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .assignment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .assignment-info {
+            flex: 1;
+        }
+        
+        .assignment-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: var(--danger-color);
+        }
+        
+        /* Nuevos estilos para login y reportes */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+        
+        .report-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .report-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .report-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .report-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .access-log {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .log-user {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .log-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .log-role {
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        /* Estilos para la vista de línea de tiempo */
+        .timeline-container {
+            margin-top: 20px;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        /* Estilos para el modal de reportes */
+        #reports-modal {
+            display: none;
+        }
+        
+        .view-toggle {
+            margin-bottom: 15px;
+        }
+        
+        .view-toggle .btn.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .user-instructions {
+            background-color: #e8f4fd;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .user-instructions h4 {
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        /* Nuevos estilos para el modal de progreso */
+        .progress-assignment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            background: #f9f9f9;
+        }
+
+        .progress-assignment-info {
+            flex: 1;
+        }
+
+        .progress-assignment-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .progress-status-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            min-width: 140px;
+        }
+
+        .progress-grade-input {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            width: 80px;
+            text-align: center;
+        }
+
+        .progress-summary {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .progress-summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .progress-summary-stat {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: var(--border-radius);
+        }
+
+        .progress-summary-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .progress-summary-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            .participants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .assignments-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                margin-right: 0;
+                margin-bottom: 5px;
+                border-radius: var(--border-radius);
+                border: 1px solid #ddd;
+            }
+            
+            .tab.active {
+                border-radius: var(--border-radius);
+                margin-bottom: 5px;
+            }
+            
+            .header-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .progress-assignment-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .progress-assignment-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+    <!-- Incluir jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <!-- Incluir SheetJS para exportar a Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <!-- Modal de Login -->
+    <div class="modal" id="login-modal" style="display: flex;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Sesión - Curso Shewart</h3>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Usuario:</label>
+                    <input type="text" id="username" class="form-control" required placeholder="Ingrese su nombre">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" id="password" class="form-control" required placeholder="Ingrese la contraseña">
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn" style="width: 100%;">Ingresar</button>
+                </div>
+                
+                <!-- Instrucciones solo para usuarios normales -->
+                <div id="user-instructions" class="user-instructions">
+                    <h4>Instrucciones para Usuarios:</h4>
+                    <p><strong>Usuario:</strong> Su nombre completo</p>
+                    <p><strong>Contraseña:</strong> jtx1*123</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Reportes -->
+    <div class="modal" id="reports-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Generar Reportes PDF</h3>
+                <span class="close" id="close-reports">&times;</span>
+            </div>
+            
+            <div class="report-options">
+                <div class="report-card" data-report="individual">
+                    <div class="report-icon">👤</div>
+                    <h4>Reporte Individual</h4>
+                    <p>Progreso detallado por participante</p>
+                </div>
+                
+                <div class="report-card" data-report="group">
+                    <div class="report-icon">👥</div>
+                    <h4>Reporte por Grupos</h4>
+                    <p>Comparativa entre Grupo A y B</p>
+                </div>
+                
+                <div class="report-card" data-report="general">
+                    <div class="report-icon">📊</div>
+                    <h4>Reporte General</h4>
+                    <p>Resumen completo del curso</p>
+                </div>
+                
+                <div class="report-card" data-report="assignments">
+                    <div class="report-icon">📝</div>
+                    <h4>Reporte de Asignaciones</h4>
+                    <p>Estado de todas las asignaciones</p>
+                </div>
+            </div>
+            
+            <div id="report-params">
+                <div class="form-group">
+                    <label for="report-participant">Seleccionar Participante:</label>
+                    <select id="report-participant" class="form-control">
+                        <!-- Opciones se llenarán dinámicamente -->
+                    </select>
+                </div>
+                <button class="btn btn-success" id="generate-report-btn">Generar Reporte</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar participante -->
+    <div class="modal" id="edit-participant-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Participante</h3>
+                <span class="close" id="close-edit-participant">&times;</span>
+            </div>
+            
+            <form id="edit-participant-form">
+                <input type="hidden" id="edit-participant-id">
+                
+                <div class="form-group">
+                    <label for="edit-participant-name">Nombre:</label>
+                    <input type="text" id="edit-participant-name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-participant-email">Email:</label>
+                    <input type="email" id="edit-participant-email" class="form-control">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-participant-group">Grupo:</label>
+                        <select id="edit-participant-group" class="form-control" required>
+                            <option value="A">Grupo A</option>
+                            <option value="B">Grupo B</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-participant-area">Área:</label>
+                        <input type="text" id="edit-participant-area" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-participant-company">Empresa:</label>
+                        <input type="text" id="edit-participant-company" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-participant-phone">Teléfono:</label>
+                        <input type="text" id="edit-participant-phone" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-participant-registration">Fecha de Registro:</label>
+                    <input type="text" id="edit-participant-registration" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-participant-active">Estado:</label>
+                    <select id="edit-participant-active" class="form-control" required>
+                        <option value="true">Activo</option>
+                        <option value="false">Inactivo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" style="width: 100%;">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar asignación -->
+    <div class="modal" id="edit-assignment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Asignación</h3>
+                <span class="close" id="close-edit-assignment">&times;</span>
+            </div>
+            
+            <form id="edit-assignment-form">
+                <input type="hidden" id="edit-assignment-id">
+                
+                <div class="form-group">
+                    <label for="edit-assignment-name">Nombre de la Asignación:</label>
+                    <input type="text" id="edit-assignment-name" class="form-control" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-assignment-start">Fecha de Inicio:</label>
+                        <input type="text" id="edit-assignment-start" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-assignment-due">Fecha de Fin:</label>
+                        <input type="text" id="edit-assignment-due" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-assignment-status">Estado:</label>
+                    <select id="edit-assignment-status" class="form-control" required>
+                        <option value="pending">Pendiente</option>
+                        <option value="in-progress">En Progreso</option>
+                        <option value="completed">Completado</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" style="width: 100%;">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para editar progreso del participante -->
+    <div class="modal" id="edit-progress-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Progreso del Participante</h3>
+                <span class="close" id="close-edit-progress">&times;</span>
+            </div>
+            
+            <div id="progress-modal-content">
+                <!-- Contenido dinámico del progreso -->
+            </div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <button class="btn btn-success" id="save-progress-btn" style="width: 100%;">Guardar Progreso</button>
+            </div>
+        </div>
+    </div>
+
+    <header id="app-header" style="display: none;">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1 id="main-title">Gestión de Curso Shewart</h1>
+                    <div class="user-info" id="user-info">
+                        <span id="current-user"></span>
+                        <span class="user-badge" id="user-role"></span>
+                        <button class="btn btn-warning" id="logout-btn">Cerrar Sesión</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-buttons" id="header-buttons">
+                <button class="btn btn-success" id="export-btn">Exportar a Excel</button>
+                <button class="btn" id="save-btn">Guardar Datos</button>
+                <button class="btn" id="load-btn">Cargar Datos</button>
+                <button class="btn btn-warning" id="reports-btn">Generar Reportes PDF</button>
+                <input type="file" id="file-input" accept=".json" style="display: none;">
+            </div>
+        </div>
+    </header>
+    
+    <div class="container" id="main-content" style="display: none;">
+        <div class="tabs">
+            <div class="tab active" data-tab="dashboard">Dashboard</div>
+            <div class="tab" data-tab="participants">Participantes</div>
+            <div class="tab" data-tab="assignments">Asignaciones</div>
+            <div class="tab" data-tab="progress">Progreso</div>
+            <div class="tab" data-tab="templates">Plantillas</div>
+            <div class="tab" data-tab="access-log">Registro de Accesos</div>
+        </div>
+        
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard">
+            <h2>Resumen del Curso</h2>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Total Participantes</div>
+                    <div class="stat-value" id="total-participants">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Grupo A</div>
+                    <div class="stat-value" id="group-a-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Grupo B</div>
+                    <div class="stat-value" id="group-b-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Asignaciones</div>
+                    <div class="stat-value" id="total-assignments">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Promedio de Completación</div>
+                    <div class="stat-value" id="completion-rate">0%</div>
+                </div>
+            </div>
+            
+            <h3>Próximas Asignaciones</h3>
+            <table class="assignments-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Asignación</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="upcoming-assignments">
+                    <!-- Las próximas asignaciones se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Participants Tab -->
+        <div class="tab-content" id="participants">
+            <h2>Lista de Participantes</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="group-filter">Filtrar por grupo:</label>
+                    <select id="group-filter">
+                        <option value="all">Todos</option>
+                        <option value="A">Grupo A</option>
+                        <option value="B">Grupo B</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="area-filter">Filtrar por área:</label>
+                    <select id="area-filter">
+                        <option value="all">Todas</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="search-participant">Buscar:</label>
+                    <input type="text" id="search-participant" placeholder="Nombre o email...">
+                </div>
+                
+                <button class="btn btn-success" id="add-participant-btn" style="display: none;">Nuevo Participante</button>
+            </div>
+            
+            <div class="participants-grid" id="participants-container">
+                <!-- Las tarjetas de participantes se cargarán aquí -->
+            </div>
+        </div>
+        
+        <!-- Assignments Tab -->
+        <div class="tab-content" id="assignments">
+            <h2>Gestión de Asignaciones</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="status-filter">Filtrar por estado:</label>
+                    <select id="status-filter">
+                        <option value="all">Todos</option>
+                        <option value="pending">Pendiente</option>
+                        <option value="in-progress">En Progreso</option>
+                        <option value="completed">Completado</option>
+                    </select>
+                </div>
+                
+                <div class="sort-options">
+                    <label for="sort-assignments">Ordenar por:</label>
+                    <select id="sort-assignments">
+                        <option value="startDate">Fecha de inicio</option>
+                        <option value="dueDate">Fecha de fin</option>
+                        <option value="name">Nombre</option>
+                        <option value="status">Estado</option>
+                    </select>
+                </div>
+                
+                <button class="btn" id="add-assignment-btn" style="display: none;">Nueva Asignación</button>
+            </div>
+            
+            <div class="view-toggle">
+                <button class="btn active" id="tableViewBtn">Vista de Tabla</button>
+                <button class="btn" id="timelineViewBtn">Línea de Tiempo</button>
+            </div>
+            
+            <!-- Vista de tabla (por defecto) -->
+            <div id="table-view">
+                <table class="assignments-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Asignación</th>
+                            <th>Fecha Inicio</th>
+                            <th>Fecha Fin</th>
+                            <th>Estado</th>
+                            <th id="assignments-actions-header" style="display: none;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignments-table-body">
+                        <!-- Las asignaciones se cargarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Vista de línea de tiempo -->
+            <div id="timeline-view" style="display: none;">
+                <div class="timeline-container">
+                    <div class="timeline" id="assignments-timeline">
+                        <!-- Las asignaciones en línea de tiempo se cargarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Tab -->
+        <div class="tab-content" id="progress">
+            <h2>Progreso de Participantes</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="progress-group-filter">Filtrar por grupo:</label>
+                    <select id="progress-group-filter">
+                        <option value="all">Todos</option>
+                        <option value="A">Grupo A</option>
+                        <option value="B">Grupo B</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="progress-search">Buscar:</label>
+                    <input type="text" id="progress-search" placeholder="Nombre o email...">
+                </div>
+            </div>
+            
+            <div id="progress-container">
+                <!-- El progreso de los participantes se cargará aquí -->
+            </div>
+        </div>
+        
+        <!-- Templates Tab -->
+        <div class="tab-content" id="templates">
+            <h2>Plantillas de Asignaciones</h2>
+            
+            <ul id="templates-list">
+                <!-- Las plantillas se cargarán aquí -->
+            </ul>
+        </div>
+        
+        <!-- Access Log Tab -->
+        <div class="tab-content" id="access-log">
+            <h2>Registro de Accesos al Sistema</h2>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="log-user-filter">Filtrar por usuario:</label>
+                    <select id="log-user-filter">
+                        <option value="all">Todos los usuarios</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="log-date-filter">Filtrar por fecha:</label>
+                    <input type="date" id="log-date-filter">
+                </div>
+                
+                <button class="btn" id="clear-logs-btn" style="display: none;">Limpiar Registros</button>
+            </div>
+            
+            <div class="access-log" id="access-log-container">
+                <!-- Los registros de acceso se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CLAVES para almacenamiento local
+        const STORAGE_KEY = 'curso_shewart_data';
+        const USERS_KEY = 'curso_shewart_users';
+        const ACCESS_LOG_KEY = 'curso_shewart_access_log';
+        
+        // Usuarios del sistema
+        const defaultUsers = [
+            {
+                username: 'admin',
+                password: 'admin123',
+                role: 'admin',
+                name: 'Administrador',
+                email: 'admin@jeantex.com'
+            }
+        ];
+        
+        // Datos COMPLETOS del curso - INTEGRADOS DIRECTAMENTE
+        const defaultCourseData = {
+            "participants": [
+                {"id":1,"name":"Eleny Cedeño","email":"serenys@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4125320824","area":"Calidad","company":"Jeantex","active":true,"progress":{}},
+                {"id":2,"name":"Lorena Perez","email":"lore11divinot@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4263636039","area":"Calidad","company":"Jeantex","active":true,"progress":{}},
+                {"id":3,"name":"Nicolle Zapata","email":"zapatanicolles@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4243153757","area":"Calidad","company":"Jeantex","active":true,"progress":{}},
+                {"id":4,"name":"Karla Betancourt","email":"karla.betancourt30.11@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4128925014","area":"Produccion","company":"Jeantex","active":true,"progress":{}},
+                {"id":5,"name":"Edgar Hernandez","email":"edgar.uc.ing@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4244231222","area":"Tejeduria","company":"Jeantex","active":true,"progress":{}},
+                {"id":6,"name":"Alvaro Rosas","email":"alvarorosas77@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4120355041","area":"Tejeduria","company":"Jeantex","active":true,"progress":{}},
+                {"id":7,"name":"Jose Tochon","email":"jtochon89@gail.com","group":"B","registrationDate":"25/8/2025","phone":"4120344903","area":"Proyectos","company":"Jeantex","active":true,"progress":{}},
+                {"id":8,"name":"Luis Morales","email":"luismorales251189@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4127413748","area":"HFC","company":"Jeantex","active":true,"progress":{}},
+                {"id":9,"name":"Richard Lopez","email":"richardlopez08@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"412682964","area":"HFC","company":"Jeantex","active":true,"progress":{}},
+                {"id":10,"name":"Victor Rodriguez","email":"victor.rodriguez2107@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4128821134","area":"P.Humedos","company":"Jeantex","active":true,"progress":{}},
+                {"id":11,"name":"Brizeida Uzcategui","email":"coordinadorlogistica.jeantex@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4123284007","area":"Despacho","company":"Jeantex","active":true,"progress":{}},
+                {"id":12,"name":"Yessele Hernandez","email":"Yesselle.hernandez@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4141760386","area":"Planificacion","company":"Jeantex","active":true,"progress":{}},
+                {"id":13,"name":"Leicester Perez","email":"leicesterantonio@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4243486580","area":"Tejeduria","company":"Jeantex","active":true,"progress":{}},
+                {"id":14,"name":"Abraham Arevalo","email":"abrahanarevalo@hotmail.com","group":"B","registrationDate":"25/8/2025","phone":"4124601768","area":"Servicios Energia","company":"Jeantex","active":true,"progress":{}},
+                {"id":15,"name":"Marivict Gonzalez","email":"despacho@jeantex.com.ve","group":"B","registrationDate":"25/8/2025","phone":"4243490707","area":"Despacho","company":"Jeantex","active":true,"progress":{}},
+                {"id":16,"name":"Maria Barco","email":"labacabado@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4162441950","area":"Calidad","company":"Jeantex","active":true,"progress":{}},
+                {"id":17,"name":"Manuel Quiñones","email":"","group":"B","registrationDate":"25/8/2025","phone":"4124492250","area":"Servicios Energia","company":"Jeantex","active":true,"progress":{}},
+                {"id":18,"name":"Pierina Garcia","email":"pgarcia@jeantex.com.ve","group":"B","registrationDate":"25/8/2025","phone":"4129732953","area":"Administracion","company":"Jeantex","active":true,"progress":{}},
+                {"id":19,"name":"Robinson Hernandez","email":"robinsonjoseehl@gmail.com","group":"B","registrationDate":"25/8/2025","phone":"4144493404","area":"P.Acabado","company":"Jeantex","active":true,"progress":{}},
+                {"id":20,"name":"Jesus Rivera","email":"jesusriver11@gmail.com","group":"B","registrationDate":"25/8/2025","phone":"4121440302","area":"P.Acabado","company":"Jeantex","active":true,"progress":{}},
+                {"id":21,"name":"Ronald Erazo","email":"ronalddhlepress@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4243409706","area":"Administracion","company":"Jeantex","active":true,"progress":{}},
+                {"id":22,"name":"Antonio Mejias","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"HFC","company":"Jeantex","active":true,"progress":{}},
+                {"id":23,"name":"Mariela mora","email":"marigab2513@gmail.com","group":"A","registrationDate":"25/8/2025","phone":"4128270841","area":"Planificacion","company":"Jeantex","active":true,"progress":{}},
+                {"id":24,"name":"Milagros Laya","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"Planificacion","company":"Jeantex","active":true,"progress":{}},
+                {"id":25,"name":"Jhonny Hernandez","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"Tejeduria","company":"Jeantex","active":true,"progress":{}},
+                {"id":26,"name":"Jesus Aponte","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"P.Humedos","company":"Jeantex","active":true,"progress":{}},
+                {"id":27,"name":"Gabriel Zambrano","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"P.Acabado","company":"Jeantex","active":true,"progress":{}},
+                {"id":28,"name":"Leopoldo Alvarez","email":"","group":"B","registrationDate":"25/8/2025","phone":"","area":"Seguridad","company":"Jeantex","active":true,"progress":{}},
+                {"id":29,"name":"Victor Silva","email":"","group":"A","registrationDate":"25/8/2025","phone":"4124825115","area":"Tejeduria","company":"Jeantex","active":true,"progress":{}}
+            ],
+            "assignments": [
+                {id: 1, assignmentName: "Crear y Diseñar KPI", startDate: "3/9/2025", dueDate: "8/9/2025", status: "pending"},
+                {id: 2, assignmentName: "Asignacion de quipos de Trabajo", startDate: "16/9/2025", dueDate: "23/9/2025", status: "pending"},
+                {id: 3, assignmentName: "Enlace Sitio Web Saber Textil", startDate: "23/9/2025", dueDate: "27/9/2025", status: "pending"},
+                {id: 4, assignmentName: "Seleccionar KPI Carta de Control", startDate: "2/10/2025", dueDate: "5/10/2025", status: "pending"},
+                {id: 5, assignmentName: "Registrar 20 Valores del KPI", startDate: "5/10/2025", dueDate: "10/10/2025", status: "pending"},
+                {id: 6, assignmentName: "Utilizar Plantilla Ford/BASF", startDate: "14/10/2025", dueDate: "30/10/2025", status: "pending"},
+                {id: 7, assignmentName: "Calcular los limites de control", startDate: "14/10/2025", dueDate: "30/10/2025", status: "pending"},
+                {id: 8, assignmentName: "Construir la Grafica de Control", startDate: "30/10/2025", dueDate: "6/11/2025", status: "pending"},
+                {id: 9, assignmentName: "Sacar 2 conclusiones observables de la grafica", startDate: "6/11/2025", dueDate: "13/11/2025", status: "pending"},
+                {id: 10, assignmentName: "Identificar Causas Comunes y Causas Especiales", startDate: "6/11/2025", dueDate: "13/11/2025", status: "pending"},
+                {id: 11, assignmentName: "Identificar Patrones y tendencias", startDate: "6/11/2025", dueDate: "13/11/2025", status: "pending"},
+                {id: 12, assignmentName: "Observar, Comprender e Interpretar SPC (Carta Control)", startDate: "13/11/2025", dueDate: "20/11/2025", status: "pending"},
+                {id: 14, assignmentName: "Indicar las Herramientas que utilizara para MC", startDate: "13/11/2025", dueDate: "20/11/2025", status: "pending"},
+                {id: 15, assignmentName: "Desarrollar Tecnica Mejora Continua PDCA", startDate: "20/11/2025", dueDate: "24/11/2025", status: "pending"},
+                {id: 16, assignmentName: "Simular 80 valores", startDate: "05/10/2025", dueDate: "10/10/2025", status: "pending"},
+                {id: 17, assignmentName: "Establecer Limites de Especificacion", startDate: "06/11/2025", dueDate: "13/11/2025", status: "pending"},
+                {id: 18, assignmentName: "Determinar Cp y Cpk. (interpretacion-conclusion-accion)", startDate: "06/11/2025", dueDate: "13/11/2025", status: "pending"}
+            ],
+            "assignmentTemplates": [
+                "Carta de Control X-R para proceso de tejeduría",
+                "Análisis de capacidad del proceso CP/CPK",
+                "Carta de control P para defectos en acabado",
+                "Estudio de repetibilidad y reproducibilidad",
+                "Carta de control C para número de defectos",
+                "Análisis de patrones en cartas de control",
+                "Carta de control U para defectos por unidad",
+                "Implementación sistema de control estadístico"
+            ],
+            "gradingSystem": {
+                "type": "numeric",
+                "scales": [
+                    {
+                        "name": "Excelente",
+                        "min": 90,
+                        "max": 100,
+                        "color": "#27ae60"
+                    },
+                    {
+                        "name": "Bueno",
+                        "min": 80,
+                        "max": 89,
+                        "color": "#3498db"
+                    },
+                    {
+                        "name": "Regular",
+                        "min": 70,
+                        "max": 79,
+                        "color": "#f39c12"
+                    },
+                    {
+                        "name": "Deficiente",
+                        "min": 0,
+                        "max": 69,
+                        "color": "#e74c3c"
+                    }
+                ]
+            },
+            "exportDate": new Date().toISOString()
+        };
+
+        // SISTEMA DE AUTENTICACIÓN
+        let currentUser = null;
+        let courseData = null;
+        let accessLog = [];
+
+        // Inicializar sistema de usuarios
+        function initializeUsers() {
+            const savedUsers = localStorage.getItem(USERS_KEY);
+            if (!savedUsers) {
+                localStorage.setItem(USERS_KEY, JSON.stringify(defaultUsers));
+            }
+        }
+
+        // Inicializar registro de accesos
+        function initializeAccessLog() {
+            const savedLog = localStorage.getItem(ACCESS_LOG_KEY);
+            if (savedLog) {
+                accessLog = JSON.parse(savedLog);
+            }
+        }
+
+        // Registrar acceso
+        function logAccess(username, action) {
+            const logEntry = {
+                username: username,
+                action: action,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString('es-ES'),
+                time: new Date().toLocaleTimeString('es-ES')
+            };
+            
+            accessLog.unshift(logEntry);
+            if (accessLog.length > 1000) {
+                accessLog = accessLog.slice(0, 1000);
+            }
+            
+            localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(accessLog));
+        }
+
+        // Función de login CORREGIDA
+        function login(username, password) {
+            // Primero verificar si es admin con las credenciales por defecto
+            if (username === 'admin' && password === 'admin123') {
+                currentUser = {
+                    username: 'admin',
+                    password: 'admin123',
+                    role: 'admin',
+                    name: 'Administrador',
+                    email: 'admin@jeantex.com'
+                };
+                logAccess(username, 'LOGIN');
+                showMainInterface();
+                showNotification(`Bienvenido, Administrador`, 'success');
+                return true;
+            }
+            
+            // Verificar en usuarios guardados
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || [];
+            
+            // Verificar si es admin en usuarios guardados
+            const admin = users.find(u => u.username === username && u.password === password && u.role === 'admin');
+            if (admin) {
+                currentUser = admin;
+                logAccess(username, 'LOGIN');
+                showMainInterface();
+                showNotification(`Bienvenido, ${admin.name}`, 'success');
+                return true;
+            }
+            
+            // Verificar si es usuario normal (nombre + contraseña fija)
+            if (password === 'jtx1*123') {
+                // Crear usuario temporal
+                currentUser = {
+                    username: username,
+                    password: password,
+                    role: 'user',
+                    name: username,
+                    email: ''
+                };
+                logAccess(username, 'LOGIN');
+                showMainInterface();
+                showNotification(`Bienvenido, ${username}`, 'success');
+                return true;
+            }
+            
+            return false;
+        }
+
+        // Función de logout
+        function logout() {
+            if (currentUser) {
+                logAccess(currentUser.username, 'LOGOUT');
+            }
+            currentUser = null;
+            showLoginInterface();
+        }
+
+        // Mostrar interfaz de login
+        function showLoginInterface() {
+            document.getElementById('login-modal').style.display = 'flex';
+            document.getElementById('app-header').style.display = 'none';
+            document.getElementById('main-content').style.display = 'none';
+        }
+
+        // Mostrar interfaz principal
+        function showMainInterface() {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('app-header').style.display = 'block';
+            document.getElementById('main-content').style.display = 'block';
+            
+            document.getElementById('current-user').textContent = currentUser.name;
+            document.getElementById('user-role').textContent = currentUser.role === 'admin' ? 'Administrador' : 'Usuario';
+            
+            setupPermissions();
+            
+            // Ocultar instrucciones si es admin
+            if (currentUser.role === 'admin') {
+                document.getElementById('user-instructions').style.display = 'none';
+            }
+        }
+        
+        // Configurar permisos según el rol
+        function setupPermissions() {
+            const isAdmin = currentUser.role === 'admin';
+            
+            // Mostrar/ocultar botones de edición
+            document.getElementById('add-participant-btn').style.display = isAdmin ? 'block' : 'none';
+            document.getElementById('add-assignment-btn').style.display = isAdmin ? 'block' : 'none';
+            document.getElementById('clear-logs-btn').style.display = isAdmin ? 'block' : 'none';
+            document.getElementById('assignments-actions-header').style.display = isAdmin ? 'table-cell' : 'none';
+            
+            // Ocultar pestaña de registro de accesos para usuarios normales
+            const accessLogTab = document.querySelector('.tab[data-tab="access-log"]');
+            if (accessLogTab) {
+                accessLogTab.style.display = isAdmin ? 'flex' : 'none';
+            }
+            
+            // Si no es admin, ocultar botones de guardar/cargar
+            if (!isAdmin) {
+                document.getElementById('save-btn').style.display = 'none';
+                document.getElementById('load-btn').style.display = 'none';
+            }
+        }
+
+        // CARGAR DATOS AL INICIAR
+        function loadCourseData() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                console.log("Cargando datos guardados del localStorage...");
+                try {
+                    const parsedData = JSON.parse(savedData);
+                    
+                    // Verificar si los datos tienen la estructura correcta
+                    if (parsedData.participants && parsedData.assignments) {
+                        console.log("Datos cargados correctamente del localStorage");
+                        return parsedData;
+                    } else {
+                        console.log("Datos en localStorage corruptos, cargando datos por defecto...");
+                        return initializeFromEmbeddedJSON();
+                    }
+                } catch (error) {
+                    console.error("Error al parsear datos guardados:", error);
+                    return initializeFromEmbeddedJSON();
+                }
+            } else {
+                console.log("No hay datos guardados, cargando datos por defecto...");
+                return initializeFromEmbeddedJSON();
+            }
+        }
+
+        // INICIALIZAR DESDE JSON INCORPORADO
+        function initializeFromEmbeddedJSON() {
+            console.log("Inicializando con datos completos del JSON...");
+            
+            // Crear una copia profunda de los datos por defecto
+            const data = JSON.parse(JSON.stringify(defaultCourseData));
+            
+            // Asegurarse de que todos los participantes tengan progress inicializado
+            data.participants.forEach(participant => {
+                if (!participant.progress) {
+                    participant.progress = {};
+                }
+            });
+            
+            // Inicializar progreso para todos los participantes
+            initializeParticipantProgress(data);
+            
+            console.log("Datos inicializados:", {
+                participantes: data.participants.length,
+                asignaciones: data.assignments.length
+            });
+            
+            return data;
+        }
+
+        // GUARDAR DATOS
+        function saveCourseData() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para guardar datos', 'error');
+                return;
+            }
+            
+            courseData.exportDate = new Date().toISOString();
+            courseData.lastModified = new Date().toLocaleString('es-ES');
+            courseData.modifiedBy = currentUser.username;
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(courseData));
+            logAccess(currentUser.username, 'SAVE_DATA');
+            showNotification('Datos guardados correctamente', 'success');
+        }
+
+        // FUNCIÓN PARA ELIMINAR PARTICIPANTE
+        function deleteParticipant(participantId) {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para eliminar participantes', 'error');
+                return;
+            }
+            
+            if (confirm('¿Está seguro de que desea eliminar este participante?')) {
+                courseData.participants = courseData.participants.filter(p => p.id !== participantId);
+                
+                // Guardar cambios
+                saveCourseData();
+                
+                // Actualizar vistas
+                renderParticipants();
+                renderProgress();
+                renderDashboard();
+                
+                showNotification('Participante eliminado correctamente', 'success');
+                logAccess(currentUser.username, 'DELETE_PARTICIPANT');
+            }
+        }
+
+        // FUNCIÓN PARA ELIMINAR ASIGNACIÓN
+        function deleteAssignment(assignmentId) {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para eliminar asignaciones', 'error');
+                return;
+            }
+            
+            if (confirm('¿Está seguro de que desea eliminar esta asignación?')) {
+                // Eliminar la asignación
+                courseData.assignments = courseData.assignments.filter(a => a.id !== assignmentId);
+                
+                // Eliminar el progreso de esta asignación de todos los participantes
+                courseData.participants.forEach(participant => {
+                    if (participant.progress && participant.progress[assignmentId]) {
+                        delete participant.progress[assignmentId];
+                    }
+                });
+                
+                // Guardar cambios
+                saveCourseData();
+                
+                // Actualizar vistas
+                renderAssignments();
+                renderParticipants();
+                renderProgress();
+                renderDashboard();
+                
+                showNotification('Asignación eliminada correctamente', 'success');
+                logAccess(currentUser.username, 'DELETE_ASSIGNMENT');
+            }
+        }
+
+        // FUNCIÓN PARA AGREGAR NUEVO PARTICIPANTE
+        function addNewParticipant() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para agregar participantes', 'error');
+                return;
+            }
+            
+            // Generar nuevo ID
+            const newId = Math.max(...courseData.participants.map(p => p.id), 0) + 1;
+            
+            const newParticipant = {
+                id: newId,
+                name: "Nuevo Participante",
+                email: "",
+                group: "A",
+                registrationDate: new Date().toLocaleDateString('es-ES'),
+                phone: "",
+                area: "Calidad",
+                company: "Jeantex",
+                active: true,
+                progress: {}
+            };
+            
+            // Inicializar progreso para todas las asignaciones
+            courseData.assignments.forEach(assignment => {
+                newParticipant.progress[assignment.id] = {
+                    status: 'pending',
+                    grade: null,
+                    submitted: false
+                };
+            });
+            
+            courseData.participants.push(newParticipant);
+            
+            // Guardar cambios
+            saveCourseData();
+            
+            // Actualizar vistas
+            renderParticipants();
+            renderProgress();
+            renderDashboard();
+            
+            // Abrir modal de edición para el nuevo participante
+            openEditParticipantModal(newId);
+            
+            showNotification('Nuevo participante agregado', 'success');
+            logAccess(currentUser.username, 'ADD_PARTICIPANT');
+        }
+
+        // FUNCIÓN PARA AGREGAR NUEVA ASIGNACIÓN
+        function addNewAssignment() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para agregar asignaciones', 'error');
+                return;
+            }
+            
+            // Generar nuevo ID
+            const newId = Math.max(...courseData.assignments.map(a => a.id), 0) + 1;
+            
+            const newAssignment = {
+                id: newId,
+                assignmentName: "Nueva Asignación",
+                startDate: new Date().toLocaleDateString('es-ES'),
+                dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('es-ES'),
+                status: "pending"
+            };
+            
+            courseData.assignments.push(newAssignment);
+            
+            // Agregar esta asignación al progreso de todos los participantes
+            courseData.participants.forEach(participant => {
+                if (!participant.progress) {
+                    participant.progress = {};
+                }
+                participant.progress[newId] = {
+                    status: 'pending',
+                    grade: null,
+                    submitted: false
+                };
+            });
+            
+            // Guardar cambios
+            saveCourseData();
+            
+            // Actualizar vistas
+            renderAssignments();
+            renderParticipants();
+            renderProgress();
+            renderDashboard();
+            
+            // Abrir modal de edición para la nueva asignación
+            openEditAssignmentModal(newId);
+            
+            showNotification('Nueva asignación agregada', 'success');
+            logAccess(currentUser.username, 'ADD_ASSIGNMENT');
+        }
+
+        // FUNCIÓN NUEVA: Abrir modal de edición de progreso
+        function openEditProgressModal(participantId) {
+            const participant = courseData.participants.find(p => p.id === participantId);
+            
+            if (!participant) {
+                showNotification('Participante no encontrado', 'error');
+                return;
+            }
+
+            const modalContent = document.getElementById('progress-modal-content');
+            
+            // Calcular estadísticas actuales
+            let completed = 0;
+            let inProgress = 0;
+            let pending = 0;
+            let totalGrade = 0;
+            let gradedAssignments = 0;
+            
+            if (participant.progress) {
+                Object.values(participant.progress).forEach(progress => {
+                    if (progress.status === 'completed') completed++;
+                    else if (progress.status === 'in-progress') inProgress++;
+                    else pending++;
+                    
+                    if (progress.grade !== null) {
+                        totalGrade += progress.grade;
+                        gradedAssignments++;
+                    }
+                });
+            }
+            
+            const averageGrade = gradedAssignments > 0 ? Math.round(totalGrade / gradedAssignments) : 0;
+            const progressPercent = courseData.assignments.length > 0 ? 
+                Math.round((completed / courseData.assignments.length) * 100) : 0;
+
+            // Crear contenido del modal
+            modalContent.innerHTML = `
+                <div class="progress-summary">
+                    <h4>Resumen del Progreso - ${participant.name}</h4>
+                    <div class="progress-summary-stats">
+                        <div class="progress-summary-stat">
+                            <div class="progress-summary-value">${completed}/${courseData.assignments.length}</div>
+                            <div class="progress-summary-label">Completadas</div>
+                        </div>
+                        <div class="progress-summary-stat">
+                            <div class="progress-summary-value">${progressPercent}%</div>
+                            <div class="progress-summary-label">Progreso Total</div>
+                        </div>
+                        <div class="progress-summary-stat">
+                            <div class="progress-summary-value">${averageGrade > 0 ? averageGrade : 'N/A'}</div>
+                            <div class="progress-summary-label">Calificación Promedio</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Asignaciones</h4>
+                <div class="participant-assignments" id="progress-assignments-list">
+                    ${generateProgressAssignmentsHTML(participant)}
+                </div>
+            `;
+
+            // Guardar el ID del participante en el modal
+            document.getElementById('edit-progress-modal').dataset.participantId = participantId;
+            
+            // Mostrar el modal
+            document.getElementById('edit-progress-modal').style.display = 'flex';
+        }
+
+        // FUNCIÓN NUEVA: Generar HTML para las asignaciones de progreso
+        function generateProgressAssignmentsHTML(participant) {
+            let html = '';
+            
+            courseData.assignments.forEach(assignment => {
+                const progress = participant.progress && participant.progress[assignment.id] 
+                    ? participant.progress[assignment.id] 
+                    : { status: 'pending', grade: null, submitted: false };
+                
+                const statusText = getStatusText(progress.status);
+                const gradeValue = progress.grade !== null ? progress.grade : '';
+                
+                html += `
+                    <div class="progress-assignment-item" data-assignment-id="${assignment.id}">
+                        <div class="progress-assignment-info">
+                            <strong>${assignment.assignmentName}</strong>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                ${formatDate(assignment.startDate)} - ${formatDate(assignment.dueDate)}
+                            </div>
+                        </div>
+                        <div class="progress-assignment-controls">
+                            <select class="progress-status-select" data-assignment-id="${assignment.id}">
+                                <option value="pending" ${progress.status === 'pending' ? 'selected' : ''}>Pendiente</option>
+                                <option value="in-progress" ${progress.status === 'in-progress' ? 'selected' : ''}>En Progreso</option>
+                                <option value="completed" ${progress.status === 'completed' ? 'selected' : ''}>Completado</option>
+                            </select>
+                            <input type="number" class="progress-grade-input" 
+                                   data-assignment-id="${assignment.id}"
+                                   value="${gradeValue}" 
+                                   min="0" max="100" 
+                                   placeholder="Calificación"
+                                   ${progress.status !== 'completed' ? 'disabled' : ''}>
+                            <div style="min-width: 60px; text-align: center;">
+                                ${progress.grade !== null ? 
+                                    `<span class="grade-badge ${getGradeClass(progress.grade)}">${progress.grade}</span>` : 
+                                    'N/A'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+
+        // FUNCIÓN NUEVA: Guardar cambios en el progreso
+        function saveProgressChanges() {
+            const participantId = parseInt(document.getElementById('edit-progress-modal').dataset.participantId);
+            const participant = courseData.participants.find(p => p.id === participantId);
+            
+            if (!participant) {
+                showNotification('Error: participante no encontrado', 'error');
+                return;
+            }
+
+            // Recopilar todos los cambios
+            const statusSelects = document.querySelectorAll('.progress-status-select');
+            const gradeInputs = document.querySelectorAll('.progress-grade-input');
+            
+            let changesMade = false;
+
+            statusSelects.forEach(select => {
+                const assignmentId = parseInt(select.getAttribute('data-assignment-id'));
+                const newStatus = select.value;
+                
+                if (!participant.progress[assignmentId]) {
+                    participant.progress[assignmentId] = { status: 'pending', grade: null, submitted: false };
+                }
+                
+                if (participant.progress[assignmentId].status !== newStatus) {
+                    participant.progress[assignmentId].status = newStatus;
+                    changesMade = true;
+                    
+                    // Si el estado no es "completed", limpiar la calificación
+                    if (newStatus !== 'completed' && participant.progress[assignmentId].grade !== null) {
+                        participant.progress[assignmentId].grade = null;
+                    }
+                }
+            });
+
+            gradeInputs.forEach(input => {
+                const assignmentId = parseInt(input.getAttribute('data-assignment-id'));
+                const newGrade = input.value.trim() === '' ? null : parseInt(input.value);
+                
+                if (!participant.progress[assignmentId]) {
+                    participant.progress[assignmentId] = { status: 'pending', grade: null, submitted: false };
+                }
+                
+                // Solo permitir calificación si la asignación está completada
+                if (participant.progress[assignmentId].status === 'completed') {
+                    if (participant.progress[assignmentId].grade !== newGrade) {
+                        participant.progress[assignmentId].grade = newGrade;
+                        changesMade = true;
+                    }
+                } else if (newGrade !== null) {
+                    // Si hay una calificación pero la asignación no está completada, limpiarla
+                    participant.progress[assignmentId].grade = null;
+                    changesMade = true;
+                }
+            });
+
+            if (changesMade) {
+                // Guardar cambios
+                saveCourseData();
+                
+                // Actualizar vistas
+                renderParticipants();
+                renderProgress();
+                renderDashboard();
+                
+                // Cerrar modal
+                document.getElementById('edit-progress-modal').style.display = 'none';
+                
+                showNotification('Progreso actualizado correctamente', 'success');
+                logAccess(currentUser.username, 'UPDATE_PROGRESS');
+            } else {
+                showNotification('No se realizaron cambios', 'info');
+            }
+        }
+
+        // MOSTRAR NOTIFICACIÓN
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            if (type === 'error') notification.classList.add('error');
+            notification.style.background = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // INICIALIZACIÓN PRINCIPAL
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUsers();
+            initializeAccessLog();
+            
+            // Configurar formulario de login
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (login(username, password)) {
+                    // Cargar datos después del login exitoso
+                    courseData = loadCourseData();
+                    console.log("Datos cargados:", courseData);
+                    
+                    // Inicializar y renderizar todas las vistas
+                    initializeParticipantProgress();
+                    initializeTabs();
+                    renderDashboard();
+                    renderParticipants();
+                    renderAssignments();
+                    renderProgress();
+                    renderTemplates();
+                    renderAccessLog();
+                    populateAreaFilter();
+                    
+                    showNotification('Sistema cargado correctamente', 'success');
+                } else {
+                    showNotification('Usuario o contraseña incorrectos', 'error');
+                }
+            });
+            
+            // Configurar botón de logout
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            
+            // Configurar botón de reportes
+            document.getElementById('reports-btn').addEventListener('click', function() {
+                if (currentUser) {
+                    openReportsModal();
+                }
+            });
+
+            // Configurar otros event listeners
+            setupEventListeners();
+        });
+
+        // =============================================
+        // FUNCIONALIDADES DE RENDERIZADO
+        // =============================================
+
+        // Inicializar progreso de participantes
+        function initializeParticipantProgress(data = courseData) {
+            if (!data || !data.participants || !data.assignments) {
+                console.error("Datos no válidos para inicializar progreso");
+                return;
+            }
+            
+            data.participants.forEach(participant => {
+                if (!participant.progress) {
+                    participant.progress = {};
+                }
+                
+                data.assignments.forEach(assignment => {
+                    if (!participant.progress[assignment.id]) {
+                        participant.progress[assignment.id] = {
+                            status: 'pending',
+                            grade: null,
+                            submitted: false
+                        };
+                    }
+                });
+            });
+            console.log("Progreso de participantes inicializado");
+        }
+
+        // Inicializar pestañas
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tabContents = document.querySelectorAll('.tab-content');
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                    
+                    if (tabId === 'progress') {
+                        renderProgress();
+                    } else if (tabId === 'assignments') {
+                        renderAssignments();
+                    } else if (tabId === 'access-log') {
+                        renderAccessLog();
+                    }
+                });
+            });
+        }
+
+        // Renderizar dashboard
+        function renderDashboard() {
+            if (!courseData) {
+                console.error("No hay datos para renderizar el dashboard");
+                return;
+            }
+            
+            const totalParticipants = courseData.participants.length;
+            const groupACount = courseData.participants.filter(p => p.group === 'A').length;
+            const groupBCount = courseData.participants.filter(p => p.group === 'B').length;
+            const totalAssignments = courseData.assignments.length;
+            
+            // Calcular tasa de completación real
+            let totalCompletion = 0;
+            courseData.participants.forEach(participant => {
+                if (participant.progress) {
+                    const completed = Object.values(participant.progress).filter(p => p.status === 'completed').length;
+                    totalCompletion += completed / courseData.assignments.length;
+                }
+            });
+            const completionRate = totalParticipants > 0 ? Math.round((totalCompletion / totalParticipants) * 100) : 0;
+            
+            document.getElementById('total-participants').textContent = totalParticipants;
+            document.getElementById('group-a-count').textContent = groupACount;
+            document.getElementById('group-b-count').textContent = groupBCount;
+            document.getElementById('total-assignments').textContent = totalAssignments;
+            document.getElementById('completion-rate').textContent = `${completionRate}%`;
+            
+            // Renderizar próximas asignaciones
+            const upcomingTable = document.getElementById('upcoming-assignments');
+            upcomingTable.innerHTML = '';
+            
+            courseData.assignments.slice(0, 5).forEach(assignment => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${assignment.id}</td>
+                    <td>${assignment.assignmentName}</td>
+                    <td>${formatDate(assignment.startDate)}</td>
+                    <td>${formatDate(assignment.dueDate)}</td>
+                    <td><span class="status-badge status-${assignment.status}">${getStatusText(assignment.status)}</span></td>
+                `;
+                upcomingTable.appendChild(row);
+            });
+            
+            console.log("Dashboard renderizado correctamente");
+        }
+
+        // Renderizar participantes
+        function renderParticipants() {
+            if (!courseData) {
+                console.error("No hay datos para renderizar participantes");
+                return;
+            }
+            
+            const container = document.getElementById('participants-container');
+            container.innerHTML = '';
+            
+            console.log(`Renderizando ${courseData.participants.length} participantes`);
+            
+            courseData.participants.forEach(participant => {
+                const card = document.createElement('div');
+                card.className = 'participant-card';
+                
+                let completed = 0;
+                if (participant.progress) {
+                    completed = Object.values(participant.progress).filter(p => p.status === 'completed').length;
+                }
+                const total = courseData.assignments.length;
+                const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                
+                // Solo mostrar botones de acción si es admin
+                const actionButtons = currentUser.role === 'admin' ? `
+                    <div class="action-buttons">
+                        <button class="btn edit-participant" data-id="${participant.id}">Editar</button>
+                        <button class="btn edit-progress" data-id="${participant.id}">Progreso</button>
+                        <button class="btn btn-danger delete-participant" data-id="${participant.id}">Eliminar</button>
+                    </div>
+                ` : '';
+                
+                card.innerHTML = `
+                    <h3>${participant.name} <span class="group-badge group-${participant.group}">Grupo ${participant.group}</span></h3>
+                    <div class="participant-info"><strong>Email:</strong> ${participant.email || 'No disponible'}</div>
+                    <div class="participant-info"><strong>Teléfono:</strong> ${participant.phone || 'No disponible'}</div>
+                    <div class="participant-info"><strong>Área:</strong> ${participant.area}</div>
+                    <div class="participant-info"><strong>Empresa:</strong> ${participant.company}</div>
+                    <div class="participant-info"><strong>Fecha de registro:</strong> ${participant.registrationDate}</div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-text">
+                            <span>Progreso: ${completed}/${total} asignaciones</span>
+                            <span>${progressPercent}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                    </div>
+                    
+                    ${actionButtons}
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            console.log("Participantes renderizados correctamente");
+        }
+
+        // Renderizar asignaciones
+        function renderAssignments() {
+            if (!courseData) {
+                console.error("No hay datos para renderizar asignaciones");
+                return;
+            }
+            
+            const tableBody = document.getElementById('assignments-table-body');
+            tableBody.innerHTML = '';
+            
+            console.log(`Renderizando ${courseData.assignments.length} asignaciones`);
+            
+            courseData.assignments.forEach(assignment => {
+                // Solo mostrar acciones si es admin
+                const actionsCell = currentUser.role === 'admin' ? `
+                    <td>
+                        <button class="btn edit-assignment" data-id="${assignment.id}">Editar</button>
+                        <button class="btn btn-danger delete-assignment" data-id="${assignment.id}">Eliminar</button>
+                    </td>
+                ` : '';
+                
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${assignment.id}</td>
+                    <td>${assignment.assignmentName}</td>
+                    <td>${formatDate(assignment.startDate)}</td>
+                    <td>${formatDate(assignment.dueDate)}</td>
+                    <td><span class="status-badge status-${assignment.status}">${getStatusText(assignment.status)}</span></td>
+                    ${actionsCell}
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            console.log("Asignaciones renderizadas correctamente");
+        }
+
+        // Renderizar progreso
+        function renderProgress() {
+            if (!courseData) {
+                console.error("No hay datos para renderizar progreso");
+                return;
+            }
+            
+            const container = document.getElementById('progress-container');
+            container.innerHTML = '';
+            
+            courseData.participants.forEach(participant => {
+                const progressCard = document.createElement('div');
+                progressCard.className = 'participant-card';
+                
+                let completed = 0;
+                let inProgress = 0;
+                let pending = 0;
+                let totalGrade = 0;
+                let gradedAssignments = 0;
+                
+                if (participant.progress) {
+                    Object.values(participant.progress).forEach(progress => {
+                        if (progress.status === 'completed') completed++;
+                        else if (progress.status === 'in-progress') inProgress++;
+                        else pending++;
+                        
+                        if (progress.grade !== null) {
+                            totalGrade += progress.grade;
+                            gradedAssignments++;
+                        }
+                    });
+                }
+                
+                const averageGrade = gradedAssignments > 0 ? Math.round(totalGrade / gradedAssignments) : 0;
+                const progressPercent = courseData.assignments.length > 0 ? 
+                    Math.round((completed / courseData.assignments.length) * 100) : 0;
+                
+                // Solo mostrar botones de acción si es admin
+                const actionButtons = currentUser.role === 'admin' ? `
+                    <div class="action-buttons">
+                        <button class="btn edit-progress" data-id="${participant.id}">Editar Progreso</button>
+                        <button class="btn edit-participant" data-id="${participant.id}">Editar Datos</button>
+                    </div>
+                ` : '';
+                
+                progressCard.innerHTML = `
+                    <h3>${participant.name} <span class="group-badge group-${participant.group}">Grupo ${participant.group}</span></h3>
+                    <div class="progress-container">
+                        <div class="progress-text">
+                            <span>Completado: ${completed}/${courseData.assignments.length}</span>
+                            <span>${progressPercent}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="participant-info">
+                        <strong>En progreso:</strong> ${inProgress} asignaciones
+                    </div>
+                    <div class="participant-info">
+                        <strong>Pendientes:</strong> ${pending} asignaciones
+                    </div>
+                    <div class="participant-info">
+                        <strong>Calificación promedio:</strong> 
+                        ${averageGrade > 0 ? `<span class="grade-badge ${getGradeClass(averageGrade)}">${averageGrade}</span>` : 'Sin calificar'}
+                    </div>
+                    
+                    ${actionButtons}
+                `;
+                
+                container.appendChild(progressCard);
+            });
+            
+            console.log("Progreso renderizado correctamente");
+        }
+
+        // Renderizar plantillas
+        function renderTemplates() {
+            if (!courseData) {
+                console.error("No hay datos para renderizar plantillas");
+                return;
+            }
+            
+            const templatesList = document.getElementById('templates-list');
+            templatesList.innerHTML = '';
+            
+            courseData.assignmentTemplates.forEach(template => {
+                const listItem = document.createElement('li');
+                listItem.textContent = template;
+                listItem.style.padding = '10px';
+                listItem.style.borderBottom = '1px solid #eee';
+                templatesList.appendChild(listItem);
+            });
+            
+            console.log("Plantillas renderizadas correctamente");
+        }
+
+        // Renderizar registro de accesos
+        function renderAccessLog() {
+            const container = document.getElementById('access-log-container');
+            container.innerHTML = '';
+            
+            accessLog.forEach(log => {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                
+                logEntry.innerHTML = `
+                    <div>
+                        <span class="log-user">${log.username}</span>
+                        <span class="log-role">${log.action}</span>
+                    </div>
+                    <div>
+                        <span class="log-date">${log.date} ${log.time}</span>
+                    </div>
+                `;
+                
+                container.appendChild(logEntry);
+            });
+            
+            console.log("Registro de accesos renderizado correctamente");
+        }
+
+        // Poblar filtro de áreas
+        function populateAreaFilter() {
+            if (!courseData) {
+                console.error("No hay datos para poblar filtro de áreas");
+                return;
+            }
+            
+            const areaFilter = document.getElementById('area-filter');
+            const areas = [...new Set(courseData.participants.map(p => p.area))].sort();
+            
+            areas.forEach(area => {
+                const option = document.createElement('option');
+                option.value = area;
+                option.textContent = area;
+                areaFilter.appendChild(option);
+            });
+            
+            console.log("Filtro de áreas poblado correctamente");
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Botones para agregar (solo admin)
+            document.getElementById('add-participant-btn').addEventListener('click', function() {
+                if (currentUser && currentUser.role === 'admin') {
+                    addNewParticipant();
+                }
+            });
+            
+            document.getElementById('add-assignment-btn').addEventListener('click', function() {
+                if (currentUser && currentUser.role === 'admin') {
+                    addNewAssignment();
+                }
+            });
+
+            // Botones de exportación/importación
+            document.getElementById('export-btn').addEventListener('click', exportToExcel);
+            
+            document.getElementById('save-btn').addEventListener('click', saveCourseDataWithName);
+            
+            document.getElementById('load-btn').addEventListener('click', () => {
+                document.getElementById('file-input').click();
+            });
+
+            // Configurar carga de archivos
+            document.getElementById('file-input').addEventListener('change', handleFileUpload);
+
+            // Botón para limpiar registros (solo admin)
+            document.getElementById('clear-logs-btn').addEventListener('click', function() {
+                if (confirm('¿Está seguro de que desea limpiar todos los registros de acceso?')) {
+                    accessLog = [];
+                    localStorage.setItem(ACCESS_LOG_KEY, JSON.stringify(accessLog));
+                    renderAccessLog();
+                    showNotification('Registros de acceso limpiados', 'success');
+                }
+            });
+
+            // Configurar vista de tabla/línea de tiempo
+            document.getElementById('tableViewBtn').addEventListener('click', function() {
+                document.getElementById('table-view').style.display = 'block';
+                document.getElementById('timeline-view').style.display = 'none';
+                this.classList.add('active');
+                document.getElementById('timelineViewBtn').classList.remove('active');
+            });
+
+            document.getElementById('timelineViewBtn').addEventListener('click', function() {
+                document.getElementById('table-view').style.display = 'none';
+                document.getElementById('timeline-view').style.display = 'block';
+                this.classList.add('active');
+                document.getElementById('tableViewBtn').classList.remove('active');
+                renderTimelineView();
+            });
+
+            // Configurar cierre del modal de reportes
+            document.getElementById('close-reports').addEventListener('click', function() {
+                document.getElementById('reports-modal').style.display = 'none';
+            });
+
+            // Configurar cierre del modal de edición de participantes
+            document.getElementById('close-edit-participant').addEventListener('click', function() {
+                document.getElementById('edit-participant-modal').style.display = 'none';
+            });
+
+            // Configurar cierre del modal de edición de asignaciones
+            document.getElementById('close-edit-assignment').addEventListener('click', function() {
+                document.getElementById('edit-assignment-modal').style.display = 'none';
+            });
+
+            // Configurar cierre del modal de edición de progreso
+            document.getElementById('close-edit-progress').addEventListener('click', function() {
+                document.getElementById('edit-progress-modal').style.display = 'none';
+            });
+
+            // Configurar formulario de edición de participantes
+            document.getElementById('edit-participant-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveParticipantChanges();
+            });
+
+            // Configurar formulario de edición de asignaciones
+            document.getElementById('edit-assignment-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveAssignmentChanges();
+            });
+
+            // Configurar botón de guardar progreso
+            document.getElementById('save-progress-btn').addEventListener('click', saveProgressChanges);
+
+            // Configurar event listeners para botones de eliminar y editar progreso
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('delete-participant')) {
+                    const participantId = parseInt(e.target.getAttribute('data-id'));
+                    deleteParticipant(participantId);
+                }
+                
+                if (e.target.classList.contains('delete-assignment')) {
+                    const assignmentId = parseInt(e.target.getAttribute('data-id'));
+                    deleteAssignment(assignmentId);
+                }
+
+                if (e.target.classList.contains('edit-participant')) {
+                    const participantId = parseInt(e.target.getAttribute('data-id'));
+                    openEditParticipantModal(participantId);
+                }
+
+                if (e.target.classList.contains('edit-assignment')) {
+                    const assignmentId = parseInt(e.target.getAttribute('data-id'));
+                    openEditAssignmentModal(assignmentId);
+                }
+
+                if (e.target.classList.contains('edit-progress')) {
+                    const participantId = parseInt(e.target.getAttribute('data-id'));
+                    openEditProgressModal(participantId);
+                }
+            });
+
+            // Configurar reportes
+            setupReportsEventListeners();
+
+            // Configurar actualización de controles de calificación
+            document.addEventListener('change', function(e) {
+                if (e.target.classList.contains('progress-status-select')) {
+                    const assignmentId = parseInt(e.target.getAttribute('data-assignment-id'));
+                    const newStatus = e.target.value;
+                    const gradeInput = document.querySelector(`.progress-grade-input[data-assignment-id="${assignmentId}"]`);
+                    
+                    if (gradeInput) {
+                        if (newStatus === 'completed') {
+                            gradeInput.disabled = false;
+                            gradeInput.placeholder = '0-100';
+                        } else {
+                            gradeInput.disabled = true;
+                            gradeInput.placeholder = 'Solo para completados';
+                            if (gradeInput.value) {
+                                gradeInput.value = '';
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Configurar event listeners para reportes
+        function setupReportsEventListeners() {
+            // Configurar opciones de reporte
+            document.querySelectorAll('.report-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const reportType = this.getAttribute('data-report');
+                    selectReportType(reportType);
+                });
+            });
+
+            // Configurar botón de generar reporte
+            document.getElementById('generate-report-btn').addEventListener('click', generateReport);
+        }
+
+        // Abrir modal de edición de participante
+        function openEditParticipantModal(participantId) {
+            const participant = courseData.participants.find(p => p.id === participantId);
+            
+            if (!participant) {
+                showNotification('Participante no encontrado', 'error');
+                return;
+            }
+            
+            // Llenar el formulario con los datos del participante
+            document.getElementById('edit-participant-id').value = participant.id;
+            document.getElementById('edit-participant-name').value = participant.name;
+            document.getElementById('edit-participant-email').value = participant.email || '';
+            document.getElementById('edit-participant-group').value = participant.group;
+            document.getElementById('edit-participant-area').value = participant.area;
+            document.getElementById('edit-participant-company').value = participant.company;
+            document.getElementById('edit-participant-phone').value = participant.phone || '';
+            document.getElementById('edit-participant-registration').value = participant.registrationDate;
+            document.getElementById('edit-participant-active').value = participant.active.toString();
+            
+            // Mostrar el modal
+            document.getElementById('edit-participant-modal').style.display = 'flex';
+        }
+
+        // Abrir modal de edición de asignación
+        function openEditAssignmentModal(assignmentId) {
+            const assignment = courseData.assignments.find(a => a.id === assignmentId);
+            
+            if (!assignment) {
+                showNotification('Asignación no encontrada', 'error');
+                return;
+            }
+            
+            // Llenar el formulario con los datos de la asignación
+            document.getElementById('edit-assignment-id').value = assignment.id;
+            document.getElementById('edit-assignment-name').value = assignment.assignmentName;
+            document.getElementById('edit-assignment-start').value = assignment.startDate;
+            document.getElementById('edit-assignment-due').value = assignment.dueDate;
+            document.getElementById('edit-assignment-status').value = assignment.status;
+            
+            // Mostrar el modal
+            document.getElementById('edit-assignment-modal').style.display = 'flex';
+        }
+
+        // Guardar cambios en participante
+        function saveParticipantChanges() {
+            const participantId = parseInt(document.getElementById('edit-participant-id').value);
+            const participant = courseData.participants.find(p => p.id === participantId);
+            
+            if (!participant) {
+                showNotification('Error: participante no encontrado', 'error');
+                return;
+            }
+            
+            // Actualizar datos del participante
+            participant.name = document.getElementById('edit-participant-name').value;
+            participant.email = document.getElementById('edit-participant-email').value;
+            participant.group = document.getElementById('edit-participant-group').value;
+            participant.area = document.getElementById('edit-participant-area').value;
+            participant.company = document.getElementById('edit-participant-company').value;
+            participant.phone = document.getElementById('edit-participant-phone').value;
+            participant.registrationDate = document.getElementById('edit-participant-registration').value;
+            participant.active = document.getElementById('edit-participant-active').value === 'true';
+            
+            // Guardar cambios
+            saveCourseData();
+            
+            // Actualizar vistas
+            renderParticipants();
+            renderProgress();
+            renderDashboard();
+            
+            // Cerrar modal
+            document.getElementById('edit-participant-modal').style.display = 'none';
+            
+            showNotification('Participante actualizado correctamente', 'success');
+        }
+
+        // Guardar cambios en asignación
+        function saveAssignmentChanges() {
+            const assignmentId = parseInt(document.getElementById('edit-assignment-id').value);
+            const assignment = courseData.assignments.find(a => a.id === assignmentId);
+            
+            if (!assignment) {
+                showNotification('Error: asignación no encontrado', 'error');
+                return;
+            }
+            
+            // Actualizar datos de la asignación
+            assignment.assignmentName = document.getElementById('edit-assignment-name').value;
+            assignment.startDate = document.getElementById('edit-assignment-start').value;
+            assignment.dueDate = document.getElementById('edit-assignment-due').value;
+            assignment.status = document.getElementById('edit-assignment-status').value;
+            
+            // Guardar cambios
+            saveCourseData();
+            
+            // Actualizar vistas
+            renderAssignments();
+            renderDashboard();
+            
+            // Cerrar modal
+            document.getElementById('edit-assignment-modal').style.display = 'none';
+            
+            showNotification('Asignación actualizada correctamente', 'success');
+        }
+
+        // Seleccionar tipo de reporte
+        function selectReportType(reportType) {
+            const paramsContainer = document.getElementById('report-params');
+            const participantSelect = document.getElementById('report-participant');
+            
+            // Limpiar selección anterior
+            participantSelect.innerHTML = '';
+            
+            if (reportType === 'individual') {
+                // Llenar select con participantes
+                courseData.participants.forEach(participant => {
+                    const option = document.createElement('option');
+                    option.value = participant.id;
+                    option.textContent = participant.name;
+                    participantSelect.appendChild(option);
+                });
+                
+                paramsContainer.style.display = 'block';
+            } else {
+                paramsContainer.style.display = 'none';
+                
+                // Generar reporte inmediatamente para otros tipos
+                if (reportType) {
+                    generateReportByType(reportType);
+                }
+            }
+            
+            // Guardar tipo de reporte seleccionado
+            paramsContainer.dataset.reportType = reportType;
+        }
+
+        // Generar reporte según tipo
+        function generateReport() {
+            const reportType = document.getElementById('report-params').dataset.reportType;
+            generateReportByType(reportType);
+        }
+
+        function generateReportByType(reportType) {
+            switch(reportType) {
+                case 'individual':
+                    generateIndividualReport();
+                    break;
+                case 'group':
+                    generateGroupReport();
+                    break;
+                case 'general':
+                    generateGeneralReport();
+                    break;
+                case 'assignments':
+                    generateAssignmentsReport();
+                    break;
+                default:
+                    showNotification('Seleccione un tipo de reporte', 'error');
+            }
+        }
+
+        // Generar reporte individual
+        function generateIndividualReport() {
+            const participantId = parseInt(document.getElementById('report-participant').value);
+            const participant = courseData.participants.find(p => p.id === participantId);
+            
+            if (!participant) {
+                showNotification('Participante no encontrado', 'error');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Título
+            doc.setFontSize(20);
+            doc.text('Reporte Individual - Curso Shewart', 105, 15, { align: 'center' });
+            
+            // Información del participante
+            doc.setFontSize(12);
+            doc.text(`Participante: ${participant.name}`, 20, 30);
+            doc.text(`Grupo: ${participant.group}`, 20, 40);
+            doc.text(`Área: ${participant.area}`, 20, 50);
+            doc.text(`Empresa: ${participant.company}`, 20, 60);
+            
+            // Calcular estadísticas
+            let completed = 0;
+            let inProgress = 0;
+            let pending = 0;
+            let totalGrade = 0;
+            let gradedAssignments = 0;
+            
+            if (participant.progress) {
+                Object.values(participant.progress).forEach(progress => {
+                    if (progress.status === 'completed') completed++;
+                    else if (progress.status === 'in-progress') inProgress++;
+                    else pending++;
+                    
+                    if (progress.grade !== null) {
+                        totalGrade += progress.grade;
+                        gradedAssignments++;
+                    }
+                });
+            }
+            
+            const averageGrade = gradedAssignments > 0 ? Math.round(totalGrade / gradedAssignments) : 0;
+            const progressPercent = courseData.assignments.length > 0 ? 
+                Math.round((completed / courseData.assignments.length) * 100) : 0;
+            
+            // Calcular métricas adicionales
+            const nonComplianceScore = calculateNonComplianceScore(participant);
+            const unassignedPercentage = calculateUnassignedPercentage(participant);
+            
+            // Estadísticas
+            doc.text(`Progreso: ${completed}/${courseData.assignments.length} (${progressPercent}%)`, 20, 75);
+            doc.text(`En progreso: ${inProgress}`, 20, 85);
+            doc.text(`Pendientes: ${pending}`, 20, 95);
+            doc.text(`Calificación promedio: ${averageGrade > 0 ? averageGrade : 'Sin calificar'}`, 20, 105);
+            doc.text(`Puntaje de incumplimiento: ${nonComplianceScore}`, 20, 115);
+            doc.text(`Asignaciones no asignadas: ${unassignedPercentage}%`, 20, 125);
+            
+            // Tabla de asignaciones
+            const tableData = [];
+            tableData.push(['Asignación', 'Estado', 'Calificación', 'Fecha Límite']);
+            
+            courseData.assignments.forEach(assignment => {
+                const progress = participant.progress && participant.progress[assignment.id] 
+                    ? participant.progress[assignment.id] 
+                    : { status: 'pending', grade: null };
+                
+                tableData.push([
+                    assignment.assignmentName,
+                    getStatusText(progress.status),
+                    progress.grade || 'N/A',
+                    formatDate(assignment.dueDate)
+                ]);
+            });
+            
+            doc.autoTable({
+                startY: 140,
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [52, 152, 219] }
+            });
+            
+            // Guardar PDF
+            doc.save(`Reporte_${participant.name.replace(/\s+/g, '_')}.pdf`);
+            showNotification('Reporte individual generado correctamente', 'success');
+        }
+
+        // Calcular puntaje de incumplimiento
+        function calculateNonComplianceScore(participant) {
+            let score = 0;
+            
+            if (participant.progress) {
+                Object.values(participant.progress).forEach(progress => {
+                    if (progress.status === 'pending') score += 2;
+                    else if (progress.status === 'in-progress') score += 1;
+                    // Completado no suma puntos
+                });
+            }
+            
+            return score;
+        }
+
+        // Calcular porcentaje de asignaciones no asignadas
+        function calculateUnassignedPercentage(participant) {
+            let unassignedCount = 0;
+            
+            courseData.assignments.forEach(assignment => {
+                const progress = participant.progress && participant.progress[assignment.id];
+                if (!progress || progress.status === 'pending') {
+                    unassignedCount++;
+                }
+            });
+            
+            return Math.round((unassignedCount / courseData.assignments.length) * 100);
+        }
+
+        // Generar reporte por grupos
+        function generateGroupReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Título
+            doc.setFontSize(20);
+            doc.text('Reporte por Grupos - Curso Shewart', 105, 15, { align: 'center' });
+            
+            // Estadísticas por grupo
+            const groupA = courseData.participants.filter(p => p.group === 'A');
+            const groupB = courseData.participants.filter(p => p.group === 'B');
+            
+            // Calcular promedios por grupo
+            const groupAStats = calculateGroupStats(groupA);
+            const groupBStats = calculateGroupStats(groupB);
+            
+            // Grupo A
+            doc.setFontSize(16);
+            doc.text('Grupo A', 20, 35);
+            doc.setFontSize(12);
+            doc.text(`Total participantes: ${groupA.length}`, 20, 45);
+            doc.text(`Completación promedio: ${groupAStats.avgCompletion}%`, 20, 55);
+            doc.text(`Calificación promedio: ${groupAStats.avgGrade > 0 ? groupAStats.avgGrade : 'Sin calificar'}`, 20, 65);
+            doc.text(`Incumplimiento promedio: ${groupAStats.avgNonCompliance}`, 20, 75);
+            
+            // Grupo B
+            doc.setFontSize(16);
+            doc.text('Grupo B', 120, 35);
+            doc.setFontSize(12);
+            doc.text(`Total participantes: ${groupB.length}`, 120, 45);
+            doc.text(`Completación promedio: ${groupBStats.avgCompletion}%`, 120, 55);
+            doc.text(`Calificación promedio: ${groupBStats.avgGrade > 0 ? groupBStats.avgGrade : 'Sin calificar'}`, 120, 65);
+            doc.text(`Incumplimiento promedio: ${groupBStats.avgNonCompliance}`, 120, 75);
+            
+            // Comparativa
+            doc.setFontSize(14);
+            doc.text('Comparativa Grupos A vs B', 105, 95, { align: 'center' });
+            
+            const comparisonData = [
+                ['Métrica', 'Grupo A', 'Grupo B'],
+                ['Participantes', groupA.length, groupB.length],
+                ['Completación (%)', groupAStats.avgCompletion, groupBStats.avgCompletion],
+                ['Calificación', groupAStats.avgGrade || 'N/A', groupBStats.avgGrade || 'N/A'],
+                ['Incumplimiento', groupAStats.avgNonCompliance, groupBStats.avgNonCompliance]
+            ];
+            
+            doc.autoTable({
+                startY: 105,
+                head: [comparisonData[0]],
+                body: comparisonData.slice(1),
+                theme: 'grid',
+                styles: { fontSize: 10 },
+                headStyles: { fillColor: [52, 152, 219] }
+            });
+            
+            // Guardar PDF
+            doc.save('Reporte_Grupos.pdf');
+            showNotification('Reporte por grupos generado correctamente', 'success');
+        }
+
+        // Generar reporte general
+        function generateGeneralReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Título
+            doc.setFontSize(20);
+            doc.text('Reporte General - Curso Shewart', 105, 15, { align: 'center' });
+            
+            // Estadísticas generales
+            const totalParticipants = courseData.participants.length;
+            const totalAssignments = courseData.assignments.length;
+            const groupACount = courseData.participants.filter(p => p.group === 'A').length;
+            const groupBCount = courseData.participants.filter(p => p.group === 'B').length;
+            
+            // Calcular tasa de completación
+            let totalCompletion = 0;
+            let totalNonCompliance = 0;
+            
+            courseData.participants.forEach(participant => {
+                if (participant.progress) {
+                    const completed = Object.values(participant.progress).filter(p => p.status === 'completed').length;
+                    totalCompletion += completed / courseData.assignments.length;
+                    totalNonCompliance += calculateNonComplianceScore(participant);
+                }
+            });
+            
+            const completionRate = totalParticipants > 0 ? Math.round((totalCompletion / totalParticipants) * 100) : 0;
+            const avgNonCompliance = totalParticipants > 0 ? Math.round(totalNonCompliance / totalParticipants) : 0;
+            
+            // Información general
+            doc.setFontSize(12);
+            doc.text(`Total de participantes: ${totalParticipants}`, 20, 35);
+            doc.text(`Grupo A: ${groupACount} participantes`, 20, 45);
+            doc.text(`Grupo B: ${groupBCount} participantes`, 20, 55);
+            doc.text(`Total de asignaciones: ${totalAssignments}`, 20, 65);
+            doc.text(`Tasa de completación: ${completionRate}%`, 20, 75);
+            doc.text(`Incumplimiento promedio: ${avgNonCompliance}`, 20, 85);
+            
+            // Tabla de participantes
+            const tableData = [];
+            tableData.push(['Nombre', 'Grupo', 'Completado', 'Calificación', 'Incumplimiento']);
+            
+            courseData.participants.forEach(participant => {
+                let completed = 0;
+                let totalGrade = 0;
+                let gradedAssignments = 0;
+                
+                if (participant.progress) {
+                    Object.values(participant.progress).forEach(progress => {
+                        if (progress.status === 'completed') completed++;
+                        if (progress.grade !== null) {
+                            totalGrade += progress.grade;
+                            gradedAssignments++;
+                        }
+                    });
+                }
+                
+                const averageGrade = gradedAssignments > 0 ? Math.round(totalGrade / gradedAssignments) : 0;
+                const nonCompliance = calculateNonComplianceScore(participant);
+                
+                tableData.push([
+                    participant.name,
+                    participant.group,
+                    `${completed}/${totalAssignments}`,
+                    averageGrade > 0 ? averageGrade : 'N/A',
+                    nonCompliance
+                ]);
+            });
+            
+            doc.autoTable({
+                startY: 100,
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [52, 152, 219] }
+            });
+            
+            // Guardar PDF
+            doc.save('Reporte_General.pdf');
+            showNotification('Reporte general generado correctamente', 'success');
+        }
+
+        // Generar reporte de asignaciones
+        function generateAssignmentsReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Título
+            doc.setFontSize(20);
+            doc.text('Reporte de Asignaciones - Curso Shewart', 105, 15, { align: 'center' });
+            
+            // Estadísticas de asignaciones
+            const totalAssignments = courseData.assignments.length;
+            const pendingCount = courseData.assignments.filter(a => a.status === 'pending').length;
+            const inProgressCount = courseData.assignments.filter(a => a.status === 'in-progress').length;
+            const completedCount = courseData.assignments.filter(a => a.status === 'completed').length;
+            
+            doc.setFontSize(12);
+            doc.text(`Total de asignaciones: ${totalAssignments}`, 20, 35);
+            doc.text(`Pendientes: ${pendingCount}`, 20, 45);
+            doc.text(`En progreso: ${inProgressCount}`, 20, 55);
+            doc.text(`Completadas: ${completedCount}`, 20, 65);
+            
+            // Tabla de asignaciones
+            const tableData = [];
+            tableData.push(['ID', 'Asignación', 'Fecha Inicio', 'Fecha Fin', 'Estado', '% Completado']);
+            
+            courseData.assignments.forEach(assignment => {
+                // Calcular porcentaje de completado para esta asignación
+                let completedParticipants = 0;
+                courseData.participants.forEach(participant => {
+                    const progress = participant.progress && participant.progress[assignment.id];
+                    if (progress && progress.status === 'completed') {
+                        completedParticipants++;
+                    }
+                });
+                
+                const completionRate = Math.round((completedParticipants / courseData.participants.length) * 100);
+                
+                tableData.push([
+                    assignment.id,
+                    assignment.assignmentName,
+                    formatDate(assignment.startDate),
+                    formatDate(assignment.dueDate),
+                    getStatusText(assignment.status),
+                    `${completionRate}%`
+                ]);
+            });
+            
+            doc.autoTable({
+                startY: 80,
+                head: [tableData[0]],
+                body: tableData.slice(1),
+                theme: 'grid',
+                styles: { fontSize: 8 },
+                headStyles: { fillColor: [52, 152, 219] }
+            });
+            
+            // Guardar PDF
+            doc.save('Reporte_Asignaciones.pdf');
+            showNotification('Reporte de asignaciones generado correctamente', 'success');
+        }
+
+        // Calcular estadísticas de grupo
+        function calculateGroupStats(participants) {
+            let totalCompletion = 0;
+            let totalGrade = 0;
+            let totalNonCompliance = 0;
+            let gradedParticipants = 0;
+            
+            participants.forEach(participant => {
+                let completed = 0;
+                let participantGrade = 0;
+                let gradedAssignments = 0;
+                
+                if (participant.progress) {
+                    Object.values(participant.progress).forEach(progress => {
+                        if (progress.status === 'completed') completed++;
+                        if (progress.grade !== null) {
+                            participantGrade += progress.grade;
+                            gradedAssignments++;
+                        }
+                    });
+                }
+                
+                const completionRate = courseData.assignments.length > 0 ? 
+                    (completed / courseData.assignments.length) * 100 : 0;
+                totalCompletion += completionRate;
+                totalNonCompliance += calculateNonComplianceScore(participant);
+                
+                if (gradedAssignments > 0) {
+                    totalGrade += participantGrade / gradedAssignments;
+                    gradedParticipants++;
+                }
+            });
+            
+            return {
+                avgCompletion: Math.round(totalCompletion / participants.length),
+                avgGrade: gradedParticipants > 0 ? Math.round(totalGrade / gradedParticipants) : 0,
+                avgNonCompliance: Math.round(totalNonCompliance / participants.length)
+            };
+        }
+
+        // Abrir modal de reportes
+        function openReportsModal() {
+            document.getElementById('reports-modal').style.display = 'flex';
+        }
+
+        // Funciones auxiliares
+        function formatDate(dateString) {
+            if (!dateString) return 'No definida';
+            return dateString;
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Pendiente',
+                'in-progress': 'En Progreso',
+                'completed': 'Completado'
+            };
+            return statusMap[status] || status;
+        }
+
+        function getGradeClass(grade) {
+            if (!courseData || !courseData.gradingSystem) return '';
+            
+            const scale = courseData.gradingSystem.scales.find(s => 
+                grade >= s.min && grade <= s.max
+            );
+            
+            return scale ? `grade-${scale.name.toLowerCase()}` : '';
+        }
+
+        // Renderizar vista de línea de tiempo
+        function renderTimelineView() {
+            const timeline = document.getElementById('assignments-timeline');
+            timeline.innerHTML = '';
+            
+            if (!courseData || !courseData.assignments) return;
+            
+            // Ordenar asignaciones por fecha de inicio
+            const sortedAssignments = [...courseData.assignments].sort((a, b) => {
+                return new Date(a.startDate) - new Date(b.startDate);
+            });
+            
+            sortedAssignments.forEach(assignment => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                
+                timelineItem.innerHTML = `
+                    <div class="timeline-content">
+                        <h4>${assignment.assignmentName}</h4>
+                        <p><strong>Fecha inicio:</strong> ${formatDate(assignment.startDate)}</p>
+                        <p><strong>Fecha fin:</strong> ${formatDate(assignment.dueDate)}</p>
+                        <p><strong>Estado:</strong> <span class="status-badge status-${assignment.status}">${getStatusText(assignment.status)}</span></p>
+                    </div>
+                `;
+                
+                timeline.appendChild(timelineItem);
+            });
+        }
+
+        // FUNCIÓN MEJORADA: Guardar datos con nombre personalizado
+        function saveCourseDataWithName() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para guardar datos', 'error');
+                return;
+            }
+            
+            const fileName = prompt('Ingrese un nombre para identificar esta versión (ej: "Backup_15_Ene"):', 
+                                  `Backup_${new Date().toLocaleDateString('es-ES').replace(/\//g, '_')}`);
+            
+            if (!fileName) {
+                showNotification('Guardado cancelado', 'warning');
+                return;
+            }
+            
+            courseData.exportDate = new Date().toISOString();
+            courseData.fileName = fileName;
+            courseData.saveTimestamp = new Date().toLocaleString('es-ES');
+            
+            // Guardar en localStorage
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(courseData));
+            
+            // Crear archivo JSON descargable
+            const dataStr = JSON.stringify(courseData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            // Crear enlace de descarga
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(dataBlob);
+            downloadLink.download = `${fileName}.json`;
+            
+            // Simular clic para descargar
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            logAccess(currentUser.username, 'SAVE_DATA');
+            showNotification(`Datos guardados correctamente como: "${fileName}.json" en la carpeta de descargas`, 'success');
+            
+            // Actualizar el título para mostrar el archivo actual
+            updateDocumentTitle(fileName);
+        }
+
+        // Actualizar título del documento
+        function updateDocumentTitle(fileName) {
+            const baseTitle = "Gestión de Curso Shewart";
+            document.title = `${baseTitle} - ${fileName}`;
+            
+            // También actualizar el header
+            const headerTitle = document.getElementById('main-title');
+            if (headerTitle) {
+                headerTitle.textContent = `${baseTitle} - ${fileName}`;
+            }
+        }
+
+        // FUNCIÓN REPARADA: Manejar carga de archivos
+        function handleFileUpload(event) {
+            if (currentUser && currentUser.role !== 'admin') {
+                showNotification('No tiene permisos para cargar datos', 'error');
+                event.target.value = '';
+                return;
+            }
+            
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const uploadedData = JSON.parse(e.target.result);
+                    
+                    // Verificar si es el formato interno
+                    if (uploadedData.participants && uploadedData.assignments) {
+                        if (confirm('¿Está seguro de que desea cargar este archivo? Se reemplazarán todos los datos actuales.')) {
+                            courseData = uploadedData;
+                            initializeParticipantProgress();
+                            
+                            // Actualizar todas las vistas
+                            renderDashboard();
+                            renderParticipants();
+                            renderAssignments();
+                            renderProgress();
+                            renderTemplates();
+                            populateAreaFilter();
+                            
+                            showNotification('Datos cargados correctamente desde el archivo', 'success');
+                            logAccess(currentUser.username, 'LOAD_DATA_FROM_FILE');
+                            
+                            // Actualizar título
+                            if (uploadedData.fileName) {
+                                updateDocumentTitle(uploadedData.fileName);
+                            }
+                        }
+                    } else {
+                        showNotification('Formato de archivo no compatible', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error al cargar archivo:', error);
+                    showNotification('Error al cargar el archivo', 'error');
+                }
+            };
+            reader.readAsText(file);
+            
+            // Limpiar el input de archivo
+            event.target.value = '';
+        }
+
+        // FUNCIÓN REPARADA: Exportar a Excel
+        function exportToExcel() {
+            if (!courseData) {
+                showNotification('No hay datos para exportar', 'error');
+                return;
+            }
+            
+            try {
+                // Crear libro de trabajo
+                const wb = XLSX.utils.book_new();
+                
+                // Hoja de participantes
+                const participantsData = courseData.participants.map(p => ({
+                    'ID': p.id,
+                    'Nombre': p.name,
+                    'Email': p.email,
+                    'Grupo': p.group,
+                    'Área': p.area,
+                    'Empresa': p.company,
+                    'Teléfono': p.phone,
+                    'Fecha Registro': p.registrationDate
+                }));
+                const wsParticipants = XLSX.utils.json_to_sheet(participantsData);
+                XLSX.utils.book_append_sheet(wb, wsParticipants, 'Participantes');
+                
+                // Hoja de asignaciones
+                const assignmentsData = courseData.assignments.map(a => ({
+                    'ID': a.id,
+                    'Asignación': a.assignmentName,
+                    'Fecha Inicio': a.startDate,
+                    'Fecha Fin': a.dueDate,
+                    'Estado': getStatusText(a.status)
+                }));
+                const wsAssignments = XLSX.utils.json_to_sheet(assignmentsData);
+                XLSX.utils.book_append_sheet(wb, wsAssignments, 'Asignaciones');
+                
+                // Hoja de progreso
+                const progressData = [];
+                courseData.participants.forEach(participant => {
+                    courseData.assignments.forEach(assignment => {
+                        const progress = participant.progress && participant.progress[assignment.id] 
+                            ? participant.progress[assignment.id] 
+                            : { status: 'pending', grade: null };
+                        
+                        progressData.push({
+                            'Participante': participant.name,
+                            'Grupo': participant.group,
+                            'Asignación': assignment.assignmentName,
+                            'Estado': getStatusText(progress.status),
+                            'Calificación': progress.grade || '',
+                            'Fecha Inicio': assignment.startDate,
+                            'Fecha Fin': assignment.dueDate
+                        });
+                    });
+                });
+                const wsProgress = XLSX.utils.json_to_sheet(progressData);
+                XLSX.utils.book_append_sheet(wb, wsProgress, 'Progreso');
+                
+                // Generar archivo
+                const fileName = `curso_shewart_${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+                
+                showNotification('Datos exportados correctamente a Excel', 'success');
+                logAccess(currentUser.username, 'EXPORT_TO_EXCEL');
+            } catch (error) {
+                console.error('Error al exportar a Excel:', error);
+                showNotification('Error al exportar a Excel', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

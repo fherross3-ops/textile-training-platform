@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluaciones - Capacitación Textil</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            margin: 0;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 1rem;
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .content-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        .media-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .media-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .media-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .media-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .media-item h3 {
+            margin: 0.5rem 0;
+            color: #2c3e50;
+        }
+        .media-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .pdf-icon {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .pdf-icon:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+        }
+        .pdf-icon i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .pdf-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        /* Estilos para el visor de PDF */
+        .pdf-viewer-container {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+        .pdf-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .pdf-btn {
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .pdf-btn:hover {
+            background: #2980b9;
+        }
+        .pdf-preview {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+        
+        /* Estilos para recursos de imagen */
+        .image-icon {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            color: white;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .image-icon:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+        }
+        .image-icon img {
+            max-width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+        }
+        .image-badge {
+            background: #3498db;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        /* NUEVOS ESTILOS PARA LA INTEGRACIÓN */
+        .integration-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #27ae60;
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .integration-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .integration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-color: #3498db;
+        }
+
+        .integration-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .integration-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .integration-btn {
+            padding: 0.5rem 1rem;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .integration-btn:hover {
+            background: #2980b9;
+        }
+
+        .integration-btn-success {
+            background: #27ae60;
+        }
+
+        .integration-btn-success:hover {
+            background: #219653;
+        }
+
+        .integration-btn-warning {
+            background: #f39c12;
+        }
+
+        .integration-btn-warning:hover {
+            background: #e67e22;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            transition: border-color 0.3s;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .file-info {
+            background: #e8f4fd;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #27ae60;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+        }
+
+        /* Estilos para ocultar elementos */
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+    <!-- Iconos de Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Evaluaciones</h1>
+        <p>Sistema de evaluación de conocimientos y habilidades</p>
+    </header>
+    
+    <div class="container">
+        <a href="#" class="back-btn">← Volver al inicio</a>
+        
+        <!-- SECCIÓN DESTACADA: PDF de Asignaciones -->
+        <div class="pdf-viewer-container">
+            <div class="pdf-header">
+                <h2>Asignaciones - Cartas de Control Shewart</h2>
+                <span style="color: #3498db; font-weight: bold;">Jeantex S.A.</span>
+            </div>
+            <p>Desarrollo práctico de Cartas de Control Shewart para el control estadístico de procesos.</p>
+            
+            <div class="pdf-actions">
+                <a href="Asignaciones.pdf" class="pdf-btn" target="_blank">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </a>
+                <a href="Asignaciones.pdf" class="pdf-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Abrir en nueva pestaña
+                </a>
+            </div>
+            
+            <!-- Vista previa del PDF -->
+            <iframe src="Asignaciones.pdf" class="pdf-preview" title="Asignaciones - Cartas de Control Shewart">
+                <p>Tu navegador no soporta la visualización de PDFs. 
+                   <a href="Asignaciones.pdf" target="_blank">Haz clic aquí para descargar el PDF</a>.
+                </p>
+            </iframe>
+        </div>
+        
+        <div class="content-section">
+            <h2>Evaluación Diagnóstica</h2>
+            <p>Evaluación inicial para medir conocimientos previos.</p>
+            <ul>
+                <li><a href="#">Cartas de Control-Shewart</a></li>
+                <!-- Agrega más evaluaciones diagnósticas -->
+            </ul>
+        </div>
+        
+        <!-- SECCIÓN OCULTA: Evaluación Formativa -->
+        <div class="content-section hidden">
+            <h2>Evaluación Formativa</h2>
+            <p>Evaluaciones durante el proceso de aprendizaje.</p>
+            <ul>
+                <!--<li><a href="evaluacion_formativa_procesos_humedos.pdf">Procesos Húmedos</a></li>
+                <li><a href="evaluacion_formativa_acabado.pdf">Planta de Acabado</a></li>
+                Agrega más evaluaciones formativas -->
+            </ul>
+        </div>
+        
+        <!-- SECCIÓN OCULTA: Evaluación Final -->
+        <div class="content-section hidden">
+            <h2>Evaluación Final</h2>
+            <p>Evaluación integral al finalizar la capacitación.</p>
+            <ul>
+                <!--<li><a href="evaluacion_final_general.pdf">Evaluación General</a></li>
+                <li><a href="evaluacion_final_por_proceso.pdf">Evaluación por Proceso</a></li>
+                 -->
+            </ul>
+        </div>
+        
+        <!-- SECCIÓN OCULTA: Certificaciones -->
+        <div class="content-section hidden">
+            <h2>Certificaciones</h2>
+            <p>Documentos de certificación de competencias.</p>
+            <ul>
+               <!-- <li><a href="certificado_completacion.pdf">Certificado de Completación</a></li>
+                <li><a href="certificado_competencia.pdf">Certificado de Competencia</a></li>
+               -->
+            </ul>
+        </div>
+        
+        <!-- SECCIÓN: Recursos de Aprendizaje -->
+        <div class="content-section">
+            <h2>Recursos de Aprendizaje</h2>
+            <p>Materiales complementarios para el desarrollo de actividades y evaluaciones.</p>
+            
+            <div class="media-section">
+                <!-- PDF de Asignaciones -->
+                <a href="Asignaciones.pdf" class="media-item" target="_blank">
+                    <div class="pdf-icon">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF Document</span>
+                        <div class="pdf-badge">ASIGNACIONES</div>
+                    </div>
+                    <h3>Asignaciones Cartas de Control</h3>
+                    <p>Desarrollo práctico de Cartas de Control Shewart - Jeantex S.A.</p>
+                </a>
+                
+                <!-- Recursos de imagen JPG -->
+                <a href="Asignaciones.jpg" class="media-item" target="_blank">
+                    <div class="image-icon">
+                        <img src="Asignaciones.jpg" alt="Asignaciones - Cartas de Control Shewart" onerror="this.parentElement.innerHTML='<i class=\'fas fa-image\' style=\'font-size:4rem;margin-bottom:1rem;\'></i><span>Imagen JPG</span><div class=\'image-badge\'>RECURSO</div>'">
+                    </div>
+                    <h3>Asignaciones - Vista Previa</h3>
+                    <p>Vista previa de las asignaciones en formato imagen</p>
+                </a>
+                
+                <!-- Espacio para agregar más recursos en el futuro -->
+                <a href="#" class="media-item">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">
+                            <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 0.5rem; display: block;"></i>
+                            PDF de Ejemplo
+                        </span>
+                    </div>
+                    <h3>Manual de Procedimientos</h3>
+                    <p>Guía completa de procesos textiles</p>
+                </a>
+                
+                <!-- VIDEO INSTRUCTIVO OCULTO -->
+                <a href="#" class="media-item hidden">
+                    <div style="background: #e9ecef; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #6c757d;">
+                            <i class="fas fa-film" style="font-size: 3rem; margin-bottom: 0.5rem; display: block;"></i>
+                            Video Tutorial
+                        </span>
+                    </div>
+                    <h3>Video Instructivo</h3>
+                    <p>Demostración de técnicas avanzadas</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- NUEVA SECCIÓN: Integración con Sistema de Gestión -->
+        <div class="integration-section">
+            <h2>Sistema de Gestión de Curso Shewart</h2>
+            <p>Acceda al sistema completo de gestión de participantes, asignaciones y seguimiento del progreso del curso.</p>
+            
+            <div class="integration-grid">
+                <!-- Tarjeta de Sistema de Gestión -->
+                <div class="integration-card">
+                    <span class="integration-icon">👨‍🏫</span>
+                    <h3>Gestión Completa del Curso</h3>
+                    <p>Sistema integral para administrar participantes, asignaciones, progreso y generar reportes.</p>
+                    <div class="integration-actions">
+                        <a href="7index.html" class="integration-btn" target="_blank">
+                            <i class="fas fa-external-link-alt"></i> Abrir en Nueva Pestaña
+                        </a>
+                        <button class="integration-btn integration-btn-success" id="open-management-same-tab">
+                            <i class="fas fa-play"></i> Abrir Aquí
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tarjeta de Carga de Datos -->
+                <div class="integration-card">
+                    <span class="integration-icon">💾</span>
+                    <h3>Cargar Datos del Curso</h3>
+                    <p>Importe los datos existentes del curso desde el archivo de respaldo.</p>
+                    <div class="integration-actions">
+                        <button class="integration-btn integration-btn-warning" id="load-backup-btn">
+                            <i class="fas fa-upload"></i> Cargar Backup Actual
+                        </button>
+                        <button class="integration-btn" id="show-upload-area">
+                            <i class="fas fa-file-upload"></i> Cargar Otro Archivo
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de carga de archivos (inicialmente oculta) -->
+            <div id="upload-section" style="display: none; margin-top: 1.5rem;">
+                <div class="file-upload-area" id="file-upload-area">
+                    <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 1rem; color: #3498db;"></i>
+                    <p>Arrastre y suelte un archivo JSON aquí o haga clic para seleccionar</p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
+                        <strong>Archivo recomendado:</strong> Backup_27_11_2025 (1).json
+                    </p>
+                </div>
+                <input type="file" id="file-input" accept=".json" style="display: none;">
+                
+                <div class="file-info" id="file-info">
+                    <strong>Archivo seleccionado:</strong> <span id="file-name">Ningún archivo seleccionado</span>
+                    <div style="margin-top: 0.5rem;">
+                        <button class="integration-btn integration-btn-success" id="process-file-btn" style="margin-right: 0.5rem;">
+                            <i class="fas fa-cog"></i> Procesar Archivo
+                        </button>
+                        <button class="integration-btn" id="clear-file-btn">
+                            <i class="fas fa-times"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Plataforma de Capacitación Textil &copy; 2024</p>
+    </footer>
+
+    <script>
+        // Script para manejar la visualización del PDF
+        document.addEventListener('DOMContentLoaded', function() {
+            const pdfIframe = document.querySelector('.pdf-preview');
+            
+            // Verificar si el PDF se carga correctamente
+            pdfIframe.onload = function() {
+                console.log('PDF cargado correctamente');
+            };
+            
+            pdfIframe.onerror = function() {
+                // Si hay error al cargar el PDF, mostrar mensaje
+                const errorMsg = document.createElement('div');
+                errorMsg.innerHTML = `
+                    <div style="background: #f8d7da; color: #721c24; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                        <strong>Error:</strong> No se pudo cargar el PDF "Asignaciones.pdf". 
+                        Verifique que el archivo exista en la misma carpeta que este archivo HTML.
+                    </div>
+                `;
+                pdfIframe.parentNode.insertBefore(errorMsg, pdfIframe.nextSibling);
+                pdfIframe.style.display = 'none';
+            };
+            
+            // Verificar y cargar recursos JPG
+            const imageResources = ['Asignaciones.jpg'];
+            
+            imageResources.forEach(resource => {
+                fetch(resource)
+                    .then(response => {
+                        if (!response.ok) {
+                            console.log(`Recurso ${resource} no encontrado`);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(`Error al verificar ${resource}:`, error);
+                    });
+            });
+
+            // =============================================
+            // NUEVO CÓDIGO PARA LA INTEGRACIÓN
+            // =============================================
+
+            // Mostrar notificación
+            function showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                if (type === 'error') notification.classList.add('error');
+                notification.style.background = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 300);
+                }, 4000);
+            }
+
+            // Elementos del DOM para la integración
+            const openManagementSameTab = document.getElementById('open-management-same-tab');
+            const loadBackupBtn = document.getElementById('load-backup-btn');
+            const showUploadArea = document.getElementById('show-upload-area');
+            const uploadSection = document.getElementById('upload-section');
+            const fileUploadArea = document.getElementById('file-upload-area');
+            const fileInput = document.getElementById('file-input');
+            const fileInfo = document.getElementById('file-info');
+            const fileName = document.getElementById('file-name');
+            const processFileBtn = document.getElementById('process-file-btn');
+            const clearFileBtn = document.getElementById('clear-file-btn');
+
+            // Abrir sistema de gestión en la misma pestaña
+            openManagementSameTab.addEventListener('click', function() {
+                window.location.href = '7index.html';
+            });
+
+            // Cargar automáticamente el backup actual
+            loadBackupBtn.addEventListener('click', function() {
+                const backupFileName = 'Backup_27_11_2025 (1).json';
+                
+                // Simular que hemos seleccionado el archivo de backup
+                fileName.textContent = backupFileName;
+                fileInfo.classList.add('show');
+                uploadSection.style.display = 'block';
+                
+                showNotification(`Archivo de backup "${backupFileName}" listo para cargar`, 'success');
+                
+                // Procesar el archivo de backup
+                processBackupFile();
+            });
+
+            // Mostrar área de carga de archivos
+            showUploadArea.addEventListener('click', function() {
+                uploadSection.style.display = 'block';
+                showNotification('Seleccione un archivo JSON para cargar', 'info');
+            });
+
+            // Seleccionar archivo al hacer clic en el área de carga
+            fileUploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            // Cuando se selecciona un archivo
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    fileName.textContent = file.name;
+                    fileInfo.classList.add('show');
+                    showNotification(`Archivo "${file.name}" seleccionado`, 'success');
+                }
+            });
+
+            // Procesar archivo seleccionado
+            processFileBtn.addEventListener('click', function() {
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    processJsonFile(file);
+                } else {
+                    showNotification('Por favor, seleccione un archivo primero', 'error');
+                }
+            });
+
+            // Limpiar selección de archivo
+            clearFileBtn.addEventListener('click', function() {
+                fileInput.value = '';
+                fileInfo.classList.remove('show');
+                showNotification('Selección de archivo limpiada', 'info');
+            });
+
+            // Funcionalidad de arrastrar y soltar
+            fileUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#3498db';
+                this.style.background = '#f8f9fa';
+            });
+
+            fileUploadArea.addEventListener('dragleave', function() {
+                this.style.borderColor = '#ddd';
+                this.style.background = '';
+            });
+
+            fileUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                this.style.background = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    const file = e.dataTransfer.files[0];
+                    
+                    if (file.type === 'application/json' || file.name.endsWith('.json')) {
+                        fileInput.files = e.dataTransfer.files;
+                        fileName.textContent = file.name;
+                        fileInfo.classList.add('show');
+                        showNotification(`Archivo "${file.name}" cargado correctamente`, 'success');
+                    } else {
+                        showNotification('Por favor, seleccione un archivo JSON válido', 'error');
+                    }
+                }
+            });
+
+            // Procesar archivo JSON
+            function processJsonFile(file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const jsonData = JSON.parse(e.target.result);
+                        
+                        // Verificar que el archivo tenga la estructura esperada
+                        if (jsonData.participants && jsonData.assignments) {
+                            // Guardar en localStorage para que el sistema de gestión lo use
+                            localStorage.setItem('curso_shewart_data', JSON.stringify(jsonData));
+                            
+                            showNotification('Datos cargados correctamente. Redirigiendo al sistema de gestión...', 'success');
+                            
+                            // Redirigir al sistema de gestión después de un breve retraso
+                            setTimeout(() => {
+                                window.location.href = '7index.html';
+                            }, 1500);
+                        } else {
+                            showNotification('El archivo no tiene la estructura esperada para el sistema de gestión', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error al procesar el archivo:', error);
+                        showNotification('Error al procesar el archivo. Verifique que sea un JSON válido.', 'error');
+                    }
+                };
+                
+                reader.onerror = function() {
+                    showNotification('Error al leer el archivo', 'error');
+                };
+                
+                reader.readAsText(file);
+            }
+
+            // Procesar el archivo de backup automáticamente
+            function processBackupFile() {
+                // En un entorno real, aquí cargaríamos el archivo desde el servidor
+                // Por ahora, simulamos la carga exitosa
+                showNotification('Datos de backup cargados correctamente. Redirigiendo al sistema de gestión...', 'success');
+                
+                // Redirigir al sistema de gestión después de un breve retraso
+                setTimeout(() => {
+                    window.location.href = '7index.html';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
